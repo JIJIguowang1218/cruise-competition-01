@@ -1,0 +1,20 @@
+# 依赖与缓存
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Python 虚拟环境与爬虫缓存
+.venv/
+venv/
+*.log
+
+# 本地数据与敏感信息
+*.local
+.env
+.env.*
+
+# 工具生成物（保留 tools/ 下源码）
+tools/**/__pycache__/
+
+# DSH 项目配置与技能属于项目内容，必须提交（勿忽略 .dsh/）
