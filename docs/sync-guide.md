@@ -16,6 +16,11 @@
 
 ## 一、机器 B 一次性配置（只在另一台电脑上做一次）
 
+> 💡 **不想自己动手？** 可以完全交给另一台电脑上的任一 AI（Claude Code / Codex / Cursor 等）代办：
+> 把 [`docs/machine-b-setup-prompt.md`](machine-b-setup-prompt.md) 里的提示词整段粘贴给它即可。
+> 若由其他 AI 代办，务必要求它：**不要往仓库里新增它自己的配置文件**（如 CLAUDE.md、.hermes 等），
+> 不要改动仓库 remote 地址与任何项目文件。
+
 0. 装好 **Git for Windows** 与 **DeepSeek Harness**（DSH），并已启动过 DSH；
 1. 生成并登记密钥（让 GitHub 认识机器 B）：
    ```powershell
