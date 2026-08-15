@@ -31,14 +31,18 @@
    ```
 3. 克隆项目：
    ```powershell
-   cd C:\Users\<用户名>\Desktop\HermesWorkspace   # 或你想要的任何位置
+   # 先建一个总项目文件夹（推荐 D 盘，路径随意，不需要和机器 A 一致）
+   mkdir D:\Projects
+   cd D:\Projects
    git clone git@github.com:JIJIguowang1218/cruise-competition-01.git
+   # 结果：出现 D:\Projects\cruise-competition-01 —— 这个文件夹就是 DSH 的工作区
    ```
+   > **关于"工作区"的说明**：DSH 的工作区就是一个普通文件夹，新建会话时用目录选择器选中 `cruise-competition-01` 即可，**无需预先创建任何空文件夹**（clone 自己会生成这个文件夹，且与云端结构 1:1 一致）；DSH 选定工作区只是"指向"它，不会改写、移动或重排里面任何文件。
 4. 拷贝两个"用户级"文件夹（git 不会同步它们）：
    - `C:\Users\<用户名>\.dsh\skills` → 机器 B 同路径
    - `C:\Users\<用户名>\.dsh\.agent-presets\anchored-standard` → 机器 B 同路径
    （用 U 盘或网盘拷整个文件夹即可）
-5. 在 DSH 里把工作区指向克隆下来的 `cruise-competition-01` 目录，新建会话开工。
+5. 打开 DSH → 新建会话 → 目录选择器选中克隆出来的 `cruise-competition-01` 文件夹 → 开工。
 
 ## 二、日常循环（两台电脑通用）
 
