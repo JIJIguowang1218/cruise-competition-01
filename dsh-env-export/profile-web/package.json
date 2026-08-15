@@ -1,0 +1,18 @@
+{
+  "name": "dsh-profile-web",
+  "private": true,
+  "dependencies": {
+    "dsh-better-sidebar": "^0.12.1",
+    "dsh-skill-viewer": "https://github.com/Fishquito7/dsh-skill-viewer/releases/download/v0.2.4/dsh-skill-viewer-0.2.4.tgz"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "dsh-skill-viewer",
+        "dsh-better-sidebar"
+      ]
+    }
+  }
+}
