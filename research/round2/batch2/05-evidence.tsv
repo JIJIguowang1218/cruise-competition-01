@@ -1,0 +1,52 @@
+source_id	name	level	date	url	note
+S1	上海市政府门户转载《爱达邮轮年初时员工缺口达1000余人 国产大邮轮提前进高校“抢人”》	L0	2026-05-13	https://www.shanghai.gov.cn/nw4411/20260513/9ba9ec04afa545d1ad4532d4947940a7.html	官方 | 高：政府门户，数字明确
+S2	人民网上海频道《行业人才需求旺盛 国产大邮轮提前进高校“抢人”》	L1	2026-05-13	http://sh.people.com.cn/n2/2026/0513/c176738-41579283.html	权威媒体 | 高：官媒，与 S1 互证
+S3	ABC News《Trouble in Paradise: Carnival cruise workers make 'horrifying' allegations about conditions》	L1	2026-08-06	https://newsapp.abc.net.au/news/2026-08-06/carnival-cruise-workers-horrifying-allegations-conditions-pay/106967922	权威媒体 | 高：国家级媒体调查报道
+S4	中时新闻网《看似梦幻工作却超血汗！邮轮员工曝暗黑真相：累到崩溃》	L1	2025-11-03	https://www.chinatimes.com/realtimenews/20251103004056-260410	权威媒体 | 高：主流华文媒体
+S5	虎嗅《想攒钱的年轻人，上邮轮打工了》	L1	2025-02-26	https://www.huxiu.com/article/4058062.html	权威媒体 | 高：深度商业媒体
+S6	腾讯新闻《月入过万，我在邮轮当“永动机”》	L1	2025-02-26	https://news.qq.com/rain/a/20250226A069MQ00	权威媒体 | 中高：转载媒体，亲历者叙事
+S7	NewsBreak 聚合《Cruise Ship Crew Members Work 10 to 12 Hours a Day for Months Without a Day Off...》	L2	n.d.	https://local.newsbreak.com/idyllic-pursuit-377290752/4791422047998-cruise-ship-crew-members-work-10-to-12-hours-a-day-for-months-without-a-day-off-what-they-say-about-passengers-isn-t-always-flattering	UGC/聚合 | 中：标题直接给出工时数据，原文未能打开
+S8	The Wichita Eagle《Carnival Cruise Line shares why crew members don’t get a day off》	L1	n.d.	https://www.kansas.com/news/business/article297181839.html	权威媒体 | 高：地方大报，船公司官方回应
+S9	Cruise Trade News《Is cruise on the brink of a critical shortage of crew?》	L1	n.d.	https://www.cruisetradenews.com/is-cruise-on-the-brink-of-a-critical-shortage-of-crew/	行业媒体 | 高：行业专业媒体
+S10	Faststream 招聘机构博客《Cruise Expansion & Workforce Planning Challenges》	L2	2026-05	https://www.faststream.com/blog/2026/05/the-hidden-workforce-challenge-behind-the-cruise-industry-expansion	行业机构 | 中高：招聘方一手观察
+S11	Worldports.org《Pride of America at 40% capacity until NCL can build up US crew numbers》	L1	n.d.	https://www.worldports.org/pride-of-america-at-40-capacity-until-ncl-can-build-up-us-crew-numbers/	行业媒体 | 中高：行业新闻，数据具体
+S12	36氪《蓝梦巨额欠薪，中国邮轮为何难善终？》	L1	n.d.	https://www.36kr.com/p/3716920365348228	权威媒体 | 高：深度商业媒体
+S13	虎嗅《蓝梦邮轮欠薪超千万停航 国产邮轮行业陷入困境》	L1	2026-03-10	https://m.huxiu.com/article/4840604.html	权威媒体 | 高：标题含金额与停航事实
+S14	航运在线《扣船！欠费、欠薪超5000万...》	L1	2026-03-30	https://news.sol.com.cn/html/2026-03-30/A6E17C791888A8BDD.shtml	行业媒体 | 高：行业媒体，事件级报道
+S15	界面新闻《经营不善，招商局29亿转让伊敦号，彻底退出豪华邮轮市场》	L1	2026-03-19	https://www.jiemian.com/article/14136613.html	权威媒体 | 高：批1流③已归档同一文章（蓝梦拖欠201名船员工资超500万）
+S16	Cruise Industry News《ITF to Map Need for Mental Health Support on Cruise Ships》	L1	2025-02	https://cruiseindustrynews.com/cruise-news/2025/02/itf-to-map-need-for-mental-health-support-on-cruise-ship/	行业媒体 | 高：工会行动可验证
+S17	Maersk Training《Tackling seafarer exhaustion in the cruise industry》	L2	n.d.	https://www.maersktraining.com/news-and-insights/news/tackling-seafarer-exhaustion-in-the-cruise-industry	行业机构 | 中高：培训商专业内容
+S18	Nautilus International《Still sleepless at sea: worrying health research findings from SIRC》	L1	n.d.	https://www.nautilusint.org/en/news-insight/telegraph/still-sleepless-at-sea-worrying-health-research-findings-from-sirc/	工会/行业 | 高：海员工会引研究
+S19	TravelDailyMedia《Modern cruise standards evolve...》	L1	n.d.	https://www.traveldailymedia.com/modern-cruise-standards-evolve-as-leaders-prioritise-inclusive-shipboard-culture/	行业媒体 | 中高：标题直接给出研究结论
+S20	Thaijo 学术期刊《The Impact of Role Stress on Turnover Intention of Thai Cruise Crew...》	L0	n.d.	https://so03.tci-thaijo.org/index.php/sduhs/article/view/295665	学术原始研究 | 高：同行评审研究
+S21	Cruise Mummy《Cruise Crew Don’t Get Free WiFi, And The Real Cost Is Shocking》	L2	n.d.	https://www.cruisemummy.co.uk/cruise-crew-dont-get-free-wifi/	UGC/行业博客 | 中：博客，事实为船员网络收费
+S22	Crew Center《NCL Changes Crew and Guest Internet Plans...》	L2	n.d.	http://new.crew-center.com/ncl-changes-crew-and-guest-internet-plans-social-media-videos-now-require-streaming-package	行业媒体 | 中高：船员行业站
+S23	搜狐号《不然嘞？邮轮船员上网也要花钱的啊！》	L2	n.d.	https://www.sohu.com/a/924739484_120221549	UGC | 中：自媒体，与 S21/S22 互证
+S24	黑猫投诉《爱达邮轮管理混乱，贵宾权益受损，赔偿VIP费用！》	L2	n.d.	https://tousu.sina.com.cn/complaint/view/17399553106	UGC | 中：单条投诉，代表个案
+S25	黑猫投诉《爱达邮轮擅自改航线、售后敷衍拖延、补偿不公》	L2	n.d.	https://tousu.sina.com.cn/complaint/view/17393597335	UGC | 中：单条投诉
+S26	黑猫投诉《爱达邮轮客服搞错航次损失却让消费者承担》	L2	n.d.	https://tousu.sina.com.cn/complaint/view/17390041960	UGC | 中：单条投诉
+S27	ILO MLC 2006 公约标准 A2.3（工时与休息）	L0	n.d.	https://normlex.ilo.org/dyn/nrmlx_en/f?p=NORMLEXPUB:91:0::NO::P91_SECTION:MLC_A2	官方 | 高：国际公约原文
+S28	中时新闻网《丽星邮轮每日吃掉6000颗蛋！5小时清近千舱房！后勤大揭密》	L1	2025-07-31	https://www.chinatimes.com/cn/realtimenews/20250731000001-260410	权威媒体 | 高：标题含量化后勤数据
+S29	The Seattle Times《Cleaning up cruise ship for 6,000 new people — in 1 day》	L1	n.d.	https://www.seattletimes.com/life/travel/cleaning-up-cruise-ship-for-6000-new-people-in-1-day/	权威媒体 | 高：主流大报
+S30	联合早报《迪士尼探险号故障滞留新加坡逾24小时 航程取消逾千乘客被迫下船》	L1	2026-05-08	https://www.zaobao.com/news/singapore/story20260508-9018823	权威媒体 | 高：新加坡官媒
+S31	网易转载《邮轮“南极之旅”因机械故障未到南极...》	L1	n.d.	https://www.163.com/dy/article/JIO1LAG70514D3UH.html	权威媒体 | 中高：转载媒体，事件具体
+S32	台湾消基会《邮轮故障频传 消费者权益亟待保障》	L1	n.d.	https://www.consumers.org.tw/product-detail-3939344.html	消费者组织 | 高：消费者保护机构
+S33	航运在线《MSC一邮轮突发故障，8000多人被困海上》	L1	2025-08-27	https://news.sol.com.cn/html/2025-08-27/AC3E6B5302DF91890.shtml	行业媒体 | 高：行业媒体
+S34	Damen 修船案例《Main engine exchange on the Regal Princess》	L1	n.d.	https://www.damen.com/services/shiprepair/projects/sea-cruise-regal-princess-repair	企业官方 | 高：修船厂官方项目页
+S35	齐鲁网《236小时76万度！青岛邮轮母港岸电连船再创新高》	L1	2026-07-31	https://news.iqilu.com/shandong/yuanchuang/2026/0731/5932927.shtml	权威媒体 | 高：省级官媒，数据具体
+S36	央广网《国际邮轮在天津实现常态化岸电连接》	L1	2026-07-24	https://www.cnr.cn/tj/tjtp/20260724/t20260724_527726447.shtml	权威媒体 | 高：央媒
+S37	辽宁省人民政府《邮轮靠泊大连港可以用陆地电源供电啦》	L0	2025-08-27	https://www.ln.gov.cn/web/ywdt/qsgd/ass_2_1/2025082712173679729/index.shtml	官方 | 高：政府官网
+S38	Cruise Industry News《Lindblad Cuts Food Prep Waste Up to 75%》	L1	2026-05	https://cruiseindustrynews.com/cruise-news/2026/05/lindblad-cuts-food-prep-waste-up-to-75/	行业媒体 | 高：量化结果
+S39	Nasdaq 转载嘉年华集团新闻稿《'Less Left Over' Strategy Beats Targets》	L0	2025-06-10	https://www.nasdaq.com/press-release/carnival-corporations-less-left-over-strategy-beats-targets-delivers-significant-food	企业官方 | 高：公司官方口径
+S40	Crunchtime 方案商博客《How Cruise Lines Reduce Food Waste Across Large Operations》	L2	n.d.	https://www.crunchtime.com/blog/implementing-robust-solutions-across-large-operations-how-cruise-lines-reduce-food-waste	行业机构 | 中：供应商视角
+S41	One Planet Network《Costa Cruises: responsible food consumption, waste tracking...》	L1	n.d.	https://www.oneplanetnetwork.org/knowledge-centre/resources/case-study-costa-cruises-responsible-food-consumption-waste-tracking-and	国际机构 | 高：联合国环境署关联平台案例
+S42	新浪财经《国产大邮轮宣布放弃停靠日本港口，取消明年日本航线》	L1	n.d.	https://news.caijingmobile.com/article/detail/559830	权威媒体 | 高：财经媒体
+S43	央广网《取消日本方向航线 爱达邮轮更改明年一季度航线计划》	L1	2025-11-28	https://news.cnr.cn/native/gd/20251128/t20251128_527444589.shtml	权威媒体 | 高：央媒
+S44	新京报《国产邮轮爱达·魔都号公布2026年一季度航线：日本方向取消》	L1	n.d.	https://m.bjnews.com.cn/detail/1764334935129742.html	权威媒体 | 高：主流媒体
+S45	星岛头条《国产邮轮爱达·魔都号 12月重启赴日本航线》	L1	n.d.	https://www.stheadline.com/realtime-china/3584192/	权威媒体 | 高：主流港媒
+S46	ScienceDirect《Crew perceptions of training and drills in the context of cruise ship evacuation》	L0	n.d.	https://www.sciencedirect.com/science/article/pii/S0029801826029021	学术原始研究 | 高：同行评审（作者自述探索性研究）
+S47	Cruise Industry News《Carnival: Full Muster Drills Required Every Six Months》	L1	2026-01	https://cruiseindustrynews.com/cruise-news/2026/01/carnival-full-muster-drills-required-every-six-months/	行业媒体 | 高：规则变化报道
+S48	CruiseHive《Cruise Guest Suggests Solution to Ease Carnival Service Bottlenecks》	L1	n.d.	https://www.cruisehive.com/cruise-guest-suggests-solution-to-ease-carnival-service-bottlenecks/157964	行业媒体 | 中高：服务瓶颈为文章主题
+S49	Language Testing International《Language Proficiency Enhances Guest Experience at Sea》	L2	n.d.	https://www.languagetesting.com/blog/language-proficiency-enhances-the-guest-experience-in-the-high-seas/	行业机构 | 中：语言测评商
+S50	新浪转载《意触礁游轮生还者称与船员语言不通致疏散混乱》	L1	2012	http://news.sina.com.cn/w/2012-01-16/154023809135.shtml	权威媒体 | 高：历史事件报道
+S51	The New York Times《A Luxury Liner Docks, and the Countdown’s On》	L1	2015	https://www.nytimes.com/2015/03/22/business/a-luxury-liner-docks-and-the-countdowns-on.html	权威媒体 | 高：大报深度报道
