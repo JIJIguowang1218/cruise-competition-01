@@ -1,8 +1,6 @@
 # Round 2 证据总台账
-
 > 规则：每个来源一行；由主代理合并各流 `*-evidence.tsv`，子代理不得直接写本文件。
 > 字段：流 | 编号 | 来源名称 | 证据等级 | 日期 | URL | 摘要
-
 | 流 | 编号 | 来源名称 | 证据等级 | 日期 | URL | 摘要 |
 |---|---|---|---|---|
 | ① 竞赛基线 | S1 | 中国船舶集团官网转载第二届邮轮来了大赛征集（来源外高桥造船） | L0 | 2026-06-26 | http://www.csic.com.cn/n5/n21/c33858/content.html | 官方通知：五命题、赛程、奖项、激励 |
@@ -257,3 +255,50 @@
 | ⑥ 安全与法规 | S47 | 万方 邮轮无障碍设计要点及实践应用 | L1 | 2024 | https://d.wanfangdata.com.cn/periodical/cbgc202408002 | 无障碍设计学术研究 |
 | ⑥ 安全与法规 | S48 | 标准百科 邮轮运输服务指南解读 | L1 | 2025 | https://www.bz100.cn/membercms/html/article!generatePage.action?id=402881ef95d65a54019cd08c5d820153 | 交通运输行业标准 |
 | ⑥ 安全与法规 | S49 | 网易 两部门10条措施促进邮轮运输及旅游服务 | L1 | 2025-12-05 | https://www.163.com/dy/article/KG1KJ3O505568W0A.html | 部委邮轮政策 |
+| ④ 乘客体验（主补稿） | S2 | 凤凰网 吃饭像抢钱登船靠推搡 | L1 | 未标注 | https://news.ifeng.com/c/8YrLbS0mA0N | 登船拥挤+餐饮 |
+| ④ 乘客体验（主补稿） | S4 | 腾讯新闻 豪华邮轮中国首航被吐槽人多拥挤吃饭排长队 | L1 | 2024-04-17 | https://news.qq.com/rain/a/20240417A07OFP00 | 首航投诉转载 |
+| ④ 乘客体验（主补稿） | S7 | 百家号 上下船拥挤用餐秩序混乱 首个回归国际邮轮回应 | L2 | 未标注 | https://baijiahao.baidu.com/s?id=1794854268756739093 | 登离船+餐饮 |
+| ④ 乘客体验（主补稿） | S8 | 搜狐 下船就不这么顺畅了 五千人邮轮撞上混乱现实 | L2 | 未标注 | https://www.sohu.com/a/1007004789_121613610 | 离船混乱 |
+| ④ 乘客体验（主补稿） | S10 | 今日头条 李文柱 乘坐爱达魔都号遇到的不爽 | L2 | 未标注 | https://m.toutiao.com/article/7376499725677167155/ | 乘客长文 |
+| ④ 乘客体验（主补稿） | S11 | 什么值得买 魔都号小细节攻略 | L2 | 未标注 | https://post.smzdm.com/zz/p/arll45wg/ | 攻略依赖 |
+| ④ 乘客体验（主补稿） | S12 | 新浪财经 邮轮阳台房有明显遮挡如何维权 | L1 | 2026-03-21 | https://finance.sina.com.cn/jjxw/2026-03-21/doc-inhrtpvt7290661.shtml | 舱型货不对板 |
+| ④ 乘客体验（主补稿） | S13 | 江苏广电荔枝新闻 3岁男童被游轮马桶盖砸伤 | L1 | 2026-07-16 | https://m.jstv.com/news/2026/7/16/1527288956094394368.html | 客舱设施安全 |
+| ④ 乘客体验（主补稿） | S14 | 人民网 强制下船+诱导购物 邮轮岸上游零负团费顽疾 | L1 | 2018-04-26 | http://travel.people.com.cn/n1/2018/0426/c41570-29951310.html | 岸上游顽疾 |
+| ④ 乘客体验（主补稿） | S15 | 东莞阳光热线 越南购物商品质量问题 | L2 | 未标注 | https://wz.sun0769.com/political/politics/index?id=452309 | 岸上游投诉 |
+| ④ 乘客体验（主补稿） | S16 | 上观新闻 下邮轮看上海 外籍游客惊喜 | L1 | 2026-04-09 | https://www.jfdaily.com.cn/wx/detail.do?id=1090561 | 入境游客正面 |
+| ④ 乘客体验（主补稿） | S17 | 上海市文旅局 邮轮+场景创新 | L0 | 2026-04-10 | https://whlyj.sh.gov.cn/cysc/20260410/52f9c5bd3d5f4c519e98c33b256d1eb3.html | 官方改善行动 |
+| ④ 乘客体验（主补稿） | S18 | 宝山区政府 人大建议答复 吴淞口交通秩序停车难短途出租 | L0 | 2025-03-10 | https://www.shanghai.gov.cn/gwk/search/content/51e69edd-c027-401c-833b-6c0d8294dd45 | 官方承认接驳问题 |
+| ④ 乘客体验（主补稿） | S19 | 宝山区政协 9E103 强化邮轮港公共交通配套答复 | L0 | 2026-03-17 | http://bzx.baoshan.sh.cn/suggest/suggest_1/202603/t20260317_578610.html | 官方持续关注 |
+| ④ 乘客体验（主补稿） | S20 | 水木社区 爱达魔都号工作人员不太说中文英文为主 | L2 | 未标注 | https://m.newsmth.net/article/Travel/978190 | 语言沟通 |
+| ④ 乘客体验（主补稿） | S22 | 黑猫投诉 携程邮轮客服太差劲 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17382622373 | 客服投诉 |
+| ④ 乘客体验（主补稿） | S23 | Trip.com HK 点评 NCL客舱漏水维修仅晾干 | L2 | 未标注 | https://hk.trip.com/cruises/line-205675-barcelona-12night-norwegianepic-ncl/ | 客舱维修质量 |
+| ④ 乘客体验（主补稿） | S24 | 网易 上海五星豪华邮轮上最丑陋的一幕 | L2 | 未标注 | https://www.163.com/dy/article/IVVKSI4H0548ACD7.html | 自助餐争抢 |
+| ④ 乘客体验（主补稿） | S25 | 网易 中国游客饭量惊呆外国邮轮公司 | L2 | 未标注 | https://www.163.com/dy/article/CR2OQ5960522GPL2.html | 餐饮浪费议题 |
+| ④ 乘客体验（主补稿） | S26 | 今日头条 无目的地游轮3天2晚发现5个坑 | L2 | 未标注 | https://m.toutiao.com/article/7650346100443939368/ | 新产品体验 |
+| ④ 乘客体验（主补稿） | S27 | 今日头条 海景房变硬卧 无目的地邮轮5个巨坑 | L2 | 未标注 | https://m.toutiao.com/article/7649910045840359976/ | 舱型落差 |
+| ④ 乘客体验（主补稿） | S28 | 虎嗅 迪士尼游轮亚洲首航大规模投诉 | L1 | 未标注 | https://www.huxiu.com/article/4842312.html | 高端新船投诉 |
+| ④ 乘客体验（主补稿） | S30 | 黑猫投诉 爱达魔都号行李箱损坏未妥善解决 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17389134803 | 行李售后 |
+| ④ 乘客体验（主补稿） | S31 | 黑猫投诉 爱达魔都号买后变故平台不退房款 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17387360142 | 退改投诉 |
+| ④ 乘客体验（主补稿） | S32 | Cruise Critic Battling food fatigue on 20-day cruise | L2 | 未标注 | https://boards.cruisecritic.com/topic/2553887-battling-food-fatigue-on-a-20-day-cruise/ | 菜品疲劳 |
+| ④ 乘客体验（主补稿） | S33 | Cruise Critic Explora and food allergies | L2 | 未标注 | https://boards.cruisecritic.com.au/topic/3037091-explora-and-food-allergies/ | 过敏沟通 |
+| ④ 乘客体验（主补稿） | S34 | Cruise Critic Warning don't cruise Holland America food allergy | L2 | 未标注 | https://boards.cruisecritic.com/topic/3046442-warning-dont-cruise-with-holland-america-if-you-have-a-food-allergy/ | 过敏差评 |
+| ④ 乘客体验（主补稿） | S35 | Cruise Critic slowest internet Starlink Splendor | L2 | 未标注 | https://boards.cruisecritic.com/topic/3030215-living-with-the-slowest-internet-access-ever-with-starlink-onboard-splendor/ | 网速慢 |
+| ④ 乘客体验（主补稿） | S36 | Cruise Critic Starlink Surf 110-150 Kbps Ovation | L2 | 未标注 | https://boards.cruisecritic.com/topic/3075849-starlink-surf-speeds-on-ovation/ | 网速实测 |
+| ④ 乘客体验（主补稿） | S37 | Android Authority Starlink at sea still needs work | L1 | 未标注 | https://www.androidauthority.com/starlink-cruise-wi-fi-3511040/ | 卫星上网短板 |
+| ④ 乘客体验（主补稿） | S38 | Cruise Critic Booking theatre shows restaurants MSC Virtuosa | L2 | 未标注 | https://boards.cruisecritic.com/topic/3110195-booking-for-theatre-shows-and-restaurants-msc-virtuousa/ | 预约负担 |
+| ④ 乘客体验（主补稿） | S39 | Nautical Flock NCL drops show reservations passengers push back | L2 | 2026-04 | https://www.nauticalflock.com/news/ncl-drops-show-reservations-april-2026 | 娱乐分配机制 |
+| ④ 乘客体验（主补稿） | S40 | Yahoo奇摩新闻 荣耀号乘客轰提前一天被迫赶下船 | L1 | 未标注 | https://tw.news.yahoo.com/ | 离船安排 |
+| ④ 乘客体验（主补稿） | S41 | 太报/东森 3旅客迟到行李丢包船开走 | L1 | 2026-04 | https://tyenews.com/2026/04/1348777/ | 岸上游迟到 |
+| ④ 乘客体验（主补稿） | S42 | Cruise Critic Disembarking Civitavecchia panic | L2 | 未标注 | https://boards.cruisecritic.com/topic/3111011-disembarking-in-civitavecchia-on-sunday-31-may-starting-to-panic/ | 离船焦虑 |
+| ④ 乘客体验（主补稿） | S43 | Cruise Critic not wheelchair or elderly friendly review | L2 | 未标注 | https://www.cruisecritic.com/cruise/norwegian-ncl/pride-of-america/reviews/594805 | 无障碍差评 |
+| ④ 乘客体验（主补稿） | S44 | Trustpilot MSC Cruises 2.1/5 | L2 | 未标注 | https://it.trustpilot.com/review/msccruises.com | 平台低分 |
+| ④ 乘客体验（主补稿） | S45 | Cruise Critic NOT good for families with teens | L2 | 未标注 | https://www.cruisecritic.com/cruise/celebrity/celebrity-beyond/reviews/717325 | 青少年适配 |
+| ④ 乘客体验（主补稿） | S46 | Mumsnet kids ungrateful and bored on cruise | L2 | 未标注 | https://www.mumsnet.com/talk/holidays/5199544-on-cruise-and-kids-so-ungrateful-and-bored | 青少年无聊 |
+| ④ 乘客体验（主补稿） | S47 | Cruiseline.com cruise lines charging for deck chairs | L2 | 未标注 | https://cruiseline.com/advice/what-s-hot/news/peace-on-the-pool-deck-cruise-lines-now-charging-for-deck-chairs | 甲板资源 |
+| ④ 乘客体验（主补稿） | S48 | Candid Cruise Travel Ovation chair hogs infuriated | L2 | 未标注 | https://candidcruisetravel.com/ovation-of-the-seas-itinerary-plagued-by-chair-hogs-leavings-guests-infuriated/ | 占座问题 |
+| ④ 乘客体验（主补稿） | S49 | Goldjoy 邮轮舱房指南优缺点解析 | L2 | 未标注 | https://www.goldjoy.com/blog/cruise-cabin | 舱型信息 |
+| ④ 乘客体验（主补稿） | S50 | Dealmoon 内舱房不是小黑屋阳台房不一定值 | L2 | 未标注 | https://www.dealmoon.com.au/post/3207329 | 舱型纠偏 |
+| ④ 乘客体验（主补稿） | S51 | Holzberg Legal child allergic reaction cashews Harmony lawsuit | L2 | 未标注 | https://www.holzberglegal.com/blog/colorado-parent-sues-royal-caribbean-after-child-suffers-severe-allergic-reaction-to-cashews-on-harmony-of-the-seas/ | 过敏诉讼 |
+| ④ 乘客体验（主补稿） | S52 | 黑猫投诉 皇家星光号游轮食品卫生差 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17383956148 | 餐饮卫生 |
+| ④ 乘客体验（主补稿） | S53 | 钛媒体 暑期邮轮票价跳水爷孙游（旧存档） | L1 | 2024-08-11 | https://www.thepaper.cn/newsDetail_forward_28385573 | WiFi/排队/岸上游/无障碍 |
+| ④ 乘客体验（主补稿） | S54 | 闻旅派 爱达魔都号价格大跳水（旧存档） | L1 | 2024-07-05 | http://www.wenlvpai.com/77607.html | 餐厅拥挤/接驳 |
