@@ -1,8 +1,11 @@
 # Round 2 证据总台账
-> 规则：每个来源一行；由主代理合并各流 `*-evidence.tsv`，子代理不得直接写本文件。
+
+> 规则：每个来源一行；由主代理从各流 `*-evidence.tsv` 自动重建，子代理不得直接写本文件。
 > 字段：流 | 编号 | 来源名称 | 证据等级 | 日期 | URL | 摘要
+> 重建时间：2026-08-16（流④编号规范化 S01–S59 后）
+
 | 流 | 编号 | 来源名称 | 证据等级 | 日期 | URL | 摘要 |
-|---|---|---|---|---|
+|---|---|---|---|---:|---|---|
 | ① 竞赛基线 | S1 | 中国船舶集团官网转载第二届邮轮来了大赛征集（来源外高桥造船） | L0 | 2026-06-26 | http://www.csic.com.cn/n5/n21/c33858/content.html | 官方通知：五命题、赛程、奖项、激励 |
 | ① 竞赛基线 | S2 | 哈尔滨工程大学团委第二届邮轮来了组织参与通知 | L1 | 2026-06-26 | http://qihang.hrbeu.edu.cn/2026/0626/c3223a350146/page.htm | 高校官方转发：组织架构与校内提交口径 |
 | ① 竞赛基线 | S3 | 第二届大赛附件3各赛道要求简述PDF（艺赛中国镜像） | L0 | 2026-06-18 | https://www.cnyisai.com/uploads/collect/files/803c2fe32113822dcc6030a3.pdf | 命题C细则、提交形式、Demo加分 |
@@ -23,46 +26,46 @@
 | ① 竞赛基线 | S18 | 交通运输部智能航运2030行动计划通知 | L0 | 2026-03-30 | https://xxgk.mot.gov.cn/jigou/haishi/202603/t20260330_4202678.html | 交海发2026年15号：AI+航运政策信号 |
 | ① 竞赛基线 | S19 | 江苏海洋大学2026第四届大学生邮轮游艇创新创意设计大赛启事 | L1 | 2026-04-15 | https://szyr.jou.edu.cn/info/1004/5477.htm | 独立赛事：外高桥命题与评审标准 |
 | ① 竞赛基线 | S20 | Monaco Energy Boat Challenge官网2026 AI Class页面 | L0 | 2026-07 | https://energyboatchallenge.com/monaco-energy-boat-challenge-2026-the-ai-class-when-artificial-intelligence-transforms-navigation/ | 国际AI自主船竞赛横向参照 |
-| ② 船与工程基线 | S01 | 新华网：第二艘国产大型邮轮“爱达·花城号”试航凯旋 | L1 | 2026-05-27 | https://www.xinhuanet.com/fortune/20260527/f363649e76774b94be756ccefd471065/c.html | 新华社一手报道；试航、交付与首航节点 |
-| ② 船与工程基线 | S02 | 国务院国资委英文网：China’s Second Domestically Built Large Cruise Ship Begins Sea Sail | L0 | 2026-05-26 | http://en.sasac.gov.cn/2026/05/26/c_20768.htm | 国资监管官方；试航人员/试验/进度 |
-| ② 船与工程基线 | S03 | 羊城晚报·羊城派：花城号11月22日广州首航 | L1 | 2026-05-19 | https://news.ycwb.com/ikimvkntjb/content_54127676.htm | 爱达邮轮发布会直采；首航季、船员招募、AI系统 |
-| ② 船与工程基线 | S04 | 广州日报：海上“花城”11月南沙首航 | L1 | 2026-05-20 | https://gzdaily.dayoo.com/h5/html5/2026-05/20/content_870_908476.htm | 运营方高管直采；航线与设施 |
-| ② 船与工程基线 | S05 | 人民网上海：第二艘国产大型邮轮“爱达·花城号”出坞 | L1 | 2026-03-20 | http://sh.people.com.cn/n2/2026/0320/c134768-41529381.html | 出坞现场参数 |
-| ② 船与工程基线 | S06 | 上观新闻（人民网上海转载）：国产邮轮里程碑，第三第四艘也定了 | L1 | 2026-03-22 | http://sh.people.com.cn/n2/2026/0322/c134768-41530398.html | 新造船备忘录、设计差异、建造进度 |
-| ② 船与工程基线 | S07 | 上海市经信委：给巨轮装上“数字大脑” | L0 | 2026-03-23 | https://www.sheitc.sh.gov.cn/dsxxjyzl/20260323/b5ef50a07706487bbdf3c95fd6afd3c1.html | 政府官方；SWS TIME与数字孪生船厂1.0 |
-| ② 船与工程基线 | S08 | 人民网·科普中国：看国产大邮轮建造背后的智慧变革 | L1 | 2025-03-07 | http://kpzg.people.com.cn/n1/2025/0307/c404214-40433400.html | 3D/BIM、TIME 4 LINK、5G+AR远程检验 |
-| ② 船与工程基线 | S09 | 新华网：国产首艘大型邮轮命名交付 | L1 | 2023-11-04 | https://www.news.cn/2023-11/04/c_1129957734.htm | 魔都号交付口径参数 |
-| ② 船与工程基线 | S10 | 澎湃新闻：首艘国产大型邮轮出坞黑科技 | L1 | 2023-06-06 | https://m.thepaper.cn/baijiahao_23386485 | 动力、空调、消防、救生参数 |
-| ② 船与工程基线 | S11 | 上海市人民政府新闻办公室（转载解放日报）：全球第一艘5G大型邮轮 | L0 | 2023-05-23 | https://www.shio.gov.cn/TrueCMS/shxwbgs/ywts/content/c6dc9618-8f52-46a9-88b7-ad95f272deb5.htm | 5G/WiFi/卫星组网方案 |
-| ② 船与工程基线 | S12 | 央视新闻（中国网转载）：首航一周年 | L1 | 2025-01-02 | http://www.china.com.cn/txt/2025-01/02/content_117640987.shtml | 2024年84航次/30万+游客/满意度95%+ |
-| ② 船与工程基线 | S13 | 人民日报：国产大型邮轮引领消费新时尚 | L1 | 2024-06-03 | http://cpc.people.com.cn/n1/2024/0603/c64387-40248847.html | 34航次15万人、上座率95%+ |
-| ② 船与工程基线 | S14 | 新华网：上海港2025年进出境邮轮544艘次创历史新高 | L1 | 2026-01-30 | https://www.news.cn/local/20260130/efdeb388f7d9408ca8123580e05b9806/c.html | 上海海关；魔都号2025与累计数据 |
-| ② 船与工程基线 | S15 | 中国日报英文：Adora Cruises welcomes one-millionth passenger | L1 | 2026-02-09 | http://ex.chinadaily.com.cn/exchange/partners/70/rss/channel/www/columns/y38633/stories/WS698d2b38a310d6866eb38d60.html | 2025品牌50万宾客、40%份额、172航次 |
-| ② 船与工程基线 | S16 | 国务院国资委英文：CTG Leads Initiative to Operate Asia’s Largest Cruise Fleet | L0 | 2026-01-04 | http://en.sasac.gov.cn/2026/01/04/c_20283.htm | 魔都号160+航次、近63万宾客、青岛/大连100%载客 |
-| ② 船与工程基线 | S17 | 人民日报海外版：多元航线服务超万名游客 | L1 | 2026-05-08 | https://paper.people.com.cn/rmrbhwb/pc/content/202605/08/content_30155490.html | 200航次、五一运力、花城进度96%+ |
-| ② 船与工程基线 | S18 | 中新网（中国网转载）：魔都号完成第200个商业运营航次 | L1 | 2026-05-06 | http://news.china.com.cn/2026-05/06/content_118477477.shtml | 宝山海事400靠离泊/70万人次/零事故 |
-| ② 船与工程基线 | S19 | 中国旅游集团官网：爱达邮轮发布天津航线计划 | L0 | 2025-06-09 | https://www.ctg.cn/article/19164 | 魔都号2027进驻天津 |
-| ② 船与工程基线 | S20 | 光明网：日本目的地全部删除 | L1 | 2025-11-29 | https://m.gmw.cn/2025-11/29/content_1304243062.htm | 2026Q1删日本线转韩国 |
-| ② 船与工程基线 | S21 | 星岛头条：国产邮轮爱达·魔都号12月重启赴日本航线 | L1 | 2026-06-17 | https://www.stheadline.com/zh-hans/realtime-china/3584192/%E4%B8%AD%E6%97%A5%E5%85%B3%E7%B3%BB%E5%9B%BD%E4%BA%A7%E9%82%AE%E8%BD%AE%E7%88%B1%E8%BE%BE%E9%AD%94%E9%83%BD%E5%8F%B7-12%E6%9C%88%E9%87%8D%E5%90%AF%E8%B5%B4%E6%97%A5%E6%9C%AC%E8%88%AA%E7%BA%BF | 12月恢复日本八重山诸岛/那霸 |
-| ② 船与工程基线 | S22 | 扬子晚报（新浪转载）：海事局回应邮轮提前返航疑为少赔付 | L1 | 2026-08-07 | https://finance.sina.cn/2026-08-07/detail-inimpfxz3053588.d.html?vt=4 | 台风白海豚缩短航程舆情 |
-| ② 船与工程基线 | S23 | 羊城晚报：爱达·魔都号一乘客翻越栏杆后落海 | L1 | 2024-06-30 | https://news.ycwb.com/2024-06/30/content_52777776.htm | 2024年落海事件与济州取消 |
-| ② 船与工程基线 | S24 | CruiseMapper：Adora Flora City | L2 | 2026-08-16 | https://www.cruisemapper.com/ships/Adora-Flora-City-2278 | 第三方辅助：crew 1300、16层甲板、33MW推进 |
-| ② 船与工程基线 | S25 | 人民网上海：首艘国产大型邮轮元旦启航 | L1 | 2023-09-20 | http://sh.people.com.cn/n2/2023/0920/c138654-40577493.html | 22餐厅酒吧、近300品牌免税店 |
-| ② 船与工程基线 | S26 | 航运在线（转载快科技）：1292名船员登船到岗 | L1 | 2023-12-11 | https://news.sol.com.cn/html/2023-12-11/AD397D55743BE53A2.shtml | 1292船员；吃水/管系/风管参数 |
-| ② 船与工程基线 | S27 | 上观新闻：15万页图纸，2500万个零部件 | L1 | 2026-07-31 | https://www.jfdaily.com.cn/sgh/detail?id=4030755 | 15万页图纸重2.1吨 |
-| ② 船与工程基线 | S28 | 上海市政府官网：魔都号无目的地海上游启航 | L0 | 2026-06-07 | https://www.shanghai.gov.cn/nw4411/20260607/e84c4d8b28b14a3dad8f5ed724607625.html | 4000余人、999-3999元、客群年龄 |
-| ② 船与工程基线 | S29 | 界面新闻：上海邮轮无目的地海上游试点 | L1 | 2026-06-30 | https://m.jiemian.com/article/14674181.html | 交通运输部：2025全国130多万人次+25.7% |
-| ② 船与工程基线 | S30 | 中国网：花城号首航售票启动专访 | L1 | 2026-05-19 | https://www.china.com.cn/youth/2026-05/19/content_118502854.html | Tier III、5套SCR、12万检验项 |
-| ② 船与工程基线 | S31 | Cruise Industry News：Adora Flora City Begins Sea Trials | L1 | 2026-05-27 | https://cruiseindustrynews.com/cruise-news/2026/05/adora-flora-city-begins-sea-trials/ | 国际行业媒体；试航与首航季 |
-| ② 船与工程基线 | S32 | 中国交通报：爱达·魔都号乘风远航 | L1 | 2024-10-16 | https://www.zgjtb.com/m/2024-10/16/content_435563.html | 64航次25万；74总段670分段；救生定员 |
-| ② 船与工程基线 | S33 | 新华网广东：魔都号深圳首航 | L1 | 2026-08-13 | http://www.gd.xinhuanet.com/20260814/14834d1e48eb44eb881c2156dc517d93/c.html | 近4600人深圳首航、大湾区航线 |
-| ② 船与工程基线 | S34 | 深圳发布（澎湃政务号）：深圳母港首航 | L0 | 2026-08-15 | https://m.thepaper.cn/newsDetail_forward_33789058 | 深圳航季08-13至09-16 |
-| ② 船与工程基线 | S35 | 上海市政府官网：大型国产邮轮订单为何“不能停” | L0 | 2024-03-05 | https://www.shanghai.gov.cn/nw4411/20240305/a4f813a5400042588fd7c939a905dbc9.html | 7.7亿美元/55.4亿元、1:14产业链 |
-| ② 船与工程基线 | S36 | 央视新闻（荆楚网转载）：国产大邮轮青岛启航 | L1 | 2025-04-06 | http://news.cnhubei.com/content/2025-04/06/content_19078391.html | 青岛首航；减摇鳍88%；双船56万 |
-| ② 船与工程基线 | S37 | 中国旅游报：魔都号开启深圳航季 | L1 | 2026-08-14 | https://www.ctnews.com.cn/paper/content/202608/14/content_114547.html | 深圳航季航线细节 |
-| ② 船与工程基线 | S38 | 科技日报：魔都号2025年预计80多个航线 | L1 | 2024-08-22 | https://www.stdaily.com/web/gdxw/2024-08/22/content_218039.html | 54航次22万人次；13.62万吨口径 |
-| ② 船与工程基线 | S39 | 人民网财经（新华社通稿）：首艘国产大型邮轮出坞新样本 | L1 | 2023-06-06 | http://finance.people.com.cn/n1/2023/0606/c1004-40007720.html | 136系统/2万设备/4300公里；薄板智能车间 |
-| ② 船与工程基线 | S40 | 第一财经（网易转载）：爱达邮轮迎第100万名宾客 | L1 | 2026-02-08 | https://www.163.com/dy/article/KL905TJ40519DDQ2.html?spss=dy_author | 2026年80余航次、8月深圳、三船八母港 |
+| ② 船与工程 | S01 | 新华网：第二艘国产大型邮轮“爱达·花城号”试航凯旋 | L1 | 2026-05-27 | https://www.xinhuanet.com/fortune/20260527/f363649e76774b94be756ccefd471065/c.html | 新华社一手报道；试航、交付与首航节点 |
+| ② 船与工程 | S02 | 国务院国资委英文网：China’s Second Domestically Built Large Cruise Ship Begins Sea Sail | L0 | 2026-05-26 | http://en.sasac.gov.cn/2026/05/26/c_20768.htm | 国资监管官方；试航人员/试验/进度 |
+| ② 船与工程 | S03 | 羊城晚报·羊城派：花城号11月22日广州首航 | L1 | 2026-05-19 | https://news.ycwb.com/ikimvkntjb/content_54127676.htm | 爱达邮轮发布会直采；首航季、船员招募、AI系统 |
+| ② 船与工程 | S04 | 广州日报：海上“花城”11月南沙首航 | L1 | 2026-05-20 | https://gzdaily.dayoo.com/h5/html5/2026-05/20/content_870_908476.htm | 运营方高管直采；航线与设施 |
+| ② 船与工程 | S05 | 人民网上海：第二艘国产大型邮轮“爱达·花城号”出坞 | L1 | 2026-03-20 | http://sh.people.com.cn/n2/2026/0320/c134768-41529381.html | 出坞现场参数 |
+| ② 船与工程 | S06 | 上观新闻（人民网上海转载）：国产邮轮里程碑，第三第四艘也定了 | L1 | 2026-03-22 | http://sh.people.com.cn/n2/2026/0322/c134768-41530398.html | 新造船备忘录、设计差异、建造进度 |
+| ② 船与工程 | S07 | 上海市经信委：给巨轮装上“数字大脑” | L0 | 2026-03-23 | https://www.sheitc.sh.gov.cn/dsxxjyzl/20260323/b5ef50a07706487bbdf3c95fd6afd3c1.html | 政府官方；SWS TIME与数字孪生船厂1.0 |
+| ② 船与工程 | S08 | 人民网·科普中国：看国产大邮轮建造背后的智慧变革 | L1 | 2025-03-07 | http://kpzg.people.com.cn/n1/2025/0307/c404214-40433400.html | 3D/BIM、TIME 4 LINK、5G+AR远程检验 |
+| ② 船与工程 | S09 | 新华网：国产首艘大型邮轮命名交付 | L1 | 2023-11-04 | https://www.news.cn/2023-11/04/c_1129957734.htm | 魔都号交付口径参数 |
+| ② 船与工程 | S10 | 澎湃新闻：首艘国产大型邮轮出坞黑科技 | L1 | 2023-06-06 | https://m.thepaper.cn/baijiahao_23386485 | 动力、空调、消防、救生参数 |
+| ② 船与工程 | S11 | 上海市人民政府新闻办公室（转载解放日报）：全球第一艘5G大型邮轮 | L0 | 2023-05-23 | https://www.shio.gov.cn/TrueCMS/shxwbgs/ywts/content/c6dc9618-8f52-46a9-88b7-ad95f272deb5.htm | 5G/WiFi/卫星组网方案 |
+| ② 船与工程 | S12 | 央视新闻（中国网转载）：首航一周年 | L1 | 2025-01-02 | http://www.china.com.cn/txt/2025-01/02/content_117640987.shtml | 2024年84航次/30万+游客/满意度95%+ |
+| ② 船与工程 | S13 | 人民日报：国产大型邮轮引领消费新时尚 | L1 | 2024-06-03 | http://cpc.people.com.cn/n1/2024/0603/c64387-40248847.html | 34航次15万人、上座率95%+ |
+| ② 船与工程 | S14 | 新华网：上海港2025年进出境邮轮544艘次创历史新高 | L1 | 2026-01-30 | https://www.news.cn/local/20260130/efdeb388f7d9408ca8123580e05b9806/c.html | 上海海关；魔都号2025与累计数据 |
+| ② 船与工程 | S15 | 中国日报英文：Adora Cruises welcomes one-millionth passenger | L1 | 2026-02-09 | http://ex.chinadaily.com.cn/exchange/partners/70/rss/channel/www/columns/y38633/stories/WS698d2b38a310d6866eb38d60.html | 2025品牌50万宾客、40%份额、172航次 |
+| ② 船与工程 | S16 | 国务院国资委英文：CTG Leads Initiative to Operate Asia’s Largest Cruise Fleet | L0 | 2026-01-04 | http://en.sasac.gov.cn/2026/01/04/c_20283.htm | 魔都号160+航次、近63万宾客、青岛/大连100%载客 |
+| ② 船与工程 | S17 | 人民日报海外版：多元航线服务超万名游客 | L1 | 2026-05-08 | https://paper.people.com.cn/rmrbhwb/pc/content/202605/08/content_30155490.html | 200航次、五一运力、花城进度96%+ |
+| ② 船与工程 | S18 | 中新网（中国网转载）：魔都号完成第200个商业运营航次 | L1 | 2026-05-06 | http://news.china.com.cn/2026-05/06/content_118477477.shtml | 宝山海事400靠离泊/70万人次/零事故 |
+| ② 船与工程 | S19 | 中国旅游集团官网：爱达邮轮发布天津航线计划 | L0 | 2025-06-09 | https://www.ctg.cn/article/19164 | 魔都号2027进驻天津 |
+| ② 船与工程 | S20 | 光明网：日本目的地全部删除 | L1 | 2025-11-29 | https://m.gmw.cn/2025-11/29/content_1304243062.htm | 2026Q1删日本线转韩国 |
+| ② 船与工程 | S21 | 星岛头条：国产邮轮爱达·魔都号12月重启赴日本航线 | L1 | 2026-06-17 | https://www.stheadline.com/zh-hans/realtime-china/3584192/%E4%B8%AD%E6%97%A5%E5%85%B3%E7%B3%BB%E5%9B%BD%E4%BA%A7%E9%82%AE%E8%BD%AE%E7%88%B1%E8%BE%BE%E9%AD%94%E9%83%BD%E5%8F%B7-12%E6%9C%88%E9%87%8D%E5%90%AF%E8%B5%B4%E6%97%A5%E6%9C%AC%E8%88%AA%E7%BA%BF | 12月恢复日本八重山诸岛/那霸 |
+| ② 船与工程 | S22 | 扬子晚报（新浪转载）：海事局回应邮轮提前返航疑为少赔付 | L1 | 2026-08-07 | https://finance.sina.cn/2026-08-07/detail-inimpfxz3053588.d.html?vt=4 | 台风白海豚缩短航程舆情 |
+| ② 船与工程 | S23 | 羊城晚报：爱达·魔都号一乘客翻越栏杆后落海 | L1 | 2024-06-30 | https://news.ycwb.com/2024-06/30/content_52777776.htm | 2024年落海事件与济州取消 |
+| ② 船与工程 | S24 | CruiseMapper：Adora Flora City | L2 | 2026-08-16 | https://www.cruisemapper.com/ships/Adora-Flora-City-2278 | 第三方辅助：crew 1300、16层甲板、33MW推进 |
+| ② 船与工程 | S25 | 人民网上海：首艘国产大型邮轮元旦启航 | L1 | 2023-09-20 | http://sh.people.com.cn/n2/2023/0920/c138654-40577493.html | 22餐厅酒吧、近300品牌免税店 |
+| ② 船与工程 | S26 | 航运在线（转载快科技）：1292名船员登船到岗 | L1 | 2023-12-11 | https://news.sol.com.cn/html/2023-12-11/AD397D55743BE53A2.shtml | 1292船员；吃水/管系/风管参数 |
+| ② 船与工程 | S27 | 上观新闻：15万页图纸，2500万个零部件 | L1 | 2026-07-31 | https://www.jfdaily.com.cn/sgh/detail?id=4030755 | 15万页图纸重2.1吨 |
+| ② 船与工程 | S28 | 上海市政府官网：魔都号无目的地海上游启航 | L0 | 2026-06-07 | https://www.shanghai.gov.cn/nw4411/20260607/e84c4d8b28b14a3dad8f5ed724607625.html | 4000余人、999-3999元、客群年龄 |
+| ② 船与工程 | S29 | 界面新闻：上海邮轮无目的地海上游试点 | L1 | 2026-06-30 | https://m.jiemian.com/article/14674181.html | 交通运输部：2025全国130多万人次+25.7% |
+| ② 船与工程 | S30 | 中国网：花城号首航售票启动专访 | L1 | 2026-05-19 | https://www.china.com.cn/youth/2026-05/19/content_118502854.html | Tier III、5套SCR、12万检验项 |
+| ② 船与工程 | S31 | Cruise Industry News：Adora Flora City Begins Sea Trials | L1 | 2026-05-27 | https://cruiseindustrynews.com/cruise-news/2026/05/adora-flora-city-begins-sea-trials/ | 国际行业媒体；试航与首航季 |
+| ② 船与工程 | S32 | 中国交通报：爱达·魔都号乘风远航 | L1 | 2024-10-16 | https://www.zgjtb.com/m/2024-10/16/content_435563.html | 64航次25万；74总段670分段；救生定员 |
+| ② 船与工程 | S33 | 新华网广东：魔都号深圳首航 | L1 | 2026-08-13 | http://www.gd.xinhuanet.com/20260814/14834d1e48eb44eb881c2156dc517d93/c.html | 近4600人深圳首航、大湾区航线 |
+| ② 船与工程 | S34 | 深圳发布（澎湃政务号）：深圳母港首航 | L0 | 2026-08-15 | https://m.thepaper.cn/newsDetail_forward_33789058 | 深圳航季08-13至09-16 |
+| ② 船与工程 | S35 | 上海市政府官网：大型国产邮轮订单为何“不能停” | L0 | 2024-03-05 | https://www.shanghai.gov.cn/nw4411/20240305/a4f813a5400042588fd7c939a905dbc9.html | 7.7亿美元/55.4亿元、1:14产业链 |
+| ② 船与工程 | S36 | 央视新闻（荆楚网转载）：国产大邮轮青岛启航 | L1 | 2025-04-06 | http://news.cnhubei.com/content/2025-04/06/content_19078391.html | 青岛首航；减摇鳍88%；双船56万 |
+| ② 船与工程 | S37 | 中国旅游报：魔都号开启深圳航季 | L1 | 2026-08-14 | https://www.ctnews.com.cn/paper/content/202608/14/content_114547.html | 深圳航季航线细节 |
+| ② 船与工程 | S38 | 科技日报：魔都号2025年预计80多个航线 | L1 | 2024-08-22 | https://www.stdaily.com/web/gdxw/2024-08/22/content_218039.html | 54航次22万人次；13.62万吨口径 |
+| ② 船与工程 | S39 | 人民网财经（新华社通稿）：首艘国产大型邮轮出坞新样本 | L1 | 2023-06-06 | http://finance.people.com.cn/n1/2023/0606/c1004-40007720.html | 136系统/2万设备/4300公里；薄板智能车间 |
+| ② 船与工程 | S40 | 第一财经（网易转载）：爱达邮轮迎第100万名宾客 | L1 | 2026-02-08 | https://www.163.com/dy/article/KL905TJ40519DDQ2.html?spss=dy_author | 2026年80余航次、8月深圳、三船八母港 |
 | ③ 市场与行业 | S1 | 中国政府网转载人民日报：前11个月邮轮旅客运输量同比增长27.8% 两部门出台10条举措 | L0 | 2025-12-09 | https://www.gov.cn/lianbo/bumen/202512/content_7050642.htm | 交通运输部1-11月126.5万人次、+27.8%；10条措施 |
 | ③ 市场与行业 | S2 | 央视网：数览交通运输促消费答卷 | L1 | 2025-12-24 | https://news.cctv.cn/2025/12/24/ARTIBPF0nxw0912IeMeFSRSM251224.shtml | 国新办发布会；岸电宽限2029、航线产品等措施细节 |
 | ③ 市场与行业 | S3 | 中国旅游报：邮轮市场供需两端深度演变 | L1 | 2026-01-08 | https://www.ctnews.com.cn/chanye/m/content/2026-01/08/content_182913.html | 60+近1/3、平日银发超60%、中资份额40%、东南亚增长 |
@@ -96,116 +99,163 @@
 | ③ 市场与行业 | S31 | 同程旅行邮轮产品页：爱达魔都号2026-06-29航次 | L2 | 2026-06-29 | https://www.ly.com/youlun/tours-679713_2026-06-29.html?lid=102 | 服务费140/160港币每晚；舱房条款 |
 | ③ 市场与行业 | S32 | 新华每日电讯：全国海洋旅游消费潜力持续释放 | L1 | 2026-08-04 | http://mrdx.cn/content/20260804/Articel04005NR.htm | 2026H1海洋客运+4.6%；南沙25航次11万+5%；无目的地首航成功 |
 | ③ 市场与行业 | S39 | 广州日报大洋网：第二艘国产大型邮轮11月广州首航 | L1 | 2026-05-19 | https://news.dayoo.com/guangzhou/202605/19/139995_54961435.htm | 花城号11-22首航、6航次、14.19万吨、2130舱房、5232人 |
-| ④ 乘客体验痛点 | S1 | 黑猫投诉：爱达邮轮管理混乱贵宾权益受损 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17399553106 | 贵宾权益受损个案 |
-| ④ 乘客体验痛点 | S2 | 黑猫投诉：爱达魔都邮轮台风影响航程缩水1天 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17400626666 | 与媒体报道互证 |
-| ④ 乘客体验痛点 | S3 | 扬子晚报/紫牛头条：魔都号航程缩水一天 | L1 | 2026-08-07 | http://www.yzwb.net/news/zntt/202608/t20260807_380365.html | 乘客质疑为下一航次让路 |
-| ④ 乘客体验痛点 | S4 | 新浪财经：万元房费提前返航仅赔千元 | L1 | 2026-08-07 | https://finance.sina.com.cn/jjxw/2026-08-07/doc-inimnzsm4746751.shtml | 赔偿分歧 |
-| ④ 乘客体验痛点 | S5 | 新浪财经：海事局回应魔都号数百人拒下船 | L1 | 2026-08-07 | https://finance.sina.cn/2026-08-07/detail-inimpfxz3053588.d.html?vt=4 | 群体维权 |
-| ④ 乘客体验痛点 | S6 | 新浪新闻视频页：台风白海豚取消釜山停靠 | L1 | 2026-08-07 | https://www.sina.cn/news/detail/5329387000175641.html | 事件时间线原文 |
-| ④ 乘客体验痛点 | S7 | 绍兴网：游轮韩国行体验糟糕400块钱打发谁 | L1 | 未标注（检索2026-08-16） | http://www.shaoxing.com.cn/p/3452068.html | 岸上游维权个案 |
-| ④ 乘客体验痛点 | S8 | 新浪财经：釜山行遭遇低概率事件 | L1 | 2026-07-24 | https://finance.sina.com.cn/wm/2026-07-24/doc-iniiwkuk9314948.shtml | 400元补偿争议 |
-| ④ 乘客体验痛点 | S9 | 知乎专栏：投诉爱达魔都号糟糕的境外游体验 | L2 | 未标注（检索2026-08-16） | https://zhuanlan.zhihu.com/p/679743332 | 仅标题可见 |
-| ④ 乘客体验痛点 | S10 | 什么值得买：爱达魔都邮轮踩坑贴 | L2 | 未标注（检索2026-08-16） | https://post.smzdm.com/zz/p/anmr4nn3/ | 仅标题可见 |
-| ④ 乘客体验痛点 | S11 | 新京报：难退的邮轮船票 | L1 | 2025-07-24 | https://m.bjnews.com.cn/detail/1753323752129953.html | 早鸟促销捆绑高价条款 |
-| ④ 乘客体验痛点 | S12 | 新京报：目的地战乱行程取消法院判全额退款 | L1 | 2026-03-29 | https://m.bjnews.com.cn/detail/1774777401169782.html | 司法判例 |
-| ④ 乘客体验痛点 | S13 | 澎湃新闻：国际邮轮重返中国服务受到质疑 | L1 | 2024-04 | https://m.thepaper.cn/detail/26894934 | 船方称已改进 |
-| ④ 乘客体验痛点 | S14 | 大河报：船上抢吃抢地盘 | L1 | 2024-04 | https://news.dahebao.cn/dahe/appcommunity/2021794 | 复航吐槽 |
-| ④ 乘客体验痛点 | S15 | 搜狐：上下船拥挤用餐秩序混乱公司回应 | L1 | 2024-04 | https://www.sohu.com/a/767824795_121627717 | 复航吐槽 |
-| ④ 乘客体验痛点 | S16 | 成都商报：MSC首航被吐槽人多拥挤吃饭排长队 | L1 | 2024-04 | https://static.cdsb.com/micropub/Articles/202404/6f6aef5f281b81247baefbcc738dfe56.html | 船方回应 |
-| ④ 乘客体验痛点 | S17 | 新京报：邮轮复航遭游客频繁吐槽孰之过 | L1 | 2024-04 | https://www.bjnews.com.cn/detail/1713269752169533.html | 媒体评论 |
-| ④ 乘客体验痛点 | S18 | 今日头条：日本游感四邮轮篇 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7449337370727416335/ | 靠岸1小时+分层下船3小时 |
-| ④ 乘客体验痛点 | S19 | 新闻晨报/网易：吴淞口邮轮港打车难调查 | L1 | 2025-08-04 | https://www.163.com/dy/article/K61K2PPQ0514A42S.html | 近拒远宰 |
-| ④ 乘客体验痛点 | S20 | 黑猫投诉：强制收74美金小费未给服务员 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17394621928 | 服务费透明性 |
-| ④ 乘客体验痛点 | S21 | 黑猫投诉：皇家加勒比私自改航线扣费 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17395888653 | 航线变更投诉 |
-| ④ 乘客体验痛点 | S22 | 黑猫投诉：爱达魔都号合同违约虚假宣传 | L2 | 未标注（检索2026-08-16） | https://cq.tousu.sina.com.cn/complaint/view/17400674676 | 合同争议 |
-| ④ 乘客体验痛点 | S23 | 黑猫投诉：爱达魔都号擅自变更行程 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17400636301 | 行程变更 |
-| ④ 乘客体验痛点 | S24 | 黑猫投诉：飞猪0804航变赔付1100元/人 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17400590491 | 赔付金额细节 |
-| ④ 乘客体验痛点 | S25 | 今日头条：无目的地游轮发现这5个坑 | L2 | 未标注（检索2026-08-16） | https://www.toutiao.com/article/7654001267886326318/ | 仅标题可见 |
-| ④ 乘客体验痛点 | S26 | 今日头条：听着高大上上船就后悔 | L2 | 未标注（检索2026-08-16） | https://www.toutiao.com/article/7633597747270107648/ | 年轻人劝退帖 |
-| ④ 乘客体验痛点 | S27 | 今日头条：邮轮暗藏消费套路一物两价 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7642885102506344975/ | 消费透明 |
-| ④ 乘客体验痛点 | S28 | 什么值得买：国内邮轮擦边宣传太多 | L2 | 未标注（检索2026-08-16） | https://post.smzdm.com/p/az73m6gn/ | 宣传合规 |
-| ④ 乘客体验痛点 | S29 | 搜狐：小心国际邮轮十大陷阱 | L2 | 未标注（检索2026-08-16） | https://www.sohu.com/a/956097655_122085380 | 清单式自媒体 |
-| ④ 乘客体验痛点 | S30 | 网易：小心国际邮轮十大坑 | L2 | 未标注（检索2026-08-16） | https://www.163.com/dy/article/IU4BRSJ805457UCE.html | 清单式自媒体 |
-| ④ 乘客体验痛点 | S31 | 360doc：一家三口魔都号托管之旅 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/25/0210/16/73381213_1146456006.shtml | 亲子正面 |
-| ④ 乘客体验痛点 | S32 | 360doc：光谱带老带小订天际套房 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/25/1025/10/73381213_1163632411.shtml | 付费避排队行为 |
-| ④ 乘客体验痛点 | S33 | 360doc：爱达地中海号一拖五之行 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/25/0722/14/73381213_1157849748.shtml | 多代家庭 |
-| ④ 乘客体验痛点 | S34 | 360doc：赛琳娜号越南行无障碍友好 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/24/1113/17/73381213_1139259050.shtml | 无障碍正面 |
-| ④ 乘客体验痛点 | S35 | 360doc：85岁轮椅老人爱达地中海号畅行 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/24/0630/09/73381213_1127495161.shtml | 无障碍正面 |
-| ④ 乘客体验痛点 | S36 | 中时新闻网：高雄港未设优先通道挨批 | L1 | 2025-12-13 | https://www.chinatimes.com/cn/realtimenews/20251213002482-260405 | 台湾港口反例 |
-| ④ 乘客体验痛点 | S37 | 青岛/大众新闻：百岁老人青岛邮轮之旅 | L1 | 未标注（检索2026-08-16） | https://www.guanhai.com.cn/p/410796.html | 高龄正面 |
-| ④ 乘客体验痛点 | S38 | 上海市政府：无目的地海上游首航收官 | L0 | 2026-06-09 | https://www.shanghai.gov.cn/nw4411/20260609/6181b23a610b4ff6bd3a685f063ce418.html | 官方发布 |
-| ④ 乘客体验痛点 | S39 | 人民网上海：无目的地首航圆满收官 | L1 | 2026-06-09 | http://sh.people.com.cn/n2/2026/0609/c134768-41605082.html | 官方媒体 |
-| ④ 乘客体验痛点 | S40 | 搜狐：退休阿姨赞不绝口5岁娃每月登船 | L1 | 未标注（检索2026-08-16） | https://www.sohu.com/a/1033882349_121286085 | 正面个案 |
-| ④ 乘客体验痛点 | S41 | Trip.com：三代同船亲子游全记录 | L2 | 未标注（检索2026-08-16） | https://tw.trip.com/moments/detail/shanghai-2-149874152/ | 亲子正面 |
-| ④ 乘客体验痛点 | S42 | Trip.com香港：鼓浪屿号首次邮轮体验 | L2 | 未标注（检索2026-08-16） | https://tw.trip.com/moments/detail/hong-kong-38-136801240 | 正面体验 |
-| ④ 乘客体验痛点 | S43 | Cruising Journal：中国-韩国邮轮航线评测 | L1 | 未标注（检索2026-08-16） | https://www.cruisingjournal.com/en/reviews/63e2ffc4-fe88-11f0-b011-96607a9238b0 | 海外评测 |
-| ④ 乘客体验痛点 | S44 | Trip.com：Adora Magic City Cruise Review | L2 | 未标注（检索2026-08-16） | https://www.trip.com/moments/detail/shanghai-2-131545052/ | 海外正面 |
-| ④ 乘客体验痛点 | S45 | 澳门日报：74岁妇邮轮急病亡家属诉延误救治 | L1 | 未标注（检索2026-08-16） | https://chengpou.com.mo/dailynews/257919.html | 医疗纠纷 |
-| ④ 乘客体验痛点 | S46 | 星洲网：迟到15分钟3游客被放生行李丢下船 | L1 | 2026-04-21 | https://www.sinchew.com.my/news/20260421/international/7440135 | 国际个案 |
-| ④ 乘客体验痛点 | S47 | 环球网：全船噪声测试只有海浪声 | L1 | 未标注（检索2026-08-16） | https://hqtime.huanqiu.com/article/4DroQst6nVU | 噪声官方结论 |
-| ④ 乘客体验痛点 | S48 | 宁波广电：国产大型邮轮全船噪声测试 | L1 | 未标注（检索2026-08-16） | https://web.ncmc.nbtv.cn/cms/nbdst/xwdsg/gn/40045432.shtml | 噪声官方结论 |
-| ④ 乘客体验痛点 | S49 | 光明网：超2000外籍游客乘3艘巨轮抵天津 | L1 | 2025-05-02 | https://world.gmw.cn/2025-05/02/content_38004577.htm | 入境邮轮 |
-| ④ 乘客体验痛点 | S50 | 腾讯新闻：爱达魔都号开启深圳母港首航 | L1 | 2026-08-13 | https://news.qq.com/rain/a/20260813A0EP0G00 | 深圳母港新节点 |
-| ④ 乘客体验痛点 | S51 | ETTV美洲：魔都号大爷大妈抢食自助餐 | L1 | 未标注（检索2026-08-16） | https://www.ettvamerica.com/News/Article?i=374319 | 抢餐负面 |
-| ④ 乘客体验痛点 | S52 | 今日头条：邮轮旅行七宗罪 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7423298596864344603/ | 清单式自媒体 |
-| ④ 乘客体验痛点 | S6x | 今日头条：夏掰爱达魔都号避雷 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/w/1839763520576604/ | 摘要含大段原文 |
-| ④ 乘客体验痛点 | S0 | 黑猫投诉：招商蛇口邮轮母港投诉条目 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17397178851 | 投诉存在性 |
-| ④ 乘客体验痛点 | S20b | NY Post：Celebrity小费上调遭抗议 | L1 | 2026-07-31 | https://nypost.com/2026/07/31/lifestyle/celebrity-cruises-passengers-blast-cruise-line-over-surprise-daily-gratuity-hike/ | 海外小费争议 |
-| ④ 乘客体验痛点 | S16b | 网易：抢不到饭MSC被大量吐槽回应 | L1 | 2024-04 | https://www.163.com/dy/article/J01UNHDF0530JPVV.html | 同事件另一媒体 |
-| ④ 乘客体验痛点 | S41b | Trip.com：带孩子坐魔都号躺平玩法 | L2 | 未标注（检索2026-08-16） | https://tw.trip.com/moments/detail/jeju-city-1446512-142999480/ | 亲子正面 |
-| ④ 乘客体验痛点 | S41c | 今日头条：三代人魔都号济州岛初体验 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7657101115586069007/ | 亲子正面 |
-| ④ 乘客体验痛点 | S18b | 美篇：武汉至上海魔都邮轮之旅上篇 | L2 | 未标注（检索2026-08-16） | https://www.meipian.cn/5nwkn5in | 集合时间原文 |
-| ⑤ 船员与运营 | S1 | 上海市政府门户转载《爱达邮轮年初时员工缺口达1000余人 国产大邮轮提前进高校“抢人”》 | L0 | 2026-05-13 | https://www.shanghai.gov.cn/nw4411/20260513/9ba9ec04afa545d1ad4532d4947940a7.html | 官方 / 高：政府门户，数字明确 |
-| ⑤ 船员与运营 | S2 | 人民网上海频道《行业人才需求旺盛 国产大邮轮提前进高校“抢人”》 | L1 | 2026-05-13 | http://sh.people.com.cn/n2/2026/0513/c176738-41579283.html | 权威媒体 / 高：官媒，与 S1 互证 |
-| ⑤ 船员与运营 | S3 | ABC News《Trouble in Paradise: Carnival cruise workers make 'horrifying' allegations about conditions》 | L1 | 2026-08-06 | https://newsapp.abc.net.au/news/2026-08-06/carnival-cruise-workers-horrifying-allegations-conditions-pay/106967922 | 权威媒体 / 高：国家级媒体调查报道 |
-| ⑤ 船员与运营 | S4 | 中时新闻网《看似梦幻工作却超血汗！邮轮员工曝暗黑真相：累到崩溃》 | L1 | 2025-11-03 | https://www.chinatimes.com/realtimenews/20251103004056-260410 | 权威媒体 / 高：主流华文媒体 |
-| ⑤ 船员与运营 | S5 | 虎嗅《想攒钱的年轻人，上邮轮打工了》 | L1 | 2025-02-26 | https://www.huxiu.com/article/4058062.html | 权威媒体 / 高：深度商业媒体 |
-| ⑤ 船员与运营 | S6 | 腾讯新闻《月入过万，我在邮轮当“永动机”》 | L1 | 2025-02-26 | https://news.qq.com/rain/a/20250226A069MQ00 | 权威媒体 / 中高：转载媒体，亲历者叙事 |
-| ⑤ 船员与运营 | S7 | NewsBreak 聚合《Cruise Ship Crew Members Work 10 to 12 Hours a Day for Months Without a Day Off...》 | L2 | n.d. | https://local.newsbreak.com/idyllic-pursuit-377290752/4791422047998-cruise-ship-crew-members-work-10-to-12-hours-a-day-for-months-without-a-day-off-what-they-say-about-passengers-isn-t-always-flattering | UGC/聚合 / 中：标题直接给出工时数据，原文未能打开 |
-| ⑤ 船员与运营 | S8 | The Wichita Eagle《Carnival Cruise Line shares why crew members don’t get a day off》 | L1 | n.d. | https://www.kansas.com/news/business/article297181839.html | 权威媒体 / 高：地方大报，船公司官方回应 |
-| ⑤ 船员与运营 | S9 | Cruise Trade News《Is cruise on the brink of a critical shortage of crew?》 | L1 | n.d. | https://www.cruisetradenews.com/is-cruise-on-the-brink-of-a-critical-shortage-of-crew/ | 行业媒体 / 高：行业专业媒体 |
-| ⑤ 船员与运营 | S10 | Faststream 招聘机构博客《Cruise Expansion & Workforce Planning Challenges》 | L2 | 2026-05 | https://www.faststream.com/blog/2026/05/the-hidden-workforce-challenge-behind-the-cruise-industry-expansion | 行业机构 / 中高：招聘方一手观察 |
-| ⑤ 船员与运营 | S11 | Worldports.org《Pride of America at 40% capacity until NCL can build up US crew numbers》 | L1 | n.d. | https://www.worldports.org/pride-of-america-at-40-capacity-until-ncl-can-build-up-us-crew-numbers/ | 行业媒体 / 中高：行业新闻，数据具体 |
-| ⑤ 船员与运营 | S12 | 36氪《蓝梦巨额欠薪，中国邮轮为何难善终？》 | L1 | n.d. | https://www.36kr.com/p/3716920365348228 | 权威媒体 / 高：深度商业媒体 |
-| ⑤ 船员与运营 | S13 | 虎嗅《蓝梦邮轮欠薪超千万停航 国产邮轮行业陷入困境》 | L1 | 2026-03-10 | https://m.huxiu.com/article/4840604.html | 权威媒体 / 高：标题含金额与停航事实 |
-| ⑤ 船员与运营 | S14 | 航运在线《扣船！欠费、欠薪超5000万...》 | L1 | 2026-03-30 | https://news.sol.com.cn/html/2026-03-30/A6E17C791888A8BDD.shtml | 行业媒体 / 高：行业媒体，事件级报道 |
-| ⑤ 船员与运营 | S15 | 界面新闻《经营不善，招商局29亿转让伊敦号，彻底退出豪华邮轮市场》 | L1 | 2026-03-19 | https://www.jiemian.com/article/14136613.html | 权威媒体 / 高：批1流③已归档同一文章（蓝梦拖欠201名船员工资超500万） |
-| ⑤ 船员与运营 | S16 | Cruise Industry News《ITF to Map Need for Mental Health Support on Cruise Ships》 | L1 | 2025-02 | https://cruiseindustrynews.com/cruise-news/2025/02/itf-to-map-need-for-mental-health-support-on-cruise-ship/ | 行业媒体 / 高：工会行动可验证 |
-| ⑤ 船员与运营 | S17 | Maersk Training《Tackling seafarer exhaustion in the cruise industry》 | L2 | n.d. | https://www.maersktraining.com/news-and-insights/news/tackling-seafarer-exhaustion-in-the-cruise-industry | 行业机构 / 中高：培训商专业内容 |
-| ⑤ 船员与运营 | S18 | Nautilus International《Still sleepless at sea: worrying health research findings from SIRC》 | L1 | n.d. | https://www.nautilusint.org/en/news-insight/telegraph/still-sleepless-at-sea-worrying-health-research-findings-from-sirc/ | 工会/行业 / 高：海员工会引研究 |
-| ⑤ 船员与运营 | S19 | TravelDailyMedia《Modern cruise standards evolve...》 | L1 | n.d. | https://www.traveldailymedia.com/modern-cruise-standards-evolve-as-leaders-prioritise-inclusive-shipboard-culture/ | 行业媒体 / 中高：标题直接给出研究结论 |
-| ⑤ 船员与运营 | S20 | Thaijo 学术期刊《The Impact of Role Stress on Turnover Intention of Thai Cruise Crew...》 | L0 | n.d. | https://so03.tci-thaijo.org/index.php/sduhs/article/view/295665 | 学术原始研究 / 高：同行评审研究 |
-| ⑤ 船员与运营 | S21 | Cruise Mummy《Cruise Crew Don’t Get Free WiFi, And The Real Cost Is Shocking》 | L2 | n.d. | https://www.cruisemummy.co.uk/cruise-crew-dont-get-free-wifi/ | UGC/行业博客 / 中：博客，事实为船员网络收费 |
-| ⑤ 船员与运营 | S22 | Crew Center《NCL Changes Crew and Guest Internet Plans...》 | L2 | n.d. | http://new.crew-center.com/ncl-changes-crew-and-guest-internet-plans-social-media-videos-now-require-streaming-package | 行业媒体 / 中高：船员行业站 |
-| ⑤ 船员与运营 | S23 | 搜狐号《不然嘞？邮轮船员上网也要花钱的啊！》 | L2 | n.d. | https://www.sohu.com/a/924739484_120221549 | UGC / 中：自媒体，与 S21/S22 互证 |
-| ⑤ 船员与运营 | S24 | 黑猫投诉《爱达邮轮管理混乱，贵宾权益受损，赔偿VIP费用！》 | L2 | n.d. | https://tousu.sina.com.cn/complaint/view/17399553106 | UGC / 中：单条投诉，代表个案 |
-| ⑤ 船员与运营 | S25 | 黑猫投诉《爱达邮轮擅自改航线、售后敷衍拖延、补偿不公》 | L2 | n.d. | https://tousu.sina.com.cn/complaint/view/17393597335 | UGC / 中：单条投诉 |
-| ⑤ 船员与运营 | S26 | 黑猫投诉《爱达邮轮客服搞错航次损失却让消费者承担》 | L2 | n.d. | https://tousu.sina.com.cn/complaint/view/17390041960 | UGC / 中：单条投诉 |
-| ⑤ 船员与运营 | S27 | ILO MLC 2006 公约标准 A2.3（工时与休息） | L0 | n.d. | https://normlex.ilo.org/dyn/nrmlx_en/f?p=NORMLEXPUB:91:0::NO::P91_SECTION:MLC_A2 | 官方 / 高：国际公约原文 |
-| ⑤ 船员与运营 | S28 | 中时新闻网《丽星邮轮每日吃掉6000颗蛋！5小时清近千舱房！后勤大揭密》 | L1 | 2025-07-31 | https://www.chinatimes.com/cn/realtimenews/20250731000001-260410 | 权威媒体 / 高：标题含量化后勤数据 |
-| ⑤ 船员与运营 | S29 | The Seattle Times《Cleaning up cruise ship for 6,000 new people — in 1 day》 | L1 | n.d. | https://www.seattletimes.com/life/travel/cleaning-up-cruise-ship-for-6000-new-people-in-1-day/ | 权威媒体 / 高：主流大报 |
-| ⑤ 船员与运营 | S30 | 联合早报《迪士尼探险号故障滞留新加坡逾24小时 航程取消逾千乘客被迫下船》 | L1 | 2026-05-08 | https://www.zaobao.com/news/singapore/story20260508-9018823 | 权威媒体 / 高：新加坡官媒 |
-| ⑤ 船员与运营 | S31 | 网易转载《邮轮“南极之旅”因机械故障未到南极...》 | L1 | n.d. | https://www.163.com/dy/article/JIO1LAG70514D3UH.html | 权威媒体 / 中高：转载媒体，事件具体 |
-| ⑤ 船员与运营 | S32 | 台湾消基会《邮轮故障频传 消费者权益亟待保障》 | L1 | n.d. | https://www.consumers.org.tw/product-detail-3939344.html | 消费者组织 / 高：消费者保护机构 |
-| ⑤ 船员与运营 | S33 | 航运在线《MSC一邮轮突发故障，8000多人被困海上》 | L1 | 2025-08-27 | https://news.sol.com.cn/html/2025-08-27/AC3E6B5302DF91890.shtml | 行业媒体 / 高：行业媒体 |
-| ⑤ 船员与运营 | S34 | Damen 修船案例《Main engine exchange on the Regal Princess》 | L1 | n.d. | https://www.damen.com/services/shiprepair/projects/sea-cruise-regal-princess-repair | 企业官方 / 高：修船厂官方项目页 |
-| ⑤ 船员与运营 | S35 | 齐鲁网《236小时76万度！青岛邮轮母港岸电连船再创新高》 | L1 | 2026-07-31 | https://news.iqilu.com/shandong/yuanchuang/2026/0731/5932927.shtml | 权威媒体 / 高：省级官媒，数据具体 |
-| ⑤ 船员与运营 | S36 | 央广网《国际邮轮在天津实现常态化岸电连接》 | L1 | 2026-07-24 | https://www.cnr.cn/tj/tjtp/20260724/t20260724_527726447.shtml | 权威媒体 / 高：央媒 |
-| ⑤ 船员与运营 | S37 | 辽宁省人民政府《邮轮靠泊大连港可以用陆地电源供电啦》 | L0 | 2025-08-27 | https://www.ln.gov.cn/web/ywdt/qsgd/ass_2_1/2025082712173679729/index.shtml | 官方 / 高：政府官网 |
-| ⑤ 船员与运营 | S38 | Cruise Industry News《Lindblad Cuts Food Prep Waste Up to 75%》 | L1 | 2026-05 | https://cruiseindustrynews.com/cruise-news/2026/05/lindblad-cuts-food-prep-waste-up-to-75/ | 行业媒体 / 高：量化结果 |
-| ⑤ 船员与运营 | S39 | Nasdaq 转载嘉年华集团新闻稿《'Less Left Over' Strategy Beats Targets》 | L0 | 2025-06-10 | https://www.nasdaq.com/press-release/carnival-corporations-less-left-over-strategy-beats-targets-delivers-significant-food | 企业官方 / 高：公司官方口径 |
-| ⑤ 船员与运营 | S40 | Crunchtime 方案商博客《How Cruise Lines Reduce Food Waste Across Large Operations》 | L2 | n.d. | https://www.crunchtime.com/blog/implementing-robust-solutions-across-large-operations-how-cruise-lines-reduce-food-waste | 行业机构 / 中：供应商视角 |
-| ⑤ 船员与运营 | S41 | One Planet Network《Costa Cruises: responsible food consumption, waste tracking...》 | L1 | n.d. | https://www.oneplanetnetwork.org/knowledge-centre/resources/case-study-costa-cruises-responsible-food-consumption-waste-tracking-and | 国际机构 / 高：联合国环境署关联平台案例 |
-| ⑤ 船员与运营 | S42 | 新浪财经《国产大邮轮宣布放弃停靠日本港口，取消明年日本航线》 | L1 | n.d. | https://news.caijingmobile.com/article/detail/559830 | 权威媒体 / 高：财经媒体 |
-| ⑤ 船员与运营 | S43 | 央广网《取消日本方向航线 爱达邮轮更改明年一季度航线计划》 | L1 | 2025-11-28 | https://news.cnr.cn/native/gd/20251128/t20251128_527444589.shtml | 权威媒体 / 高：央媒 |
-| ⑤ 船员与运营 | S44 | 新京报《国产邮轮爱达·魔都号公布2026年一季度航线：日本方向取消》 | L1 | n.d. | https://m.bjnews.com.cn/detail/1764334935129742.html | 权威媒体 / 高：主流媒体 |
-| ⑤ 船员与运营 | S45 | 星岛头条《国产邮轮爱达·魔都号 12月重启赴日本航线》 | L1 | n.d. | https://www.stheadline.com/realtime-china/3584192/ | 权威媒体 / 高：主流港媒 |
-| ⑤ 船员与运营 | S46 | ScienceDirect《Crew perceptions of training and drills in the context of cruise ship evacuation》 | L0 | n.d. | https://www.sciencedirect.com/science/article/pii/S0029801826029021 | 学术原始研究 / 高：同行评审（作者自述探索性研究） |
-| ⑤ 船员与运营 | S47 | Cruise Industry News《Carnival: Full Muster Drills Required Every Six Months》 | L1 | 2026-01 | https://cruiseindustrynews.com/cruise-news/2026/01/carnival-full-muster-drills-required-every-six-months/ | 行业媒体 / 高：规则变化报道 |
-| ⑤ 船员与运营 | S48 | CruiseHive《Cruise Guest Suggests Solution to Ease Carnival Service Bottlenecks》 | L1 | n.d. | https://www.cruisehive.com/cruise-guest-suggests-solution-to-ease-carnival-service-bottlenecks/157964 | 行业媒体 / 中高：服务瓶颈为文章主题 |
-| ⑤ 船员与运营 | S49 | Language Testing International《Language Proficiency Enhances Guest Experience at Sea》 | L2 | n.d. | https://www.languagetesting.com/blog/language-proficiency-enhances-the-guest-experience-in-the-high-seas/ | 行业机构 / 中：语言测评商 |
-| ⑤ 船员与运营 | S50 | 新浪转载《意触礁游轮生还者称与船员语言不通致疏散混乱》 | L1 | 2012 | http://news.sina.com.cn/w/2012-01-16/154023809135.shtml | 权威媒体 / 高：历史事件报道 |
-| ⑤ 船员与运营 | S51 | The New York Times《A Luxury Liner Docks, and the Countdown’s On》 | L1 | 2015 | https://www.nytimes.com/2015/03/22/business/a-luxury-liner-docks-and-the-countdowns-on.html | 权威媒体 / 高：大报深度报道 |
+| ④ 乘客体验 | S01 | 黑猫投诉：爱达邮轮管理混乱贵宾权益受损 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17399553106 | 贵宾权益受损个案 |
+| ④ 乘客体验 | S02 | 黑猫投诉：爱达魔都邮轮台风影响航程缩水1天 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17400626666 | 与媒体报道互证 |
+| ④ 乘客体验 | S03 | 扬子晚报/紫牛头条：魔都号航程缩水一天 | L1 | 2026-08-07 | http://www.yzwb.net/news/zntt/202608/t20260807_380365.html | 乘客质疑为下一航次让路 |
+| ④ 乘客体验 | S04 | 新浪财经：万元房费提前返航仅赔千元 | L1 | 2026-08-07 | https://finance.sina.com.cn/jjxw/2026-08-07/doc-inimnzsm4746751.shtml | 赔偿分歧 |
+| ④ 乘客体验 | S05 | 新浪财经：海事局回应魔都号数百人拒下船 | L1 | 2026-08-07 | https://finance.sina.cn/2026-08-07/detail-inimpfxz3053588.d.html?vt=4 | 群体维权 |
+| ④ 乘客体验 | S06 | 新浪新闻视频页：台风白海豚取消釜山停靠 | L1 | 2026-08-07 | https://www.sina.cn/news/detail/5329387000175641.html | 事件时间线原文 |
+| ④ 乘客体验 | S07 | 绍兴网：游轮韩国行体验糟糕400块钱打发谁 | L1 | 未标注（检索2026-08-16） | http://www.shaoxing.com.cn/p/3452068.html | 岸上游维权个案 |
+| ④ 乘客体验 | S08 | 新浪财经：釜山行遭遇低概率事件 | L1 | 2026-07-24 | https://finance.sina.com.cn/wm/2026-07-24/doc-iniiwkuk9314948.shtml | 400元补偿争议 |
+| ④ 乘客体验 | S09 | 知乎专栏：投诉爱达魔都号糟糕的境外游体验 | L2 | 未标注（检索2026-08-16） | https://zhuanlan.zhihu.com/p/679743332 | 仅标题可见 |
+| ④ 乘客体验 | S10 | 什么值得买：爱达魔都邮轮踩坑贴 | L2 | 未标注（检索2026-08-16） | https://post.smzdm.com/zz/p/anmr4nn3/ | 仅标题可见 |
+| ④ 乘客体验 | S11 | 新京报：难退的邮轮船票 | L1 | 2025-07-24 | https://m.bjnews.com.cn/detail/1753323752129953.html | 早鸟促销捆绑高价条款 |
+| ④ 乘客体验 | S12 | 新京报：目的地战乱行程取消法院判全额退款 | L1 | 2026-03-29 | https://m.bjnews.com.cn/detail/1774777401169782.html | 司法判例 |
+| ④ 乘客体验 | S13 | 澎湃新闻：国际邮轮重返中国服务受到质疑 | L1 | 2024-04 | https://m.thepaper.cn/detail/26894934 | 船方称已改进 |
+| ④ 乘客体验 | S14 | 大河报：船上抢吃抢地盘 | L1 | 2024-04 | https://news.dahebao.cn/dahe/appcommunity/2021794 | 复航吐槽 |
+| ④ 乘客体验 | S15 | 搜狐：上下船拥挤用餐秩序混乱公司回应 | L1 | 2024-04 | https://www.sohu.com/a/767824795_121627717 | 复航吐槽 |
+| ④ 乘客体验 | S16 | 成都商报：MSC首航被吐槽人多拥挤吃饭排长队 | L1 | 2024-04 | https://static.cdsb.com/micropub/Articles/202404/6f6aef5f281b81247baefbcc738dfe56.html | 船方回应 |
+| ④ 乘客体验 | S17 | 新京报：邮轮复航遭游客频繁吐槽孰之过 | L1 | 2024-04 | https://www.bjnews.com.cn/detail/1713269752169533.html | 媒体评论 |
+| ④ 乘客体验 | S18 | 今日头条：日本游感四邮轮篇 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7449337370727416335/ | 靠岸1小时+分层下船3小时 |
+| ④ 乘客体验 | S19 | 新闻晨报/网易：吴淞口邮轮港打车难调查 | L1 | 2025-08-04 | https://www.163.com/dy/article/K61K2PPQ0514A42S.html | 近拒远宰 |
+| ④ 乘客体验 | S20 | 黑猫投诉：强制收74美金小费未给服务员 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17394621928 | 服务费透明性 |
+| ④ 乘客体验 | S21 | 黑猫投诉：皇家加勒比私自改航线扣费 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17395888653 | 航线变更投诉 |
+| ④ 乘客体验 | S22 | 黑猫投诉：爱达魔都号合同违约虚假宣传 | L2 | 未标注（检索2026-08-16） | https://cq.tousu.sina.com.cn/complaint/view/17400674676 | 合同争议 |
+| ④ 乘客体验 | S23 | 黑猫投诉：爱达魔都号擅自变更行程 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17400636301 | 行程变更 |
+| ④ 乘客体验 | S24 | 黑猫投诉：飞猪0804航变赔付1100元/人 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17400590491 | 赔付金额细节 |
+| ④ 乘客体验 | S25 | 今日头条：无目的地游轮发现这5个坑 | L2 | 未标注（检索2026-08-16） | https://www.toutiao.com/article/7654001267886326318/ | 仅标题可见 |
+| ④ 乘客体验 | S26 | 今日头条：听着高大上上船就后悔 | L2 | 未标注（检索2026-08-16） | https://www.toutiao.com/article/7633597747270107648/ | 年轻人劝退帖 |
+| ④ 乘客体验 | S27 | 今日头条：邮轮暗藏消费套路一物两价 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7642885102506344975/ | 消费透明 |
+| ④ 乘客体验 | S28 | 什么值得买：国内邮轮擦边宣传太多 | L2 | 未标注（检索2026-08-16） | https://post.smzdm.com/p/az73m6gn/ | 宣传合规 |
+| ④ 乘客体验 | S29 | 搜狐：小心国际邮轮十大陷阱 | L2 | 未标注（检索2026-08-16） | https://www.sohu.com/a/956097655_122085380 | 清单式自媒体 |
+| ④ 乘客体验 | S30 | 网易：小心国际邮轮十大坑 | L2 | 未标注（检索2026-08-16） | https://www.163.com/dy/article/IU4BRSJ805457UCE.html | 清单式自媒体 |
+| ④ 乘客体验 | S31 | 360doc：一家三口魔都号托管之旅 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/25/0210/16/73381213_1146456006.shtml | 亲子正面 |
+| ④ 乘客体验 | S32 | 360doc：光谱带老带小订天际套房 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/25/1025/10/73381213_1163632411.shtml | 付费避排队行为 |
+| ④ 乘客体验 | S33 | 360doc：爱达地中海号一拖五之行 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/25/0722/14/73381213_1157849748.shtml | 多代家庭 |
+| ④ 乘客体验 | S34 | 360doc：赛琳娜号越南行无障碍友好 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/24/1113/17/73381213_1139259050.shtml | 无障碍正面 |
+| ④ 乘客体验 | S35 | 360doc：85岁轮椅老人爱达地中海号畅行 | L2 | 未标注（检索2026-08-16） | http://www.360doc.com/content/24/0630/09/73381213_1127495161.shtml | 无障碍正面 |
+| ④ 乘客体验 | S36 | 中时新闻网：高雄港未设优先通道挨批 | L1 | 2025-12-13 | https://www.chinatimes.com/cn/realtimenews/20251213002482-260405 | 台湾港口反例 |
+| ④ 乘客体验 | S37 | 青岛/大众新闻：百岁老人青岛邮轮之旅 | L1 | 未标注（检索2026-08-16） | https://www.guanhai.com.cn/p/410796.html | 高龄正面 |
+| ④ 乘客体验 | S38 | 上海市政府：无目的地海上游首航收官 | L0 | 2026-06-09 | https://www.shanghai.gov.cn/nw4411/20260609/6181b23a610b4ff6bd3a685f063ce418.html | 官方发布 |
+| ④ 乘客体验 | S39 | 人民网上海：无目的地首航圆满收官 | L1 | 2026-06-09 | http://sh.people.com.cn/n2/2026/0609/c134768-41605082.html | 官方媒体 |
+| ④ 乘客体验 | S40 | 搜狐：退休阿姨赞不绝口5岁娃每月登船 | L1 | 未标注（检索2026-08-16） | https://www.sohu.com/a/1033882349_121286085 | 正面个案 |
+| ④ 乘客体验 | S41 | Trip.com：三代同船亲子游全记录 | L2 | 未标注（检索2026-08-16） | https://tw.trip.com/moments/detail/shanghai-2-149874152/ | 亲子正面 |
+| ④ 乘客体验 | S42 | Trip.com香港：鼓浪屿号首次邮轮体验 | L2 | 未标注（检索2026-08-16） | https://tw.trip.com/moments/detail/hong-kong-38-136801240 | 正面体验 |
+| ④ 乘客体验 | S43 | Cruising Journal：中国-韩国邮轮航线评测 | L1 | 未标注（检索2026-08-16） | https://www.cruisingjournal.com/en/reviews/63e2ffc4-fe88-11f0-b011-96607a9238b0 | 海外评测 |
+| ④ 乘客体验 | S44 | Trip.com：Adora Magic City Cruise Review | L2 | 未标注（检索2026-08-16） | https://www.trip.com/moments/detail/shanghai-2-131545052/ | 海外正面 |
+| ④ 乘客体验 | S45 | 澳门日报：74岁妇邮轮急病亡家属诉延误救治 | L1 | 未标注（检索2026-08-16） | https://chengpou.com.mo/dailynews/257919.html | 医疗纠纷 |
+| ④ 乘客体验 | S46 | 星洲网：迟到15分钟3游客被放生行李丢下船 | L1 | 2026-04-21 | https://www.sinchew.com.my/news/20260421/international/7440135 | 国际个案 |
+| ④ 乘客体验 | S47 | 环球网：全船噪声测试只有海浪声 | L1 | 未标注（检索2026-08-16） | https://hqtime.huanqiu.com/article/4DroQst6nVU | 噪声官方结论 |
+| ④ 乘客体验 | S48 | 宁波广电：国产大型邮轮全船噪声测试 | L1 | 未标注（检索2026-08-16） | https://web.ncmc.nbtv.cn/cms/nbdst/xwdsg/gn/40045432.shtml | 噪声官方结论 |
+| ④ 乘客体验 | S49 | 光明网：超2000外籍游客乘3艘巨轮抵天津 | L1 | 2025-05-02 | https://world.gmw.cn/2025-05/02/content_38004577.htm | 入境邮轮 |
+| ④ 乘客体验 | S50 | 腾讯新闻：爱达魔都号开启深圳母港首航 | L1 | 2026-08-13 | https://news.qq.com/rain/a/20260813A0EP0G00 | 深圳母港新节点 |
+| ④ 乘客体验 | S51 | ETTV美洲：魔都号大爷大妈抢食自助餐 | L1 | 未标注（检索2026-08-16） | https://www.ettvamerica.com/News/Article?i=374319 | 抢餐负面 |
+| ④ 乘客体验 | S52 | 今日头条：邮轮旅行七宗罪 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7423298596864344603/ | 清单式自媒体 |
+| ④ 乘客体验 | S53 | 今日头条：夏掰爱达魔都号避雷 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/w/1839763520576604/ | 摘要含大段原文 |
+| ④ 乘客体验 | S54 | 黑猫投诉：招商蛇口邮轮母港投诉条目 | L2 | 未标注（检索2026-08-16） | https://tousu.sina.com.cn/complaint/view/17397178851 | 投诉存在性 |
+| ④ 乘客体验 | S55 | NY Post：Celebrity小费上调遭抗议 | L1 | 2026-07-31 | https://nypost.com/2026/07/31/lifestyle/celebrity-cruises-passengers-blast-cruise-line-over-surprise-daily-gratuity-hike/ | 海外小费争议 |
+| ④ 乘客体验 | S56 | 网易：抢不到饭MSC被大量吐槽回应 | L1 | 2024-04 | https://www.163.com/dy/article/J01UNHDF0530JPVV.html | 同事件另一媒体 |
+| ④ 乘客体验 | S57 | Trip.com：带孩子坐魔都号躺平玩法 | L2 | 未标注（检索2026-08-16） | https://tw.trip.com/moments/detail/jeju-city-1446512-142999480/ | 亲子正面 |
+| ④ 乘客体验 | S58 | 今日头条：三代人魔都号济州岛初体验 | L2 | 未标注（检索2026-08-16） | https://m.toutiao.com/article/7657101115586069007/ | 亲子正面 |
+| ④ 乘客体验 | S59 | 美篇：武汉至上海魔都邮轮之旅上篇 | L2 | 未标注（检索2026-08-16） | https://www.meipian.cn/5nwkn5in | 集合时间原文 |
+| ④ 乘客体验·并行补稿 | S2 | 凤凰网 吃饭像抢钱登船靠推搡 | L1 | 未标注 | https://news.ifeng.com/c/8YrLbS0mA0N | 登船拥挤+餐饮 |
+| ④ 乘客体验·并行补稿 | S4 | 腾讯新闻 豪华邮轮中国首航被吐槽人多拥挤吃饭排长队 | L1 | 2024-04-17 | https://news.qq.com/rain/a/20240417A07OFP00 | 首航投诉转载 |
+| ④ 乘客体验·并行补稿 | S7 | 百家号 上下船拥挤用餐秩序混乱 首个回归国际邮轮回应 | L2 | 未标注 | https://baijiahao.baidu.com/s?id=1794854268756739093 | 登离船+餐饮 |
+| ④ 乘客体验·并行补稿 | S8 | 搜狐 下船就不这么顺畅了 五千人邮轮撞上混乱现实 | L2 | 未标注 | https://www.sohu.com/a/1007004789_121613610 | 离船混乱 |
+| ④ 乘客体验·并行补稿 | S10 | 今日头条 李文柱 乘坐爱达魔都号遇到的不爽 | L2 | 未标注 | https://m.toutiao.com/article/7376499725677167155/ | 乘客长文 |
+| ④ 乘客体验·并行补稿 | S11 | 什么值得买 魔都号小细节攻略 | L2 | 未标注 | https://post.smzdm.com/zz/p/arll45wg/ | 攻略依赖 |
+| ④ 乘客体验·并行补稿 | S12 | 新浪财经 邮轮阳台房有明显遮挡如何维权 | L1 | 2026-03-21 | https://finance.sina.com.cn/jjxw/2026-03-21/doc-inhrtpvt7290661.shtml | 舱型货不对板 |
+| ④ 乘客体验·并行补稿 | S13 | 江苏广电荔枝新闻 3岁男童被游轮马桶盖砸伤 | L1 | 2026-07-16 | https://m.jstv.com/news/2026/7/16/1527288956094394368.html | 客舱设施安全 |
+| ④ 乘客体验·并行补稿 | S14 | 人民网 强制下船+诱导购物 邮轮岸上游零负团费顽疾 | L1 | 2018-04-26 | http://travel.people.com.cn/n1/2018/0426/c41570-29951310.html | 岸上游顽疾 |
+| ④ 乘客体验·并行补稿 | S15 | 东莞阳光热线 越南购物商品质量问题 | L2 | 未标注 | https://wz.sun0769.com/political/politics/index?id=452309 | 岸上游投诉 |
+| ④ 乘客体验·并行补稿 | S16 | 上观新闻 下邮轮看上海 外籍游客惊喜 | L1 | 2026-04-09 | https://www.jfdaily.com.cn/wx/detail.do?id=1090561 | 入境游客正面 |
+| ④ 乘客体验·并行补稿 | S17 | 上海市文旅局 邮轮+场景创新 | L0 | 2026-04-10 | https://whlyj.sh.gov.cn/cysc/20260410/52f9c5bd3d5f4c519e98c33b256d1eb3.html | 官方改善行动 |
+| ④ 乘客体验·并行补稿 | S18 | 宝山区政府 人大建议答复 吴淞口交通秩序停车难短途出租 | L0 | 2025-03-10 | https://www.shanghai.gov.cn/gwk/search/content/51e69edd-c027-401c-833b-6c0d8294dd45 | 官方承认接驳问题 |
+| ④ 乘客体验·并行补稿 | S19 | 宝山区政协 9E103 强化邮轮港公共交通配套答复 | L0 | 2026-03-17 | http://bzx.baoshan.sh.cn/suggest/suggest_1/202603/t20260317_578610.html | 官方持续关注 |
+| ④ 乘客体验·并行补稿 | S20 | 水木社区 爱达魔都号工作人员不太说中文英文为主 | L2 | 未标注 | https://m.newsmth.net/article/Travel/978190 | 语言沟通 |
+| ④ 乘客体验·并行补稿 | S22 | 黑猫投诉 携程邮轮客服太差劲 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17382622373 | 客服投诉 |
+| ④ 乘客体验·并行补稿 | S23 | Trip.com HK 点评 NCL客舱漏水维修仅晾干 | L2 | 未标注 | https://hk.trip.com/cruises/line-205675-barcelona-12night-norwegianepic-ncl/ | 客舱维修质量 |
+| ④ 乘客体验·并行补稿 | S24 | 网易 上海五星豪华邮轮上最丑陋的一幕 | L2 | 未标注 | https://www.163.com/dy/article/IVVKSI4H0548ACD7.html | 自助餐争抢 |
+| ④ 乘客体验·并行补稿 | S25 | 网易 中国游客饭量惊呆外国邮轮公司 | L2 | 未标注 | https://www.163.com/dy/article/CR2OQ5960522GPL2.html | 餐饮浪费议题 |
+| ④ 乘客体验·并行补稿 | S26 | 今日头条 无目的地游轮3天2晚发现5个坑 | L2 | 未标注 | https://m.toutiao.com/article/7650346100443939368/ | 新产品体验 |
+| ④ 乘客体验·并行补稿 | S27 | 今日头条 海景房变硬卧 无目的地邮轮5个巨坑 | L2 | 未标注 | https://m.toutiao.com/article/7649910045840359976/ | 舱型落差 |
+| ④ 乘客体验·并行补稿 | S28 | 虎嗅 迪士尼游轮亚洲首航大规模投诉 | L1 | 未标注 | https://www.huxiu.com/article/4842312.html | 高端新船投诉 |
+| ④ 乘客体验·并行补稿 | S30 | 黑猫投诉 爱达魔都号行李箱损坏未妥善解决 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17389134803 | 行李售后 |
+| ④ 乘客体验·并行补稿 | S31 | 黑猫投诉 爱达魔都号买后变故平台不退房款 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17387360142 | 退改投诉 |
+| ④ 乘客体验·并行补稿 | S32 | Cruise Critic Battling food fatigue on 20-day cruise | L2 | 未标注 | https://boards.cruisecritic.com/topic/2553887-battling-food-fatigue-on-a-20-day-cruise/ | 菜品疲劳 |
+| ④ 乘客体验·并行补稿 | S33 | Cruise Critic Explora and food allergies | L2 | 未标注 | https://boards.cruisecritic.com.au/topic/3037091-explora-and-food-allergies/ | 过敏沟通 |
+| ④ 乘客体验·并行补稿 | S34 | Cruise Critic Warning don't cruise Holland America food allergy | L2 | 未标注 | https://boards.cruisecritic.com/topic/3046442-warning-dont-cruise-with-holland-america-if-you-have-a-food-allergy/ | 过敏差评 |
+| ④ 乘客体验·并行补稿 | S35 | Cruise Critic slowest internet Starlink Splendor | L2 | 未标注 | https://boards.cruisecritic.com/topic/3030215-living-with-the-slowest-internet-access-ever-with-starlink-onboard-splendor/ | 网速慢 |
+| ④ 乘客体验·并行补稿 | S36 | Cruise Critic Starlink Surf 110-150 Kbps Ovation | L2 | 未标注 | https://boards.cruisecritic.com/topic/3075849-starlink-surf-speeds-on-ovation/ | 网速实测 |
+| ④ 乘客体验·并行补稿 | S37 | Android Authority Starlink at sea still needs work | L1 | 未标注 | https://www.androidauthority.com/starlink-cruise-wi-fi-3511040/ | 卫星上网短板 |
+| ④ 乘客体验·并行补稿 | S38 | Cruise Critic Booking theatre shows restaurants MSC Virtuosa | L2 | 未标注 | https://boards.cruisecritic.com/topic/3110195-booking-for-theatre-shows-and-restaurants-msc-virtuousa/ | 预约负担 |
+| ④ 乘客体验·并行补稿 | S39 | Nautical Flock NCL drops show reservations passengers push back | L2 | 2026-04 | https://www.nauticalflock.com/news/ncl-drops-show-reservations-april-2026 | 娱乐分配机制 |
+| ④ 乘客体验·并行补稿 | S40 | Yahoo奇摩新闻 荣耀号乘客轰提前一天被迫赶下船 | L1 | 未标注 | https://tw.news.yahoo.com/ | 离船安排 |
+| ④ 乘客体验·并行补稿 | S41 | 太报/东森 3旅客迟到行李丢包船开走 | L1 | 2026-04 | https://tyenews.com/2026/04/1348777/ | 岸上游迟到 |
+| ④ 乘客体验·并行补稿 | S42 | Cruise Critic Disembarking Civitavecchia panic | L2 | 未标注 | https://boards.cruisecritic.com/topic/3111011-disembarking-in-civitavecchia-on-sunday-31-may-starting-to-panic/ | 离船焦虑 |
+| ④ 乘客体验·并行补稿 | S43 | Cruise Critic not wheelchair or elderly friendly review | L2 | 未标注 | https://www.cruisecritic.com/cruise/norwegian-ncl/pride-of-america/reviews/594805 | 无障碍差评 |
+| ④ 乘客体验·并行补稿 | S44 | Trustpilot MSC Cruises 2.1/5 | L2 | 未标注 | https://it.trustpilot.com/review/msccruises.com | 平台低分 |
+| ④ 乘客体验·并行补稿 | S45 | Cruise Critic NOT good for families with teens | L2 | 未标注 | https://www.cruisecritic.com/cruise/celebrity/celebrity-beyond/reviews/717325 | 青少年适配 |
+| ④ 乘客体验·并行补稿 | S46 | Mumsnet kids ungrateful and bored on cruise | L2 | 未标注 | https://www.mumsnet.com/talk/holidays/5199544-on-cruise-and-kids-so-ungrateful-and-bored | 青少年无聊 |
+| ④ 乘客体验·并行补稿 | S47 | Cruiseline.com cruise lines charging for deck chairs | L2 | 未标注 | https://cruiseline.com/advice/what-s-hot/news/peace-on-the-pool-deck-cruise-lines-now-charging-for-deck-chairs | 甲板资源 |
+| ④ 乘客体验·并行补稿 | S48 | Candid Cruise Travel Ovation chair hogs infuriated | L2 | 未标注 | https://candidcruisetravel.com/ovation-of-the-seas-itinerary-plagued-by-chair-hogs-leavings-guests-infuriated/ | 占座问题 |
+| ④ 乘客体验·并行补稿 | S49 | Goldjoy 邮轮舱房指南优缺点解析 | L2 | 未标注 | https://www.goldjoy.com/blog/cruise-cabin | 舱型信息 |
+| ④ 乘客体验·并行补稿 | S50 | Dealmoon 内舱房不是小黑屋阳台房不一定值 | L2 | 未标注 | https://www.dealmoon.com.au/post/3207329 | 舱型纠偏 |
+| ④ 乘客体验·并行补稿 | S51 | Holzberg Legal child allergic reaction cashews Harmony lawsuit | L2 | 未标注 | https://www.holzberglegal.com/blog/colorado-parent-sues-royal-caribbean-after-child-suffers-severe-allergic-reaction-to-cashews-on-harmony-of-the-seas/ | 过敏诉讼 |
+| ④ 乘客体验·并行补稿 | S52 | 黑猫投诉 皇家星光号游轮食品卫生差 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17383956148 | 餐饮卫生 |
+| ④ 乘客体验·并行补稿 | S53 | 钛媒体 暑期邮轮票价跳水爷孙游（旧存档） | L1 | 2024-08-11 | https://www.thepaper.cn/newsDetail_forward_28385573 | WiFi/排队/岸上游/无障碍 |
+| ④ 乘客体验·并行补稿 | S54 | 闻旅派 爱达魔都号价格大跳水（旧存档） | L1 | 2024-07-05 | http://www.wenlvpai.com/77607.html | 餐厅拥挤/接驳 |
+| ⑤ 船员与运营 | S1 | 上海市政府门户转载《爱达邮轮年初时员工缺口达1000余人 国产大邮轮提前进高校“抢人”》 | L0 | 2026-05-13 | https://www.shanghai.gov.cn/nw4411/20260513/9ba9ec04afa545d1ad4532d4947940a7.html | 官方 ／ 高：政府门户，数字明确 |
+| ⑤ 船员与运营 | S2 | 人民网上海频道《行业人才需求旺盛 国产大邮轮提前进高校“抢人”》 | L1 | 2026-05-13 | http://sh.people.com.cn/n2/2026/0513/c176738-41579283.html | 权威媒体 ／ 高：官媒，与 S1 互证 |
+| ⑤ 船员与运营 | S3 | ABC News《Trouble in Paradise: Carnival cruise workers make 'horrifying' allegations about conditions》 | L1 | 2026-08-06 | https://newsapp.abc.net.au/news/2026-08-06/carnival-cruise-workers-horrifying-allegations-conditions-pay/106967922 | 权威媒体 ／ 高：国家级媒体调查报道 |
+| ⑤ 船员与运营 | S4 | 中时新闻网《看似梦幻工作却超血汗！邮轮员工曝暗黑真相：累到崩溃》 | L1 | 2025-11-03 | https://www.chinatimes.com/realtimenews/20251103004056-260410 | 权威媒体 ／ 高：主流华文媒体 |
+| ⑤ 船员与运营 | S5 | 虎嗅《想攒钱的年轻人，上邮轮打工了》 | L1 | 2025-02-26 | https://www.huxiu.com/article/4058062.html | 权威媒体 ／ 高：深度商业媒体 |
+| ⑤ 船员与运营 | S6 | 腾讯新闻《月入过万，我在邮轮当“永动机”》 | L1 | 2025-02-26 | https://news.qq.com/rain/a/20250226A069MQ00 | 权威媒体 ／ 中高：转载媒体，亲历者叙事 |
+| ⑤ 船员与运营 | S7 | NewsBreak 聚合《Cruise Ship Crew Members Work 10 to 12 Hours a Day for Months Without a Day Off...》 | L2 | n.d. | https://local.newsbreak.com/idyllic-pursuit-377290752/4791422047998-cruise-ship-crew-members-work-10-to-12-hours-a-day-for-months-without-a-day-off-what-they-say-about-passengers-isn-t-always-flattering | UGC/聚合 ／ 中：标题直接给出工时数据，原文未能打开 |
+| ⑤ 船员与运营 | S8 | The Wichita Eagle《Carnival Cruise Line shares why crew members don’t get a day off》 | L1 | n.d. | https://www.kansas.com/news/business/article297181839.html | 权威媒体 ／ 高：地方大报，船公司官方回应 |
+| ⑤ 船员与运营 | S9 | Cruise Trade News《Is cruise on the brink of a critical shortage of crew?》 | L1 | n.d. | https://www.cruisetradenews.com/is-cruise-on-the-brink-of-a-critical-shortage-of-crew/ | 行业媒体 ／ 高：行业专业媒体 |
+| ⑤ 船员与运营 | S10 | Faststream 招聘机构博客《Cruise Expansion & Workforce Planning Challenges》 | L2 | 2026-05 | https://www.faststream.com/blog/2026/05/the-hidden-workforce-challenge-behind-the-cruise-industry-expansion | 行业机构 ／ 中高：招聘方一手观察 |
+| ⑤ 船员与运营 | S11 | Worldports.org《Pride of America at 40% capacity until NCL can build up US crew numbers》 | L1 | n.d. | https://www.worldports.org/pride-of-america-at-40-capacity-until-ncl-can-build-up-us-crew-numbers/ | 行业媒体 ／ 中高：行业新闻，数据具体 |
+| ⑤ 船员与运营 | S12 | 36氪《蓝梦巨额欠薪，中国邮轮为何难善终？》 | L1 | n.d. | https://www.36kr.com/p/3716920365348228 | 权威媒体 ／ 高：深度商业媒体 |
+| ⑤ 船员与运营 | S13 | 虎嗅《蓝梦邮轮欠薪超千万停航 国产邮轮行业陷入困境》 | L1 | 2026-03-10 | https://m.huxiu.com/article/4840604.html | 权威媒体 ／ 高：标题含金额与停航事实 |
+| ⑤ 船员与运营 | S14 | 航运在线《扣船！欠费、欠薪超5000万...》 | L1 | 2026-03-30 | https://news.sol.com.cn/html/2026-03-30/A6E17C791888A8BDD.shtml | 行业媒体 ／ 高：行业媒体，事件级报道 |
+| ⑤ 船员与运营 | S15 | 界面新闻《经营不善，招商局29亿转让伊敦号，彻底退出豪华邮轮市场》 | L1 | 2026-03-19 | https://www.jiemian.com/article/14136613.html | 权威媒体 ／ 高：批1流③已归档同一文章（蓝梦拖欠201名船员工资超500万） |
+| ⑤ 船员与运营 | S16 | Cruise Industry News《ITF to Map Need for Mental Health Support on Cruise Ships》 | L1 | 2025-02 | https://cruiseindustrynews.com/cruise-news/2025/02/itf-to-map-need-for-mental-health-support-on-cruise-ship/ | 行业媒体 ／ 高：工会行动可验证 |
+| ⑤ 船员与运营 | S17 | Maersk Training《Tackling seafarer exhaustion in the cruise industry》 | L2 | n.d. | https://www.maersktraining.com/news-and-insights/news/tackling-seafarer-exhaustion-in-the-cruise-industry | 行业机构 ／ 中高：培训商专业内容 |
+| ⑤ 船员与运营 | S18 | Nautilus International《Still sleepless at sea: worrying health research findings from SIRC》 | L1 | n.d. | https://www.nautilusint.org/en/news-insight/telegraph/still-sleepless-at-sea-worrying-health-research-findings-from-sirc/ | 工会/行业 ／ 高：海员工会引研究 |
+| ⑤ 船员与运营 | S19 | TravelDailyMedia《Modern cruise standards evolve...》 | L1 | n.d. | https://www.traveldailymedia.com/modern-cruise-standards-evolve-as-leaders-prioritise-inclusive-shipboard-culture/ | 行业媒体 ／ 中高：标题直接给出研究结论 |
+| ⑤ 船员与运营 | S20 | Thaijo 学术期刊《The Impact of Role Stress on Turnover Intention of Thai Cruise Crew...》 | L0 | n.d. | https://so03.tci-thaijo.org/index.php/sduhs/article/view/295665 | 学术原始研究 ／ 高：同行评审研究 |
+| ⑤ 船员与运营 | S21 | Cruise Mummy《Cruise Crew Don’t Get Free WiFi, And The Real Cost Is Shocking》 | L2 | n.d. | https://www.cruisemummy.co.uk/cruise-crew-dont-get-free-wifi/ | UGC/行业博客 ／ 中：博客，事实为船员网络收费 |
+| ⑤ 船员与运营 | S22 | Crew Center《NCL Changes Crew and Guest Internet Plans...》 | L2 | n.d. | http://new.crew-center.com/ncl-changes-crew-and-guest-internet-plans-social-media-videos-now-require-streaming-package | 行业媒体 ／ 中高：船员行业站 |
+| ⑤ 船员与运营 | S23 | 搜狐号《不然嘞？邮轮船员上网也要花钱的啊！》 | L2 | n.d. | https://www.sohu.com/a/924739484_120221549 | UGC ／ 中：自媒体，与 S21/S22 互证 |
+| ⑤ 船员与运营 | S24 | 黑猫投诉《爱达邮轮管理混乱，贵宾权益受损，赔偿VIP费用！》 | L2 | n.d. | https://tousu.sina.com.cn/complaint/view/17399553106 | UGC ／ 中：单条投诉，代表个案 |
+| ⑤ 船员与运营 | S25 | 黑猫投诉《爱达邮轮擅自改航线、售后敷衍拖延、补偿不公》 | L2 | n.d. | https://tousu.sina.com.cn/complaint/view/17393597335 | UGC ／ 中：单条投诉 |
+| ⑤ 船员与运营 | S26 | 黑猫投诉《爱达邮轮客服搞错航次损失却让消费者承担》 | L2 | n.d. | https://tousu.sina.com.cn/complaint/view/17390041960 | UGC ／ 中：单条投诉 |
+| ⑤ 船员与运营 | S27 | ILO MLC 2006 公约标准 A2.3（工时与休息） | L0 | n.d. | https://normlex.ilo.org/dyn/nrmlx_en/f?p=NORMLEXPUB:91:0::NO::P91_SECTION:MLC_A2 | 官方 ／ 高：国际公约原文 |
+| ⑤ 船员与运营 | S28 | 中时新闻网《丽星邮轮每日吃掉6000颗蛋！5小时清近千舱房！后勤大揭密》 | L1 | 2025-07-31 | https://www.chinatimes.com/cn/realtimenews/20250731000001-260410 | 权威媒体 ／ 高：标题含量化后勤数据 |
+| ⑤ 船员与运营 | S29 | The Seattle Times《Cleaning up cruise ship for 6,000 new people — in 1 day》 | L1 | n.d. | https://www.seattletimes.com/life/travel/cleaning-up-cruise-ship-for-6000-new-people-in-1-day/ | 权威媒体 ／ 高：主流大报 |
+| ⑤ 船员与运营 | S30 | 联合早报《迪士尼探险号故障滞留新加坡逾24小时 航程取消逾千乘客被迫下船》 | L1 | 2026-05-08 | https://www.zaobao.com/news/singapore/story20260508-9018823 | 权威媒体 ／ 高：新加坡官媒 |
+| ⑤ 船员与运营 | S31 | 网易转载《邮轮“南极之旅”因机械故障未到南极...》 | L1 | n.d. | https://www.163.com/dy/article/JIO1LAG70514D3UH.html | 权威媒体 ／ 中高：转载媒体，事件具体 |
+| ⑤ 船员与运营 | S32 | 台湾消基会《邮轮故障频传 消费者权益亟待保障》 | L1 | n.d. | https://www.consumers.org.tw/product-detail-3939344.html | 消费者组织 ／ 高：消费者保护机构 |
+| ⑤ 船员与运营 | S33 | 航运在线《MSC一邮轮突发故障，8000多人被困海上》 | L1 | 2025-08-27 | https://news.sol.com.cn/html/2025-08-27/AC3E6B5302DF91890.shtml | 行业媒体 ／ 高：行业媒体 |
+| ⑤ 船员与运营 | S34 | Damen 修船案例《Main engine exchange on the Regal Princess》 | L1 | n.d. | https://www.damen.com/services/shiprepair/projects/sea-cruise-regal-princess-repair | 企业官方 ／ 高：修船厂官方项目页 |
+| ⑤ 船员与运营 | S35 | 齐鲁网《236小时76万度！青岛邮轮母港岸电连船再创新高》 | L1 | 2026-07-31 | https://news.iqilu.com/shandong/yuanchuang/2026/0731/5932927.shtml | 权威媒体 ／ 高：省级官媒，数据具体 |
+| ⑤ 船员与运营 | S36 | 央广网《国际邮轮在天津实现常态化岸电连接》 | L1 | 2026-07-24 | https://www.cnr.cn/tj/tjtp/20260724/t20260724_527726447.shtml | 权威媒体 ／ 高：央媒 |
+| ⑤ 船员与运营 | S37 | 辽宁省人民政府《邮轮靠泊大连港可以用陆地电源供电啦》 | L0 | 2025-08-27 | https://www.ln.gov.cn/web/ywdt/qsgd/ass_2_1/2025082712173679729/index.shtml | 官方 ／ 高：政府官网 |
+| ⑤ 船员与运营 | S38 | Cruise Industry News《Lindblad Cuts Food Prep Waste Up to 75%》 | L1 | 2026-05 | https://cruiseindustrynews.com/cruise-news/2026/05/lindblad-cuts-food-prep-waste-up-to-75/ | 行业媒体 ／ 高：量化结果 |
+| ⑤ 船员与运营 | S39 | Nasdaq 转载嘉年华集团新闻稿《'Less Left Over' Strategy Beats Targets》 | L0 | 2025-06-10 | https://www.nasdaq.com/press-release/carnival-corporations-less-left-over-strategy-beats-targets-delivers-significant-food | 企业官方 ／ 高：公司官方口径 |
+| ⑤ 船员与运营 | S40 | Crunchtime 方案商博客《How Cruise Lines Reduce Food Waste Across Large Operations》 | L2 | n.d. | https://www.crunchtime.com/blog/implementing-robust-solutions-across-large-operations-how-cruise-lines-reduce-food-waste | 行业机构 ／ 中：供应商视角 |
+| ⑤ 船员与运营 | S41 | One Planet Network《Costa Cruises: responsible food consumption, waste tracking...》 | L1 | n.d. | https://www.oneplanetnetwork.org/knowledge-centre/resources/case-study-costa-cruises-responsible-food-consumption-waste-tracking-and | 国际机构 ／ 高：联合国环境署关联平台案例 |
+| ⑤ 船员与运营 | S42 | 新浪财经《国产大邮轮宣布放弃停靠日本港口，取消明年日本航线》 | L1 | n.d. | https://news.caijingmobile.com/article/detail/559830 | 权威媒体 ／ 高：财经媒体 |
+| ⑤ 船员与运营 | S43 | 央广网《取消日本方向航线 爱达邮轮更改明年一季度航线计划》 | L1 | 2025-11-28 | https://news.cnr.cn/native/gd/20251128/t20251128_527444589.shtml | 权威媒体 ／ 高：央媒 |
+| ⑤ 船员与运营 | S44 | 新京报《国产邮轮爱达·魔都号公布2026年一季度航线：日本方向取消》 | L1 | n.d. | https://m.bjnews.com.cn/detail/1764334935129742.html | 权威媒体 ／ 高：主流媒体 |
+| ⑤ 船员与运营 | S45 | 星岛头条《国产邮轮爱达·魔都号 12月重启赴日本航线》 | L1 | n.d. | https://www.stheadline.com/realtime-china/3584192/ | 权威媒体 ／ 高：主流港媒 |
+| ⑤ 船员与运营 | S46 | ScienceDirect《Crew perceptions of training and drills in the context of cruise ship evacuation》 | L0 | n.d. | https://www.sciencedirect.com/science/article/pii/S0029801826029021 | 学术原始研究 ／ 高：同行评审（作者自述探索性研究） |
+| ⑤ 船员与运营 | S47 | Cruise Industry News《Carnival: Full Muster Drills Required Every Six Months》 | L1 | 2026-01 | https://cruiseindustrynews.com/cruise-news/2026/01/carnival-full-muster-drills-required-every-six-months/ | 行业媒体 ／ 高：规则变化报道 |
+| ⑤ 船员与运营 | S48 | CruiseHive《Cruise Guest Suggests Solution to Ease Carnival Service Bottlenecks》 | L1 | n.d. | https://www.cruisehive.com/cruise-guest-suggests-solution-to-ease-carnival-service-bottlenecks/157964 | 行业媒体 ／ 中高：服务瓶颈为文章主题 |
+| ⑤ 船员与运营 | S49 | Language Testing International《Language Proficiency Enhances Guest Experience at Sea》 | L2 | n.d. | https://www.languagetesting.com/blog/language-proficiency-enhances-the-guest-experience-in-the-high-seas/ | 行业机构 ／ 中：语言测评商 |
+| ⑤ 船员与运营 | S50 | 新浪转载《意触礁游轮生还者称与船员语言不通致疏散混乱》 | L1 | 2012 | http://news.sina.com.cn/w/2012-01-16/154023809135.shtml | 权威媒体 ／ 高：历史事件报道 |
+| ⑤ 船员与运营 | S51 | The New York Times《A Luxury Liner Docks, and the Countdown’s On》 | L1 | 2015 | https://www.nytimes.com/2015/03/22/business/a-luxury-liner-docks-and-the-countdowns-on.html | 权威媒体 ／ 高：大报深度报道 |
 | ⑥ 安全与法规 | S1 | KRS SOLAS 2026 四年周期修正案清单 | L0 | 2026-01 | http://www.krs.co.kr/TECHNICAL_FILE/4-year%20cycle%20amendments%20to%20SOLAS%20and%20related%20Codes%20effective%20on%201%20January%202026%20(E).pdf | 2026-01-01 生效的 SOLAS 修正案清单 |
 | ⑥ 安全与法规 | S2 | 中国船级社 CR 2026年生效之国际公约 | L0 | 2026 | https://www.crclass.org/en/2026%e5%b9%b4%e7%94%9f%e6%95%88%e4%b9%8b%e5%9c%8b%e9%9a%9b%e5%85%ac%e7%b4%84/ | 2026 生效公约汇总页 |
 | ⑥ 安全与法规 | S3 | 信德海事 MSC107 会议要点 | L1 | 2023-06 | https://xindemarinenews.com/m/view.php?aid=48423 | LSA 修正案及 MSC.81(70) 配套 |
@@ -255,50 +305,3 @@
 | ⑥ 安全与法规 | S47 | 万方 邮轮无障碍设计要点及实践应用 | L1 | 2024 | https://d.wanfangdata.com.cn/periodical/cbgc202408002 | 无障碍设计学术研究 |
 | ⑥ 安全与法规 | S48 | 标准百科 邮轮运输服务指南解读 | L1 | 2025 | https://www.bz100.cn/membercms/html/article!generatePage.action?id=402881ef95d65a54019cd08c5d820153 | 交通运输行业标准 |
 | ⑥ 安全与法规 | S49 | 网易 两部门10条措施促进邮轮运输及旅游服务 | L1 | 2025-12-05 | https://www.163.com/dy/article/KG1KJ3O505568W0A.html | 部委邮轮政策 |
-| ④ 乘客体验（主补稿） | S2 | 凤凰网 吃饭像抢钱登船靠推搡 | L1 | 未标注 | https://news.ifeng.com/c/8YrLbS0mA0N | 登船拥挤+餐饮 |
-| ④ 乘客体验（主补稿） | S4 | 腾讯新闻 豪华邮轮中国首航被吐槽人多拥挤吃饭排长队 | L1 | 2024-04-17 | https://news.qq.com/rain/a/20240417A07OFP00 | 首航投诉转载 |
-| ④ 乘客体验（主补稿） | S7 | 百家号 上下船拥挤用餐秩序混乱 首个回归国际邮轮回应 | L2 | 未标注 | https://baijiahao.baidu.com/s?id=1794854268756739093 | 登离船+餐饮 |
-| ④ 乘客体验（主补稿） | S8 | 搜狐 下船就不这么顺畅了 五千人邮轮撞上混乱现实 | L2 | 未标注 | https://www.sohu.com/a/1007004789_121613610 | 离船混乱 |
-| ④ 乘客体验（主补稿） | S10 | 今日头条 李文柱 乘坐爱达魔都号遇到的不爽 | L2 | 未标注 | https://m.toutiao.com/article/7376499725677167155/ | 乘客长文 |
-| ④ 乘客体验（主补稿） | S11 | 什么值得买 魔都号小细节攻略 | L2 | 未标注 | https://post.smzdm.com/zz/p/arll45wg/ | 攻略依赖 |
-| ④ 乘客体验（主补稿） | S12 | 新浪财经 邮轮阳台房有明显遮挡如何维权 | L1 | 2026-03-21 | https://finance.sina.com.cn/jjxw/2026-03-21/doc-inhrtpvt7290661.shtml | 舱型货不对板 |
-| ④ 乘客体验（主补稿） | S13 | 江苏广电荔枝新闻 3岁男童被游轮马桶盖砸伤 | L1 | 2026-07-16 | https://m.jstv.com/news/2026/7/16/1527288956094394368.html | 客舱设施安全 |
-| ④ 乘客体验（主补稿） | S14 | 人民网 强制下船+诱导购物 邮轮岸上游零负团费顽疾 | L1 | 2018-04-26 | http://travel.people.com.cn/n1/2018/0426/c41570-29951310.html | 岸上游顽疾 |
-| ④ 乘客体验（主补稿） | S15 | 东莞阳光热线 越南购物商品质量问题 | L2 | 未标注 | https://wz.sun0769.com/political/politics/index?id=452309 | 岸上游投诉 |
-| ④ 乘客体验（主补稿） | S16 | 上观新闻 下邮轮看上海 外籍游客惊喜 | L1 | 2026-04-09 | https://www.jfdaily.com.cn/wx/detail.do?id=1090561 | 入境游客正面 |
-| ④ 乘客体验（主补稿） | S17 | 上海市文旅局 邮轮+场景创新 | L0 | 2026-04-10 | https://whlyj.sh.gov.cn/cysc/20260410/52f9c5bd3d5f4c519e98c33b256d1eb3.html | 官方改善行动 |
-| ④ 乘客体验（主补稿） | S18 | 宝山区政府 人大建议答复 吴淞口交通秩序停车难短途出租 | L0 | 2025-03-10 | https://www.shanghai.gov.cn/gwk/search/content/51e69edd-c027-401c-833b-6c0d8294dd45 | 官方承认接驳问题 |
-| ④ 乘客体验（主补稿） | S19 | 宝山区政协 9E103 强化邮轮港公共交通配套答复 | L0 | 2026-03-17 | http://bzx.baoshan.sh.cn/suggest/suggest_1/202603/t20260317_578610.html | 官方持续关注 |
-| ④ 乘客体验（主补稿） | S20 | 水木社区 爱达魔都号工作人员不太说中文英文为主 | L2 | 未标注 | https://m.newsmth.net/article/Travel/978190 | 语言沟通 |
-| ④ 乘客体验（主补稿） | S22 | 黑猫投诉 携程邮轮客服太差劲 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17382622373 | 客服投诉 |
-| ④ 乘客体验（主补稿） | S23 | Trip.com HK 点评 NCL客舱漏水维修仅晾干 | L2 | 未标注 | https://hk.trip.com/cruises/line-205675-barcelona-12night-norwegianepic-ncl/ | 客舱维修质量 |
-| ④ 乘客体验（主补稿） | S24 | 网易 上海五星豪华邮轮上最丑陋的一幕 | L2 | 未标注 | https://www.163.com/dy/article/IVVKSI4H0548ACD7.html | 自助餐争抢 |
-| ④ 乘客体验（主补稿） | S25 | 网易 中国游客饭量惊呆外国邮轮公司 | L2 | 未标注 | https://www.163.com/dy/article/CR2OQ5960522GPL2.html | 餐饮浪费议题 |
-| ④ 乘客体验（主补稿） | S26 | 今日头条 无目的地游轮3天2晚发现5个坑 | L2 | 未标注 | https://m.toutiao.com/article/7650346100443939368/ | 新产品体验 |
-| ④ 乘客体验（主补稿） | S27 | 今日头条 海景房变硬卧 无目的地邮轮5个巨坑 | L2 | 未标注 | https://m.toutiao.com/article/7649910045840359976/ | 舱型落差 |
-| ④ 乘客体验（主补稿） | S28 | 虎嗅 迪士尼游轮亚洲首航大规模投诉 | L1 | 未标注 | https://www.huxiu.com/article/4842312.html | 高端新船投诉 |
-| ④ 乘客体验（主补稿） | S30 | 黑猫投诉 爱达魔都号行李箱损坏未妥善解决 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17389134803 | 行李售后 |
-| ④ 乘客体验（主补稿） | S31 | 黑猫投诉 爱达魔都号买后变故平台不退房款 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17387360142 | 退改投诉 |
-| ④ 乘客体验（主补稿） | S32 | Cruise Critic Battling food fatigue on 20-day cruise | L2 | 未标注 | https://boards.cruisecritic.com/topic/2553887-battling-food-fatigue-on-a-20-day-cruise/ | 菜品疲劳 |
-| ④ 乘客体验（主补稿） | S33 | Cruise Critic Explora and food allergies | L2 | 未标注 | https://boards.cruisecritic.com.au/topic/3037091-explora-and-food-allergies/ | 过敏沟通 |
-| ④ 乘客体验（主补稿） | S34 | Cruise Critic Warning don't cruise Holland America food allergy | L2 | 未标注 | https://boards.cruisecritic.com/topic/3046442-warning-dont-cruise-with-holland-america-if-you-have-a-food-allergy/ | 过敏差评 |
-| ④ 乘客体验（主补稿） | S35 | Cruise Critic slowest internet Starlink Splendor | L2 | 未标注 | https://boards.cruisecritic.com/topic/3030215-living-with-the-slowest-internet-access-ever-with-starlink-onboard-splendor/ | 网速慢 |
-| ④ 乘客体验（主补稿） | S36 | Cruise Critic Starlink Surf 110-150 Kbps Ovation | L2 | 未标注 | https://boards.cruisecritic.com/topic/3075849-starlink-surf-speeds-on-ovation/ | 网速实测 |
-| ④ 乘客体验（主补稿） | S37 | Android Authority Starlink at sea still needs work | L1 | 未标注 | https://www.androidauthority.com/starlink-cruise-wi-fi-3511040/ | 卫星上网短板 |
-| ④ 乘客体验（主补稿） | S38 | Cruise Critic Booking theatre shows restaurants MSC Virtuosa | L2 | 未标注 | https://boards.cruisecritic.com/topic/3110195-booking-for-theatre-shows-and-restaurants-msc-virtuousa/ | 预约负担 |
-| ④ 乘客体验（主补稿） | S39 | Nautical Flock NCL drops show reservations passengers push back | L2 | 2026-04 | https://www.nauticalflock.com/news/ncl-drops-show-reservations-april-2026 | 娱乐分配机制 |
-| ④ 乘客体验（主补稿） | S40 | Yahoo奇摩新闻 荣耀号乘客轰提前一天被迫赶下船 | L1 | 未标注 | https://tw.news.yahoo.com/ | 离船安排 |
-| ④ 乘客体验（主补稿） | S41 | 太报/东森 3旅客迟到行李丢包船开走 | L1 | 2026-04 | https://tyenews.com/2026/04/1348777/ | 岸上游迟到 |
-| ④ 乘客体验（主补稿） | S42 | Cruise Critic Disembarking Civitavecchia panic | L2 | 未标注 | https://boards.cruisecritic.com/topic/3111011-disembarking-in-civitavecchia-on-sunday-31-may-starting-to-panic/ | 离船焦虑 |
-| ④ 乘客体验（主补稿） | S43 | Cruise Critic not wheelchair or elderly friendly review | L2 | 未标注 | https://www.cruisecritic.com/cruise/norwegian-ncl/pride-of-america/reviews/594805 | 无障碍差评 |
-| ④ 乘客体验（主补稿） | S44 | Trustpilot MSC Cruises 2.1/5 | L2 | 未标注 | https://it.trustpilot.com/review/msccruises.com | 平台低分 |
-| ④ 乘客体验（主补稿） | S45 | Cruise Critic NOT good for families with teens | L2 | 未标注 | https://www.cruisecritic.com/cruise/celebrity/celebrity-beyond/reviews/717325 | 青少年适配 |
-| ④ 乘客体验（主补稿） | S46 | Mumsnet kids ungrateful and bored on cruise | L2 | 未标注 | https://www.mumsnet.com/talk/holidays/5199544-on-cruise-and-kids-so-ungrateful-and-bored | 青少年无聊 |
-| ④ 乘客体验（主补稿） | S47 | Cruiseline.com cruise lines charging for deck chairs | L2 | 未标注 | https://cruiseline.com/advice/what-s-hot/news/peace-on-the-pool-deck-cruise-lines-now-charging-for-deck-chairs | 甲板资源 |
-| ④ 乘客体验（主补稿） | S48 | Candid Cruise Travel Ovation chair hogs infuriated | L2 | 未标注 | https://candidcruisetravel.com/ovation-of-the-seas-itinerary-plagued-by-chair-hogs-leavings-guests-infuriated/ | 占座问题 |
-| ④ 乘客体验（主补稿） | S49 | Goldjoy 邮轮舱房指南优缺点解析 | L2 | 未标注 | https://www.goldjoy.com/blog/cruise-cabin | 舱型信息 |
-| ④ 乘客体验（主补稿） | S50 | Dealmoon 内舱房不是小黑屋阳台房不一定值 | L2 | 未标注 | https://www.dealmoon.com.au/post/3207329 | 舱型纠偏 |
-| ④ 乘客体验（主补稿） | S51 | Holzberg Legal child allergic reaction cashews Harmony lawsuit | L2 | 未标注 | https://www.holzberglegal.com/blog/colorado-parent-sues-royal-caribbean-after-child-suffers-severe-allergic-reaction-to-cashews-on-harmony-of-the-seas/ | 过敏诉讼 |
-| ④ 乘客体验（主补稿） | S52 | 黑猫投诉 皇家星光号游轮食品卫生差 | L2 | 未标注 | https://tousu.sina.com.cn/complaint/view/17383956148 | 餐饮卫生 |
-| ④ 乘客体验（主补稿） | S53 | 钛媒体 暑期邮轮票价跳水爷孙游（旧存档） | L1 | 2024-08-11 | https://www.thepaper.cn/newsDetail_forward_28385573 | WiFi/排队/岸上游/无障碍 |
-| ④ 乘客体验（主补稿） | S54 | 闻旅派 爱达魔都号价格大跳水（旧存档） | L1 | 2024-07-05 | http://www.wenlvpai.com/77607.html | 餐厅拥挤/接驳 |
