@@ -1,0 +1,56 @@
+source_id	name	level	date	url	note
+S01	Springer Nature Scientific Reports: Dense-stream YOLOv8n crowd monitoring	L0	2025	https://link.springer.com/article/10.1038/s41598-025-94659-x	高：同行评议
+S02	IEEE: Real-Time People Counting and Occupancy Monitoring using Integrated CCTV	L0	2025	https://ieeexplore.ieee.org/document/11353515	高：IEEE
+S03	CVF WACV 2026W: CHURI retail tracking	L0	2026	https://www.openaccess.thecvf.com/content/WACV2026W/PRAW/html/Waghmare_CHURI_Contour-Gated_Resource-Intelligent_Retail_Tracking_System_WACVW_2026_paper.html	高：会议 OA
+S04	GII: Visual People Counting Camera Market 2026-2032	L1	2026	https://www.giiresearch.com/report/ires1929471-visual-people-counting-camera-market-by-technology.html	中高：付费报告目录
+S05	Metoree: 99%+ V-COUNT people counter	L1	n.d.	https://us.metoree.com/products/34131/	中：厂商宣传精度
+S06	V-Count: 2026 Buyer's Guide	L1	2026	https://v-count.com/what-is-a-people-counter/#content	中：厂商，选型框架可参考
+S07	DDI Labs: AI on-camera people counting	L1	n.d.	https://www.ddilabs.ai/blog/ai-on-camera-people-counting-no-hardware	中：厂商宣传
+S08	腾讯云开发者社区: 门店客流统计系统技术架构	L1	n.d.	https://cloud.tencent.cn/developer/article/2705107	中高：平台技术文章
+S09	真通网: 2026双目客流一体机行业观察	L2	2026	https://bbs.zentong.com/t673730-1	中：行业观察
+S10	NVIDIA: Metropolis Microservices 文档	L0	n.d.	https://docs.nvidia.com/mms/text/MDX_Introduction.html	高：官方文档
+S11	NVIDIA-AI-IOT: deepstream-occupancy-analytics	L0	n.d.	https://github.com/NVIDIA-AI-IOT/deepstream-occupancy-analytics	高：官方参考实现
+S12	MarketScreener: SmartCow SmartCam (Metropolis)	L1	n.d.	https://www.marketscreener.com/quote/stock/NVIDIA-CORPORATION-57355629/news/SmartCow-Uses-NVIDIA-Metropolis-Platform-to-Launch-SmartCam-Edge-AI-Camera-for-Real-Time-Occupancy-37080409/	中高：厂商合作稿
+S13	NVIDIA 台湾官方博客: Motionloft 零售人流	L0	n.d.	https://blogs.nvidia.com.tw/blog/motionloft-ai-retail-jetson-gpu-analytics-vegas-boston/	高：官方案例
+S14	证券时报: 英伟达Jetson大幅涨价与国产替代	L1	2026-08	https://www.stcn.com/article/detail/4063508.html	高：证券时报
+S15	IC Easy: Jetson Orin NX 16GB 现货	L2	n.d.	https://www.iceasy.com/news/2061266187090784258	中：渠道信息
+S16	NVIDIA: Jetson Orin Nano Super 开发者套件	L0	n.d.	https://www.nvidia.cn/autonomous-machines/embedded-systems/jetson-orin/nano-super-developer-kit/	高：官方
+S17	BigGo News: Raspberry Pi AI HAT+ 2 发布 40 TOPS $130	L1	2026-01	https://biggo.com/news/202601162250_Raspberry-Pi-AI-HAT-2-Launch-40-TOPS	中高：新品报道
+S18	Tom's Hardware: Raspberry Pi AI HAT+ 2 Review	L1	2026	https://www.tomshardware.com/raspberry-pi/raspberry-pi-ai-hat-plus-2-review	高：专业评测
+S19	Cool3c: M5Stack AI Pyramid 24 TOPS	L1	2026	https://www.cool3c.com/article/246390	中高：产品报道
+S20	物联网动态: 6→16→32TOPS 算力盒子档位与性价比	L2	2026	https://www.iotdt.com/news/xingyezixun/2409.html	中：行业分析
+S21	物联网动态: 2026 年 3TOPS 算力盒子趋势	L2	2026	https://www.iotdt.com/news/xingyezixun/2394.html	中：行业分析
+S22	英为财情: 腾讯混元开源 0.3B 端侧模型	L1	2025	https://hk.investing.com/news/stock-market-news/article-1309782	中高：科技报道
+S23	百度百科: HY-1.8B-2Bit 模型	L1	n.d.	https://baike.baidu.com/item/HY-1.8B-2Bit%E6%A8%A1%E5%9E%8B/67374914	中：百科，作线索
+S24	CSDN: 2026 边端大模型选型全指南	L2	2026	https://blog.csdn.net/SaturnCloud/article/details/161891039	中：技术博客
+S25	LinkMetax: 私有部署 DeepSeek/Qwen 成本测算	L2	2026	https://www.linkmetax.com/blog/private-llm-deepseek-qwen-deployment-2026	中：成本测算需复核
+S26	电子产品世界: 工控机部署千问 8B	L2	2026-07	https://www.eepw.com.cn/article/202607/482418.htm	中高：工程案例
+S27	GitHub: nano-inference (Jetson Orin CUDA LLM)	L2	n.d.	https://github.com/CaesarPCChang/nano-inference	中：社区项目宣称
+S28	MDPI Electronics 15(11):2451 边缘 LLM 推理基准	L0	2026	https://doi.org/10.3390/electronics15112451	高：同行评议
+S29	ScienceDirect: Wi-Fi FTM survey	L0	2025	https://www.sciencedirect.com/science/article/abs/pii/S156625352500065X	高：综述
+S30	arXiv: Privacy-preserving WiFi passive TDOA	L0	2023	https://ar5iv.labs.arxiv.org/html/2306.02211	高：预印本
+S31	IEEE: Wireless human motion tracking in mobile ship environments	L0	2022	https://ieeexplore.ieee.org/document/9825720	高：场景高度相关
+S32	阿里云开发者社区: 蓝牙/UWB 室内定位对比	L2	n.d.	https://developer.aliyun.com/article/1692956	中：技术科普
+S33	CSDN: 2025 中国高精度定位技术总结	L2	2025	https://damodev.csdn.net/69731b057c1d88441d8efeb7.html	中：行业总结
+S34	GlobeNewswire: Digital Twin in Marine Market 2026-2032	L1	2026-05	https://www.globenewswire.com/de/news-release/2026/05/08/3291156/28124/en/Digital-Twin-in-Marine-Market-Report-2026-2032-Featuring-Siemens-Dassault-Systemes-ABB-Wartsila-Kongsberg-Maritime-and-Other-Key-Players.html	中高：报告新闻稿
+S35	Worldports: Virtual twins for ship class	L1	n.d.	https://www.worldports.org/virtual-twins-the-future-for-ship-class-lifecycle-management/	中高：行业媒体
+S36	中国船级社: 船舶数字与智能技术交流会	L0	2025-12	https://www.ccs.org.cn/ccswz//articleDetail?id=202512040254189688&columnId=201900002000000055	高：官方
+S37	文档网: 《智能船舶规范》(2025)	L1	2025	https://www.wendang.net/zl/907197.html	中：非官方托管，原文需去 CCS 核
+S38	澎湃: 中国船级社颁发全球首张船舶数字化交付系统 GDA 证书	L1	n.d.	https://m.thepaper.cn/newsDetail_forward_33620295	高：官方消息经媒体
+S39	IMO: MASS Code 官方新闻稿	L0	2025-12	https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-adopts-mass-code.aspx	高：IMO 官方
+S40	PortCalls Asia: IMO adopts safety code for autonomous ships	L1	2025	https://portcalls.com/imo-adopts-safety-code-for-autonomous-ships-as-ai-tech-advances/	中高：行业解读
+S41	ACM: CNN-Transformer-ResLSTM-Attention 客流预测	L0	2025	https://dl.acm.org/doi/full/10.1145/3773365.3773417	高：同行评议
+S42	Nature npj: GEME-Net 客流预测误差表	L0	2025	https://www.nature.com/articles/s44333-025-00072-2/tables/5	高：同行评议
+S43	中国管理科学: 改进 Transformer 景区短时客流预测	L0	2025	https://www.zgglkx.com/EN/Y2025/V33/I2/105	高：中文核心期刊
+S44	Footfall.au: GDPR Compliant People Counters 2026	L1	2026	https://footfall.au/gdpr-compliant-people-counters-the-2026-guide-to-privacy-first-analytics/	中高：合规导向
+S45	Terabee: People counting 隐私悖论	L1	n.d.	https://www.terabee.com/the-privacy-paradox-in-people-counting-why-rgb-based-ai-and-stereovision-may-fall-short-of-modern-compliance-standards/	中高：厂商但论点重要
+S46	Fierce Sensors: 低分辨率相机与隐私	L1	n.d.	https://www.fiercesensors.com/sensors/smart-city-smarts-when-low-res-camera-makes-sense-privacy	中高：行业媒体
+S47	Cruise Industry News: 温哥华 100 万面部生物识别乘客	L1	2026-06	https://cruiseindustrynews.com/cruise-news/2026/06/vancouver-celebrates-one-millionth-passenger-through-facial-biometrics/	高：行业权威媒体
+S48	Worldports: MSC 使用 Neurotechnology 生物识别	L1	n.d.	https://www.worldports.org/msc-using-neurotechnology-biometrics-for-passenger-verification/	中高；另见 Biometric Update 2025-09 巴西平台报道
+S49	深圳市政府: 湾区邮轮母港智慧通关案例	L0	2026	https://ka.sz.gov.cn/gkmlpt/content/12/12712/mpost_12712750.html	高：官方案例；另见 aviation.direct AIDA 值机报道
+S50	腾讯新闻: 爱达·花城号产品及首航季航线发布	L1	2026-04	https://news.qq.com/rain/a/20260503A03H2W00	高：多家媒体同题互证
+S51	WeOnCruise: Starlink at Sea 2025-26 实测	L1	2025-2026	https://weoncruise.com/starlink-at-sea-2025-26/	中高；另见 shipuniverse 2025 Ship Wi-Fi
+S52	WebProNews: P&O 与 Cunard 接入 Starlink	L1	2025	https://www.webpronews.com/starlinks-oceanic-leap-po-and-cunard-redefine-cruise-wi-fi-in-2025/	中高：公司动作可核
+S53	Monarch Connected: 2026 商业安防相机成本指南	L1	2026	https://monarchconnected.com/blog/commercial-security-camera-costs-in-2026	中：集成商报价指南
+S54	万仞网: TP-LINK TS-S1-AI-700 内置 14 种 AI 算法	L1	2026-06	https://wanyr.com/2026/06/tp-link%e6%8e%a8%e5%87%bats-s1-ai-700%ef%bc%9a%e5%86%85%e7%bd%ae14%e7%a7%8dai%e7%ae%97%e6%b3%95%ef%bc%8c%e6%94%af%e6%8c%81%e5%8d%b3%e6%8f%92%e5%8d%b3%e7%94%a8%e9%83%a8%e7%bd%b2.html	中高：新品报道
+S55	Jisaku: Hailo-10H 解析	L1	2024-2026	https://jisaku.com/glossary/hailo-10h-2024	中；另见 spotpear 树莓派 AI HAT+ 组合在售页
