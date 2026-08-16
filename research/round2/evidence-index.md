@@ -305,3 +305,51 @@
 | ⑥ 安全与法规 | S47 | 万方 邮轮无障碍设计要点及实践应用 | L1 | 2024 | https://d.wanfangdata.com.cn/periodical/cbgc202408002 | 无障碍设计学术研究 |
 | ⑥ 安全与法规 | S48 | 标准百科 邮轮运输服务指南解读 | L1 | 2025 | https://www.bz100.cn/membercms/html/article!generatePage.action?id=402881ef95d65a54019cd08c5d820153 | 交通运输行业标准 |
 | ⑥ 安全与法规 | S49 | 网易 两部门10条措施促进邮轮运输及旅游服务 | L1 | 2025-12-05 | https://www.163.com/dy/article/KG1KJ3O505568W0A.html | 部委邮轮政策 |
+| ⑧ 竞品对标 | S01 | Royal Caribbean Group 官方：App 变革宾客体验 | L0 | n.d. | https://www.royalcaribbeangroup.com/royal-caribbean-group-transforms-the-guest-experience | 官方页面标题直接陈述 App 战略定位 |
+| ⑧ 竞品对标 | S02 | Royal Caribbean 官方：App 功能指南 | L0 | n.d. | https://www.royalcaribbean.com/guides/5-ways-royal-caribbeans-app-changes-cruising | 官方功能指南页 |
+| ⑧ 竞品对标 | S03 | Royal Caribbean Blog：App walkthrough and tips | L2 | 2021-12-31 | https://www.royalcaribbeanblog.com/2021/12/31/royal-caribbean-app-walkthrough-and-tips | 第三方深度评测 |
+| ⑧ 竞品对标 | S04 | Royal Caribbean Blog：2026 春假拥挤应对 6 tips | L2 | 2026-03-23 | https://www.royalcaribbeanblog.com/2026/03/23/how-crowded-cruise-ships-during-spring-break | 个人经验式避挤，未见 App 实时分流 |
+| ⑧ 竞品对标 | S05 | MSC Cruises 官方：MSC for Me App | L0 | n.d. | https://www.msccruises.com/int/on-board/internet-and-apps/msc-for-me | 官方 App 页 |
+| ⑧ 竞品对标 | S06 | CruiseMapper：MSC Cruises introduces AI Concierge fleetwide | L1 | n.d. | https://www.cruisemapper.com/news/16188-msc-cruises-introduces-ai-concierge | 全船队 AI 助手部署 |
+| ⑧ 竞品对标 | S07 | Princess Cruises 官方：MedallionClass | L0 | n.d. | https://www.princess.com/en-int/ships-and-experience/princess-medallionclass | 官方可穿戴产品页 |
+| ⑧ 竞品对标 | S08 | Travel Weekly：Princess wearable unique position to care for guests | L1 | n.d. | https://travelweekly.co.uk/articles/393397/princess-cruises-wearable-tech-puts-it-in-unique-position-to-care-for-guests | 可穿戴差异化报道 |
+| ⑧ 竞品对标 | S09 | Carnival 官方：HUB App | L0 | n.d. | https://www.carnival.com/shipboard/funhub/funhub-landing | 官方 App 页 |
+| ⑧ 竞品对标 | S10 | Disney Cruise Line 官方：Navigator App features | L0 | n.d. | https://disneycruise.disney.go.com/en-sg/faq/navigator-app/features/ | 官方功能列表页 |
+| ⑧ 竞品对标 | S11 | CruiseShipTracking：Best Cruise Line Apps 2026 | L1 | 2026 | https://www.cruiseshiptracking.com/blog/best-cruise-apps-2026 | 2026 多品牌 App 横评 |
+| ⑧ 竞品对标 | S12 | Outsight 官方：3D LiDAR 优化邮轮客流 | L0 | n.d. | https://www.outsight.ai/insights/3d-lidar-for-cruise-ships-passenger-flow-tracking/ | 直接组件竞品 |
+| ⑧ 竞品对标 | S13 | V-Count 官方：邮轮乘客计数与场所分析 | L0 | n.d. | https://v-count.com/industries/cruise-ships/ | 直接组件竞品 |
+| ⑧ 竞品对标 | S14 | Worldports：Cruise Queue Tech 提升消费 | L1 | n.d. | https://www.worldports.org/cruise-queue-tech-that-can-lift-spend-without-more-headcount/ | 邮轮排队技术商业化讨论 |
+| ⑧ 竞品对标 | S15 | March Networks：AI3 360° 计数摄像头 GSX 2025 | L0 | 2025 | https://www.marchnetworks.com/news/march-networks-launches-ai3-counting-camera-for-360-visual-intelligence-at-gsx-2025/ | 人流计数摄像头 |
+| ⑧ 竞品对标 | S16 | Hikvision 官方：客流统计摄像机产品详情 | L0 | n.d. | https://partners.hikvision.com/product/detail/3b9bd95e | 通用客流计数 SKU |
+| ⑧ 竞品对标 | S17 | Harry Reid 机场官方：LAS 实时安检等待时间显示 | L0 | n.d. | https://news.harryreidairport.com/new-system-at-las-displays-real-time-security-wait-times/ | 机场官方发布 |
+| ⑧ 竞品对标 | S18 | NVIDIA 官方案例：Zensors AI at Harry Reid Airport | L0 | n.d. | https://www.nvidia.com/en-us/case-studies/zensors-ai-las-passenger-experience/ | 官方案例页 |
+| ⑧ 竞品对标 | S19 | International Airport Review：Budapest invests in Veovo | L1 | 2023 | https://www.internationalairportreview.com/budapest-airport-invests-in-veovo-technology-to-improve-passenger-flows/423728.article | 机场采购案例 |
+| ⑧ 竞品对标 | S20 | Veovo 官方：Keflavik Queue Balancer | L0 | n.d. | https://veovo.com/insights/news/keflavik-airport-queue-balancer | 排队均衡器产品 |
+| ⑧ 竞品对标 | S21 | Indianapolis 机场官方：iinside 向旅客显示 TSA 等待时间 | L0 | n.d. | https://www.ind.com/about/media/media-releases/indy-airport-partners-with-iinside-to-inform-passengers-of-wait-times-at-tsa-checkpoints | 机场官方发布 |
+| ⑧ 竞品对标 | S22 | Airport Improvement：Jackson 机场部署 iinside | L1 | n.d. | https://airportimprovement.com/article/jackson-medgar-wiley-evers-international-airport-installs-passenger-motion-analytics-technology-from-iinside/ | 机场媒体采购报道 |
+| ⑧ 竞品对标 | S23 | Disneyland Paris 官方：Virtual Queue FAQ | L0 | n.d. | https://www.disneylandparis.com/en-gb/faq/theme-parks/virtual-queue | 官方虚拟排队说明 |
+| ⑧ 竞品对标 | S24 | WDW News Today：Disney Genie Service 完整指南 | L1 | 2021-12 | https://wdwnt.com/2021/12/full-guide-to-the-new-disney-genie-service-for-disneyland-resort/ | 付费免排队体系 |
+| ⑧ 竞品对标 | S25 | TouringPlans：Lightning Lane Multi Pass 教程 | L2 | n.d. | https://touringplans.com/blog/how-to-use-lightning-lane-pass-disney-world-guide-faq-llmp-llsp/ | 付费免排队教程 |
+| ⑧ 竞品对标 | S26 | TouringPlans：Universal Orlando Virtual Line | L2 | n.d. | https://c.touringplans.com/universal-orlando/virtual-line | 虚拟排队说明页 |
+| ⑧ 竞品对标 | S27 | ORCA AI 官方：360° situational awareness 扩展 | L0 | 2026-03 | https://www.orca-ai.io/resource/orca-ai-extends-situational-awareness-to-full-360-field-of-view/ | 官方产品发布 |
+| ⑧ 竞品对标 | S28 | Maritime Executive：Orca AI 获 ClassNK 自主感知资格 | L1 | n.d. | https://maritime-executive.com/corporate/orca-ai-receives-classnk-qualification-for-autonomous-ship-perception | 船级社认证 AI 感知 |
+| ⑧ 竞品对标 | S29 | Cruise Industry News：Zelim MOB 系统获 ISO 认证 | L1 | 2026-04 | https://cruiseindustrynews.com/cruise-news/2026/04/zelims-man-overboard-detection-system-becomes-iso-certified/ | 落水检测认证 |
+| ⑧ 竞品对标 | S30 | Worldports：Ambassador Cruise Line 安装 MOB 系统 | L1 | n.d. | https://www.worldports.org/ambassador-cruise-line-installs-mob-detection-and-tracking-system/ | 邮轮实际安装案例 |
+| ⑧ 竞品对标 | S31 | ABB 官方：Marine Advisory System OCTOPUS | L0 | n.d. | https://new.abb.com/marine/energy-efficiency/energy-guide/abb-ability-marine-advisory-system-octopus | 船舶能效咨询 |
+| ⑧ 竞品对标 | S32 | Wärtsilä 官方：TwinShip 项目 | L0 | 2024-10-24 | https://www.wartsila.com/can/media/global-news/24-10-2024-twinship-project-aims-to-improve-access-to-reliable-data-for-aiding-in-shipping-decarbonisation-3556229 | 数字孪生脱碳决策 |
+| ⑧ 竞品对标 | S33 | Maritime Technology Review：Kongsberg K-Sim | L1 | 2025-06-12 | https://maritimetechnologyreview.com/2025/06/12/kongsbergs-k-sim-revolutionizing-maritime-training-with-advanced-simulation/ | 海事仿真培训 |
+| ⑧ 竞品对标 | S34 | The Digital Ship：Sea Machines raises $15m | L1 | n.d. | https://thedigitalship.com/news/electronics-navigation/sea-machines-raises-15m-for-autonomous-ship-tech/ | 自主船融资 |
+| ⑧ 竞品对标 | S35 | Smart Maritime Network：MOL 12 艘 LNG 预测性维护 | L1 | 2026-01-15 | https://smartmaritimenetwork.com/2026/01/15/mol-global-ship-management-deploys-predictive-engine-maintenance-for-12-lng-carriers/ | 预测维护商业部署 |
+| ⑧ 竞品对标 | S36 | 北京青年报：魔都号首航每人通关不超10秒 | L1 | 2024-01-02 | https://news.ynet.com/2024/01/02/3713502t2518.html | 中国邮轮数字化通关 |
+| ⑧ 竞品对标 | S37 | 羊城晚报：花城号 AI 无感登船等智能系统 | L1 | 2026-05-19 | https://news.ycwb.com/ikimvkntjb/content_54127676.htm | 新船前装智能系统 |
+| ⑧ 竞品对标 | S38 | 东方财富：上海口岸 AR 眼镜智慧监管高效通关 | L1 | 2025-08-07 | https://finance.eastmoney.com/a/202508073478759485.html | 口岸智慧监管 |
+| ⑧ 竞品对标 | S39 | 人民网重庆：智慧邮轮数字孪生平台亮相智博会 | L1 | 2021-08-24 | http://cq.people.com.cn/n2/2021/0824/c367889-34881474.html | 中国智慧邮轮先例 |
+| ⑧ 竞品对标 | S40 | 北方网：天津边检新锐系统装备支持智慧港口 | L1 | 2026-04-11 | http://news.enorth.com.cn/system/2026/04/11/059310502.shtml | 邮轮港智慧化 |
+| ⑧ 竞品对标 | S41 | Infsoft 官方：邮轮室内追踪与导航用例 PDF | L0 | n.d. | https://www.infsoft.com/wp-content/uploads/infsoft-Use-Case-Tracking-und-Navigation-Kreuzfahrtschiff.pdf | 室内定位导航 |
+| ⑧ 竞品对标 | S42 | Waide Mobility：AI 平台智慧邮轮导航 | L1 | n.d. | https://www.waidemobility.org/blog/cruise-ship-navigation.html | 厂商博客 |
+| ⑧ 竞品对标 | S43 | 中国铁路期刊：视频车站客流风险智能辨识 | L0 | 2025-09 | https://wap.cnki.net/touch/web/Journal/Article/TLZG202509020.html | 铁路客流学术 |
+| ⑧ 竞品对标 | S44 | 中国铁道科学：铁路客站多粒度动态客流模型 | L0 | 2026 | https://castjournals.cast.org.cn/joweb/zgtdkx/EN/10.3969/j.issn.1001-4632.2026.02.21 | 铁路客流学术 |
+| ⑧ 竞品对标 | S45 | Quanergy 官方：机场 LiDAR 客流分析 | L0 | n.d. | https://quanergy.com/airport-passenger-flow-analytics/ | LiDAR 机场客流 |
+| ⑧ 竞品对标 | S46 | 小米应用商店：招商伊敦 App | L1 | n.d. | https://r.app.xiaomi.com/details?id=com.zsck.zsgy | 中国邮轮 App 存在性 |
+| ⑧ 竞品对标 | S47 | Traveler Blog：首日自助餐避挤经验贴 | L2 | n.d. | https://travelerblog.us/1477599/buffet-tip-skip-first-day-cruise-crowd/ | 经验贴而非产品 |
+| ⑧ 竞品对标 | S48 | 中国安全科学学报：YOLO11-DeepSort 城轨客流预警 | L0 | 2025 | http://www.cssjj.com.cn/EN/10.16265/j.cnki.issn1003-3033.2025.09.0600 | 中国客流预警算法 |
