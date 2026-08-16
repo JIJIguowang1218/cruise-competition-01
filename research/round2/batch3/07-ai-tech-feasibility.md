@@ -178,3 +178,35 @@
 5. **卫星/船舶网络 SLA 分散**：Starlink 部署趋势明确，但公开延迟/带宽数字口径不一；方案书应写「本地推理 + 卫星异步回传」，不写具体云端 SLA。
 6. **MASS Code 对辅助决策系统（非自主航行）的适用边界未检索到直接条款**：本流只确认 MASS Code 已通过；后续应与流⑥安全法规报告合并核对。
 7. **POS/门禁数据融合**：本轮未找到邮轮餐厅 POS 与客流系统融合的公开案例；只能作为架构假设，待原型或厂商咨询验证。
+
+## 7. 主代理补录：方向二假设与人群计数精度硬数据
+
+> 补录说明：并行稿未覆盖任务书要求的「方向二（设备运维与能耗）技术假设」与密度计数误差基准。以下证据由主代理独立检索补入，编号接续 S56。
+
+| # | Nugget（单条观察） | 来源编号 | 证据等级 | 日期 | 原文引用/数据点 |
+|---|---|:--:|---|---|---|
+| 56 | 海事领域综述指出 AI/ML 预测性维护应用正在扩展 | S56 | L1 | 2025 | [摘要] "The use of Artificial Intelligence (AI) and Machine Learning (ML) for predictive maintenance in the maritime sector is expanding..." |
+| 57 | 海事预测性维护综述明确前提：训练准确 PdM 系统必须依赖高质量船舶运行数据 | S57 | L1 | 2025 | [摘要] "A necessity for training accurate PdM systems is the availability of high-quality operational vessel data" |
+| 58 | 人群密度估计公开基准：TransCrowd 在 NWPU-Crowd 的 MAE 为 66.1–105.1 | S58 | L1 | 2025 | [摘要] "The MAE values for TransCrowd range from 66.1 to 105.1, while RMSE..." |
+| 59 | RK3588 NPU 标称 6 TOPS（INT8），但实测有效推理吞吐量低于标称 | S59 | L2 | 2026 | [摘要] "RK3588……内置的NPU算力标称6 TOPS（INT8），但实测中真正能稳定喂饱、持续输出的有效推理吞吐量，在YOLO..." |
+
+| 编号 | 来源名称 | 类型 | 证据等级 | 发布日期 | URL | 可信度判断 |
+|---|---|:--:|---|---|---|---|
+| S56 | MDPI《Advances in Innovative Solutions for Ship Energy Efficiency》 | 学术综述 | L1 | 2025 | https://www.mdpi.com/2077-1312/13/11/2103 | 高：同行评议综述 |
+| S57 | MDPI《Towards Predictive Maintenance in the Maritime Industry: A Component-Based Overview》 | 学术综述 | L1 | 2025 | https://www.mdpi.com/2077-1312/13/3/425 | 高：同行评议综述，直接给出数据前提 |
+| S58 | IEEE《Crowd Density Estimation Using Enhanced Multi-Column CNN...》 | 学术论文 | L1 | 2025 | https://ieeexplore.ieee.org/abstract/document/11121870 | 高：提供 TransCrowd 公开基准数值 |
+| S59 | CSDN《别再让NPU闲着！...RK3588的6TOPS算力...》 | 技术博客 | L2 | 2026 | https://wenku.csdn.net/column/0ool5jk228j | 中：工程经验，非官方 |
+
+### 方向二（设备运维与能耗）技术假设对照
+
+| 旧假设 | 本流证据 | 判定 |
+|---|---|---|
+| 多 Agent 监测 5.5 万个设备并预测故障 | PdM 学术路线成熟（S56/S57），但准确训练强依赖高质量运行数据；新船无历史设备数据 | 部分成立：架构可讲，但「新船无历史数据」是关键风险，应改为「规则基线 + 仿真/试航数据 + 逐步学习」的分期路径 |
+| 设备传感器数据可得性（新船设计阶段可布点） | 本流未找到邮轮 5.5 万设备传感器清单的公开证据；数据可得性依赖船厂设计接口，需与流②（船与工程基线）交叉确认 | 仍无法验证（架构假设保留） |
+| 能耗优化用「AI 感知 + 物理公式」 | 与船舶能效 AI 综述（S56）方向一致，且有数字孪生/CCS 智能化生态（S34–S38）支撑 | 确认（模式合理） |
+| 多 Agent 编排框架可直接用于船舶运维 | LangGraph 等生产实践存在，但未检索到邮轮/船舶多 Agent 运维的公开案例 | 仍无法验证：Demo 必须自证「每个 Agent 职责与通信」，避免 Multi-Agent 贴纸反模式 |
+
+### 人群计数精度结论（供方案书直接使用）
+
+- 可以写：「轻量 YOLO 系模型与双目客流相机为成熟工程路径；商用设备常见宣传 95–99%+，但需在目标场景实测标定」。
+- 不可以写：「YOLO/OpenCV 人流计数精度已达 95%+」——旧断言无出处，且密度估计公开基准（TransCrowd MAE 66.1–105.1，S58）说明高密度场景误差可达数十人量级；RK3588 标称算力与实测吞吐也有差距（S59）。
