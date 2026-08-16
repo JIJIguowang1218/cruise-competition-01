@@ -1,13 +1,13 @@
 source_id	name	level	date	url	note
-S1	黑猫投诉：爱达邮轮管理混乱贵宾权益受损	L2	未标注（检索2026-08-16）	https://tousu.sina.com.cn/complaint/view/17399553106	贵宾权益受损个案
-S2	黑猫投诉：爱达魔都邮轮台风影响航程缩水1天	L2	未标注（检索2026-08-16）	https://tousu.sina.com.cn/complaint/view/17400626666	与媒体报道互证
-S3	扬子晚报/紫牛头条：魔都号航程缩水一天	L1	2026-08-07	http://www.yzwb.net/news/zntt/202608/t20260807_380365.html	乘客质疑为下一航次让路
-S4	新浪财经：万元房费提前返航仅赔千元	L1	2026-08-07	https://finance.sina.com.cn/jjxw/2026-08-07/doc-inimnzsm4746751.shtml	赔偿分歧
-S5	新浪财经：海事局回应魔都号数百人拒下船	L1	2026-08-07	https://finance.sina.cn/2026-08-07/detail-inimpfxz3053588.d.html?vt=4	群体维权
-S6	新浪新闻视频页：台风白海豚取消釜山停靠	L1	2026-08-07	https://www.sina.cn/news/detail/5329387000175641.html	事件时间线原文
-S7	绍兴网：游轮韩国行体验糟糕400块钱打发谁	L1	未标注（检索2026-08-16）	http://www.shaoxing.com.cn/p/3452068.html	岸上游维权个案
-S8	新浪财经：釜山行遭遇低概率事件	L1	2026-07-24	https://finance.sina.com.cn/wm/2026-07-24/doc-iniiwkuk9314948.shtml	400元补偿争议
-S9	知乎专栏：投诉爱达魔都号糟糕的境外游体验	L2	未标注（检索2026-08-16）	https://zhuanlan.zhihu.com/p/679743332	仅标题可见
+S01	黑猫投诉：爱达邮轮管理混乱贵宾权益受损	L2	未标注（检索2026-08-16）	https://tousu.sina.com.cn/complaint/view/17399553106	贵宾权益受损个案
+S02	黑猫投诉：爱达魔都邮轮台风影响航程缩水1天	L2	未标注（检索2026-08-16）	https://tousu.sina.com.cn/complaint/view/17400626666	与媒体报道互证
+S03	扬子晚报/紫牛头条：魔都号航程缩水一天	L1	2026-08-07	http://www.yzwb.net/news/zntt/202608/t20260807_380365.html	乘客质疑为下一航次让路
+S04	新浪财经：万元房费提前返航仅赔千元	L1	2026-08-07	https://finance.sina.com.cn/jjxw/2026-08-07/doc-inimnzsm4746751.shtml	赔偿分歧
+S05	新浪财经：海事局回应魔都号数百人拒下船	L1	2026-08-07	https://finance.sina.cn/2026-08-07/detail-inimpfxz3053588.d.html?vt=4	群体维权
+S06	新浪新闻视频页：台风白海豚取消釜山停靠	L1	2026-08-07	https://www.sina.cn/news/detail/5329387000175641.html	事件时间线原文
+S07	绍兴网：游轮韩国行体验糟糕400块钱打发谁	L1	未标注（检索2026-08-16）	http://www.shaoxing.com.cn/p/3452068.html	岸上游维权个案
+S08	新浪财经：釜山行遭遇低概率事件	L1	2026-07-24	https://finance.sina.com.cn/wm/2026-07-24/doc-iniiwkuk9314948.shtml	400元补偿争议
+S09	知乎专栏：投诉爱达魔都号糟糕的境外游体验	L2	未标注（检索2026-08-16）	https://zhuanlan.zhihu.com/p/679743332	仅标题可见
 S10	什么值得买：爱达魔都邮轮踩坑贴	L2	未标注（检索2026-08-16）	https://post.smzdm.com/zz/p/anmr4nn3/	仅标题可见
 S11	新京报：难退的邮轮船票	L1	2025-07-24	https://m.bjnews.com.cn/detail/1753323752129953.html	早鸟促销捆绑高价条款
 S12	新京报：目的地战乱行程取消法院判全额退款	L1	2026-03-29	https://m.bjnews.com.cn/detail/1774777401169782.html	司法判例
@@ -51,10 +51,10 @@ S49	光明网：超2000外籍游客乘3艘巨轮抵天津	L1	2025-05-02	https://
 S50	腾讯新闻：爱达魔都号开启深圳母港首航	L1	2026-08-13	https://news.qq.com/rain/a/20260813A0EP0G00	深圳母港新节点
 S51	ETTV美洲：魔都号大爷大妈抢食自助餐	L1	未标注（检索2026-08-16）	https://www.ettvamerica.com/News/Article?i=374319	抢餐负面
 S52	今日头条：邮轮旅行七宗罪	L2	未标注（检索2026-08-16）	https://m.toutiao.com/article/7423298596864344603/	清单式自媒体
-S6x	今日头条：夏掰爱达魔都号避雷	L2	未标注（检索2026-08-16）	https://m.toutiao.com/w/1839763520576604/	摘要含大段原文
-S0	黑猫投诉：招商蛇口邮轮母港投诉条目	L2	未标注（检索2026-08-16）	https://tousu.sina.com.cn/complaint/view/17397178851	投诉存在性
-S20b	NY Post：Celebrity小费上调遭抗议	L1	2026-07-31	https://nypost.com/2026/07/31/lifestyle/celebrity-cruises-passengers-blast-cruise-line-over-surprise-daily-gratuity-hike/	海外小费争议
-S16b	网易：抢不到饭MSC被大量吐槽回应	L1	2024-04	https://www.163.com/dy/article/J01UNHDF0530JPVV.html	同事件另一媒体
-S41b	Trip.com：带孩子坐魔都号躺平玩法	L2	未标注（检索2026-08-16）	https://tw.trip.com/moments/detail/jeju-city-1446512-142999480/	亲子正面
-S41c	今日头条：三代人魔都号济州岛初体验	L2	未标注（检索2026-08-16）	https://m.toutiao.com/article/7657101115586069007/	亲子正面
-S18b	美篇：武汉至上海魔都邮轮之旅上篇	L2	未标注（检索2026-08-16）	https://www.meipian.cn/5nwkn5in	集合时间原文
+S53	今日头条：夏掰爱达魔都号避雷	L2	未标注（检索2026-08-16）	https://m.toutiao.com/w/1839763520576604/	摘要含大段原文
+S54	黑猫投诉：招商蛇口邮轮母港投诉条目	L2	未标注（检索2026-08-16）	https://tousu.sina.com.cn/complaint/view/17397178851	投诉存在性
+S55	NY Post：Celebrity小费上调遭抗议	L1	2026-07-31	https://nypost.com/2026/07/31/lifestyle/celebrity-cruises-passengers-blast-cruise-line-over-surprise-daily-gratuity-hike/	海外小费争议
+S56	网易：抢不到饭MSC被大量吐槽回应	L1	2024-04	https://www.163.com/dy/article/J01UNHDF0530JPVV.html	同事件另一媒体
+S57	Trip.com：带孩子坐魔都号躺平玩法	L2	未标注（检索2026-08-16）	https://tw.trip.com/moments/detail/jeju-city-1446512-142999480/	亲子正面
+S58	今日头条：三代人魔都号济州岛初体验	L2	未标注（检索2026-08-16）	https://m.toutiao.com/article/7657101115586069007/	亲子正面
+S59	美篇：武汉至上海魔都邮轮之旅上篇	L2	未标注（检索2026-08-16）	https://www.meipian.cn/5nwkn5in	集合时间原文
