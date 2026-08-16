@@ -116,6 +116,43 @@ cruise-competition-01/
 4. 用户级技能（竞品分析、机会树、范围裁剪、前端设计、简历、求职叙事）全局可用，C 端 demo 与求职时调用；
 5. 工程纪律（brainstorming、writing-plans、TDD、systematic-debugging、requesting-code-review）由 agent 内部执行，不要求用户参与。
 
+### 工具安全与卡死管理约定（2026-08-17 起生效）
+
+本机已安装 `rg`（ripgrep）。为避免 `grep -R` 在 `node_modules`/符号链接目录中无限遍历导致会话卡死，同时不削弱 Agent 检索能力，本工作区约定：
+
+#### 搜索命令
+
+- 默认使用 ripgrep：
+  ```bash
+  rg -n --hidden --glob '!node_modules/**' --glob '!.git/**' --glob '!dist/**' --glob '!build/**' "<pattern>" .
+  ```
+- 需要全量检索（隐藏、忽略、二进制、符号链接）时，显式使用：
+  ```bash
+  rg -uuu -n -L --max-filesize 10M "<pattern>" .
+  ```
+- 精确控制文件集合时使用：
+  ```bash
+  find . -type f -not -path '*/node_modules/*' -print0 | xargs -0 grep -n "<pattern>"
+  ```
+- 避免默认使用 `grep -R`；如果必须用 grep，用 `grep -r` 并排除 `node_modules`、`.git`、`dist`、`build`。
+- 不删除/禁用 grep、find、bash；安全搜索无结果时，应主动考虑全量搜索或询问用户，不能直接断定“没有”。
+
+#### 超时与进程管理
+
+- 普通搜索/读命令默认超时 30–60s；build/test/install 等长任务可配置 5–10 分钟。
+- 后台/daemon 命令必须重定向 stdio：`nohup ... >log 2>&1 &`，避免占用 Agent 管道。
+- 非交互命令默认加 `< /dev/null`。
+- 超时/中断后必须清理整个进程树（Windows 用 `taskkill /PID <pid> /T /F`）。
+- 如果 DSH/底层支持，配置 `experimental.tool_timeout` / `experimental.task_timeout`；不支持时用 `timeout` 包装。
+
+#### 卡死交互
+
+- 命令执行超过 30s 且长时间无输出时，Agent 应主动告知用户“可能卡住”，并说明命令、运行时长、可能原因和建议。
+- 超时/中断必须返回部分输出和原因，不能静默等待。
+- 若 `grep -R` 等命令卡死，终止后自动改用 `rg` 安全搜索重试，不重复执行同一危险命令。
+- 若进程清理失败，明确报告残留进程和手动清理命令，让用户知情。
+
+
 ### 目录补充说明
 
 - `.dsh/`：DSH 项目配置与项目级技能——属于项目内容，随 git 提交，队友共用；
