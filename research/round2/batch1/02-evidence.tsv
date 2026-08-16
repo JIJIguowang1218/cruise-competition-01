@@ -1,0 +1,41 @@
+source_id	name	level	date	url	note
+S01	新华网：第二艘国产大型邮轮“爱达·花城号”试航凯旋	L1	2026-05-27	https://www.xinhuanet.com/fortune/20260527/f363649e76774b94be756ccefd471065/c.html	新华社一手报道；试航、交付与首航节点
+S02	国务院国资委英文网：China’s Second Domestically Built Large Cruise Ship Begins Sea Sail	L0	2026-05-26	http://en.sasac.gov.cn/2026/05/26/c_20768.htm	国资监管官方；试航人员/试验/进度
+S03	羊城晚报·羊城派：花城号11月22日广州首航	L1	2026-05-19	https://news.ycwb.com/ikimvkntjb/content_54127676.htm	爱达邮轮发布会直采；首航季、船员招募、AI系统
+S04	广州日报：海上“花城”11月南沙首航	L1	2026-05-20	https://gzdaily.dayoo.com/h5/html5/2026-05/20/content_870_908476.htm	运营方高管直采；航线与设施
+S05	人民网上海：第二艘国产大型邮轮“爱达·花城号”出坞	L1	2026-03-20	http://sh.people.com.cn/n2/2026/0320/c134768-41529381.html	出坞现场参数
+S06	上观新闻（人民网上海转载）：国产邮轮里程碑，第三第四艘也定了	L1	2026-03-22	http://sh.people.com.cn/n2/2026/0322/c134768-41530398.html	新造船备忘录、设计差异、建造进度
+S07	上海市经信委：给巨轮装上“数字大脑”	L0	2026-03-23	https://www.sheitc.sh.gov.cn/dsxxjyzl/20260323/b5ef50a07706487bbdf3c95fd6afd3c1.html	政府官方；SWS TIME与数字孪生船厂1.0
+S08	人民网·科普中国：看国产大邮轮建造背后的智慧变革	L1	2025-03-07	http://kpzg.people.com.cn/n1/2025/0307/c404214-40433400.html	3D/BIM、TIME 4 LINK、5G+AR远程检验
+S09	新华网：国产首艘大型邮轮命名交付	L1	2023-11-04	https://www.news.cn/2023-11/04/c_1129957734.htm	魔都号交付口径参数
+S10	澎湃新闻：首艘国产大型邮轮出坞黑科技	L1	2023-06-06	https://m.thepaper.cn/baijiahao_23386485	动力、空调、消防、救生参数
+S11	上海市人民政府新闻办公室（转载解放日报）：全球第一艘5G大型邮轮	L0	2023-05-23	https://www.shio.gov.cn/TrueCMS/shxwbgs/ywts/content/c6dc9618-8f52-46a9-88b7-ad95f272deb5.htm	5G/WiFi/卫星组网方案
+S12	央视新闻（中国网转载）：首航一周年	L1	2025-01-02	http://www.china.com.cn/txt/2025-01/02/content_117640987.shtml	2024年84航次/30万+游客/满意度95%+
+S13	人民日报：国产大型邮轮引领消费新时尚	L1	2024-06-03	http://cpc.people.com.cn/n1/2024/0603/c64387-40248847.html	34航次15万人、上座率95%+
+S14	新华网：上海港2025年进出境邮轮544艘次创历史新高	L1	2026-01-30	https://www.news.cn/local/20260130/efdeb388f7d9408ca8123580e05b9806/c.html	上海海关；魔都号2025与累计数据
+S15	中国日报英文：Adora Cruises welcomes one-millionth passenger	L1	2026-02-09	http://ex.chinadaily.com.cn/exchange/partners/70/rss/channel/www/columns/y38633/stories/WS698d2b38a310d6866eb38d60.html	2025品牌50万宾客、40%份额、172航次
+S16	国务院国资委英文：CTG Leads Initiative to Operate Asia’s Largest Cruise Fleet	L0	2026-01-04	http://en.sasac.gov.cn/2026/01/04/c_20283.htm	魔都号160+航次、近63万宾客、青岛/大连100%载客
+S17	人民日报海外版：多元航线服务超万名游客	L1	2026-05-08	https://paper.people.com.cn/rmrbhwb/pc/content/202605/08/content_30155490.html	200航次、五一运力、花城进度96%+
+S18	中新网（中国网转载）：魔都号完成第200个商业运营航次	L1	2026-05-06	http://news.china.com.cn/2026-05/06/content_118477477.shtml	宝山海事400靠离泊/70万人次/零事故
+S19	中国旅游集团官网：爱达邮轮发布天津航线计划	L0	2025-06-09	https://www.ctg.cn/article/19164	魔都号2027进驻天津
+S20	光明网：日本目的地全部删除	L1	2025-11-29	https://m.gmw.cn/2025-11/29/content_1304243062.htm	2026Q1删日本线转韩国
+S21	星岛头条：国产邮轮爱达·魔都号12月重启赴日本航线	L1	2026-06-17	https://www.stheadline.com/zh-hans/realtime-china/3584192/%E4%B8%AD%E6%97%A5%E5%85%B3%E7%B3%BB%E5%9B%BD%E4%BA%A7%E9%82%AE%E8%BD%AE%E7%88%B1%E8%BE%BE%E9%AD%94%E9%83%BD%E5%8F%B7-12%E6%9C%88%E9%87%8D%E5%90%AF%E8%B5%B4%E6%97%A5%E6%9C%AC%E8%88%AA%E7%BA%BF	12月恢复日本八重山诸岛/那霸
+S22	扬子晚报（新浪转载）：海事局回应邮轮提前返航疑为少赔付	L1	2026-08-07	https://finance.sina.cn/2026-08-07/detail-inimpfxz3053588.d.html?vt=4	台风白海豚缩短航程舆情
+S23	羊城晚报：爱达·魔都号一乘客翻越栏杆后落海	L1	2024-06-30	https://news.ycwb.com/2024-06/30/content_52777776.htm	2024年落海事件与济州取消
+S24	CruiseMapper：Adora Flora City	L2	2026-08-16	https://www.cruisemapper.com/ships/Adora-Flora-City-2278	第三方辅助：crew 1300、16层甲板、33MW推进
+S25	人民网上海：首艘国产大型邮轮元旦启航	L1	2023-09-20	http://sh.people.com.cn/n2/2023/0920/c138654-40577493.html	22餐厅酒吧、近300品牌免税店
+S26	航运在线（转载快科技）：1292名船员登船到岗	L1	2023-12-11	https://news.sol.com.cn/html/2023-12-11/AD397D55743BE53A2.shtml	1292船员；吃水/管系/风管参数
+S27	上观新闻：15万页图纸，2500万个零部件	L1	2026-07-31	https://www.jfdaily.com.cn/sgh/detail?id=4030755	15万页图纸重2.1吨
+S28	上海市政府官网：魔都号无目的地海上游启航	L0	2026-06-07	https://www.shanghai.gov.cn/nw4411/20260607/e84c4d8b28b14a3dad8f5ed724607625.html	4000余人、999-3999元、客群年龄
+S29	界面新闻：上海邮轮无目的地海上游试点	L1	2026-06-30	https://m.jiemian.com/article/14674181.html	交通运输部：2025全国130多万人次+25.7%
+S30	中国网：花城号首航售票启动专访	L1	2026-05-19	https://www.china.com.cn/youth/2026-05/19/content_118502854.html	Tier III、5套SCR、12万检验项
+S31	Cruise Industry News：Adora Flora City Begins Sea Trials	L1	2026-05-27	https://cruiseindustrynews.com/cruise-news/2026/05/adora-flora-city-begins-sea-trials/	国际行业媒体；试航与首航季
+S32	中国交通报：爱达·魔都号乘风远航	L1	2024-10-16	https://www.zgjtb.com/m/2024-10/16/content_435563.html	64航次25万；74总段670分段；救生定员
+S33	新华网广东：魔都号深圳首航	L1	2026-08-13	http://www.gd.xinhuanet.com/20260814/14834d1e48eb44eb881c2156dc517d93/c.html	近4600人深圳首航、大湾区航线
+S34	深圳发布（澎湃政务号）：深圳母港首航	L0	2026-08-15	https://m.thepaper.cn/newsDetail_forward_33789058	深圳航季08-13至09-16
+S35	上海市政府官网：大型国产邮轮订单为何“不能停”	L0	2024-03-05	https://www.shanghai.gov.cn/nw4411/20240305/a4f813a5400042588fd7c939a905dbc9.html	7.7亿美元/55.4亿元、1:14产业链
+S36	央视新闻（荆楚网转载）：国产大邮轮青岛启航	L1	2025-04-06	http://news.cnhubei.com/content/2025-04/06/content_19078391.html	青岛首航；减摇鳍88%；双船56万
+S37	中国旅游报：魔都号开启深圳航季	L1	2026-08-14	https://www.ctnews.com.cn/paper/content/202608/14/content_114547.html	深圳航季航线细节
+S38	科技日报：魔都号2025年预计80多个航线	L1	2024-08-22	https://www.stdaily.com/web/gdxw/2024-08/22/content_218039.html	54航次22万人次；13.62万吨口径
+S39	人民网财经（新华社通稿）：首艘国产大型邮轮出坞新样本	L1	2023-06-06	http://finance.people.com.cn/n1/2023/0606/c1004-40007720.html	136系统/2万设备/4300公里；薄板智能车间
+S40	第一财经（网易转载）：爱达邮轮迎第100万名宾客	L1	2026-02-08	https://www.163.com/dy/article/KL905TJ40519DDQ2.html?spss=dy_author	2026年80余航次、8月深圳、三船八母港
