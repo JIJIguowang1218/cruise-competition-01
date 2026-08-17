@@ -1,97 +1,92 @@
-# 续接文件 / Continuation
+# 续接文件 / Continuation（新对话启动手册）
 
-> 用途：让另一台设备同步项目后，可以快速接续当前讨论与任务
-> 状态：2026-08-16 工作区推进记录
-> 注意：本文件不是设计文档，是“当前进度 + 下一步”的接续说明
+> 用途：**新对话/新设备读本文件后，按第 3 节启动流程执行**——先向用户汇报项目进度，再提醒审核 PRD 与相关文件，最后引导下一步讨论。
+> 状态：2026-08-17 深夜更新——**PRD v0.1 已产出，当前处于"用户审核 + 逐条讨论待确认项"阶段**
+> 注意：本文件不是设计文档，是"进度 + 启动指引 + 待办"的接续说明
 
-## 1. 当前共识
+---
 
-- 产品定位：**B 端 AI 产品**，面向邮轮公司/运营管理方。
-- 核心任务：**全船空间×时间调度决策**。
-- 非目标：不做 C 端乘客产品、不做乘客 App、不建设终端硬件。
-- Demo 边界：可以用静态/模拟视图展示系统输出触达乘客/船员，但不进入产品范围。
-- **AI 价值判断是项目基石**，不是补充材料。
-- 航变模块：作为事件响应模块并入主方案，但不作为独立产品，也不做成普通智能客服。
+## 1. 当前共识（产品基线）
 
-## 2. 本次已完成
+- 产品定位：**B 端 AI 产品**，面向邮轮公司/运营管理方；核心任务=**全船空间×时间的调度决策**。
+- 非目标：不做 C 端乘客产品、不做乘客 App、不建设终端硬件；Demo 可用静态/模拟视图展示触达，但不进产品范围。
+- **AI 价值判断是项目基石**（双线论证：证据线 A 旧模式基线 + 证据线 B 黑客松优势）。
+- 航变模块：作为事件响应模块并入主方案，不做独立产品、不做普通智能客服。
+- 关键红线（来自 pain-points-v3 §8）：禁止引用复购率 20–30%、800 人剧院、"坏了才修"、能耗粗放等旧数字；不写"摄像头全覆盖"。
+- **AI 价值点（已收敛）**：V1 确定性保底+AI 判断 / V2 分钟级决策闭环 / V3 可审计信任层；个性化触达降级为次级展示。
+- **scope 已拍板（2026-08-17）**：Q1=A（定义接口船司接入 App）、Q2=按推荐（读/写接口分类）、Q3=A（港口 Demo 模拟+诚实标注）、Q4=按推荐（三级审批）、Q5=A（娱乐进 MVP）、Q6=B（主方案纯调度，策略配置仅预留）。
 
-### 2.1 新建设计框架
+## 2. 项目进度总览（向用户汇报时用）
 
-- `design/scope-and-boundary.md`
-  - 五层模型
-  - 初步纳入/不纳入清单
-  - 接口关系矩阵草稿
-  - 待讨论问题
+| 阶段 | 状态 | 关键产物 |
+|---|---|---|
+| 调研 | ✅ 完成 | round2 九条流（335 nuggets/299 来源）+ 痛点 v3 + Gate1 决策 |
+| 黑客松经验挖掘 | ✅ 完成 | `research/round2/batch3/09*.md`（75 nuggets）+ `10-ai-advantages-cruise-mapping.md` |
+| 证据线 A（旧模式基线） | ✅ 草稿完成 | `design/evidence-line-a-baseline.md`（5 场景详版）+ `ai-value-case.md` §2 |
+| 证据线 B（AI 优势） | ✅ 完成 | `ai-value-case.md` §2/§3（V1/V2/V3） |
+| 证据补齐（国际参照/条款/娱乐） | ✅ 完成 | `key-items-public-search.md` + `evidence-gap-plan.md`；用户补充资料入库 |
+| 边界收敛 | ✅ 拍板 | `design/scope-and-boundary.md` §6（Q1–Q6 已定） |
+| **PRD** | 🔵 **v0.1 草稿，待用户审核+逐条讨论** | `design/prd.md`（含版本记录表 §0、待确认项 P1–P8 §7） |
+| Demo 主场景 | ⬜ 未定 | 候选"11:45 午餐分流 + 台风航变"双场景（PRD 待确认 P5） |
+| 技术方案说明书/原型/视频 | ⬜ 未开始 | 8/22 截稿压力下为后续主线 |
 
-- `design/ai-value-case.md`
-  - AI 价值论证框架
-  - 证据线 A：旧模式基线
-  - 证据线 B：黑客松 AI 优势提取（待补）
-  - “关掉 AI 还剩什么”压力测试
-  - 面试/评审追问清单
+## 3. 新对话启动流程（本文件的核心指引）
 
-### 2.2 新建痛点原文素材库
+> 新对话开始后**按以下顺序执行**，不要跳步、不要直接开始干活：
 
-- `research/round2/source-archive/README.md`
-- `research/round2/source-archive/01-dining-crowd.md`
-- `research/round2/source-archive/02-embark-disembark.md`
-- `research/round2/source-archive/03-port-transport.md`
-- `research/round2/source-archive/04-itinerary-change-compensation.md`
-- `research/round2/source-archive/05-entertainment-public-space.md`
+### 第一步：读文件（建立上下文）
 
-### 2.3 重要提醒：用户尚未审核本次新增文件
-
-> 以下文件是本次新生成/新增的，用户明确表示**现在不审，放到明天/新设备上再审核**：
-> - `design/scope-and-boundary.md`
-> - `design/ai-value-case.md`
-> - `research/round2/source-archive/README.md`
-> - `research/round2/source-archive/01-dining-crowd.md`
-> - `research/round2/source-archive/02-embark-disembark.md`
-> - `research/round2/source-archive/03-port-transport.md`
-> - `research/round2/source-archive/04-itinerary-change-compensation.md`
-> - `research/round2/source-archive/05-entertainment-public-space.md`
->
-> 新设备开始工作时，**第一步应提醒用户审核这些新增文件**，再继续后续讨论。
-
-## 3. 未完成 / 下一步
-
-### 3.1 等待黑客松总仓库
-
-- 用户将在另一台设备提供 Hackathon-reading 总仓库路径。
-- 拿到后执行：
-  1. 从高分项目中提取“AI 带来的具体优势”。
-  2. 映射到邮轮调度场景。
-  3. 收敛 2–3 个最有说服力的 AI 价值点。
-  4. 回填 `design/ai-value-case.md` 的证据线 B。
-
-### 3.2 待讨论内容
-
-- `design/scope-and-boundary.md` 的具体内容尚未定稿。
-- 产品定义是否调整暂不决定，等 AI 价值论证后再判断。
-- Demo 主场景暂不最终确定，等 AI 价值与范围边界清楚后再讨论。
-- 是否需要把娱乐/公共空间纳入 MVP，待讨论。
-- **明天的讨论目标：形成产品需求文档（PRD）**，它是 `scope-and-boundary.md` 的完整升级版，不只写边界，还要写出产品定义、功能范围、核心流程、接口关系、非功能要求等。
-
-### 3.3 后续建议顺序
-
-1. 用户提供黑客松仓库路径。
-2. 补完 `design/ai-value-case.md`。
-3. 根据 AI 价值结论收敛 `design/scope-and-boundary.md`。
-4. 补充痛点原文素材库（按需）。
-5. 基于 AI 价值 + 范围边界讨论 Demo 主场景。
-6. **最终形成产品需求文档（PRD）**，作为后续设计与开发基准。
-
-## 4. 下次接续时先看这些
-
+按序读（粗读+定位重点）：
 1. `CONTINUATION.md`（本文件）
-2. `design/ai-value-case.md`
-3. `design/scope-and-boundary.md`
-4. `research/round2/source-archive/README.md`
+2. `design/prd.md`（当前工作产物，重点：§0 版本记录表、§3 功能模块、§7 待确认项 P1–P8）
+3. `design/scope-and-boundary.md`（重点：§6 已拍板结论、§3 纳入清单）
+4. `design/ai-value-case.md`（重点：证据线 A/B、V1/V2/V3）
+5. `design/evidence-line-a-baseline.md`（旧模式基线详版，引用素材）
+6. `research/round2/source-archive/user-supplied/README.md`（用户补充资料索引，原文在 user-supplied/ 下）
 
-> 新设备启动时：**先提醒用户审核本次新增文件（见 2.3），再进入讨论**。
+### 第二步：向用户汇报项目进度（30 秒版）
 
-## 5. 给明天/另一台设备的说明
+用第 2 节表格讲清楚"项目现在在哪"：调研/证据/价值/边界四件事已完成，**当前卡在 PRD v0.1 的审核与讨论**；提醒 8/22 截稿（若日期未变）。
 
-- 本文件已提交到项目内，同步后即可继续。
-- 黑客松仓库不在本设备，需要用户主动提供路径。
-- 如果同步后发现文件缺失，请先检查是否 pull 到最新提交。
+### 第三步：提醒用户审核 PRD 与相关文件（重点！）
+
+先提醒审核 **`design/prd.md`**（本轮唯一新产物），并说明各文件审核重点：
+
+| 文件 | 审核重点 |
+|---|---|
+| `design/prd.md` 🔴 | ① §0 版本记录表机制是否 OK；② §3 五个功能模块的草稿逻辑是否符合预期；③ §7 P1–P8 待确认项是否全面、倾向是否合理；④ §4 跨模块规则 7 条是否认同 |
+| `design/scope-and-boundary.md` | Q1–Q6 拍板结论是否正确记录（§6），纳入/不纳入清单是否符合认知 |
+| `design/ai-value-case.md` | V1/V2/V3 价值点表述；证据线 A/B 引用是否可信 |
+| `design/evidence-line-a-baseline.md` | 5 场景旧模式基线 + §8 优先级/国际参照/花城号结论 |
+| `research/round2/source-archive/user-supplied/README.md` | 用户原始资料是否完整入库（SHA256 已验证）；OCR 转录是否够用 |
+| `research/round2/source-archive/01–05` | 各自新增的"用户补充素材"节是否整理得当 |
+
+### 第四步：引导下一步讨论（用户审完后）
+
+按以下顺序引导，每次拍板后**更新 PRD 正文并在 §0 版本记录表追加一行**：
+
+1. **P1–P8 逐条讨论**（`prd.md` §7）——感知精度/数据源（P1）、分群维度与触达时机（P2）、航变通知联动边界（P3）、船员权限分级（P4）、**Demo 主场景（P5）**、娱乐 MVP 深度（P6）、答辩叙事主线（P7）、非功能指标（P8）；
+2. 用户对功能模块 M1–M5 的修改意见；
+3. P1–P8 关闭后 → 技术路径（架构图/数据流，可出 Draw.io）→ Demo 剧本 → 技术方案说明书 → 原型；
+4. 8/22 截稿倒计时提示（若确认未变）。
+
+## 4. 待办与开放项（除 PRD 讨论外）
+
+- [ ] `pain-ai-matching-v2.md`、`patterns-judges-like-v2.md` 未产出（gate1 待办，PRD 后可补）
+- [ ] `direction-1-deep-dive.md` 待按升级版范围重写（已加旧版声明，暂缓）
+- [ ] 航变条款原文：写方案书引用前对爱达官网条款精读确认
+- [ ] 花城号系统清单发布会资料（有则加分，无则不阻塞）
+- [ ] 爱达/招商伊敦 App 功能实测（真机，PRD 阶段再议）
+
+## 5. 重要引用与阻塞说明
+
+- 黑客松仓库：`C:\Users\LHM\Desktop\HermesWorkspace\Hackathon-reading`（**只读，禁止修改**；分析在 `analysis/` 227 篇）。
+- 用户补充资料：`research/round2/source-archive/user-supplied/`（社媒平台信息1.md + 官方岸上游指南 PDF + OCR 转录；原件 SHA256 已验证一字不差）。
+- web_search：已恢复（DeepSeek API 已充值）；搜索走 DeepSeek 官方搜索服务，与 LLM 同账户计费。
+- 登录墙内容：用户已手动摘取覆盖小红书/携程/知乎主力内容，**不再需要爬取**。
+- 过时数字：`reference-ships.md`/`direction-1-deep-dive.md` 已修正；引用以 round2 各流为准。
+
+## 6. 给新设备的说明
+
+- 本文件随项目 git 提交，同步后即可继续；如果发现文件缺失，先检查是否 pull 到最新提交。
+- 新对话严格按第 3 节启动流程执行：读文件 → 汇报进度 → 提醒审核 PRD 与相关文件 → 引导 P1–P8 讨论。
