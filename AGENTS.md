@@ -50,6 +50,9 @@ cruise-competition-01/
 │   └── competitors/    ← 现有邮轮科技方案
 ├── ideas/              ← 产品创意（每个 idea 一个文件）
 ├── design/             ← 产品设计文档（PRD、用户旅程、线框图）
+│   ├── a-onboard-space-experience/  ← A 线：船上空间体验调度（备用线）
+│   ├── b-port-shore-and-itinerary/  ← B 线：邮轮港岸协同与航变响应（当前主线）
+│   └── archive/                     ← 旧版设计文档归档
 ├── prototypes/         ← 可运行的原型代码
 ├── docs/               ← 参考资料、API 文档、海事法规
 └── assets/             ← 图片、演示素材
@@ -74,8 +77,12 @@ cruise-competition-01/
 - [x] Step 2 完成：评委模式提炼 → `research/patterns-judges-like.md`
 - [x] Step 2 完成：痛点×AI匹配矩阵 → `research/pain-ai-matching.md`
 - [x] Step 2 完成：方向锁定建议 → `ideas/direction-proposals.md`
-- [ ] Step 3：选定方向深入设计
-- [ ] 竞品分析
+- [x] 旧四合一 PRD 完成并归档 → `design/archive/prd-v0.1-four-in-one.md`
+- [x] 产品线拆分：A（船上空间体验调度）+ B（邮轮港岸协同与航变响应）
+- [x] **当前主线：B 线 PRD v0.8 草稿** → `design/b-port-shore-and-itinerary/prd.md`
+- [x] A 线 PRD v0.1 草稿（备用）→ `design/a-onboard-space-experience/prd.md`
+- [ ] B 线待确认项 B1–B14 审核拍板
+- [ ] B 线技术架构 / 接口清单 / Demo 剧本
 - [ ] 原型开发
 
 ## 比赛要求摘要
