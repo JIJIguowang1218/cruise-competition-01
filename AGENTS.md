@@ -79,11 +79,11 @@ cruise-competition-01/
 - [x] Step 2 完成：方向锁定建议 → `ideas/direction-proposals.md`
 - [x] 旧四合一 PRD 完成并归档 → `design/archive/prd-v0.1-four-in-one.md`
 - [x] 产品线拆分：A（船上空间体验调度）+ B（邮轮港岸协同与航变响应）
-- [x] **当前主线：B 线 PRD v0.11 草稿** → `design/b-port-shore-and-itinerary/prd.md`
+- [x] **当前主线：B 线 PRD v0.12 草稿** → `design/b-port-shore-and-itinerary/prd.md`（v0.12 = 依用户"企业级 AI 产品落地标准"核对意见新增 §8.1 质量目标与评测闭环、待确认 B20/B21；AI 架构文档同步扩充 §3.8 幻觉兜底/§3.9 ML 范式映射/四方案对比/上下文窗口/多模态边界）
 - [x] A 线 PRD v0.1 草稿（备用，已交接）→ `design/a-onboard-space-experience/prd.md`；交接说明：桌面 `A线交接说明-船上空间体验调度系统.md`
 - [x] B 线事件治理框架完成并经 3 轮审核 → `design/b-port-shore-and-itinerary/event-governance-framework.md`（升级时限参照 §4.2.1、韧性标准化 §4.5、端口拆分 §4.7、推理附件与库外异常 §4.11、人工接管与循环提醒 §4.12–§4.12.5、确认签署/痕迹管理 §4.13）
 - [x] AI 价值立场强化：不可替代性矩阵 + 推理附件全系统推广 → `design/b-port-shore-and-itinerary/ai-architecture-and-value.md` §3.6–§3.7（三高地：开放域异常发现 / 长链路推演+弱信号整合 / 可解释性）
-- [x] B 线待确认项：B1–B19 除 B5 外全部确认 → PRD §9
+- [x] B 线待确认项：B1–B21 中除 B5（Demo 主场景，待专项讨论）、B20/B21（设计已补齐，待一句确认）外全部确认 → PRD §9
 - [ ] B 线 Demo 剧本（B5 专项讨论）→ 技术方案 → 原型开发
 - [ ] 原型开发
 
