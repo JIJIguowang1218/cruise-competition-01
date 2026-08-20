@@ -11,7 +11,7 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--txt);background:#e2e3e6;font-size:13px;line-height:1.35}
-  .app{max-width:1520px;min-height:940px;margin:10px auto;background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.2);display:flex;flex-direction:column}
+  .app{width:min(1520px,calc(100vw - 24px));aspect-ratio:1520/940;margin:10px auto;background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.2);display:flex;flex-direction:column;overflow:hidden}
   /* 顶栏 */
   .topbar{display:flex;align-items:center;gap:16px;padding:8px 14px;border-bottom:2px solid var(--line);background:var(--box)}
   .brand{font-weight:800;font-size:15px}
@@ -37,11 +37,11 @@
   .kpi{border:1px solid var(--line);padding:2px 8px;font-size:11px;background:#fff;white-space:nowrap}
   .kpi b{font-size:14px}
   /* 主区 */
-  .main{display:flex;flex:1;min-height:0}
+  .main{display:flex;flex:1;min-height:0;overflow:hidden}
   .col{padding:8px}
   .c-left{width:236px;border-right:1px solid var(--line)}
-  .c-mid{flex:1;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:0}
-  .c-right{width:340px}
+  .c-mid{flex:1;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:0;min-height:0;overflow:hidden}
+  .c-right{width:340px;min-height:0;overflow:hidden}
   .coltitle{font-weight:700;font-size:12px;margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
   .sub{font-size:11px;color:var(--muted)}
   .box{border:1px solid var(--line);background:#fff;margin-bottom:8px;padding:6px}
@@ -102,6 +102,71 @@
   .rv ul{margin:4px 0 0;padding-left:16px}
   .rv li{margin:2px 0}
   .mini{font-size:10px;color:var(--muted);margin:2px 0}
+
+  /* 操作台日志 */
+  .op-log{border:1px solid var(--line);background:#fff;margin-bottom:8px;padding:4px 6px}
+  .op-log .coltitle{margin-bottom:4px}
+  .opfeed{overflow:auto;font-size:10px;line-height:1.5;border:1px dashed var(--line);background:#fafafa;padding:4px}
+  .op{display:flex;gap:5px;border-bottom:1px solid #eee;padding:2px 0}
+  .op .t{color:#888;white-space:nowrap}
+  .op .msg{color:#222}
+  .oplg{font-size:9px;padding:0 4px;white-space:nowrap;border:1px solid #999;color:#333}
+  .oplg.conf{color:#2e8b57;border-color:#2e8b57}
+  .oplg.rej{color:#e53945;border-color:#e53945}
+  .oplg.tk,.oplg.audit{color:#4a7fbf;border-color:#4a7fbf}
+  .oplg.dispatch{color:#555;border-color:#555}
+  /* 右栏内嵌 Tab */
+  .aptabs{display:flex;border:1px solid var(--line);border-bottom:none;background:var(--box)}
+  .aptabs button{flex:1;border:none;background:var(--box);padding:6px 2px;font-size:11px;cursor:pointer;border-right:1px solid var(--line)}
+  .aptabs button.on{background:#fff;font-weight:700;border-bottom:2px solid #000}
+  .ap-tab{display:none;border:1px solid var(--line);border-top:none;background:#fff;padding:8px;font-size:12px}
+  .ap-tab.on{display:block}
+  .ap-tab .lbl{font-size:10px;color:var(--muted);margin:6px 0 2px}
+  .apstep{display:flex;gap:6px;align-items:center;font-size:11px;margin:4px 0}
+  .apstep .no{width:16px;height:16px;border-radius:50%;border:1px solid #000;display:flex;align-items:center;justify-content:center;font-size:9px;flex:none}
+  .apstep.done .no{background:#2e8b57;color:#fff;border-color:#2e8b57}
+  .apstep.now .no{background:#f5a623;color:#fff;border-color:#f5a623}
+  .apstep .st{flex:1}
+  .apstep .tm{font-size:10px;color:var(--muted)}
+  .reason{border:1px dashed var(--line);background:var(--box);padding:5px 6px;font-size:11px;margin-top:6px}
+  .portrow{display:flex;justify-content:space-between;font-size:10px;padding:2px 0;border-bottom:1px dotted #ddd}
+  .portrow .nm{color:#222}
+  .portrow .s{color:#bbb}
+  .portrow.ok .s{color:var(--deep);font-weight:700}
+  .traceitem{font-size:10px;margin:3px 0;color:var(--muted)}
+  .traceitem b{color:#000}
+
+  /* ===== 左栏：操作台日志占满 + 日志控件 ===== */
+  .c-left{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .op-log{flex:1;display:flex;flex-direction:column;min-height:0;margin-bottom:4px}
+  .op-log .colhead{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+  .op-log .colhead .spacer{flex:1}
+  .logchip{font-size:9px;border:1px solid #2e8b57;color:#2e8b57;padding:0 4px;border-radius:2px}
+  .icobtn{font-size:11px;cursor:pointer;border:1px solid var(--line);background:#fff;padding:1px 6px}
+  .logbar{display:flex;gap:3px;align-items:center;margin-bottom:4px}
+  .logbar input{flex:1;min-width:0;border:1px solid var(--line);font-size:10px;padding:2px 5px}
+  .logbar button{border:1px solid var(--line);background:#fff;font-size:9px;padding:1px 4px;cursor:pointer}
+  .logbar button.on{background:#000;color:#fff}
+  .opfeed{flex:1;overflow:auto;font-size:10px;line-height:1.5;border:1px dashed var(--line);background:#fafafa;padding:4px}
+  .logfoot{display:flex;align-items:center;gap:6px;font-size:9px;color:var(--muted);margin-top:3px}
+  .lsetrow{border:1px solid var(--line);background:var(--box);padding:3px 6px;display:flex;align-items:center;gap:6px;font-size:10px;flex:none}
+  .lsetrow button{border:1px solid var(--line);background:#fff;font-size:9px;padding:1px 5px;cursor:pointer}
+  /* ===== 顶栏：时间放大、韧性缩小 ===== */
+  .clock{font-size:24px;font-weight:800;line-height:1}
+  .clock small{display:block;font-size:9px;font-weight:400;color:var(--muted)}
+  .chip.small{font-size:9px;padding:1px 6px;color:#888;border-color:#bbb}
+  /* ===== 右栏：动作只在决策卡、推理附件底部展开 ===== */
+  .c-right.approve{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  #apWrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .ap-body{flex:0 1 auto;overflow:auto}
+  .ap-rsn{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;border-top:2px solid var(--line);margin-top:8px;padding-top:4px;overflow:hidden}
+  .ap-rsn.collapsed{flex:0 1 auto}
+  .ap-rsn-head{display:flex;align-items:center;gap:8px;padding:2px 2px 4px}
+  .ap-rsn-head .mini{flex:1;margin:0}
+  .ap-rsn-body{flex:1;overflow:auto;border:1px dashed var(--line);background:var(--box);padding:8px;font-size:11px;line-height:1.6;display:none}
+  .ap-rsn-body.open{display:block}
+  .rsnsec{font-weight:700;margin:8px 0 2px}
+  .rsntext{margin:0 0 6px}
 </style>
 </head>
 <body>
@@ -117,10 +182,10 @@
       <span class="t">模式</span>
       <span class="mode" id="modeLbl">已靠岸</span>
       <span class="modesel" id="modes">
-        <button data-m="underway">航行</button>
-        <button data-m="departing">离港中</button>
-        <button data-m="berthing">靠泊中</button>
-        <button data-m="alongside" class="on">已靠岸</button>
+        <button data-m="underway">在航</button>
+        <button data-m="departing">离泊</button>
+        <button data-m="berthing">靠泊</button>
+        <button data-m="alongside" class="on">系泊</button>
       </span>
     </div>
     <div class="spacer"></div>
@@ -136,8 +201,8 @@
       </div>
       <div class="uth" id="uthBox">船长<small>登录用户 · 点击头像切换</small></div>
       <div class="status">
-        <span>本地时间 11:42<small style="display:block;color:#aaa">船时</small></span>
-        <span class="chip">韧性 T0</span>
+        <span class="clock">11:42<small>本地时间 · 船时</small></span>
+        <span class="chip small">韧性 T0</span>
       </div>
     </div>
   </div>
@@ -171,13 +236,39 @@
         </svg>
       </div>
       <div class="box below-map" id="underwayInfo" style="display:none">
-        <b>航行</b> · 航向/船速 <span class="r">(航行数据接入)</span>
+        <b>在航</b> · 航向/船速 <span class="r">(航行数据接入)</span>
       </div>
       <div class="box below-map" id="berthInfo">
-        <b>已靠岸</b> · 下岸通道 <span class="r">3</span> · 登离船 <span class="r">612</span>
+        <b>系泊</b> · 下岸通道 <span class="r">3</span> · 登离船 <span class="r">612</span>
       </div>
-      <div class="box below-map">
-        <b>候选区？</b><br><span class="r">占位，待你拍板是否保留。</span>
+      <div class="box op-log">
+        <div class="colhead">
+          <b style="font-size:12px">操作台日志</b>
+          <span class="logchip">LIVE · 追加中</span>
+          <span class="spacer"></span>
+          <button class="icobtn" title="日志设置" onclick="toggleLogSet()">⚙</button>
+        </div>
+        <div class="logbar">
+          <input placeholder="搜索日志…">
+          <button class="on">全部</button><button>事件</button><button>操作</button>
+        </div>
+        <div class="opfeed" id="opfeed">
+          <div class="op"><span class="t">06:04</span><span class="oplg dispatch">达</span><span class="msg">L4 全船应急：A07 已下达 全体端口</span></div>
+          <div class="op"><span class="t">06:03</span><span class="oplg conf">签</span><span class="msg">船长 电子补签 · 事后可回溯</span></div>
+          <div class="op"><span class="t">06:02</span><span class="oplg dispatch">达</span><span class="msg">广播(PA) 待通播前二次确认</span></div>
+          <div class="op"><span class="t">06:01</span><span class="oplg event">事</span><span class="msg">移交：建议卡送达 船长/最高层</span></div>
+          <div class="op"><span class="t">06:00</span><span class="oplg event">事</span><span class="msg">发现 L4（升级自L3）· 置信度 0.91</span></div>
+        </div>
+        <div class="logfoot">
+          <button class="icobtn">⏸ 暂停</button>
+          <span class="spacer"></span>
+          <span>128 条 · 只追加</span>
+        </div>
+      </div>
+      <div class="lsetrow" id="logset">
+        <span>⚙ 操作台设置：</span>
+        <button>等级▾</button><button>时段</button>
+        <span class="spacer"></span>
       </div>
     </div>
 
@@ -438,7 +529,7 @@
 </div>
 
 <script>
-  var MODE_LABEL={underway:'航行',departing:'离港中',berthing:'靠泊中',alongside:'已靠岸'};
+  var MODE_LABEL={underway:'在航',departing:'离泊',berthing:'靠泊',alongside:'系泊'};
   function toggleDD(e){ e.stopPropagation(); document.getElementById('dd').classList.toggle('open'); }
   function setRole(name,id){ document.getElementById('uthBox').innerHTML=name+'<small style="display:block;font-weight:400;color:#777;font-size:10px">登录用户 · 点击头像切换</small>';
     document.getElementById('avText').textContent=name[0]; document.getElementById('dd').classList.remove('open'); }
@@ -490,23 +581,145 @@
     var cards=document.querySelectorAll('.card'); for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');
     card.classList.add('sel');
     var colorChip={L4:'#000',L3:'#555',L2:'#888',L1:'#bbb',X:'#4a7fbf'}[level]||'#000';
-    // 融合：右栏顶部渲染一个与卡片同轮廓的"merge块"，且右栏左缘取该等级色（轮廓延续）
     var rc=document.getElementById('rightCol');
     rc.style.borderLeft='4px solid '+colorChip;
+    logOp('event','查看 '+level+' '+title);
     document.getElementById('apWrap').innerHTML=
       '<div class="merged" style="border-left:6px solid '+colorChip+'">'+
         '<div class="t"><b>'+title+'</b><span class="tag">'+level+'</span></div>'+
-        '<div class="from">↳ 卡片已与右栏融合，从此处审批 · '+role+' / '+state+'</div></div>'+
-      '<div class="ap-sec"><div class="lbl">决策卡</div><b>建议：</b>'+reason+
-        '<div class="trace">信号依据 · 置信度三档 · 条款引用 · 推理附件(可展开)</div></div>'+
-      '<div class="ap-sec"><div class="lbl">处置轨迹</div><div class="trace">识别 → 建议 → '+state+'（沿时间轴）</div></div>'+
-      '<div class="act">'+
-        '<button class="btn primary" onclick="toast(\'已确认/签署\')">确认</button>'+
-        '<button class="btn" onclick="toast(\'已拒绝(需原因)\')">拒绝</button>'+
-        '<button class="btn" onclick="toast(\'转人工接管\')">转人工接管</button>'+
-        '<button class="btn" onclick="toast(\'展开审计留痕\')">审计</button></div>';
+        '<div class="from">↳ '+role+' 视角 · '+state+'</div>'+
+        '<div class="mini" id="actNote">待处置 · 倒计时进行中 · 决策动作仅出现在"决策卡"</div></div>'+
+      '<div class="aptabs" id="apTabs">'+
+        '<button class="on" onclick="tab(this,\'card\')">决策卡</button>'+
+        '<button onclick="tab(this,\'flow\')">审批流</button>'+
+        '<button onclick="tab(this,\'audit\')">端口/审计</button></div>'+
+      '<div class="ap-body">'+
+        cardTab(reason,level,title)+
+        flowTab(level)+
+        auditTab(level,title)+
+      '</div>'+
+      rsnPanel(level,title);
   }
-  function toast(m){ alert('操作登记：'+m+'（高保真做真实流转）'); }
+  function cardTab(reason,level,title){
+    return '<div class="ap-tab on" data-tab="card">'+
+      '<div class="lbl">建议</div><b>'+reason+'</b>'+
+      '<div class="mini">信号依据 · 置信度三档(≥0.85自动 / 0.6–0.84人工 / <0.6仅提示) · 条款引用编号(R8)</div>'+
+      '<div class="act" style="border-top:1px solid #ddd;padding-top:6px;margin-top:10px">'+
+        '<button class="btn primary" onclick="act(\'confirm\',\'确认/签署\',\''+title+'\')">确认</button>'+
+        '<button class="btn" onclick="act(\'dispatch\',\'下达执行\',\''+title+'\')">下达执行</button>'+
+        '<button class="btn" onclick="act(\'reject\',\'拒绝\',\''+title+'\')">拒绝</button>'+
+        '<button class="btn" onclick="act(\'takeover\',\'转人工接管\',\''+title+'\')">转接管</button></div>'+
+      '</div>';
+  }
+  function flowTab(level){
+    return '<div class="ap-tab" data-tab="flow">'+approveSteps(level)+
+      '<div class="mini" style="margin-top:4px">超时自动升级→更高层；接管=最小登记+循环提醒(§4.12)。处置动作在「决策卡」Tab，此处仅展示流程。</div>'+
+      '</div>';
+  }
+  function auditTab(level,title){
+    return '<div class="ap-tab" data-tab="audit">'+portsHtml(level)+
+      '<div class="lbl">审计留痕 (append-only)</div>'+
+      '<div class="traceitem"><b>审批链：</b>值班确认→运营经理→法务电子签→船长L4</div>'+
+      '<div class="traceitem"><b>端口日志：</b>trace_id 每端口一条，回执可查</div>'+
+      '<div class="traceitem"><b>推理附件：</b>v1 · 已归档可打印 · 哈希链完整性</div>'+
+      '<button class="btn" style="margin-top:6px;display:block" onclick="act(\'audit\',\'导出审计包\',\''+title+'\')">导出审计包 PDF（演示）</button>'+
+      '</div>';
+  }
+  function rsnPanel(level,title){
+    return '<div class="ap-rsn collapsed"><div class="ap-rsn-head">'+
+      '<button class="btn" onclick="toggleRsn()">展开 / 收起 推理附件</button>'+
+      '<span class="mini">AI 推理全文 · 说明性，不自动决策（§4.11 / §3.8.1）</span></div>'+
+      '<div class="ap-rsn-body" id="rsnBody">'+rsnFullText(level,title)+'</div></div>';
+  }
+  function rsnFullText(level,title){
+    return '<div class="rsnsec">■ AI 推理全文（'+level+' · '+title+'）— 原始推理链 / trace_id #T2026-0420-09</div>'+
+      '<p class="rsntext"><b>1. 输入信号清单（按到达时序）：</b><br>'+
+      '· 天气API：热带气压 1002hPa@05:40，中心距本船 142n mile，移动 310°@14kn（真）<br>'+
+      '· AIS/航速：0.0kn，系泊 3A（真）；引航计划预计 09:10 离泊（真）<br>'+
+      '· 口岸/通关：未回传进度（不可得 · 以官方为准）<br>'+
+      '· 登离船计数：已下 612 / 应下 680，趋势收敛（模拟）</p>'+
+      '<p class="rsntext"><b>2. 预处理 / 归一化：</b><br>统一到船时(UTC+8)，剔除重复信号，按端口分级打标；弱信号合并（气压趋势 + 引航窗口收窄 + 客舱同层滞留）→ 归一为"航变链条"。</p>'+
+      '<p class="rsntext"><b>3. 阶段一 · 事件分类：</b><br>命中事件库 E09（台风靠离泊调整），匹配度 0.91 ≥ 0.85 → 可进入标准管线（非库外）。</p>'+
+      '<p class="rsntext"><b>4. 阶段二 · 长链路推演 + 弱信号整合：</b><br>推演：台风6h内进入安全离泊窗口 → 若 09:10 照常离泊将进入 30kn 侧风区 → 叠加滞留客流 → 建议窗口提前/推迟。A18 库外异常提醒（立柱滞留模式偏离历史）已生成，抄送值班。</p>'+
+      '<p class="rsntext"><b>5. 阶段三 · 条款与策略检索：</b><br>条款库命中 E09-§3.2（天气航变处置）、E17-§2（变更通知时限）；策略取"窗口收窄优先" → 动作组合 A05（统一口径）+ A03（调整批次）→ 建议 L3/L4 审批。</p>'+
+      '<p class="rsntext"><b>6. 置信度分解：</b><br>分类 0.91 · 长链推演 0.87 · 条款命中 0.94 · 整体 0.88（≥0.85 域，但高后果按矩阵强制人工审批）。</p>'+
+      '<p class="rsntext"><b>7. 方案比对（为何不用 B）：</b><br>B = 仅推迟离泊不建口径 → 客服/客舱信息不一致风险高（证据：现状口径差 16h/2h/30min）→ 否决。</p>'+
+      '<p class="rsntext"><b>8. 兜底与边界（§3.8.1）：</b><br>本附件为说明性，不自动决策；推理链可溯源；若幻觉冲突，降级走人工确认 + 条款逐字复核。</p>'+
+      '<div class="rsnsec">■ 关键证据引用</div>'+
+      '<p class="rsntext">台风路径API · 引航计划 · 登离船计数 · 条款 E09-§3.2 / E17-§2 · A05/A03 动作组合 · trace_id #T2026-0420-09</p>';
+  }
+  function toggleRsn(){
+    var p=document.querySelector('.ap-rsn'), b=document.getElementById('rsnBody');
+    b.classList.toggle('open'); p.classList.toggle('collapsed');
+    logOp('event','推理附件 '+(p.classList.contains('collapsed')?'收起':'展开'));
+  }
+  function toggleLogSet(){
+    var el=document.getElementById('logset');
+    el.style.display=(el.style.display==='none')?'flex':'none';
+  }
+  function approveSteps(level){
+    var steps=[
+      {s:'值班确认',done:(level==='L2'||level==='L3'||level==='L4'),skip:(level==='L1')},
+      {s:'运营经理审批',done:(level==='L3'||level==='L4'),skip:(level==='L1'||level==='L2')},
+      {s:'法务电子签',done:(level==='L3'||level==='L4'),sus:true,skip:(level==='L1'||level==='L2')},
+      {s:'船长 L4 签署',now:(level==='L4'),sus:true,skip:(level==='L1'||level==='L2'||level==='L3')}
+    ];
+    var h='<div class="lbl">审批流</div>';
+    for(var i=0;i<steps.length;i++){
+      var st=steps[i];
+      if(st.skip){ continue; }
+      var cls=st.done?'done':(st.now?'now':'');
+      var prog=st.done?'✓':(i+1);
+      var tm=st.done?'已签·留痕':(cls==='now'?'倒计时 12′':'待');
+      if(st.sus&&!st.done){ h+='<div class="mini">以上涉法/赔偿签名为 L3 电子签署（可导出PDF）</div>'; }
+      h+='<div class="apstep '+cls+'"><span class="no">'+prog+'</span><span class="st">'+st.s+(cls==='now'?' · 当前待办':'')+'</span><span class="tm">'+tm+'</span></div>';
+    }
+    return h;
+  }
+  function portsHtml(level){
+    var rows=[
+      {n:'乘客 App',s:'已送达·已读(回执)',ok:true},
+      {n:'广播 PA',s:(level==='L4'?'待通播前二次确认':'不予投放')},
+      {n:'船员端',s:'已下达',ok:true},
+      {n:'OTA / 客服',s:'已同步统一口径 A05',ok:true}
+    ];
+    var h='<div class="lbl">端口执行与回执 (§4.7)</div>';
+    for(var i=0;i<rows.length;i++){ var r=rows[i];
+      h+='<div class="portrow '+(r.ok?'ok':'')+'"><span class="nm">'+r.n+'</span><span class="s">'+(r.ok?'✓ ':'· ')+r.s+'</span></div>';
+    }
+    return h;
+  }
+  function tab(src,t){
+    var tabs=document.getElementById('apTabs'), i,b;
+    for(i=0;i<tabs.children.length;i++){b=tabs.children[i];b.classList.toggle('on',b===src);}
+    var ts=document.querySelectorAll('.ap-tab');
+    for(i=0;i<ts.length;i++) ts[i].classList.toggle('on',ts[i].getAttribute('data-tab')===t);
+  }
+  function act(kind,label,t){
+    var map={confirm:'确认/签署',reject:'拒绝',dispatch:'下达执行',takeover:'转人工接管',audit:'导出审计包'};
+    logOp(kind, (map[kind]||label)+(t?' · '+t:''));
+    var n=document.getElementById('actNote'); if(n) n.textContent='已'+(map[kind]||label)+' · 痕迹已写入操作台日志';
+  }
+  function logOp(kind,msg){
+    var fd=document.getElementById('opfeed'); if(!fd) return;
+    var d=new Date(), ts=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+    var tag={confirm:'签',reject:'拒',dispatch:'达',takeover:'接',audit:'审',event:'事'}[kind]||'事';
+    var row=document.createElement('div'); row.className='op';
+    row.innerHTML='<span class="t">'+ts+'</span><span class="oplg '+kind+'">'+tag+'</span><span class="msg">'+msg+'</span>';
+    fd.insertBefore(row, fd.firstChild);
+  }
+  // 初始化：回填事件步进日志（对应时间轴分段）
+  (function seed(){
+    var base=[
+      '恢复 接驳晚点 已闭环·归档',
+      '执行 L3 台风航变 A05 口径已同步 OTA/客服',
+      '移交 L3 台风航变 建议卡送达 运营经理',
+      '发现 L3 台风航变 离泊窗口收窄 置信度0.88',
+      '库外 X 立柱滞留 只提醒不执行·强制人工'
+    ];
+    for(var i=0;i<base.length;i++) logOp('event',base[i]);
+  })();
+
   setMode('alongside');
 </script>
 </body>
