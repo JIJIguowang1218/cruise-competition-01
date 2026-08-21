@@ -114,6 +114,9 @@
   .card.pop{animation:pop .3s ease}
   @keyframes pop{from{opacity:0;transform:translateY(5px) scale(.96)}to{opacity:1;transform:none}}
   .card.lv4{--lv:var(--abn)} .card.lv3{--lv:var(--detect)} .card.lv2{--lv:var(--exec)} .card.lv1{--lv:#6f7886} .card.lvX{--lv:var(--outlib)}
+  .card.linger{opacity:.5;filter:saturate(.5)}
+  .card.collect{animation:collect .46s ease forwards;pointer-events:none}
+  @keyframes collect{from{opacity:.5}to{opacity:0;transform:translateY(10px) scale(.96)}}
   .card .t1{display:flex;justify-content:space-between;gap:4px;font-weight:700}
   .tag{font-size:9px;padding:0 6px;border-radius:999px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
   .tag.pin{background:var(--outlib);color:#04101f}
@@ -530,43 +533,79 @@
     }
     return e.exec && e.exec.from != null && SNAP >= e.exec.from;   // 只要有执行阶段发生 → 已处置
   }
-  var cardSeen = {}, lastDone = {}, bandSig = "";
+  // 队列式卡片带：新事件从顶部插入（挤推旧的往下）；执行阶段发生 → 原地变暗(linger)；
+  // 已被挤推过的最老 linger，在后续新事件到达时做"收入已处置栏"动画并移除（以此类推）
+  var zoneQ = { L4: { list: [], done: 0 }, X: { list: [], done: 0 }, L3: { list: [], done: 0 }, L2: { list: [], done: 0 }, L1: { list: [], done: 0 } };
+  var bandSig = "", freshPop = {};
   function renderCardBand() {
     var ZONES = [["L4", "#e5484d"], ["X", "#4c8dff"], ["L3", "#f0a43f"], ["L2", "#51b873"], ["L1", "#6f7886"]];
-    var sig = ZONES.map(function (z) {
-      var lv = z[0];
-      var list = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
-      var live = list.filter(function (e) { return e.discover.at <= SNAP && !isDoneAt(e); });
-      var done = list.filter(function (e) { return e.discover.at <= SNAP && isDoneAt(e); });
-      return lv + ":" + live.map(function (e) { return e.eventNo; }).sort().join(",") + ";" + done.map(function (e) { return e.eventNo; }).sort().join(",");
-    }).join("|") + ":" + sel;
-    if (sig === bandSig) return;   // 集合未变则不重建（保滚动位置）
+    // 1) 状态推进（到达/收集/挤推/转移）
+    ZONES.forEach(function (z) {
+      var lv = z[0], q = zoneQ[lv];
+      var evs = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
+      var arrivals = evs.filter(function (e) { return e.discover.at <= SNAP && !q.list.some(function (it) { return it.no === e.eventNo; }); });
+      arrivals.sort(function (a, b) { return a.discover.at - b.discover.at; });
+      arrivals.forEach(function (e) {
+        // 收集：最老的"已挤推"linger → 收入已处置（动画）
+        var oldIdx = -1;
+        for (var i = q.list.length - 1; i >= 0; i--) { if (q.list[i].status === "linger" && q.list[i].pushed) { oldIdx = i; break; } }
+        if (oldIdx >= 0) {
+          var it0 = q.list[oldIdx];
+          it0.status = "collect";
+          q.done++;
+          (function (no0, lv0) {
+            setTimeout(function () {
+              zoneQ[lv0].list = zoneQ[lv0].list.filter(function (x) { return x.no !== no0; });
+              bandSig = ""; renderCardBand();
+            }, 480);
+          })(it0.no, lv);
+        }
+        // 其余 linger 标记为已被挤推
+        q.list.forEach(function (it) { if (it.status === "linger") it.pushed = true; });
+        // 新事件从顶部插入（旧的被挤到下方）
+        q.list.unshift({ no: e.eventNo, status: "live", pushed: false });
+        freshPop[e.eventNo] = 1;
+      });
+      // 转移：live → linger（执行阶段发生）
+      q.list.forEach(function (it) {
+        if (it.status !== "live") return;
+        var e = evs.filter(function (x) { return x.eventNo === it.no; })[0];
+        if (e && isDoneAt(e)) it.status = "linger";
+      });
+    });
+    // 2) 签名（含完整队列状态；集合变化才重建，保滚动位置）
+    var sig = ZONES.map(function (z) { return z[0] + ":" + JSON.stringify(zoneQ[z[0]].list); }).join("|") + ":" + sel;
+    if (sig === bandSig) return;
     bandSig = sig;
+    // 3) 渲染
     var h = "";
     ZONES.forEach(function (z) {
       var lv = z[0], col = z[1], cls = lv === "X" ? "lvX" : "lv" + lv.slice(1).toLowerCase();
-      var list = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
-      var live = list.filter(function (e) { return e.discover.at <= SNAP && !isDoneAt(e); });
-      var done = list.filter(function (e) { return e.discover.at <= SNAP && isDoneAt(e); });
-      var newLive = live.filter(function (e) { return !cardSeen[e.eventNo]; });
-      live.forEach(function (e) { cardSeen[e.eventNo] = 1; });
-      done.forEach(function (e) { cardSeen[e.eventNo] = 1; });
-      var pulse = lastDone[lv] !== undefined && done.length > lastDone[lv];
-      lastDone[lv] = done.length;
+      var q = zoneQ[lv];
+      var cards = q.list.map(function (it) {
+        var e = MOCK.events.filter(function (x) { return x.eventNo === it.no; })[0];
+        var k = "card " + cls;
+        if (freshPop[it.no]) k += " pop";
+        if (it.status === "linger") k += " linger";
+        if (it.status === "collect") k += " collect";
+        if (it.no === sel) k += " sel";
+        var tag = it.status === "live" ? (e ? e.state : "") : "已处置";
+        return '<div class="' + k + '" data-no="' + it.no + '">' +
+          '<div class="t1"><span>' + it.no + " " + (e ? e.name : "") + '</span><span class="tag">' + tag + "</span></div>" +
+          '<div style="font-size:9.5px;color:var(--tlo)">' + (e ? (e.summary || "") : "") + "</div></div>";
+      }).join("");
+      var pulse = q._lastDone !== undefined && q.done > q._lastDone;
+      q._lastDone = q.done;
+      var liveN = q.list.filter(function (x) { return x.status === "live"; }).length;
       h += '<div class="zone">' +
         '<div class="zh"><i class="dot" style="background:' + col + '"></i>' + (lv === "X" ? "X · 库外" : lv) +
-        '<span class="zc">实时 ' + live.length + ' · 已处置 ' + done.length + "</span></div>" +
-        '<div class="zbody">' +
-        (live.length ? live.map(function (e) {
-          return '<div class="card ' + cls + (newLive.indexOf(e) >= 0 ? " pop" : "") + (e.eventNo === sel ? " sel" : "") + '" data-no="' + e.eventNo + '">' +
-            '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + e.state + "</span></div>" +
-            '<div style="font-size:9.5px;color:var(--tlo)">' + (e.summary || "") + "</div></div>";
-        }).join("") : '<div class="zempty">— 暂无实时事件 —</div>') +
-        "</div>" +
-        '<button class="donebar' + (pulse ? " zpulse" : "") + '" data-donebar="' + lv + '" title="已处置明细（弹窗待定）">已处置 <span class="cnt">' + done.length + "</span> ▸</button>" +
+        '<span class="zc">实时 ' + liveN + ' · 已处置 ' + q.done + "</span></div>" +
+        '<div class="zbody">' + (cards || '<div class="zempty">— 暂无实时事件 —</div>') + "</div>" +
+        '<button class="donebar' + (pulse ? " zpulse" : "") + '" data-donebar="' + lv + '" title="已处置明细（弹窗待定）">已处置 <span class="cnt">' + q.done + "</span> ▸</button>" +
         "</div>";
     });
     document.getElementById("cardband").innerHTML = h;
+    freshPop = {};
   }
   // ---------- 右栏 ----------
   function switchTab(tab) {
