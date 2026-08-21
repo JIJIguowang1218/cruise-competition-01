@@ -115,8 +115,8 @@
 var MOCK = window.MOCK, SC = window.SimCore, total = MOCK.session.total;
 var v = SC.validate(MOCK);
 document.getElementById("meta").textContent =
-  "voyageNo " + MOCK.meta.voyageNo + " · 95′ 单航段（登船→离泊→在航→靠泊·靠岸即停） · validate=" +
-  (v.ok ? "OK(22 条)" : "ERR " + v.errors.join(";"));
+  "voyageNo " + MOCK.meta.voyageNo + " · " + MOCK.events.length + " 条 · " + (MOCK.meta.voyageStart || "11:00") + " 登船 · 95′ 单航段（登船→离泊→在航→靠泊·靠岸即停） · validate=" +
+  (v.ok ? "OK(" + MOCK.events.length + " 条)" : "ERR " + v.errors.join(";"));
 
 // ---- 高保真几何（p1-captain-hifi.html LANES/band，逐字对齐） ----
 var X0 = 70, XR = 860;
