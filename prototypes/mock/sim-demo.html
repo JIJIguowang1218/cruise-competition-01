@@ -85,6 +85,8 @@
     <div id="evreg"></div>
     <div class="acts" id="acts"></div>
     <div style="margin-top:8px;font-size:11px;color:var(--tlo)" id="actlog"></div>
+    <div style="margin-top:8px"><b style="font-size:12px">操作台日志 <span style="color:var(--tlo);font-size:10px">append-only · 挂起/再检/衍生（v0.4）</span></b></div>
+    <div id="oplog" style="margin-top:6px;font-size:10.5px;line-height:1.5;color:#c8d2e0;background:var(--bg2);border-radius:8px;padding:8px;max-height:150px;overflow:auto"></div>
   </div>
   <!-- 审计链 -->
   <div class="panel" style="flex:1.4;min-width:520px">
@@ -102,8 +104,8 @@
   MOCK.session.speed = 20;
   var tNow = 250, running = true, sel = MOCK.events[0].eventNo;
   var version = 1, lastUI = 0;   // 仅状态变化时重建 UI，避免每帧换按钮丢点击
-  var ACTIONS = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", ignore: "忽略(库外)", archive: "存档观察", escalate: "升级为正式事件" };
-  var CX = { detect: "#f0a43f", exec: "#51b873", approve: "#e8b64c", holding: "#7fb98a", abn: "#e5484d", handoff: "#51b873", upgrade: "#e5484d", recover: "#2f9e63" };
+  var ACTIONS = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", suspend: "挂起(琥珀点闭合)", ignore: "忽略(库外)", archive: "存档观察", escalate: "升级为正式事件" };
+  var CX = { detect: "#f0a43f", exec: "#51b873", approve: "#e8b64c", holding: "#7fb98a", abn: "#e5484d", handoff: "#51b873", upgrade: "#e5484d", recover: "#2f9e63", suspend: "#f0a43f" };
   var WIN = 1500;
 
   function get(no) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) return MOCK.events[i]; }
@@ -125,6 +127,7 @@
       if (s.type === "handoff") { if (inW(s.at)) { var hx = X(s.at); g.strokeStyle = s.kind === "error" ? CX.abn : CX.exec; g.lineWidth = 4; g.beginPath(); g.moveTo(hx, 34); g.lineTo(hx, 86); g.stroke(); } }
       else if (s.type === "upgrade") { if (inW(s.at)) { var ux = X(s.at); g.strokeStyle = CX.abn; g.lineWidth = 4; g.beginPath(); g.moveTo(ux, 22); g.lineTo(ux, 100); g.stroke(); g.fillStyle = "#e5484d"; g.fillText("↑" + s.to, ux + 4, 26); } }
       else if (s.type === "recover") { if (inW(s.at)) { var rx = X(s.at); g.fillStyle = "#fff"; g.strokeStyle = CX.recover; g.lineWidth = 2; g.beginPath(); g.arc(rx, 59, 5, 0, 7); g.fill(); g.stroke(); } }
+      else if (s.type === "suspend") { if (inW(s.at)) { var px = X(s.at); g.fillStyle = "#fff"; g.strokeStyle = CX.suspend; g.lineWidth = 2; g.beginPath(); g.arc(px, 59, 5, 0, 7); g.fill(); g.stroke(); g.fillStyle = "#f0a43f"; g.font = "9px sans-serif"; g.fillText("挂起", px + 6, 54); } }
       else { var f = Math.max(s.from, tNow - WIN), to = Math.min(s.to, tNow); if (to > f) { var xl = X(f), xr = X(to); g.fillStyle = CX[s.color] || CX.detect; g.fillRect(xl, 40, xr - xl, 18); } }
     });
     g.strokeStyle = "#fff"; g.lineWidth = 2; g.beginPath(); g.moveTo(720, 8); g.lineTo(720, 112); g.stroke();
@@ -140,11 +143,16 @@
               " · 待办 " + MOCK.events.filter(function (e) { return e.state === "待审批" || e.state === "待查看"; }).length +
               " · 执行中 " + MOCK.events.filter(function (e) { return e.state === "执行中"; }).length;
     document.getElementById("actlog").textContent = kpi;
+    var log = SC.getOplog();
+    var logHtml = (log.length ? log.slice(-24).map(function (l) { return fmt(l.at) + " · " + l.evt + "： " + l.text; }).join("<br>") : "（暂无再检/挂起日志）");
+    var ol = document.getElementById("oplog"); if (ol) ol.innerHTML = logHtml;
     renderTimeline();
   }
 
   // ---------- 状态变化时才重建 UI（列表/详情/按钮/审计） ----------
   function phNameTag(e) { return phIdx(tNow) === MOCK.session.phases.map(function (p) { return p.id; }).indexOf(e.phase) ? "本阶段" : "其他"; }
+  // v0.4：推进单个事件 = 超时升级 autoTick + 周期再检 recheckTick（再检进日志、衍生新事件）
+  function advanceEvent(e) { var b = e.state; SC.autoTick(e, tNow, MOCK); var c = SC.recheckTick(e, tNow, MOCK); if (e.state !== b || c) return true; return false; }
   function renderUI() {
     var el = document.getElementById("evlist"), html = "";
     MOCK.events.forEach(function (e) {
@@ -203,13 +211,13 @@
   });
   document.getElementById("play").onclick = function () { running = !running; this.textContent = running ? "⏸ 暂停" : "▶ 播放"; };
   document.getElementById("spd").addEventListener("input", function () { MOCK.session.speed = +this.value; });
-  document.getElementById("step").onclick = function () { tNow = (tNow + 30) % total; var changed = false; MOCK.events.forEach(function (e) { var b = e.state; SC.autoTick(e, tNow, MOCK); if (e.state !== b) changed = true; }); if (changed) version++; renderDynamic(); if (version > lastUI) { lastUI = version; renderUI(); } };
+  document.getElementById("step").onclick = function () { tNow = (tNow + 30) % total; var changed = false; MOCK.events.forEach(function (e) { if (advanceEvent(e)) changed = true; }); if (changed) version++; renderDynamic(); if (version > lastUI) { lastUI = version; renderUI(); } };
   document.getElementById("jump").onclick = function () { tNow = (tNow + 1200) % total; var changed = false; MOCK.events.forEach(function (e) { var b = e.state; SC.autoTick(e, tNow, MOCK); if (e.state !== b) changed = true; }); if (changed) version++; renderDynamic(); if (version > lastUI) { lastUI = version; renderUI(); } };
 
   function tick() {
     tNow = (tNow + MOCK.session.speed * 0.1) % total;
     var changed = false;
-    MOCK.events.forEach(function (e) { var b = e.state; SC.autoTick(e, tNow, MOCK); if (e.state !== b) changed = true; });
+    MOCK.events.forEach(function (e) { if (advanceEvent(e)) changed = true; });
     if (changed) version++;
     renderDynamic();
     if (version > lastUI) { lastUI = version; renderUI(); }
