@@ -165,6 +165,11 @@ function childRowOf(up){
 
 // ---- 视图状态 ----
 var mode = "full", SNAP = 3300, playing = false, spd = 20, WIN = 900;
+// ---- 会话起点时钟 + 半小时真实时刻刻度（grammar v5 §8.6：内容坐标，随滑动窗口出现-移动-消失） ----
+var VS = MOCK.meta.voyageStart || "11:00", vsParts = VS.split(":").map(Number), vsMin = vsParts[0] * 60 + (vsParts[1] || 0);
+function clock(t){ var m = vsMin + t / 60, h = Math.floor(m / 60) % 24, mm = Math.floor(m % 60); return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm; }
+var HALF = [];
+(function(){ for (var tm = 0; tm <= total / 60; tm++){ if ((vsMin + tm) % 30 === 0) HALF.push({ t: tm * 60, label: clock(tm * 60) }); } })();
 function fmt(t){ var s = Math.floor(t % 60), m = Math.floor(t / 60); return (m<10?"0":"")+m+":"+(s<10?"0":"")+s; }
 function viewParams(){ return mode === "window" ? { start: SNAP - WIN, now: SNAP, w: WIN } : { start: 0, now: total, w: total }; }
 function Xat(t, P){ return X0 + ((t - P.start) / P.w) * (XR - X0); }
@@ -184,20 +189,19 @@ function draw(){
     s.push('<text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="#e6ebf2" text-anchor="middle">'+L[0]+(L[0]==="X"?"·库外":"")+'</text>');
   });
   s.push('<line x1="'+X0+'" y1="444" x2="'+XR+'" y2="444" stroke="rgba(255,255,255,.28)" stroke-width="2"/>');
+  // 半小时真实时刻刻度（内容坐标）：窗口模式随进度从右端"现在"处出现→向左移动→左端消失；全览=静态网格
+  function tickMark(tk){
+    var mx = Xat(tk.t, P);
+    s.push('<line x1="'+mx+'" y1="8" x2="'+mx+'" y2="506" stroke="rgba(255,255,255,.05)"/>');
+    s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="rgba(255,255,255,.28)"/>');
+    s.push('<text x="'+(mx-13)+'" y="460" font-size="8.5" fill="#8b95a5">'+tk.label+'</text>');
+  }
   if (mode === "window"){
-    for (var k = 0; k <= 6; k++){
-      var t = P.start + (k/6)*P.w, mx = Xat(t, P), rel = Math.round((t - SNAP)/60);
-      s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="rgba(255,255,255,.28)"/>');
-      if (k === 0 || k === 3) s.push('<text x="'+(mx-12)+'" y="460" font-size="8" fill="#8b95a5">'+rel+'′</text>');
-      if (k === 6) s.push('<text x="'+(mx-18)+'" y="460" font-size="8" fill="#e6ebf2">现在</text>');
-    }
+    HALF.forEach(function(tk){ if (inW(tk.t, P)) tickMark(tk); });
+    s.push('<text x="'+(XR-18)+'" y="460" font-size="8" fill="#e6ebf2">现在</text>');
   } else {
-    [[-90,-90],[-60,-60],[-30,-30],[0,0]].forEach(function(p){
-      var t = total + p[0]*60, mx = Xat(t, P);
-      s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="rgba(255,255,255,.28)"/>');
-      s.push('<text x="'+(mx-12)+'" y="460" font-size="8" fill="#8b95a5">'+(p[1]===0?"现在":p[1]+"′")+'</text>');
-    });
-    s.push('<text x="'+(X0-4)+'" y="460" font-size="8" fill="#8b95a5" text-anchor="end">登船 0′</text>');
+    HALF.forEach(tickMark);
+    s.push('<text x="'+(XR-40)+'" y="460" font-size="8" fill="#8b95a5">'+clock(total)+' · 现在</text>');
   }
   s.push('<line x1="'+XR+'" y1="8" x2="'+XR+'" y2="506" stroke="#e6ebf2" stroke-width="2"/>');
 
@@ -237,7 +241,7 @@ function draw(){
     });
   });
   document.getElementById("tl").innerHTML = s.join("");
-  document.getElementById("snapLbl").textContent = mode === "window" ? ("快照 " + fmt(SNAP)) : "全览 0:00–95:00";
+  document.getElementById("snapLbl").textContent = mode === "window" ? ("快照 " + clock(SNAP)) : ("全览 " + clock(0) + " – " + clock(total));
 }
 
 // ---- 控件 ----
