@@ -315,8 +315,8 @@
   // ---- 会话起点时钟（11:00）+ 半小时真实时刻刻度（grammar v5 §8.6） ----
   var VS = MOCK.meta.voyageStart || "11:00", vsParts = VS.split(":").map(Number), vsMin = vsParts[0] * 60 + (vsParts[1] || 0);
   function clock(t){ var m = vsMin + t / 60, h = Math.floor(m / 60) % 24, mm = Math.floor(m % 60); return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm; }
-  var HALF = [];
-  (function(){ for (var tm = 0; tm <= total / 60; tm++){ if ((vsMin + tm) % 30 === 0) HALF.push({ t: tm * 60, label: clock(tm * 60) }); } })();
+  var HALF = [], TICKS2 = [];
+  (function(){ for (var tm = 0; tm <= total / 60; tm++){ if ((vsMin + tm) % 10 === 0) HALF.push({ t: tm * 60, label: clock(tm * 60) }); if ((vsMin + tm) % 2 === 0) TICKS2.push(tm * 60); } })();
   // ---- 车道行分配：按时间排序 + 轮转铺轨（同轨时间不重叠 → L2 7 条 > 6 轨也不重叠） ----
   var ROWS = { L4: [23,41], L3: [65,83,101,119], L2: [143,161,179,197,215,233], L1: [257,275,293,311,329,347,365,383,401,419], X: [475,493] };
   function evRange(ev){
@@ -366,13 +366,15 @@
   function get(no) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) return MOCK.events[i]; }
   function fmt(t) { if (t == null) return "-"; var s = Math.floor(t % 60); var m = Math.floor(t / 60); return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
 
-  // ---------- KPI（数据驱动） ----------
+  // ---------- KPI（数据驱动，跟随真实发生时间） ----------
   function renderKPIs() {
-    var l4 = MOCK.events.filter(function (e) { return e.level === "L4" && e.state !== "已恢复" && e.state !== "已拒绝"; }).length;
-    var exe = MOCK.events.filter(function (e) { return e.state === "执行中"; }).length;
-    var sus = MOCK.events.filter(function (e) { return e.suspend && e.suspend.decidedAt != null; }).length;
+    function endOf(e){ return e.recoverAt != null ? e.recoverAt : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : (e.exec && e.exec.to) || total; }
+    var l4 = MOCK.events.filter(function (e) { return e.level === "L4" && e.discover.at <= SNAP && SNAP <= endOf(e); }).length;
+    var exe = MOCK.events.filter(function (e) { return e.state === "执行中" && e.discover.at <= SNAP; }).length;
+    var sus = MOCK.events.filter(function (e) { return e.suspend && e.suspend.decidedAt != null && e.suspend.decidedAt <= SNAP; }).length;
+    var alert = l4 > 0 && SNAP < 5100;   // L4 告警期 = E-L4 诞生(12:17)后约 8 分钟内闪烁
     document.getElementById("kpis").innerHTML =
-      '<div class="kpi warn pulse">L4 处置<b>' + l4 + "</b></div>" +
+      '<div class="kpi' + (alert ? " warn pulse" : "") + '">L4 处置<b>' + l4 + "</b></div>" +
       '<div class="kpi">执行中<b>' + exe + "</b></div>" +
       '<div class="kpi">挂起监测<b>' + sus + "</b></div>";
   }
@@ -407,16 +409,19 @@
   function renderLog() {
     var kw = (document.getElementById("logSearch").value || "").trim();
     var rows = OPLOG.filter(function (l) {
+      if (l.at > SNAP) return false;              // 只显示"已发生"：随播放进度滚动出现
       if (logFilter === "evt" && l.kind !== "事件") return false;
       if (logFilter === "op" && l.kind !== "操作") return false;
       if (kw && l.text.indexOf(kw) < 0 && l.no.indexOf(kw) < 0) return false;
       return true;
     });
-    document.getElementById("logcnt").textContent = OPLOG.length;
+    document.getElementById("logcnt").textContent = rows.length;
     var h = rows.slice(-40).reverse().map(function (l) {
       return '<div class="op"><span class="t">' + clock(l.at) + '</span><span>' + l.text + '</span></div>';
     }).join("");
-    document.getElementById("opfeed").innerHTML = h || '<div class="op"><span class="t">--</span><span>(无日志)</span></div>';
+    var feed = document.getElementById("opfeed");
+    feed.innerHTML = h || '<div class="op"><span class="t">--</span><span>(无日志)</span></div>';
+    feed.scrollTop = 0;                            // 最新在顶部，滚动保持可见
   }
   // ---------- 时间轴（从数据生成，多车道；62 条数据驱动） ----------
   function Xat(t) { return 70 + ((t - (SNAP - W)) / W) * 790; }
@@ -436,8 +441,13 @@
     BANDS.forEach(function(L){
       s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="var(--bg2)" rx="6"/><text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">'+L[0]+(L[0]==="X"?"·库外":"")+'</text>');
     });
-    // 底部时间轴：半小时真实时刻刻度（内容坐标，随窗口滚动出现-移动-消失）
+    // 底部时间轴：每 2 分钟次刻度 + 每 10 分钟主刻度（真实时刻，内容坐标，随窗口滚动）
     s.push('<line x1="70" y1="444" x2="860" y2="444" stroke="var(--line1)" stroke-width="2"/>');
+    TICKS2.forEach(function(t){
+      if (!inW(t)) return;
+      var mx = Xat(t);
+      s.push('<line x1="'+mx+'" y1="441" x2="'+mx+'" y2="447" stroke="var(--line0)"/>');
+    });
     HALF.forEach(function(tk){
       if (!inW(tk.t)) return;
       var mx = Xat(tk.t);
@@ -604,6 +614,7 @@
   // ---------- 时钟 / 控制（时间轴实时生长） ----------
   var tlleg=document.querySelector(".tlleg");
   tlleg.innerHTML = tlleg.innerHTML + '<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center">' +
+    '<label style="color:var(--tlo);font-size:10px;display:inline-flex;align-items:center;gap:3px">时间 <input id="tlsnaprange" type="range" min="0" max="'+total+'" step="30" value="520" style="width:170px"></label>' +
     '<button class="btn sm" id="tlplay">⏸ 暂停</button>' +
     '<input id="tlspeed" type="range" min="1" max="120" value="20" style="width:90px">' +
     '<button class="btn sm" id="tlsnap">+60s</button>' +
@@ -611,12 +622,28 @@
   document.getElementById("tlplay").onclick=function(){ playing=!playing; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
   document.getElementById("tlspeed").addEventListener("input",function(){ spd=+this.value; });
   document.getElementById("tlsnap").onclick=function(){ SNAP=(SNAP+60)%total; if(!playing) tick(); };
-  function updateSnapLbl(){ var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+clock(SNAP); var ck=document.getElementById("clockTop"); if(ck) ck.textContent=clock(SNAP); }
+  // 可拖动时间条：拖到哪，时间轴/时钟/刻度/KPI/日志/模式 全部对齐
+  document.getElementById("tlsnaprange").addEventListener("input", function(){
+    SNAP = +this.value;
+    playing = false;
+    var p = document.getElementById("tlplay"); if (p) p.textContent = "▶ 播放";
+    updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog();
+  });
+  function updateSnapLbl(){
+    var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+clock(SNAP);
+    var ck=document.getElementById("clockTop"); if(ck) ck.textContent=clock(SNAP);
+    var sr=document.getElementById("tlsnaprange"); if(sr) sr.value=SNAP;
+    // 局势图模式跟随当前阶段（系泊/离泊/在航/靠泊）
+    var acc=0, modes=["alongside","departing","underway","berthing"], idx=modes.length-1;
+    for(var i=0;i<MOCK.session.phases.length;i++){ acc+=MOCK.session.phases[i].dur; if(SNAP<acc){ idx=i; break; } }
+    setMode(modes[idx]);
+    Array.from(document.querySelectorAll("#modes button")).forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-m")===modes[idx]); });
+  }
   function tick(){
     SNAP=(SNAP+spd*0.1)%total;
     var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
-    drawTimeline(); updateSnapLbl(); renderKPIs();
-    if(version>lastUI){ lastUI=version; renderLog(); renderCardBand(); renderRight(); }
+    drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog();
+    if(version>lastUI){ lastUI=version; renderCardBand(); renderRight(); }
   }
   setInterval(function(){ if(playing) tick(); },100);
   var version=1, lastUI=0;
