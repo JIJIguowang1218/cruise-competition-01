@@ -370,9 +370,13 @@
   function renderKPIs() {
     function endOf(e){ return e.recoverAt != null ? e.recoverAt : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : (e.exec && e.exec.to) || total; }
     var l4 = MOCK.events.filter(function (e) { return e.level === "L4" && e.discover.at <= SNAP && SNAP <= endOf(e); }).length;
-    var exe = MOCK.events.filter(function (e) { return e.state === "执行中" && e.discover.at <= SNAP; }).length;
-    var sus = MOCK.events.filter(function (e) { return e.suspend && e.suspend.decidedAt != null && e.suspend.decidedAt <= SNAP; }).length;
-    var alert = l4 > 0 && SNAP < 5100;   // L4 告警期 = E-L4 诞生(12:17)后约 8 分钟内闪烁
+    var exe = MOCK.events.filter(function (e) { return e.exec && e.exec.from != null && !(e.outlib && e.outlib.isX) && e.exec.from <= SNAP && SNAP <= endOf(e); }).length;
+    var sus = MOCK.events.filter(function (e) {
+      if (!e.suspend || e.suspend.decidedAt == null) return false;
+      var until = (e.recheck && e.recheck.reads && e.recheck.reads.length) ? e.recheck.reads[e.recheck.reads.length - 1].at : e.suspend.decidedAt;
+      return e.suspend.decidedAt <= SNAP && SNAP <= until;   // 实时挂起数：解决/升级后不再计入
+    }).length;
+    var alert = l4 > 0 && SNAP < 5820;   // L4 告警期 = E-L4 诞生(12:27)后约 8 分钟闪烁
     document.getElementById("kpis").innerHTML =
       '<div class="kpi' + (alert ? " warn pulse" : "") + '">L4 处置<b>' + l4 + "</b></div>" +
       '<div class="kpi">执行中<b>' + exe + "</b></div>" +
@@ -466,7 +470,7 @@
         if(ev.suspend && ev.suspend.decidedAt != null && inW(ev.suspend.decidedAt)){
           var px=Xat(ev.suspend.decidedAt); s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="#f0a43f" stroke-width="2"/>');
         }
-        if(ev.upgrade && ev.upgrade.at!=null && ROWS[ev.upgrade.to]){
+        if(ev.upgrade && ev.upgrade.at!=null && inW(ev.upgrade.at) && ROWS[ev.upgrade.to]){
           var ux=Xat(ev.upgrade.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:ROWS[ev.upgrade.to][0]-5);
           s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
         }

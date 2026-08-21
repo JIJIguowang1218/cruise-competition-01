@@ -48,7 +48,7 @@
   </div>
 
   <div class="ctl">
-    <button id="modeFull" class="on">全览 95′（分布核对）</button>
+    <button id="modeFull" class="on">全览 120′（分布核对）</button>
     <button id="modeWin">窗口 10′（同高保真滚动）</button>
     <label>时间 <input id="snap" type="range" min="0" max="5700" step="30" value="3300"></label>
     <span class="snap" id="snapLbl">快照 --:--</span>
@@ -57,9 +57,9 @@
     <span id="jumps" style="display:inline-flex;gap:6px;align-items:center">
       <span class="meta">跳转：</span>
       <button class="jump" data-t="600">E01 挂起 10′</button>
-      <button class="jump" data-t="4320">E09 诞生 72′</button>
-      <button class="jump" data-t="4620">▲升级 77′</button>
-      <button class="jump" data-t="5700">靠岸 95′</button>
+      <button class="jump" data-t="4920">E09 诞生 82′</button>
+      <button class="jump" data-t="5220">▲升级 87′</button>
+      <button class="jump" data-t="7200">靠岸 120′</button>
     </span>
   </div>
 
@@ -71,7 +71,7 @@
       <div class="panel">
         <h2>本系统 AI 风险推理状态（非事件，不占时间轴）</h2>
         <span class="chip low">35′ · 低信度 → 态势图 chip</span>
-        <span class="chip met">72′ · 信度达标 → 升级为 E09</span>
+        <span class="chip met">82′ · 信度达标 → 升级为 E09</span>
         <div class="meta" style="margin-top:4px">SCHEMA §2.6 / 治理框架 §4.11.5：航变风险 = 本系统 AI 推理产物</div>
       </div>
       <div class="panel">
@@ -91,8 +91,8 @@
       <div class="panel">
         <h2>使用说明 &amp; 叙事标注</h2>
         <div class="notes">
-          ◆ <b>全览</b>：95′ 全程一窗（分布核对，事件按比例压缩）；<b>窗口 10′</b>：同高保真滑动窗口（约 53px/分钟，事件矩形长、随时间生长）——拖时间条或播放，即可看到每条事件的完整解剖（发现→待审批→执行→闭合点）<br>
-          ◆ 主角链：X-0001 登船弱信号(灰) → ▲460 升级红线 → E01(L2) → 挂起(琥珀) → 72′ 信度达标 → E09(L3) → ▲4620 物理升级 → E-L4(L4) 执行中·开放收尾（直达"现在"竖线）<br>
+          ◆ <b>全览</b>：120′ 全程一窗（分布核对，事件按比例压缩）；<b>窗口 10′</b>：同高保真滑动窗口（约 53px/分钟，事件矩形长、随时间生长）——拖时间条或播放，即可看到每条事件的完整解剖（发现→待审批→执行→闭合点）<br>
+          ◆ 主角链：X-0001 登船弱信号(灰) → ▲460 升级红线 → E01(L2) → 挂起(琥珀) → 82′ 信度达标 → E09(L3) → ▲5220 物理升级 → E-L4(L4) 执行中·开放收尾（直达"现在"竖线）<br>
           ◆ 升级红线两头已按语法 §8.4 对齐：下级末端 x = 红竖线 x = 上级左起点 x（E01.discover=460、E-L4.discover=4620、E09 确认后增"推演评估执行段"4560→4620）<br>
           ◆ 挂起示范：E01@10′ · E04@13′ · E27@48′ 琥珀空心点闭合，再检仅日志；次角 E11 接驳中断完整闭环（绿点）<br>
           ◆ 本次补 2 条在航 L1 底噪：<span class="star">A04-L1-03、E21-L1-04</span>（为 E09 埋线）；两例升级 reason=physical
@@ -115,7 +115,7 @@
 var MOCK = window.MOCK, SC = window.SimCore, total = MOCK.session.total;
 var v = SC.validate(MOCK);
 document.getElementById("meta").textContent =
-  "voyageNo " + MOCK.meta.voyageNo + " · " + MOCK.events.length + " 条 · " + (MOCK.meta.voyageStart || "11:00") + " 登船 · 95′ 单航段（登船→离泊→在航→靠泊·靠岸即停） · validate=" +
+  "voyageNo " + MOCK.meta.voyageNo + " · " + MOCK.events.length + " 条 · " + (MOCK.meta.voyageStart || "11:00") + " 登船 · " + Math.round(total / 60) + "′ 单航段（登船→离泊→在航→靠泊·靠岸即停） · validate=" +
   (v.ok ? "OK(" + MOCK.events.length + " 条)" : "ERR " + v.errors.join(";"));
 
 // ---- 高保真几何（p1-captain-hifi.html LANES/band，逐字对齐） ----
