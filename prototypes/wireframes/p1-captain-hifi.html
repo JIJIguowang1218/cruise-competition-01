@@ -73,6 +73,11 @@
   .fil{border:1px solid var(--line0);background:var(--bg2);color:var(--tlo);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
   .fil.on{background:var(--exec);color:#04121a;border-color:var(--exec)}
   .opfeed{flex:1;overflow:auto;padding:2px 12px 8px;display:flex;flex-direction:column;gap:1px}
+  .opfeed::-webkit-scrollbar,.rbody::-webkit-scrollbar,.zbody::-webkit-scrollbar,.donelist::-webkit-scrollbar{width:8px;height:8px}
+  .opfeed::-webkit-scrollbar-track,.rbody::-webkit-scrollbar-track,.zbody::-webkit-scrollbar-track,.donelist::-webkit-scrollbar-track{background:transparent}
+  .opfeed::-webkit-scrollbar-thumb,.rbody::-webkit-scrollbar-thumb,.zbody::-webkit-scrollbar-thumb,.donelist::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:4px}
+  .opfeed::-webkit-scrollbar-thumb:hover,.rbody::-webkit-scrollbar-thumb:hover,.zbody::-webkit-scrollbar-thumb:hover,.donelist::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.3)}
+  .opfeed::-webkit-scrollbar-corner,.rbody::-webkit-scrollbar-corner,.zbody::-webkit-scrollbar-corner,.donelist::-webkit-scrollbar-corner{background:transparent}
   .op{font-size:11px;padding:5px 0;color:var(--th);border-top:1px solid var(--line0);display:flex;gap:8px}
   .op .t{color:var(--tlo);font-size:10px;flex:none;padding-top:1px}
   .op .evv{color:var(--detect)} .op .opv{color:var(--outlib)} .op .abv{color:var(--abn)}
@@ -154,9 +159,9 @@
   <div class="topbar">
     <div class="brand">事件协同工作台<small>翡翠号 · 航次 VN-0420</small></div>
     <div class="kpis" id="kpis">
-      <div class="kpi warn pulse">L4告警<b>1</b></div>
-      <div class="kpi">待审批<b>2</b></div>
-      <div class="kpi">离泊窗口<b>37′</b></div>
+      <div class="kpi">L4 处置<b>0</b></div>
+      <div class="kpi">处置中<b>0</b></div>
+      <div class="kpi">挂起监测<b>0</b></div>
     </div>
     <div class="modebox">
       <span class="t">模式</span>
@@ -218,7 +223,7 @@
       </div>
       <div class="oplog">
         <div class="head"><b>操作台日志</b><span class="tagpill">LIVE</span><span class="sp"></span><button class="btn sm" onclick="copyLog()">复制</button></div>
-        <div class="ctl"><input id="logSearch" placeholder="搜索日志"><button class="fil on" data-f="all">全部</button><button class="fil" data-f="evt">事件</button><button class="fil" data-f="op">操作</button><button class="fil" data-f="pause">⏸</button><span style="flex:1"></span><span id="logcnt">0</span></div>
+        <div class="ctl"><input id="logSearch" placeholder="搜索日志"><button class="fil on" data-f="all">全部</button><button class="fil" data-f="evt">事件</button><button class="fil" data-f="op">操作</button><span style="flex:1"></span><button class="btn sm" id="logFz" title="冻结/继续日志滚动">⏸</button><span id="logcnt">0</span></div>
         <div class="opfeed" id="opfeed">
           <div class="op"><span class="t">11:41</span><span>L4 全船应急 · 升级自 L3 <span class="abv">[升级]</span></span></div>
           <div class="op"><span class="t">11:40</span><span>接驳晚点 移交执行端异常 <span class="evv">[交接异常]</span></span></div>
@@ -370,7 +375,13 @@
   function renderKPIs() {
     function endOf(e){ return e.recoverAt != null ? e.recoverAt : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : (e.exec && e.exec.to) || total; }
     var l4 = MOCK.events.filter(function (e) { return e.level === "L4" && e.discover.at <= SNAP && SNAP <= endOf(e); }).length;
-    var exe = MOCK.events.filter(function (e) { return e.exec && e.exec.from != null && !(e.outlib && e.outlib.isX) && e.exec.from <= SNAP && SNAP <= endOf(e); }).length;
+    // 处置中 = 当前时刻处于处理生命周期的事件（发现/审批/执行），挂起监测中与库外 X 不计入 → 与时间轴可见矩形一致
+    var act = MOCK.events.filter(function (e) {
+      if (e.outlib && e.outlib.isX) return false;
+      if (e.discover.at > SNAP || SNAP >= endOf(e)) return false;
+      if (e.suspend && e.suspend.decidedAt != null && e.suspend.decidedAt <= SNAP) return false;
+      return true;
+    }).length;
     var sus = MOCK.events.filter(function (e) {
       if (!e.suspend || e.suspend.decidedAt == null) return false;
       var until = (e.recheck && e.recheck.reads && e.recheck.reads.length) ? e.recheck.reads[e.recheck.reads.length - 1].at : e.suspend.decidedAt;
@@ -379,7 +390,7 @@
     var alert = l4 > 0 && SNAP < 5820;   // L4 告警期 = E-L4 诞生(12:27)后约 8 分钟闪烁
     document.getElementById("kpis").innerHTML =
       '<div class="kpi' + (alert ? " warn pulse" : "") + '">L4 处置<b>' + l4 + "</b></div>" +
-      '<div class="kpi">执行中<b>' + exe + "</b></div>" +
+      '<div class="kpi">处置中<b>' + act + "</b></div>" +
       '<div class="kpi">挂起监测<b>' + sus + "</b></div>";
   }
   // ---------- 操作台日志（append-only：发现/移交/审批/执行/挂起/再检/衍生，按时间排序） ----------
@@ -409,11 +420,12 @@
     lines.sort(function (a, b) { return a.at - b.at; });
     return lines;
   })();
-  var logFilter = "all";
+  var logFilter = "all", logFrozen = false, logFrozenAt = 0;
   function renderLog() {
     var kw = (document.getElementById("logSearch").value || "").trim();
+    var revealAt = logFrozen ? logFrozenAt : SNAP;   // 冻结时保持当时进度
     var rows = OPLOG.filter(function (l) {
-      if (l.at > SNAP) return false;              // 只显示"已发生"：随播放进度滚动出现
+      if (l.at > revealAt) return false;              // 只显示"已发生"：随播放进度滚动出现
       if (logFilter === "evt" && l.kind !== "事件") return false;
       if (logFilter === "op" && l.kind !== "操作") return false;
       if (kw && l.text.indexOf(kw) < 0 && l.no.indexOf(kw) < 0) return false;
@@ -615,6 +627,13 @@
     logFilter = b.getAttribute("data-f"); renderLog();
   });
   document.getElementById("logSearch").addEventListener("input", function () { renderLog(); });
+  document.getElementById("logFz").onclick = function () {
+    logFrozen = !logFrozen;
+    if (logFrozen) logFrozenAt = SNAP;
+    this.textContent = logFrozen ? "▶" : "⏸";
+    this.title = logFrozen ? "继续日志滚动" : "冻结/继续日志滚动";
+    renderLog();
+  };
   // ---------- 时钟 / 控制（时间轴实时生长） ----------
   var tlleg=document.querySelector(".tlleg");
   tlleg.innerHTML = tlleg.innerHTML + '<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center">' +
