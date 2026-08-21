@@ -354,7 +354,8 @@
       },
       alternatives: [],
       clauses: [
-        {id: "§A12", snippet: "人工行李转运动作"}
+        {id: "§A12", snippet: "人工行李转运动作"},
+        {id: "§R8-014", snippet: "排队提示口径"}
       ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 484}
@@ -575,7 +576,8 @@
         {id: "B", reason: "持续占车道盯到恢复（否决：挂起后走再检更省车道）"}
       ],
       clauses: [
-        {id: "§A09", snippet: "接驳运力调车动作"}
+        {id: "§A09", snippet: "接驳运力调车动作"},
+        {id: "§R8-014", snippet: "接驳提示口径"}
       ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 1302}
@@ -641,7 +643,9 @@
         sections: ["调度回执超时 → A08 跟踪重发 + 值班确认落点"]
       },
       alternatives: [],
-      clauses: [],
+      clauses: [
+        {id: "§A08", snippet: "执行回执跟踪动作"}
+      ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 1220}
       ],
@@ -1346,7 +1350,9 @@
         sections: ["转盘卡滞 → A04 派单 + 人工清障"]
       },
       alternatives: [],
-      clauses: [],
+      clauses: [
+        {id: "§A04", snippet: "维修派单动作"}
+      ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 1222}
       ],
@@ -1620,7 +1626,8 @@
       },
       alternatives: [],
       clauses: [
-        {id: "§A02", snippet: "增开备用通道"}
+        {id: "§A02", snippet: "增开备用通道"},
+        {id: "§R8-014", snippet: "排队提示口径"}
       ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 2160}
@@ -2209,7 +2216,9 @@
         sections: ["电梯故障 → A04 派单 ENG + A11 乘客提示 → 修复复位"]
       },
       alternatives: [],
-      clauses: [],
+      clauses: [
+        {id: "§A11", snippet: "暂停使用/替代引导动作"}
+      ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 3417}
       ],
@@ -3060,7 +3069,9 @@
         sections: ["甜品台排队 → A16 分流 → 挂起+再检"]
       },
       alternatives: [],
-      clauses: [],
+      clauses: [
+        {id: "§A16", snippet: "分流引导动作"}
+      ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 3899}
       ],
@@ -3131,7 +3142,9 @@
         sections: ["E27 儿童俱乐部超容 → A16 活动协调 → 挂起+再检"]
       },
       alternatives: [],
-      clauses: [],
+      clauses: [
+        {id: "§A16", snippet: "活动协调/批次协调动作"}
+      ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 3786}
       ],
@@ -3202,7 +3215,9 @@
         sections: ["泳池区密度 0.89 → A16 分流 → 挂起+再检"]
       },
       alternatives: [],
-      clauses: [],
+      clauses: [
+        {id: "§A16", snippet: "分流引导动作"}
+      ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 3786}
       ],
@@ -3722,7 +3737,10 @@
         sections: ["衍生自 E03-0001（parentTrace 仅日志关联，不画流转线）", "第二波复燃 → A01+A16 分流 → 挂起+再检 recovered", "与 E-L4 离船方案并行：餐厅按新离船批次口径同步调整"]
       },
       alternatives: [],
-      clauses: [],
+      clauses: [
+        {id: "§A01", snippet: "排队提示口径"},
+        {id: "§A16", snippet: "分流引导动作"}
+      ],
       chain: [
         {role: "DUTY", status: "done", actionAt: 4860}
       ],
