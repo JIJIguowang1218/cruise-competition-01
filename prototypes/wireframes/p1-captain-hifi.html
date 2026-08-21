@@ -530,7 +530,17 @@
   function isDoneAt(e, t){
     if (t === undefined) t = SNAP;
     if (e.outlib && e.outlib.isX) {
-      var x = (e.upgrade && e.upgrade.at != null) ? e.upgrade.at : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : null;
+      if (e.upgrade && e.upgrade.at != null) {
+        // 关系A 升级：以目标正式事件的执行段开始（绿色）才算已处置
+        for (var i = 0; i < MOCK.events.length; i++) {
+          var c = MOCK.events[i];
+          if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) {
+            return c.exec && c.exec.from != null ? t >= c.exec.from : t >= e.upgrade.at;
+          }
+        }
+        return t >= e.upgrade.at;
+      }
+      var x = (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : null;
       return x != null && t >= x;
     }
     return e.exec && e.exec.from != null && t >= e.exec.from;   // 只要有执行阶段发生 → 已处置
@@ -623,9 +633,8 @@
         if (it.status === "linger") k += " linger";
         if (it.status === "collect") k += " collect";
         if (it.no === sel) k += " sel";
-        var tag = it.status === "live" ? (e ? e.state : "") : "已处置";
         return '<div class="' + k + '" data-no="' + it.no + '">' +
-          '<div class="t1"><span>' + it.no + " " + (e ? e.name : "") + '</span><span class="tag">' + tag + "</span></div>" +
+          '<div class="t1"><span>' + it.no + " " + (e ? e.name : "") + "</span></div>" +
           '<div style="font-size:9.5px;color:var(--tlo)">' + (e ? (e.summary || "") : "") + "</div></div>";
       }).join("");
       // 已处置总数 = 已收集 + 当前滞留中（与可见卡片对得上）；脉冲只在"收入动画"瞬间触发
