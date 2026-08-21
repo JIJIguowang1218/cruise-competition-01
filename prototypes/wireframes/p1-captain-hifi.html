@@ -538,7 +538,7 @@
       var list = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
       var live = list.filter(function (e) { return e.discover.at <= SNAP && !isDoneAt(e); });
       var done = list.filter(function (e) { return e.discover.at <= SNAP && isDoneAt(e); });
-      return lv + ":" + live.length + ":" + done.length;
+      return lv + ":" + live.map(function (e) { return e.eventNo; }).sort().join(",") + ";" + done.map(function (e) { return e.eventNo; }).sort().join(",");
     }).join("|") + ":" + sel;
     if (sig === bandSig) return;   // 集合未变则不重建（保滚动位置）
     bandSig = sig;
