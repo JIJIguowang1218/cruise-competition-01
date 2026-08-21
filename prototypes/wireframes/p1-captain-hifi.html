@@ -101,23 +101,28 @@
   .dot8{width:7px;height:7px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
   .dot8.am{border-color:#f0a43f}
   /* 卡片带（整竖条） */
-  .cardband{width:206px;flex:none;background:var(--bg1);border-radius:10px;padding:10px;overflow:auto}
-  .bandhead{font-size:11px;font-weight:700;color:var(--th);padding:2px 2px 8px}
-  .card{background:var(--bg2);border-radius:8px;padding:7px 9px;font-size:11px;margin:3px 0;cursor:pointer;color:var(--th);box-shadow:inset 3px 0 0 var(--lv,#555);transition:transform var(--dur),filter var(--dur)}
+  .cardband{width:212px;flex:none;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+  .zone{display:flex;flex-direction:column;min-height:0;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
+  .zone.zx{flex:0 0 96px}
+  .zh{display:flex;align-items:center;gap:6px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
+  .zh .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .zh .zc{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
+  .zbody{flex:1;min-height:0;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
+  .zempty{flex:1;border:1px dashed var(--line1);border-radius:8px;color:var(--tlo);font-size:10px;display:flex;align-items:center;justify-content:center;min-height:32px}
+  .card{background:var(--bg2);border-radius:8px;padding:6px 8px;font-size:10.5px;cursor:pointer;color:var(--th);box-shadow:inset 3px 0 0 var(--lv,#555);transition:transform var(--dur),filter var(--dur);flex:none}
   .card:hover{filter:brightness(1.15);transform:translateY(-1px)}
   .card.sel{outline:1px solid var(--th)}
-  .card.lv4{--lv:var(--abn)} .card.lv3{--lv:var(--detect)} .card.lv2{--lv:var(--exec)} .card.lvX{--lv:var(--outlib)}
+  .card.pop{animation:pop .3s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(5px) scale(.96)}to{opacity:1;transform:none}}
+  .card.lv4{--lv:var(--abn)} .card.lv3{--lv:var(--detect)} .card.lv2{--lv:var(--exec)} .card.lv1{--lv:#6f7886} .card.lvX{--lv:var(--outlib)}
   .card .t1{display:flex;justify-content:space-between;gap:4px;font-weight:700}
   .tag{font-size:9px;padding:0 6px;border-radius:999px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
   .tag.pin{background:var(--outlib);color:#04101f}
-  .zone{font-size:10px;color:var(--tlo);padding:4px 2px;cursor:pointer;user-select:none}
-  .zbody{display:block}
-  .grp.collapsed .zbody{display:none}
-  .done{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--tlo);padding:6px 4px;cursor:pointer;border-top:1px solid var(--line0);margin-top:6px}
-  .done .cnt{background:var(--bg3);border-radius:999px;padding:0 7px;font-size:9px}
-  .donelist{display:none}
-  .donelist.open{display:block}
-  .dcard{background:var(--bg2);opacity:.55;border-radius:8px;padding:6px 8px;font-size:10px;margin:2px 0;color:var(--th);cursor:pointer}
+  .donebar{display:flex;align-items:center;gap:6px;width:100%;border-top:1px solid var(--line0);background:var(--bg2);color:var(--tlo);font-size:10px;padding:4px 10px;cursor:pointer;flex:none}
+  .donebar:hover{color:var(--th)}
+  .donebar .cnt{background:var(--bg3);border-radius:999px;padding:0 7px;font-size:9px}
+  .donebar.zpulse{animation:zflash .8s ease}
+  @keyframes zflash{0%{background:rgba(81,184,115,.28)}100%{background:var(--bg2)}}
   /* 右栏（卡片式） */
   .rtabs{display:flex;gap:2px;background:var(--bg1);border-radius:10px 10px 0 0;padding:6px 10px 0}
   .rtabs button{border:none;background:transparent;color:var(--tlo);padding:8px 12px;font-size:12px;cursor:pointer;border-radius:8px 8px 0 0}
@@ -518,27 +523,50 @@
       '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + e.state + "</span></div>" +
       '<div style="font-size:10px;color:var(--tlo)">' + (e.summary || "") + "</div></div>";
   }
+  // ---------- 事件卡片带（时间驱动：区域实时弹出 → 执行阶段发生即收入已处置栏，带动画） ----------
+  function isDoneAt(e){
+    if (e.outlib && e.outlib.isX) {
+      var t = (e.upgrade && e.upgrade.at != null) ? e.upgrade.at : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : null;
+      return t != null && SNAP >= t;
+    }
+    return e.exec && e.exec.from != null && SNAP >= e.exec.from;   // 只要有执行阶段发生 → 已处置
+  }
+  var cardSeen = {}, lastDone = {}, bandSig = "";
   function renderCardBand() {
-    var pinned = [], groups = { L3: [], L2: [], L1: [] }, others = [];
-    MOCK.events.forEach(function (e) {
-      if (e.level === "L4" || e.type === "X") pinned.push(e);
-      else if (groups[e.level]) groups[e.level].push(e);
-      else others.push(e);
+    var ZONES = [["L4", "#e5484d"], ["L3", "#f0a43f"], ["L2", "#51b873"], ["L1", "#6f7886"], ["X", "#4c8dff"]];
+    var sig = ZONES.map(function (z) {
+      var lv = z[0];
+      var list = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
+      var live = list.filter(function (e) { return e.discover.at <= SNAP && !isDoneAt(e); });
+      var done = list.filter(function (e) { return e.discover.at <= SNAP && isDoneAt(e); });
+      return lv + ":" + live.length + ":" + done.length;
+    }).join("|") + ":" + sel;
+    if (sig === bandSig) return;   // 集合未变则不重建（保滚动位置）
+    bandSig = sig;
+    var h = "";
+    ZONES.forEach(function (z) {
+      var lv = z[0], col = z[1], cls = lv === "X" ? "lvX" : "lv" + lv.toLowerCase();
+      var list = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
+      var live = list.filter(function (e) { return e.discover.at <= SNAP && !isDoneAt(e); });
+      var done = list.filter(function (e) { return e.discover.at <= SNAP && isDoneAt(e); });
+      var newLive = live.filter(function (e) { return !cardSeen[e.eventNo]; });
+      live.forEach(function (e) { cardSeen[e.eventNo] = 1; });
+      done.forEach(function (e) { cardSeen[e.eventNo] = 1; });
+      var pulse = lastDone[lv] !== undefined && done.length > lastDone[lv];
+      lastDone[lv] = done.length;
+      h += '<div class="zone' + (lv === "X" ? " zx" : "") + '">' +
+        '<div class="zh"><i class="dot" style="background:' + col + '"></i>' + (lv === "X" ? "X · 库外" : "L" + lv) +
+        '<span class="zc">实时 ' + live.length + ' · 已处置 ' + done.length + "</span></div>" +
+        '<div class="zbody">' +
+        (live.length ? live.map(function (e) {
+          return '<div class="card ' + cls + (newLive.indexOf(e) >= 0 ? " pop" : "") + (e.eventNo === sel ? " sel" : "") + '" data-no="' + e.eventNo + '">' +
+            '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + e.state + "</span></div>" +
+            '<div style="font-size:9.5px;color:var(--tlo)">' + (e.summary || "") + "</div></div>";
+        }).join("") : '<div class="zempty">— 暂无实时事件 —</div>') +
+        "</div>" +
+        '<button class="donebar' + (pulse ? " zpulse" : "") + '" data-donebar="' + lv + '" title="已处置明细（弹窗待定）">已处置 <span class="cnt">' + done.length + "</span> ▸</button>" +
+        "</div>";
     });
-    var h = '<div class="bandhead">事件卡片</div>';
-    pinned.forEach(function (e) { h += cardHtml(e, e.eventNo === sel); });
-    ["L3", "L2", "L1"].forEach(function (lv) {
-      var list = groups[lv] || [];
-      var act = list.filter(function (e) { return !isDone(e); });
-      var done = list.filter(isDone);
-      if (act.length + done.length === 0) return;
-      h += '<div class="grp" id="grp-' + lv + '"><div class="zone" data-zone="grp-' + lv + '">' + lv + " · " + (act.length + done.length) + " ▾</div>";
-      h += '<div class="zbody">' + act.map(function (e) { return cardHtml(e, e.eventNo === sel); }).join("") +
-        (done.length ? '<div class="done" data-done="dn-' + lv + '">已处置 <span class="cnt">' + done.length + "</span> ▸</div>" +
-          '<div class="donelist" id="dn-' + lv + '">' + done.map(function (e) { return '<div class="dcard" data-no="' + e.eventNo + '">' + e.eventNo + " " + e.name + " · " + e.state + "</div>"; }).join("") + "</div>" : "") +
-        "</div></div>";
-    });
-    others.forEach(function (e) { h += cardHtml(e, e.eventNo === sel); });
     document.getElementById("cardband").innerHTML = h;
   }
   // ---------- 右栏 ----------
@@ -582,10 +610,11 @@
   document.getElementById("cardband").addEventListener("click", function (e) {
     var no = e.target.closest("[data-no]");
     if (no) { sel = no.getAttribute("data-no"); renderAll(); return; }
-    var zn = e.target.closest("[data-zone]");
-    if (zn) { var g = document.getElementById(zn.getAttribute("data-zone")); g.classList.toggle("collapsed"); var z = g.querySelector(".zone"); z.innerHTML = z.textContent.indexOf("▸") > -1 ? z.textContent.replace("▸", "▾") : z.textContent.replace("▾", "▸"); return; }
-    var dn = e.target.closest("[data-done]");
-    if (dn) { var dl = document.getElementById(dn.getAttribute("data-done")); dl.classList.toggle("open"); var d = dn; d.innerHTML = d.innerHTML.indexOf("▸") > -1 ? d.innerHTML.replace("▸", "▾") : d.innerHTML.replace("▾", "▸"); }
+    var db = e.target.closest("[data-donebar]");
+    if (db) {
+      var cnt = db.querySelector(".cnt"); 
+      toast("已处置明细弹窗（待定）· " + db.getAttribute("data-donebar") + " 已处置 " + (cnt ? cnt.textContent : "0") + " 条");
+    }
   });
   document.getElementById("apwrap").addEventListener("click", function (e) {
     var b = e.target.closest("[data-act]"); if (!b) return;
@@ -664,7 +693,7 @@
     SNAP = +this.value;
     playing = false;
     var p = document.getElementById("tlplay"); if (p) p.textContent = "▶ 播放";
-    updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog();
+    updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog(); renderCardBand();
   });
   function updateSnapLbl(){
     var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+clock(SNAP);
@@ -679,8 +708,8 @@
   function tick(){
     SNAP=(SNAP+spd*0.1)%total;
     var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
-    drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog();
-    if(version>lastUI){ lastUI=version; renderCardBand(); renderRight(); }
+    drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog(); renderCardBand();
+    if(version>lastUI){ lastUI=version; renderRight(); }
   }
   setInterval(function(){ if(playing) tick(); },100);
   var version=1, lastUI=0;
