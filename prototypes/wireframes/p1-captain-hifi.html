@@ -88,6 +88,7 @@
   .tlleg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--tlo);background:var(--bg1);border-radius:10px;padding:6px 12px}
   .sw{width:12px;height:7px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px;box-shadow:inset 0 0 0 1px var(--line0)}
   .dot8{width:7px;height:7px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
+  .dot8.am{border-color:#f0a43f}
   /* 卡片带（整竖条） */
   .cardband{width:206px;flex:none;background:var(--bg1);border-radius:10px;padding:10px;overflow:auto}
   .bandhead{font-size:11px;font-weight:700;color:var(--th);padding:2px 2px 8px}
@@ -177,7 +178,7 @@
         </div>
       </div>
       <div class="uth" id="uth">船长<small>登录用户</small></div>
-      <div class="clock">11:42<small>本地 · 船时</small></div>
+      <div class="clock"><span id="clockTop">11:42</span><small>本地 · 船时</small></div>
       <span class="chip">韧性 T0</span>
     </div>
   </div>
@@ -217,7 +218,7 @@
       </div>
       <div class="oplog">
         <div class="head"><b>操作台日志</b><span class="tagpill">LIVE</span><span class="sp"></span><button class="btn sm" onclick="copyLog()">复制</button></div>
-        <div class="ctl"><input placeholder="搜索日志"><button class="fil on">全部</button><button class="fil">事件</button><button class="fil">操作</button><button class="fil">⏸</button><span style="flex:1"></span><span>142</span></div>
+        <div class="ctl"><input id="logSearch" placeholder="搜索日志"><button class="fil on" data-f="all">全部</button><button class="fil" data-f="evt">事件</button><button class="fil" data-f="op">操作</button><button class="fil" data-f="pause">⏸</button><span style="flex:1"></span><span id="logcnt">0</span></div>
         <div class="opfeed" id="opfeed">
           <div class="op"><span class="t">11:41</span><span>L4 全船应急 · 升级自 L3 <span class="abv">[升级]</span></span></div>
           <div class="op"><span class="t">11:40</span><span>接驳晚点 移交执行端异常 <span class="evv">[交接异常]</span></span></div>
@@ -243,7 +244,7 @@
         </div>
         <div class="tlleg">
           <span><i class="evchip ev-d"></i>发现</span><span><i class="evchip ev-a"></i>异常/升级</span>
-          <span><i class="dot8"></i>恢复点</span><span>受控持续=虚线边监测段</span><span>竖线=瞬时移交(绿=正常/红=异常)</span>
+          <span><i class="dot8"></i>恢复点（深绿空心）</span><span><i class="dot8 am"></i>挂起点（琥珀空心·§13）</span><span>竖线=瞬时移交(绿=正常/红=异常)</span>
         </div>
       </div>
       <!-- 整竖条卡片带 -->
@@ -311,6 +312,50 @@
 <script>
   var MOCK = window.MOCK, SC = window.SimCore;
   var total = MOCK.session.total, SNAP = 520, playing = true, spd = 20, W = 900; // 滑动窗口10min，事件矩形短
+  // ---- 会话起点时钟（11:00）+ 半小时真实时刻刻度（grammar v5 §8.6） ----
+  var VS = MOCK.meta.voyageStart || "11:00", vsParts = VS.split(":").map(Number), vsMin = vsParts[0] * 60 + (vsParts[1] || 0);
+  function clock(t){ var m = vsMin + t / 60, h = Math.floor(m / 60) % 24, mm = Math.floor(m % 60); return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm; }
+  var HALF = [];
+  (function(){ for (var tm = 0; tm <= total / 60; tm++){ if ((vsMin + tm) % 30 === 0) HALF.push({ t: tm * 60, label: clock(tm * 60) }); } })();
+  // ---- 车道行分配：按时间排序 + 轮转铺轨（同轨时间不重叠 → L2 7 条 > 6 轨也不重叠） ----
+  var ROWS = { L4: [23,41], L3: [65,83,101,119], L2: [143,161,179,197,215,233], L1: [257,275,293,311,329,347,365,383,401,419], X: [475,493] };
+  function evRange(ev){
+    if (ev.outlib && ev.outlib.isX) return { from: ev.discover.at, to: ev.upgrade && ev.upgrade.at != null ? ev.upgrade.at : (ev.holding && ev.holding.to) || total };
+    var to = ev.recoverAt != null ? ev.recoverAt
+          : (ev.suspend && ev.suspend.decidedAt != null) ? ev.suspend.decidedAt
+          : (ev.exec && ev.exec.to) ? ev.exec.to
+          : (ev.holding && ev.holding.to) || (ev.upgrade && ev.upgrade.at) || total;
+    return { from: ev.discover.at, to: to };
+  }
+  function allocRows(evs, rows){
+    var placed = [], out = {};
+    evs.slice().sort(function(a,b){ return a.discover.at - b.discover.at; }).forEach(function(ev, idx){
+      var rng = evRange(ev), start = idx % rows.length, pick = -1;
+      for (var k = 0; k < rows.length; k++){
+        var i = (start + k) % rows.length;
+        if (!placed[i] || rng.from >= placed[i].to || rng.to <= placed[i].from){ pick = i; break; }
+      }
+      if (pick < 0) pick = start;
+      placed[pick] = placed[pick] ? { from: Math.min(placed[pick].from, rng.from), to: Math.max(placed[pick].to, rng.to) } : rng;
+      out[ev.eventNo] = rows[pick];
+    });
+    return out;
+  }
+  var byLevel = { L4: [], L3: [], L2: [], L1: [], X: [] };
+  MOCK.events.forEach(function(e){ (e.type === "X" ? byLevel.X : byLevel[e.level]).push(e); });
+  var rowMap = {};
+  Object.keys(byLevel).forEach(function(lv){ var m = allocRows(byLevel[lv], ROWS[lv]); Object.keys(m).forEach(function(k){ rowMap[k] = m[k]; }); });
+  function rowOf(ev){ return rowMap[ev.eventNo]; }
+  function childRowOf(up){
+    var tid = SC.traceId(up);
+    for (var i = 0; i < MOCK.events.length; i++){
+      var c = MOCK.events[i];
+      if (c.parentTrace === tid) return rowOf(c);
+      if (c.discover && c.discover.signals) for (var j = 0; j < c.discover.signals.length; j++)
+        if (c.discover.signals[j].from && c.discover.signals[j].from === up.eventNo) return rowOf(c);
+    }
+    return null;
+  }
   var role = "CAPT";
   var ROLE_ACT = {"CAPT":["L4"], "MGR":["L2","L3"], "LEGAL":["L3"], "DUTY":["L1","L2"]};
   function visibleActs(ev){ var allow=(ev.machine?ev.machine.allow:[]); if(ev.outlib&&ev.outlib.isX){ return (["DUTY","MGR"].indexOf(role)>=0)?allow:[]; } return (ROLE_ACT[role]||[]).indexOf(ev.level)>=0?allow:[]; }
@@ -321,72 +366,98 @@
   function get(no) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) return MOCK.events[i]; }
   function fmt(t) { if (t == null) return "-"; var s = Math.floor(t % 60); var m = Math.floor(t / 60); return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
 
-  // ---------- KPI / 日志 ----------
+  // ---------- KPI（数据驱动） ----------
   function renderKPIs() {
-    var l4 = MOCK.events.filter(function (e) { return e.level === "L4"; }).length;
-    var pend = MOCK.events.filter(function (e) { return e.state === "待审批" || e.state === "待查看"; }).length;
+    var l4 = MOCK.events.filter(function (e) { return e.level === "L4" && e.state !== "已恢复" && e.state !== "已拒绝"; }).length;
+    var exe = MOCK.events.filter(function (e) { return e.state === "执行中"; }).length;
+    var sus = MOCK.events.filter(function (e) { return e.suspend && e.suspend.decidedAt != null; }).length;
     document.getElementById("kpis").innerHTML =
-      '<div class="kpi warn pulse">L4告警<b>' + l4 + "</b></div>" +
-      '<div class="kpi">待审批<b>' + pend + "</b></div>" +
-      '<div class="kpi">离泊窗口<b>37′</b></div>';
+      '<div class="kpi warn pulse">L4 处置<b>' + l4 + "</b></div>" +
+      '<div class="kpi">执行中<b>' + exe + "</b></div>" +
+      '<div class="kpi">挂起监测<b>' + sus + "</b></div>";
   }
-  function renderLog() {
-    var h = "";
-    MOCK.events.slice(0).reverse().forEach(function (e) {
-      var t = e.recoverAt || e.approval.decidedAt || e.approval.waitStart || e.discover.at;
-      var tag = e.upgrade && e.upgrade.at != null ? '[升级]' : (e.state === "已恢复" ? '[恢复]' : e.state);
-      h += '<div class="op"><span class="t">' + fmt(t) + '</span><span>' + e.eventNo + " " + e.name + " → " + e.state + ' <span class="opv">' + tag + "</span></span></div>";
+  // ---------- 操作台日志（append-only：发现/移交/审批/执行/挂起/再检/衍生，按时间排序） ----------
+  var OPLOG = (function () {
+    var lines = [];
+    MOCK.events.forEach(function (ev) {
+      function log(at, text, kind) { lines.push({ at: at, no: ev.eventNo, text: text, kind: kind }); }
+      log(ev.discover.at, "发现 " + ev.eventNo + " " + ev.name, "事件");
+      (ev.handoffs || []).forEach(function (h) {
+        log(h.at, "移交 " + ev.eventNo + " → " + (h.to === "AUTO" ? "自动执行" : (h.to === "SENSE" ? "感知接入" : h.to)), "操作");
+      });
+      if (ev.approval && ev.approval.waitStart != null) {
+        log(ev.approval.waitStart, ev.eventNo + " 待确认/待审批（时限 " + Math.round(SC.levelTimeout(ev.level) / 60) + "′）", "操作");
+        if (ev.approval.decidedAt != null) log(ev.approval.decidedAt, ev.eventNo + " 确认通过 → 进入执行段", "操作");
+      }
+      if (ev.exec && ev.exec.from != null && !(ev.outlib && ev.outlib.isX)) log(ev.exec.from, ev.eventNo + " 执行中（人工作业·含恢复确认）", "操作");
+      if (ev.suspend && ev.suspend.decidedAt != null) log(ev.suspend.decidedAt, ev.eventNo + " 判定挂起（琥珀点闭合）→ 转入周期再检", "操作");
+      (ev.recheck && ev.recheck.reads || []).forEach(function (r, i) {
+        var t = (r.verdict === "upgrade" || r.verdict === "accident") ? "升级/事故 → 生成衍生新事件（parentTrace 仅日志）"
+              : (r.verdict === "recovered") ? "恢复，关闭监测（无新事件）" : "仍同类，保持监测（仅日志）";
+        log(r.at, ev.eventNo + " 再检 " + (i + 1) + "/" + ev.recheck.reads.length + "：" + t, "操作");
+      });
+      if (ev.recoverAt != null) log(ev.recoverAt, ev.eventNo + " 恢复（绿点闭合）", "事件");
+      if (ev.upgrade && ev.upgrade.at != null) log(ev.upgrade.at, ev.eventNo + " 升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化" : "超时") + "，关系A升级线）", "事件");
+      if (ev.parentTrace) log(ev.discover.at, ev.eventNo + " 衍生自 " + ((ev.discover.signals && ev.discover.signals[0].from) || "上游") + "（parentTrace=" + ev.parentTrace + "）", "事件");
     });
-    document.getElementById("opfeed").innerHTML = h || '<div class="op"><span class="t">--</span><span>(空)</span></div>';
+    lines.sort(function (a, b) { return a.at - b.at; });
+    return lines;
+  })();
+  var logFilter = "all";
+  function renderLog() {
+    var kw = (document.getElementById("logSearch").value || "").trim();
+    var rows = OPLOG.filter(function (l) {
+      if (logFilter === "evt" && l.kind !== "事件") return false;
+      if (logFilter === "op" && l.kind !== "操作") return false;
+      if (kw && l.text.indexOf(kw) < 0 && l.no.indexOf(kw) < 0) return false;
+      return true;
+    });
+    document.getElementById("logcnt").textContent = OPLOG.length;
+    var h = rows.slice(-40).reverse().map(function (l) {
+      return '<div class="op"><span class="t">' + clock(l.at) + '</span><span>' + l.text + '</span></div>';
+    }).join("");
+    document.getElementById("opfeed").innerHTML = h || '<div class="op"><span class="t">--</span><span>(无日志)</span></div>';
   }
-  // ---------- 时间轴（从数据生成，多车道） ----------
-  var LANES = { L4: { rows: [23, 41] }, L3: { rows: [65, 83, 101, 119] }, L2: { rows: [143, 161, 179, 197, 215, 233] }, L1: { rows: [257, 275, 293, 311, 329, 347, 365, 383, 401, 419] }, X: { rows: [475, 493] } };
-  var rowUsed = { L4: 0, L3: 0, L2: 0, L1: 0, X: 0 };
-  function assignRow(lv) { var r = LANES[lv].rows[rowUsed[lv] % LANES[lv].rows.length]; rowUsed[lv]++; return r; }
-  // 事件在所属车道的实际行（与 assignRow 顺序一致，便于升级线接真实位置）
-  function laneRowOf(ev) {
-    var lv = ev.type === "X" ? "X" : ev.level;
-    if (lv === "X") { var xi = MOCK.events.filter(function (e) { return e.type === "X"; }).indexOf(ev); return LANES.X.rows[Math.max(0, xi) % LANES.X.rows.length]; }
-    var same = MOCK.events.filter(function (e) { return e.type !== "X" && e.level === lv; });
-    var idx = same.indexOf(ev); return LANES[lv].rows[Math.max(0, idx) % LANES[lv].rows.length];
-  }
-  // 升级后上级“子事件”的实际所在行（由其 eventNo 前缀 + 升级时刻确定）
-  function childRowOf(ev) {
-    for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i];
-      if (c.eventNo.indexOf(ev.eventNo + "-C") === 0 && (c.discover.at === ev.upgrade.at || !ev.upgrade.at)) return laneRowOf(c); }
-    return null;
-  }
+  // ---------- 时间轴（从数据生成，多车道；62 条数据驱动） ----------
   function Xat(t) { return 70 + ((t - (SNAP - W)) / W) * 790; }
   function inW(t) { return t >= SNAP - W && t <= SNAP; }
   function drawTimeline() {
     var s = [];
-    [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]].forEach(function(L){
-      s.push('<rect x="70" y="'+L[1]+'" width="790" height="'+L[2]+'" fill="transparent" stroke="var(--line0)"/>');
+    var BANDS = [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]];
+    BANDS.forEach(function(L){
+      s.push('<rect x="70" y="'+L[1]+'" width="790" height="'+L[2]+'" fill="rgba(255,255,255,.03)" stroke="var(--line0)"/>');
     });
-    var grid=[[23,41],[65,83,101,119],[143,161,179,197,215,233],[257,275,293,311,329,347,365,383,401,419],[475,493]];
     s.push('<g stroke="var(--line0)" stroke-width="1" stroke-dasharray="4 4">');
-    grid.forEach(function(rr){ rr.forEach(function(y){ s.push('<line x1="70" y1="'+y+'" x2="860" y2="'+y+'"/>'); }); });
-    s.push("</g>");
-    [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]].forEach(function(L){
-      s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="var(--bg2)" rx="6"/><text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">'+L[0]+'</text>');
+    BANDS.forEach(function(L, bi){
+      var lv = L[0];
+      ROWS[lv].forEach(function(y){ s.push('<line x1="70" y1="'+y+'" x2="860" y2="'+y+'"/>'); });
     });
-    // 相对时间轴（右端=现在/快照）
+    s.push("</g>");
+    BANDS.forEach(function(L){
+      s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="var(--bg2)" rx="6"/><text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">'+L[0]+(L[0]==="X"?"·库外":"")+'</text>');
+    });
+    // 底部时间轴：半小时真实时刻刻度（内容坐标，随窗口滚动出现-移动-消失）
     s.push('<line x1="70" y1="444" x2="860" y2="444" stroke="var(--line1)" stroke-width="2"/>');
-    for(var k=0;k<=6;k++){ var t=(SNAP-W)+(k/6)*W; var x=Xat(t); var rel=Math.round((t-SNAP)/60);
-      s.push('<line x1="'+x+'" y1="439" x2="'+x+'" y2="449" stroke="var(--line1)"/>');
-      if(k===0||k===3) s.push('<text x="'+(x-14)+'" y="460" font-size="8" fill="var(--tlo)">'+rel+'′</text>');
-      if(k===6) s.push('<text x="'+(x-16)+'" y="460" font-size="8" fill="var(--th)">现在</text>');
-    }
+    HALF.forEach(function(tk){
+      if (!inW(tk.t)) return;
+      var mx = Xat(tk.t);
+      s.push('<line x1="'+mx+'" y1="8" x2="'+mx+'" y2="506" stroke="rgba(255,255,255,.05)"/>');
+      s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="var(--line1)"/>');
+      s.push('<text x="'+(mx-14)+'" y="460" font-size="8" fill="var(--tlo)">'+tk.label+'</text>');
+    });
+    s.push('<text x="'+(860-18)+'" y="460" font-size="8" fill="var(--th)">现在</text>');
     s.push('<line x1="860" y1="8" x2="860" y2="506" stroke="var(--th)" stroke-width="2"/>');
-    // 事件（只画已发生；滑窗裁剪 → 不再有“孤儿移交线”）
-    rowUsed = {L4:0,L3:0,L2:0,L1:0,X:0};
+    // 事件（只画已发生；滑窗裁剪；统一细矩形 9px；闭合点贴矩形末端）
     MOCK.events.forEach(function(ev){
-      var lv = ev.type==="X"?"X":ev.level, row = laneRowOf(ev);
+      var row = rowOf(ev);
       if(ev.outlib && ev.outlib.isX){
-        var xf=Math.max(ev.discover.at, SNAP-W), xt=Math.min((ev.upgrade&&ev.upgrade.at)||ev.holding.to||SNAP, SNAP);
+        var xf=Math.max(ev.discover.at, SNAP-W), xt=Math.min((ev.upgrade&&ev.upgrade.at)||(ev.holding&&ev.holding.to)||SNAP, SNAP);
         if(xt>xf){ s.push('<rect x="'+Xat(xf)+'" y="'+(row-5)+'" width="'+(Xat(xt)-Xat(xf))+'" height="9" fill="#6f7886" stroke="var(--line0)" stroke-dasharray="3 2" rx="2"/>'); }
-        if(ev.upgrade && ev.upgrade.at!=null && LANES[ev.upgrade.to]){
-          var ux=Xat(ev.upgrade.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:LANES[ev.upgrade.to].rows[0]-5);
+        if(ev.suspend && ev.suspend.decidedAt != null && inW(ev.suspend.decidedAt)){
+          var px=Xat(ev.suspend.decidedAt); s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="#f0a43f" stroke-width="2"/>');
+        }
+        if(ev.upgrade && ev.upgrade.at!=null && ROWS[ev.upgrade.to]){
+          var ux=Xat(ev.upgrade.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:ROWS[ev.upgrade.to][0]-5);
           s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
         }
         return;
@@ -394,15 +465,16 @@
       var segs = SC.computeSegments(ev, SNAP);
       segs.forEach(function(seg){
         if(seg.type==="handoff"){ if(inW(seg.at)){ var hx=Xat(seg.at); s.push('<line x1="'+hx+'" y1="'+(row-7)+'" x2="'+hx+'" y2="'+(row+7)+'" stroke="'+(seg.kind==="error"?CX.abn:CX.exec)+'" stroke-width="3"/>'); } }
-        else if(seg.type==="upgrade"){ if(inW(seg.at)&&ev.upgrade&&LANES[ev.upgrade.to]){ var ux=Xat(seg.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:LANES[ev.upgrade.to].rows[0]-5); s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>'); } }
+        else if(seg.type==="upgrade"){ if(inW(seg.at)&&ev.upgrade&&ROWS[ev.upgrade.to]){ var ux=Xat(seg.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:ROWS[ev.upgrade.to][0]-5); s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>'); } }
         else if(seg.type==="recover"){ if(inW(seg.at)){ var rx=Xat(seg.at); s.push('<circle cx="'+rx+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.recover+'" stroke-width="2"/>'); } }
+        else if(seg.type==="suspend"){ if(inW(seg.at)){ var px=Xat(seg.at); s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="#f0a43f" stroke-width="2"/>'); } }
         else { var f=Math.max(seg.from, SNAP-W), to=Math.min(seg.to, SNAP); if(to>f){ var X1=Xat(f), X2=Xat(to); s.push('<rect x="'+X1+'" y="'+(row-5)+'" width="'+(X2-X1)+'" height="9" fill="'+(CX[seg.color]||CX.detect)+'" rx="2" opacity="'+(seg.type==="holding"?0.6:1)+'"/>'); } }
       });
     });
     document.getElementById("tlgen").innerHTML = s.join("");
   }
   // ---------- 卡片带（数据驱动：置顶/分组折叠/已处置） ----------
-  function isDone(e) { return e.state === "已恢复" || e.state === "已拒绝" || e.state === "已忽略" || e.state === "已关闭"; }
+  function isDone(e) { return /已恢复|已关闭|已存档|已拒绝|已忽略|已升级/.test(e.state); }
   function cardHtml(e, active) {
     return '<div class="card ' + (e.type === "X" ? "lvX" : "lv" + e.level) + (active ? " sel" : "") + '" data-no="' + e.eventNo + '">' +
       '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + e.state + "</span></div>" +
@@ -447,7 +519,8 @@
       '<div class="mcard"><div class="lbl">决策卡 · ' + e.eventNo + " · " + e.level + '</div><b>' + e.state + "</b><div class=static-inline>" + e.summary + " · 置信度 " + e.confidence + '</div></div>' +
       '<div class="mcard"><div class="lbl">处置动作（决策卡）</div><div class="act">' + (acts || '<span class="lbl">' + (isDone(e) ? '已终结，无动作' : '只读监控（'+role+' 无权处置 '+e.level+'）') + '</span>') + "</div></div>" +
       '<div class="mcard"><div class="lbl">推理附件</div><button class="btn sm" onclick="toggleRsn()">展开推理附件 ▾</button>' +
-      '<div id="rsn" style="display:none;margin-top:6px">' + (e.reasoning.sections || []).map(function (x) { return "<p>" + x + "</p>"; }).join("") + "</div></div>";
+      '<div id="rsn" style="display:none;margin-top:6px">' + (e.reasoning.sections || []).map(function (x) { return "<p>" + x + "</p>"; }).join("") +
+      (e.reasoning.pipeline ? "<p style='margin-top:6px'><b>推理流水（模拟 AI 推理后台）</b></p>" + e.reasoning.pipeline.map(function (x) { return "<p>• " + x.step + "：" + x.detail + "</p>"; }).join("") : "") + "</div></div>";
     // 审批流
     var steps = (e.chain || []).map(function (c, i) { return '<div class="step' + (c.status === "done" ? " done" : (c.status === "current" ? " cur" : "")) + '">' + c.role + "</div>"; }).join("");
     document.getElementById("tab-flow").innerHTML = '<div class="mcard"><div class="lbl">审批流 · trace ' + tid + '</div><div class="steps">' + steps + '</div>' +
@@ -518,6 +591,16 @@
   document.addEventListener("click", function () { document.getElementById("dd").classList.remove("open"); });
   function toggleRsn() { var r = document.getElementById("rsn"); if (r) r.style.display = r.style.display === "none" ? "" : "none"; }
   function toast(m) { alert("操作登记：" + m); }
+  function copyLog() { toast("日志已复制（append-only · 哈希链）"); }
+  function copyTrace() { toast("trace 已复制（可扫码/检索）"); }
+  function copyRsn() { toast("推理全文已复制"); }
+  // 操作台日志：筛选 + 搜索
+  document.querySelector(".oplog .ctl").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-f]"); if (!b) return;
+    Array.from(document.querySelectorAll(".oplog .ctl button[data-f]")).forEach(function (x) { x.classList.toggle("on", x === b); });
+    logFilter = b.getAttribute("data-f"); renderLog();
+  });
+  document.getElementById("logSearch").addEventListener("input", function () { renderLog(); });
   // ---------- 时钟 / 控制（时间轴实时生长） ----------
   var tlleg=document.querySelector(".tlleg");
   tlleg.innerHTML = tlleg.innerHTML + '<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center">' +
@@ -528,7 +611,7 @@
   document.getElementById("tlplay").onclick=function(){ playing=!playing; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
   document.getElementById("tlspeed").addEventListener("input",function(){ spd=+this.value; });
   document.getElementById("tlsnap").onclick=function(){ SNAP=(SNAP+60)%total; if(!playing) tick(); };
-  function updateSnapLbl(){ var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+fmt(SNAP); }
+  function updateSnapLbl(){ var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+clock(SNAP); var ck=document.getElementById("clockTop"); if(ck) ck.textContent=clock(SNAP); }
   function tick(){
     SNAP=(SNAP+spd*0.1)%total;
     var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
