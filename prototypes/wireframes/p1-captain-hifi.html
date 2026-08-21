@@ -102,6 +102,9 @@
   .irow{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--th);border-top:1px solid var(--line0);padding:5px 0;overflow:hidden;flex:none;transition:opacity .6s;animation:ifadein .3s ease}
   @keyframes ifadein{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
   .irow.fade{opacity:0}
+  .irow.new{background:rgba(255,255,255,.05);box-shadow:inset 3px 0 0 var(--outlib)}
+  .inewtag{display:none;margin-left:auto;font-size:9px;color:var(--outlib);border:1px solid var(--outlib);border-radius:999px;padding:0 6px;flex:none;line-height:14px}
+  .irow.new .inewtag{display:inline-block}
   .idot{width:8px;height:8px;border-radius:50%;background:var(--tlo);flex:none;animation:bob .7s ease-in-out infinite}
   .idot.on{animation:none}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
@@ -758,7 +761,8 @@
         var wrap = document.createElement("span"); wrap.className = "imarqwrap";
         row.marq = document.createElement("span"); row.marq.className = "imarq";
         wrap.appendChild(row.marq);
-        el.appendChild(row.dot); el.appendChild(wrap);
+        var tag = document.createElement("span"); tag.className = "inewtag"; tag.textContent = "最新";
+        el.appendChild(row.dot); el.appendChild(wrap); el.appendChild(tag);
         row.el = el;
         inferRows[ev.eventNo] = row;
         inferFeed.insertBefore(el, inferFeed.firstChild);   // 最新在最上，旧的被挤下
@@ -789,6 +793,10 @@
       if (last.dataset && last.dataset.no) inferEvicted[last.dataset.no] = 1;
       last.remove();
     }
+    // 最新行标记：顶部一行 = 最新出现的推理事件（高亮底+左强调条+『最新』标签）
+    var first = inferFeed.firstElementChild;
+    Array.prototype.forEach.call(inferFeed.children, function (el) { el.classList.remove("new"); });
+    if (first) first.classList.add("new");
     var cnt = document.getElementById("infercnt");
     if (cnt) cnt.textContent = inferFeed.childElementCount;
   }
