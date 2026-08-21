@@ -72,7 +72,9 @@
   .oplog .ctl .fil{flex:none}
   .btn.icn{width:26px;height:24px;padding:0;display:inline-flex;align-items:center;justify-content:center;flex:none}
   .btn.icn svg{display:block}
-  .oplog .ctl input{flex:1;border:1px solid var(--line0);background:var(--bg2);color:var(--th);border-radius:999px;padding:3px 9px;font-size:10px;min-width:0}
+  .oplog .head input{flex:1;min-width:120px;max-width:270px;height:18px;box-sizing:border-box;border:1px solid var(--line0);background:var(--bg2);color:var(--th);border-radius:10px;padding:0 10px;font-size:10px;outline:none;transition:border-color var(--dur)}
+  .oplog .head input:focus{border-color:var(--outlib)}
+  .oplog .head input::placeholder{color:var(--tlo)}
   .fil{border:1px solid var(--line0);background:var(--bg2);color:var(--tlo);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
   .fil.on{background:var(--exec);color:#04121a;border-color:var(--exec)}
   .opfeed{flex:1;overflow:auto;padding:2px 12px 8px;display:flex;flex-direction:column;gap:1px}
@@ -225,9 +227,10 @@
         </div>
       </div>
       <div class="oplog">
-        <div class="head"><b>操作台日志</b><button class="btn sm" onclick="copyLog()">复制</button><input id="logSearch" placeholder="搜索日志…" style="flex:1;min-width:100px;max-width:230px"></div>
+        <div class="head"><b>操作台日志</b><input id="logSearch" placeholder="搜索日志…"></div>
         <div class="ctl">
           <button class="fil on" data-f="all">全部</button><button class="fil" data-f="evt">事件</button><button class="fil" data-f="op">操作</button>
+          <button class="btn sm" onclick="copyLog()">复制</button>
           <span style="flex:1"></span>
           <button class="btn sm icn" id="logFz" title="冻结日志滚动"><svg width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="0" width="3" height="10" rx="1" fill="currentColor"/><rect x="6" y="0" width="3" height="10" rx="1" fill="currentColor"/></svg></button>
           <span id="logcnt">0</span>
