@@ -448,13 +448,13 @@
         if (ev.approval.decidedAt != null) log(ev.approval.decidedAt, ev.eventNo + " 确认通过 → 进入执行段", "操作");
       }
       if (ev.exec && ev.exec.from != null && !(ev.outlib && ev.outlib.isX)) log(ev.exec.from, ev.eventNo + " 执行中（人工作业·含恢复确认）", "操作");
-      if (ev.suspend && ev.suspend.decidedAt != null) log(ev.suspend.decidedAt, ev.eventNo + " 判定挂起（琥珀点闭合）→ 转入周期再检", "操作");
+      if (ev.suspend && ev.suspend.decidedAt != null) log(ev.suspend.decidedAt, ev.eventNo + " 判定挂起 → 转入周期再检", "操作");
       (ev.recheck && ev.recheck.reads || []).forEach(function (r, i) {
         var t = (r.verdict === "upgrade" || r.verdict === "accident") ? "升级/事故 → 生成衍生新事件（parentTrace 仅日志）"
               : (r.verdict === "recovered") ? "恢复，关闭监测（无新事件）" : "仍同类，保持监测（仅日志）";
         log(r.at, ev.eventNo + " 再检 " + (i + 1) + "/" + ev.recheck.reads.length + "：" + t, "操作");
       });
-      if (ev.recoverAt != null) log(ev.recoverAt, ev.eventNo + " 恢复（绿点闭合）", "事件");
+      if (ev.recoverAt != null) log(ev.recoverAt, ev.eventNo + " 恢复，事件闭合", "事件");
       if (ev.upgrade && ev.upgrade.at != null) log(ev.upgrade.at, ev.eventNo + " 升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化" : "超时") + "，关系A升级线）", "事件");
       if (ev.parentTrace) log(ev.discover.at, ev.eventNo + " 衍生自 " + ((ev.discover.signals && ev.discover.signals[0].from) || "上游") + "（parentTrace=" + ev.parentTrace + "）", "事件");
     });
@@ -747,7 +747,7 @@
         sp.dotAt = loopEnd; sp.dotLevel = target ? target.level : ev.level;
         sp.end = H;
       } else {
-        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: endC || ("偏离收敛/信度不足（" + ev.confidence + "），判定存档观察（琥珀闭合），不入正式管线；如信号复现将重新评估。") });
+        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: endC || ("偏离收敛/信度不足（" + ev.confidence + "），判定存档观察（挂起闭合，不入正式管线）；如信号复现将重新评估。") });
         sp.end = loopEnd + 3;
       }
     } else {
