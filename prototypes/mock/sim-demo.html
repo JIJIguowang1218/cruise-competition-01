@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模拟数据 · 仿真核 Demo（事件→多段矩形·交互生成）</title>
+<style>
+  :root{--bg0:#0b0e13;--bg1:#11151c;--bg2:#171c26;--th:#e6ebf2;--tlo:#8b95a5;
+    --det:#f0a43f;--exec:#51b873;--abn:#e5484d;--out:#4c8dff;--recover:#2f9e63;--lin:rgba(255,255,255,.12)}
+  *{box-sizing:border-box;margin:0}
+  body{margin:0;background:#05070a;color:var(--th);font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;font-size:13px;padding:18px}
+  h1{font-size:17px}
+  .sub{color:var(--tlo);font-size:12px;margin:4px 0 16px}
+  .cards{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+  .panel{background:var(--bg1);border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+  .phases{display:flex;gap:4px;margin:8px 0}
+  .phase{flex:1;padding:6px 4px;text-align:center;border-radius:6px;background:var(--bg2);color:var(--tlo);font-size:11px}
+  .phase.on{background:var(--exec);color:#04121a;font-weight:700}
+  .clock{font-size:22px;font-weight:800}
+  .ctl{display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap}
+  button{border:1px solid var(--lin);background:var(--bg2);color:var(--th);padding:5px 10px;font-size:12px;border-radius:8px;cursor:pointer}
+  button:hover{filter:brightness(1.2)}
+  button.on{background:var(--exec);color:#04121a}
+  .evlist{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+  .evbtn{text-align:left;display:flex;justify-content:space-between;gap:6px}
+  .evbtn.sel{outline:1px solid var(--th)}
+  .tl{width:760px;background:var(--bg2);border-radius:10px;padding:10px;margin-top:8px}
+  .lbl{font-size:10px;color:var(--tlo)}
+  .info{width:360px}
+  .row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid var(--lin)}
+  .mono{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--out)}
+  .acts{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+  .banner{padding:8px 12px;border-radius:8px;font-size:12px;margin-top:8px}
+  .ok{background:rgba(81,184,115,.15);color:#d4f4e0}
+  .bad{background:rgba(229,72,77,.16);color:#ffd9da}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:11px}
+  th,td{border-bottom:1px solid var(--lin);padding:4px 6px;text-align:left}
+  th{color:var(--tlo);font-weight:600}
+  .legend{display:flex;gap:14px;font-size:11px;color:var(--tlo);margin:6px 0}
+  .sw{width:14px;height:8px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px}
+  .dot8{width:8px;height:8px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
+  .err{color:var(--abn);font-size:11px}
+</style>
+</head>
+<body>
+<h1>仿真核 Demo — 事件数据 → 实时生成多段矩形</h1>
+<div class="sub">数据=mock-data.js · 引擎=sim-core.js（哈希/编号/分段/状态机/审计链/校验）· 点按钮“确认/接管/恢复”会实时改变右侧事件的矩形与留痕编号</div>
+
+<div class="cards">
+  <!-- 会话 -->
+  <div class="panel" style="flex:1;min-width:340px">
+    <b>会话 / 循环剧本</b>
+    <div class="phases" id="phases"></div>
+    <div class="ctl">
+      <span class="clock" id="clock">00:00</span>
+      <button id="play" class="on" onclick="togglePlay()">⏸ 暂停</button>
+      <label>速度 <input id="spd" type="range" min="1" max="30" value="6" style="vertical-align:middle"></label>
+      <button id="step">+30s</button>
+      <button id="jump">跳到下阶段</button>
+    </div>
+    <div class="banner ok" id="valok"></div>
+    <div class="banner bad" id="valbad"></div>
+  </div>
+
+  <!-- 事件列 + 时间轴 -->
+  <div class="panel" style="flex:1;min-width:700px">
+    <b>事件 → 时间分段（由数据实时生成）</b>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--det)"></i>发现</span>
+      <span><i class="sw" style="background:var(--exec)"></i>执行/移交</span>
+      <span><i class="sw" style="background:#e8b64c"></i>待确认/审批(§12)</span>
+      <span><i class="sw" style="background:var(--abn)"></i>异常/升级</span>
+      <span><i class="dot8"></i>恢复点</span>
+      <span>白色竖线=实时“现在”</span>
+    </div>
+    <canvas id="tl0" class="tl" width="740" height="120"></canvas>
+    <div class="evlist" id="evlist"></div>
+  </div>
+</div>
+
+<div class="cards" style="margin-top:16px">
+  <!-- 事件详情/交互 -->
+  <div class="panel info" style="flex:1;min-width:340px">
+    <b>选中事件 · 编号与状态机</b>
+    <div id="evreg"></div>
+    <div class="acts" id="acts"></div>
+    <div style="margin-top:8px;font-size:11px;color:var(--tlo)" id="actlog"></div>
+  </div>
+  <!-- 审计链 -->
+  <div class="panel" style="flex:1.4;min-width:520px">
+    <b>审计链（append-only · 哈希链）</b>
+    <table id="audit"><thead><tr><th>记录号</th><th>时间</th><th>主体</th><th>动作</th><th>hash</th></tr></thead><tbody></tbody></table>
+    <div style="margin-top:6px;font-size:11px;color:var(--tlo)">修改任一条 → 链条断裂（演示以 FNV-1a；生产用 SHA-256）</div>
+  </div>
+</div>
+
+<script src="mock-data.js"></script>
+<script src="sim-core.js"></script>
+<script>
+  var MOCK = window.MOCK, SC = window.SimCore;
+  var total = MOCK.session.total;
+  MOCK.session.speed = 20;
+  var tNow = 250, running = true, sel = MOCK.events[0].eventNo;
+  var version = 1, lastUI = 0;   // 仅状态变化时重建 UI，避免每帧换按钮丢点击
+  var ACTIONS = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", ignore: "忽略(库外)", archive: "存档观察", escalate: "升级为正式事件" };
+  var CX = { detect: "#f0a43f", exec: "#51b873", approve: "#e8b64c", holding: "#7fb98a", abn: "#e5484d", handoff: "#51b873", upgrade: "#e5484d", recover: "#2f9e63" };
+  var WIN = 1500;
+
+  function get(no) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) return MOCK.events[i]; }
+  function phIdx(t) { var acc = 0; for (var i = 0; i < MOCK.session.phases.length; i++) { acc += MOCK.session.phases[i].dur; if (t < acc) return i; } return MOCK.session.phases.length - 1; }
+  function fmt(t) { var s = Math.floor(t % 60); var m = Math.floor(t / 60); return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
+
+  // ---------- 时间轴画布（滑动窗口；右端=现在；未发生不画） ----------
+  function renderTimeline() {
+    var ev = get(sel), cv = document.getElementById("tl0"), g = cv.getContext("2d");
+    g.clearRect(0, 0, cv.width, cv.height);
+    g.fillStyle = "#0e131b"; g.fillRect(0, 0, cv.width, cv.height);
+    g.fillStyle = "rgba(255,255,255,.04)"; g.fillRect(20, 30, 700, 60);
+    g.fillStyle = "#8b95a5"; g.font = "10px sans-serif";
+    g.fillText("滑动窗口·最近25min：事件到“现在”才生成，向右端向左延伸；未发生不显示", 22, 20);
+    function X(t) { return 720 + (t - tNow) / WIN * 700; }
+    function inW(t) { return t >= tNow - WIN && t <= tNow; }
+    var segs = SC.computeSegments(ev, tNow);
+    segs.forEach(function (s) {
+      if (s.type === "handoff") { if (inW(s.at)) { var hx = X(s.at); g.strokeStyle = s.kind === "error" ? CX.abn : CX.exec; g.lineWidth = 4; g.beginPath(); g.moveTo(hx, 34); g.lineTo(hx, 86); g.stroke(); } }
+      else if (s.type === "upgrade") { if (inW(s.at)) { var ux = X(s.at); g.strokeStyle = CX.abn; g.lineWidth = 4; g.beginPath(); g.moveTo(ux, 22); g.lineTo(ux, 100); g.stroke(); g.fillStyle = "#e5484d"; g.fillText("↑" + s.to, ux + 4, 26); } }
+      else if (s.type === "recover") { if (inW(s.at)) { var rx = X(s.at); g.fillStyle = "#fff"; g.strokeStyle = CX.recover; g.lineWidth = 2; g.beginPath(); g.arc(rx, 59, 5, 0, 7); g.fill(); g.stroke(); } }
+      else { var f = Math.max(s.from, tNow - WIN), to = Math.min(s.to, tNow); if (to > f) { var xl = X(f), xr = X(to); g.fillStyle = CX[s.color] || CX.detect; g.fillRect(xl, 40, xr - xl, 18); } }
+    });
+    g.strokeStyle = "#fff"; g.lineWidth = 2; g.beginPath(); g.moveTo(720, 8); g.lineTo(720, 112); g.stroke();
+    g.fillStyle = "#fff"; g.font = "10px sans-serif"; g.fillText("现在", 706, 122);
+  }
+  // ---------- 每帧轻量更新（时钟/阶段/KPI/画布） ----------
+  function renderDynamic() {
+    document.getElementById("clock").textContent = fmt(tNow);
+    var cur = phIdx(tNow), html = "";
+    MOCK.session.phases.forEach(function (p, i) { html += '<div class="phase' + (i === cur ? " on" : "") + '">' + p.name + "</div>"; });
+    document.getElementById("phases").innerHTML = html;
+    var kpi = "L4告警 " + MOCK.events.filter(function (e) { return e.level === "L4"; }).length +
+              " · 待办 " + MOCK.events.filter(function (e) { return e.state === "待审批" || e.state === "待查看"; }).length +
+              " · 执行中 " + MOCK.events.filter(function (e) { return e.state === "执行中"; }).length;
+    document.getElementById("actlog").textContent = kpi;
+    renderTimeline();
+  }
+
+  // ---------- 状态变化时才重建 UI（列表/详情/按钮/审计） ----------
+  function phNameTag(e) { return phIdx(tNow) === MOCK.session.phases.map(function (p) { return p.id; }).indexOf(e.phase) ? "本阶段" : "其他"; }
+  function renderUI() {
+    var el = document.getElementById("evlist"), html = "";
+    MOCK.events.forEach(function (e) {
+      html += '<button class="evbtn' + (e.eventNo === sel ? " sel" : "") + '" data-no="' + e.eventNo + '">' +
+        '<span>' + e.eventNo + " · " + e.name + '</span><span class="lbl">' + e.state + " · " + phNameTag(e) + "</span></button>";
+    });
+    el.innerHTML = html;
+    renderDetail(); renderAudit(); renderValidate();
+  }
+  function renderDetail() {
+    var ev = get(sel), r = document.getElementById("evreg"), tid = SC.traceId(ev);
+    var rows = [
+      ["eventNo", '<span class="mono">' + ev.eventNo + "</span>"],
+      ["trace_id", '<span class="mono">' + tid + "</span>"],
+      ["类型/等级", ev.type + " / " + ev.level + " · " + ev.semanticType],
+      ["状态机", (ev.machine ? ev.machine.current : ev.state) + " · 允许:[" + (ev.machine ? ev.machine.allow.join(",") : "") + "]"],
+      ["编号样例", '<span class="mono">' + SC.auditNo(ev, 1) + " · " + SC.portNo(ev, "APP", 1) + " · " + SC.jobNo(ev, 1) + "</span>"],
+      ["时限/待审批", ev.approval && ev.approval.dueAt != null ? ("dueAt=" + ev.approval.dueAt) : "-"]
+    ];
+    r.innerHTML = rows.map(function (x) { return '<div class="row"><span>' + x[0] + "</span><span>" + x[1] + "</span></div>"; }).join("");
+    var acts = document.getElementById("acts"), h = "";
+    (ev.machine ? ev.machine.allow : []).forEach(function (a) { h += '<button data-a="' + a + '">' + (ACTIONS[a] || a) + "</button>"; });
+    acts.innerHTML = h || '<span class="lbl">该事件已终结，无可用动作</span>';
+  }
+  function renderAudit() {
+    var ev = get(sel);
+    var acts = [
+      { at: ev.discover.at, actor: "SENSE", action: "信号接入/发现", data: { signals: ev.discover.signals.length } },
+      { at: (ev.handoffs[0] && ev.handoffs[0].at) || ev.discover.at, actor: ev.chain[0].role, action: "移交·待审批", data: {} },
+      { at: ev.recoverAt || ev.approval.decidedAt || ev.upgrade.at || "-", actor: ev.currentRole, action: ev.state, data: {} }
+    ];
+    var chain = SC.buildAuditChain(ev, acts), h = "";
+    chain.forEach(function (r) { h += "<tr><td class=mono>" + r.no + "</td><td>" + (r.at === "-" ? "-" : r.at + "s") + "</td><td>" + r.actor + "</td><td>" + r.action + "</td><td class=mono>" + r.hash + "</td></tr>"; });
+    document.querySelector("#audit tbody").innerHTML = h;
+  }
+  function renderValidate() {
+    var v = SC.validate(MOCK);
+    document.getElementById("valok").style.display = v.ok ? "block" : "none";
+    document.getElementById("valbad").style.display = v.ok ? "none" : "block";
+    document.getElementById("valok").textContent = "✓ 校验通过：" + MOCK.events.length + " 条事件 · 编号唯一 · 时间有序 · 枚举合法";
+    document.getElementById("valbad").innerHTML = "✗ 校验错误<br>" + v.errors.join("<br>");
+  }
+  // ---------- 交互（事件委托：容器只绑一次，点击不丢） ----------
+  document.getElementById("evlist").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    if (sel !== b.getAttribute("data-no")) { sel = b.getAttribute("data-no"); version++; }
+    renderDynamic(); if (version > lastUI) { lastUI = version; renderUI(); }
+  });
+  document.getElementById("acts").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var a = b.getAttribute("data-a"), ev = get(sel);
+    var r = SC.applyAction(ev, a, tNow);
+    if (!r.ok) { alert("非法状态转移：" + a); return; }
+    version++;
+    renderDynamic(); renderUI();
+  });
+  document.getElementById("play").onclick = function () { running = !running; this.textContent = running ? "⏸ 暂停" : "▶ 播放"; };
+  document.getElementById("spd").addEventListener("input", function () { MOCK.session.speed = +this.value; });
+  document.getElementById("step").onclick = function () { tNow = (tNow + 30) % total; var changed = false; MOCK.events.forEach(function (e) { var b = e.state; SC.autoTick(e, tNow, MOCK); if (e.state !== b) changed = true; }); if (changed) version++; renderDynamic(); if (version > lastUI) { lastUI = version; renderUI(); } };
+  document.getElementById("jump").onclick = function () { tNow = (tNow + 1200) % total; var changed = false; MOCK.events.forEach(function (e) { var b = e.state; SC.autoTick(e, tNow, MOCK); if (e.state !== b) changed = true; }); if (changed) version++; renderDynamic(); if (version > lastUI) { lastUI = version; renderUI(); } };
+
+  function tick() {
+    tNow = (tNow + MOCK.session.speed * 0.1) % total;
+    var changed = false;
+    MOCK.events.forEach(function (e) { var b = e.state; SC.autoTick(e, tNow, MOCK); if (e.state !== b) changed = true; });
+    if (changed) version++;
+    renderDynamic();
+    if (version > lastUI) { lastUI = version; renderUI(); }
+  }
+  setInterval(function () { if (running) tick(); }, 100);
+
+  lastUI = 0; renderDynamic(); renderUI();
+
+</script>
+</body>
+</html>

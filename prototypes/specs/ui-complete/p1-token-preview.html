@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P1 Design Token 预览 · 深色 day/dusk/night + 事件语义色</title>
+<style>
+  *{box-sizing:border-box;margin:0}
+  body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:#0d1014;color:#e6ebf2;padding:24px;font-size:13px}
+  h1{font-size:18px;margin-bottom:4px}
+  .sub{color:#8b95a5;margin-bottom:18px;font-size:12px}
+  .row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:26px}
+  .col{width:300px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+  .col h2{padding:12px 14px;font-size:14px}
+  .sw{display:flex;align-items:center;gap:10px;padding:8px 14px;font-size:11px}
+  .s{width:34px;height:22px;border-radius:3px;border:1px solid rgba(255,255,255,.15);flex:none}
+  .nm{flex:1}
+  .vl{color:#8b95a5;font-family:ui-monospace,Consolas,monospace}
+  .night .bx0{background:#0b0e13}.night .bx1{background:#11151c}.night .bx2{background:#171c26}.night .tl{color:#262d38}.night .th{color:#e6ebf2}.night .tlo{color:#8b95a5}
+  .dusk .bx0{background:#12161d}.dusk .bx1{background:#181e28}.dusk .bx2{background:#1f2733}.dusk .tl{color:#2d3542}.dusk .th{color:#eef1f6}.dusk .tlo{color:#97a1b0}
+  .day .bx0{background:#232a34}.day .bx1{background:#2a323e}.day .bx2{background:#333c4a}.day .tl{color:#3c4554}.day .th{color:#f4f6f9}.day .tlo{color:#aeb7c4}
+  .ev{width:22px;height:22px;border-radius:3px;flex:none;border:1px solid rgba(255,255,255,.12)}
+  .ev.detect{background:#f0a43f}.ev.exec{background:#51b873}.ev.abn{background:#e5484d}.ev.outlib{background:#4c8dff}.ev.recover{background:#2f9e63;border-radius:50%;border:3px solid #fff;box-sizing:border-box}
+  .note{color:#8b95a5;font-size:11px;margin-top:4px}
+  /* 事件条 mini mock（用 token 画） */
+  .mock{background:#11151c;border:1px solid #262d38;border-radius:6px;padding:16px 20px;max-width:760px}
+  .mock .bar{display:flex;align-items:center;height:26px;color:#e6ebf2}
+  .seg{height:9px;border-radius:2px}
+  .line{width:3px;height:17px;border-radius:2px;margin:0 1px}
+  .dot{width:9px;height:9px;border-radius:50%;border:2px solid #2f9e63;background:#fff;margin-left:-4px;flex:none;position:relative}
+  .cap{font-size:11px;color:#8b95a5;margin-top:10px}
+  .tagL{font-size:10px;color:#8b95a5;margin-top:4px}
+</style>
+</head>
+<body>
+  <h1>P1 Design Token 预览（v0.1 草案 · 供你定色）</h1>
+  <div class="sub">深色主视觉 + day/dusk/night 三档。三档只改整体亮度/色温；事件语义色在深底上重标，对比度一致。全部色值草案，你看实际色块再定。</div>
+
+  <div class="row">
+    <!-- night -->
+    <div class="col night bx0">
+      <h2 class="th">night（最暗偏冷）</h2>
+      <div class="sw"><div class="s bx0"></div><div class="nm tlo">bg-0 页面底</div><div class="vl">#0b0e13</div></div>
+      <div class="sw"><div class="s bx1"></div><div class="nm tlo">bg-1 面板底</div><div class="vl">#11151c</div></div>
+      <div class="sw"><div class="s bx2"></div><div class="nm tlo">bg-2 卡片</div><div class="vl">#171c26</div></div>
+      <div class="sw"><div class="s" style="background:#262d38"></div><div class="nm">line 描边</div><div class="vl">#262d38</div></div>
+      <div class="sw"><div class="s" style="background:#e6ebf2"></div><div class="nm">文字主</div><div class="vl">#e6ebf2</div></div>
+      <div class="sw"><div class="s" style="background:#8b95a5"></div><div class="nm">文字次</div><div class="vl">#8b95a5</div></div>
+    </div>
+    <!-- dusk -->
+    <div class="col dusk bx1">
+      <h2 class="th">dusk（中暖）</h2>
+      <div class="sw"><div class="s bx0"></div><div class="nm tlo">bg-0</div><div class="vl">#12161d</div></div>
+      <div class="sw"><div class="s bx1"></div><div class="nm tlo">bg-1</div><div class="vl">#181e28</div></div>
+      <div class="sw"><div class="s bx2"></div><div class="nm tlo">bg-2</div><div class="vl">#1f2733</div></div>
+      <div class="sw"><div class="s" style="background:#2d3542"></div><div class="nm">line</div><div class="vl">#2d3542</div></div>
+      <div class="sw"><div class="s" style="background:#eef1f6"></div><div class="nm">文字主</div><div class="vl">#eef1f6</div></div>
+      <div class="sw"><div class="s" style="background:#97a1b0"></div><div class="nm">文字次</div><div class="vl">#97a1b0</div></div>
+    </div>
+    <!-- day -->
+    <div class="col day bx2">
+      <h2 class="th">day（亮且暖）</h2>
+      <div class="sw"><div class="s bx0"></div><div class="nm tlo">bg-0</div><div class="vl">#232a34</div></div>
+      <div class="sw"><div class="s bx1"></div><div class="nm tlo">bg-1</div><div class="vl">#2a323e</div></div>
+      <div class="sw"><div class="s bx2"></div><div class="nm tlo">bg-2</div><div class="vl">#333c4a</div></div>
+      <div class="sw"><div class="s" style="background:#3c4554"></div><div class="nm">line</div><div class="vl">#3c4554</div></div>
+      <div class="sw"><div class="s" style="background:#f4f6f9"></div><div class="nm">文字主</div><div class="vl">#f4f6f9</div></div>
+      <div class="sw"><div class="s" style="background:#aeb7c4"></div><div class="nm">文字次</div><div class="vl">#aeb7c4</div></div>
+    </div>
+  </div>
+
+  <h2 style="font-size:14px;margin-bottom:10px">事件语义色（深底重标，三档通用底上）</h2>
+  <div class="row">
+    <div class="col bx1">
+      <div class="sw"><div class="ev detect"></div><div class="nm">ev-detect 发现段</div><div class="vl">#f0a43f</div></div>
+      <div class="sw"><div class="ev exec"></div><div class="nm">ev-exec 执行段</div><div class="vl">#51b873</div></div>
+      <div class="sw"><div class="ev abn"></div><div class="nm">ev-abn 异常/升级</div><div class="vl">#e5484d</div></div>
+      <div class="sw"><div class="ev outlib"></div><div class="nm">ev-outlib 库外X</div><div class="vl">#4c8dff</div></div>
+      <div class="sw"><div class="ev recover"></div><div class="nm">ev-recover 恢复点(空心)</div><div class="vl">#2f9e63</div></div>
+      <div class="note">红绿对比在深底上已按 WCAG AA 校准方向调整；色盲下预留红+辅助形（斜线/加粗）区分。</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:14px;margin:20px 0 10px">用 token 画一条事件（现场预览）</h2>
+  <div class="mock">
+    <div class="bar">
+      <span style="width:34px;color:#8b95a5;font-size:11px;flex:none">L4 ·</span>
+      <div class="seg" style="width:56px;background:#f0a43f"></div>
+      <div class="line" style="background:#51b873"></div>
+      <div class="seg" style="width:120px;background:#51b873"></div>
+      <div class="line" style="background:#e5484d;height:17px"></div>
+      <div class="seg" style="width:90px;background:#e5484d"></div>
+      <div class="line" style="background:#51b873"></div>
+      <div class="seg" style="width:110px;background:#51b873"></div>
+      <div class="dot"></div>
+      <span style="flex:1"></span><span style="width:16px;border-left:2px solid #fff;height:30px"></span>
+    </div>
+    <div class="cap">读法：发现(琥珀) ❘绿·移交 ❘ 执行(绿) ❘红·异常 ❘ 红段 ❘绿·修复 ❘ 恢复执行 ❘●恢复点&nbsp;&nbsp;|&nbsp;&nbsp;最右白竖线=实时线(现在)</div>
+    <div class="tagL">↑ 这就是语法 §11 的"错误-恢复"完整链路用 token 绘制的样子（段=时长，线=瞬时）</div>
+  </div>
+</body>
+</html>

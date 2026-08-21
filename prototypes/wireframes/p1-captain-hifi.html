@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P1 船长端高保真 v1（卡片式分区 · 整体等比缩放）</title>
+<style>
+  :root{
+    --bg0:#0b0e13; --bg1:#10141b; --bg2:#171c26; --bg3:#1f2633;
+    --line0:rgba(255,255,255,.06); --line1:rgba(255,255,255,.12);
+    --th:#e6ebf2; --tlo:#8b95a5;
+    --detect:#f0a43f; --exec:#51b873; --abn:#e5484d; --outlib:#4c8dff; --recover:#2f9e63;
+    --r:10px; --dur:160ms;
+    --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  body.dusk{ --bg0:#12161d; --bg1:#161b24; --bg2:#1d2430; --bg3:#252d3c; --th:#eef1f6; --tlo:#97a1b0; }
+  body.day{ --bg0:#232a34; --bg1:#29313d; --bg2:#313a49; --bg3:#3b4657; --th:#f4f6f9; --tlo:#b3bcc9; --shadow:0 6px 20px rgba(0,0,0,.3); }
+  *{box-sizing:border-box;margin:0}
+  body{margin:0;background:#05070a;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--th);font-size:13px;line-height:1.35}
+  /* === 整体等比缩放（scale-to-fit 画布） === */
+  .viewport{width:100vw;min-height:100vh;display:flex;justify-content:center;overflow:auto;padding:10px 4px 40px}
+  .stage{width:1520px;height:940px;flex:none;transform-origin:top center}
+  .app{width:100%;height:100%;background:var(--bg0);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 70px rgba(0,0,0,.55);}
+  /* 顶栏：留白分隔，仅一条极淡基线 */
+  .topbar{display:flex;align-items:center;gap:14px;padding:12px 20px;background:transparent;box-shadow:0 1px 0 var(--line0)}
+  .brand{font-weight:800;font-size:15px}
+  .brand small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  .kpis{display:flex;gap:8px}
+  .kpi{background:var(--bg2);padding:5px 12px;border-radius:8px;font-size:11px;color:var(--tlo);min-width:74px}
+  .kpi b{font-size:17px;color:var(--th);display:block;line-height:1.15}
+  .kpi.warn b{color:var(--abn)}
+  .spacer{flex:1}
+  .modebox{display:flex;align-items:center;gap:8px;background:var(--bg2);padding:4px 10px;border-radius:8px}
+  .modebox .t{font-size:10px;color:var(--tlo)}
+  .mode{font-weight:800;font-size:15px;padding:1px 10px;border-radius:6px;background:var(--bg3)}
+  .modesel{display:flex;gap:4px}
+  .modesel button{border:1px solid var(--line0);background:var(--bg1);color:var(--tlo);padding:3px 9px;font-size:11px;cursor:pointer;border-radius:6px}
+  .modesel button.on{background:var(--exec);color:#04121a;font-weight:700;border-color:var(--exec)}
+  .theme{display:flex;gap:2px;background:var(--bg2);border-radius:8px;padding:2px}
+  .theme button{border:none;background:transparent;color:var(--tlo);padding:3px 9px;font-size:11px;cursor:pointer;border-radius:6px}
+  .theme button.on{background:var(--bg3);color:var(--th)}
+  .user{display:flex;align-items:center;gap:10px}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;position:relative}
+  .dd{display:none;position:absolute;top:38px;right:0;background:var(--bg2);border:1px solid var(--line1);border-radius:10px;z-index:60;min-width:140px;overflow:hidden;box-shadow:var(--shadow)}
+  .dd.open{display:block}
+  .dd button{display:block;width:100%;text-align:left;padding:8px 12px;background:transparent;border:none;color:var(--th);cursor:pointer;font-size:12px}
+  .dd button:hover{background:rgba(255,255,255,.06)}
+  .uth{font-size:13px;font-weight:700}
+  .uth small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  .clock{font-size:24px;font-weight:800;letter-spacing:.5px}
+  .clock small{display:block;font-size:10px;color:var(--tlo);font-weight:400}
+  .chip{background:var(--bg2);padding:2px 10px;font-size:10px;color:var(--tlo);border-radius:999px}
+  /* 主区：卡片式分区，靠留白/gap/底色分层，去边框线 */
+  .main{flex:1;display:flex;gap:14px;padding:14px;min-height:0}
+  .col{min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .c-left{width:248px}
+  .c-mid{flex:1;display:flex;gap:14px;min-width:0}
+  .c-mid-main{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;min-height:0}
+  .c-right{width:352px}
+  .panel{background:var(--bg1);border-radius:var(--r);box-shadow:0 2px 10px rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column;min-height:0}
+  .panel>.ph{padding:10px 14px;font-weight:700;font-size:12px;display:flex;align-items:center;gap:8px}
+  .ph .sub{font-size:10px;color:var(--tlo);font-weight:400}
+  .ph .sp{flex:1}
+  .tagpill{font-size:9px;color:var(--exec);border:1px solid var(--exec);border-radius:999px;padding:0 7px}
+  /* 左栏卡片 */
+  .map{border-radius:10px;background:linear-gradient(160deg,var(--bg2),var(--bg1));height:180px;margin:0 0 6px}
+  .map svg{width:100%;height:100%}
+  .oplog{background:var(--bg1);border-radius:10px;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line0)}
+  .oplog .head{display:flex;align-items:center;gap:6px;padding:8px 12px}
+  .oplog .head b{font-size:12px}
+  .oplog .ctl{display:flex;gap:5px;padding:0 12px 8px;font-size:10px;color:var(--tlo)}
+  .oplog .ctl input{flex:1;border:1px solid var(--line0);background:var(--bg2);color:var(--th);border-radius:999px;padding:3px 9px;font-size:10px;min-width:0}
+  .fil{border:1px solid var(--line0);background:var(--bg2);color:var(--tlo);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
+  .fil.on{background:var(--exec);color:#04121a;border-color:var(--exec)}
+  .opfeed{flex:1;overflow:auto;padding:2px 12px 8px;display:flex;flex-direction:column;gap:1px}
+  .op{font-size:11px;padding:5px 0;color:var(--th);border-top:1px solid var(--line0);display:flex;gap:8px}
+  .op .t{color:var(--tlo);font-size:10px;flex:none;padding-top:1px}
+  .op .evv{color:var(--detect)} .op .opv{color:var(--outlib)} .op .abv{color:var(--abn)}
+  .setbar{margin-top:auto;background:var(--bg2);border-radius:10px;padding:8px 12px;display:flex;gap:6px;align-items:center;font-size:10px;color:var(--tlo);flex-wrap:wrap}
+  .setbar button{border:1px solid var(--line0);background:var(--bg3);color:var(--th);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
+  /* 中栏 */
+  .portbar{display:flex;gap:6px;flex-wrap:wrap;background:var(--bg1);border-radius:10px;padding:6px 8px}
+  .portbar button{border:none;background:transparent;color:var(--tlo);padding:4px 10px;font-size:11px;border-radius:999px;cursor:pointer}
+  .portbar button.on{background:var(--bg3);color:var(--th)}
+  .reserved{flex:1;border:1px dashed var(--line1);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center;min-height:40px;margin:0}
+  .timeline{background:var(--bg1);border-radius:10px;flex:0 1 auto;min-height:0;overflow:hidden}
+  .timeline svg{display:block;width:100%;height:auto}
+  .tlleg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--tlo);background:var(--bg1);border-radius:10px;padding:6px 12px}
+  .sw{width:12px;height:7px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px;box-shadow:inset 0 0 0 1px var(--line0)}
+  .dot8{width:7px;height:7px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
+  /* 卡片带（整竖条） */
+  .cardband{width:206px;flex:none;background:var(--bg1);border-radius:10px;padding:10px;overflow:auto}
+  .bandhead{font-size:11px;font-weight:700;color:var(--th);padding:2px 2px 8px}
+  .card{background:var(--bg2);border-radius:8px;padding:7px 9px;font-size:11px;margin:3px 0;cursor:pointer;color:var(--th);box-shadow:inset 3px 0 0 var(--lv,#555);transition:transform var(--dur),filter var(--dur)}
+  .card:hover{filter:brightness(1.15);transform:translateY(-1px)}
+  .card.sel{outline:1px solid var(--th)}
+  .card.lv4{--lv:var(--abn)} .card.lv3{--lv:var(--detect)} .card.lv2{--lv:var(--exec)} .card.lvX{--lv:var(--outlib)}
+  .card .t1{display:flex;justify-content:space-between;gap:4px;font-weight:700}
+  .tag{font-size:9px;padding:0 6px;border-radius:999px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .tag.pin{background:var(--outlib);color:#04101f}
+  .zone{font-size:10px;color:var(--tlo);padding:4px 2px;cursor:pointer;user-select:none}
+  .zbody{display:block}
+  .grp.collapsed .zbody{display:none}
+  .done{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--tlo);padding:6px 4px;cursor:pointer;border-top:1px solid var(--line0);margin-top:6px}
+  .done .cnt{background:var(--bg3);border-radius:999px;padding:0 7px;font-size:9px}
+  .donelist{display:none}
+  .donelist.open{display:block}
+  .dcard{background:var(--bg2);opacity:.55;border-radius:8px;padding:6px 8px;font-size:10px;margin:2px 0;color:var(--th);cursor:pointer}
+  /* 右栏（卡片式） */
+  .rtabs{display:flex;gap:2px;background:var(--bg1);border-radius:10px 10px 0 0;padding:6px 10px 0}
+  .rtabs button{border:none;background:transparent;color:var(--tlo);padding:8px 12px;font-size:12px;cursor:pointer;border-radius:8px 8px 0 0}
+  .rtabs button.on{background:var(--bg2);color:var(--th)}
+  .rbody{background:var(--bg2);border-radius:0 10px 10px 10px;flex:1;min-height:0;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+  .mcard{background:var(--bg3);border-radius:8px;padding:10px;font-size:12px}
+  .mcard .lbl{font-size:10px;color:var(--tlo);margin-bottom:3px}
+  .mcard b{font-size:13px}
+  .steps{display:flex;gap:3px;align-items:center;margin-top:6px}
+  .step{flex:1;text-align:center;font-size:10px;padding:4px 0;border-radius:6px;color:var(--tlo);background:var(--bg2)}
+  .step.done{color:var(--th)} .step.cur{background:var(--exec);color:#04121a;font-weight:700}
+  .act{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .btn{position:relative;border:1px solid var(--line1);background:var(--bg3);color:var(--th);padding:6px 12px;font-size:12px;cursor:pointer;border-radius:8px;overflow:hidden}
+  .btn::before{content:"";position:absolute;inset:0;border-radius:inherit;transition:background var(--dur)}
+  .btn:hover::before{background:rgba(255,255,255,.07)}
+  .btn:active::before{background:rgba(255,255,255,.14)}
+  .btn:focus-visible{outline:2px solid var(--outlib);outline-offset:2px}
+  .btn.primary{background:var(--exec);border-color:var(--exec);color:#04121a;font-weight:700}
+  .btn.danger{background:var(--abn);border-color:var(--abn);color:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.sm{font-size:10px;padding:2px 8px}
+  .rsn{display:none;background:var(--bg3);border-radius:8px;padding:10px;font-size:11px;color:var(--tlo)}
+  .rsn.open{display:block}
+  .rsn p{color:var(--th);margin:4px 0}
+  .static-inline{font-size:11px;color:var(--tlo)}
+  /* 告警/动画 */
+  .banner{display:none;margin:0 0 8px;border-radius:8px;padding:8px 12px;font-size:12px;align-items:center;gap:8px}
+  .banner.err{display:flex;background:rgba(229,72,77,.16);box-shadow:inset 0 0 0 1px var(--abn);color:#ffd9da;animation:flash 1.2s infinite}
+  .banner.ok{display:flex;background:rgba(81,184,115,.14);box-shadow:inset 0 0 0 1px var(--exec);color:#d4f4e0}
+  @keyframes flash{0%,100%{opacity:1}50%{opacity:.45}}
+  .cdbar{height:5px;border-radius:3px;background:var(--bg2);overflow:hidden;margin-top:6px}
+  .cdbar i{display:block;height:100%;background:var(--abn);animation:shrink 30s linear forwards}
+  @keyframes shrink{from{width:100%}to{width:4%}}
+  .pulse{animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,72,77,.45)}50%{box-shadow:0 0 0 10px rgba(229,72,77,0)}}
+  .evchip{width:12px;height:7px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
+  .ev-d{background:var(--detect)}.ev-x{background:var(--exec)}.ev-a{background:var(--abn)}.ev-o{background:var(--outlib)}
+</style>
+</head>
+<body class="night">
+<div class="viewport">
+<div class="stage" id="stage">
+<div class="app">
+  <!-- 顶栏 -->
+  <div class="topbar">
+    <div class="brand">事件协同工作台<small>翡翠号 · 航次 VN-0420</small></div>
+    <div class="kpis" id="kpis">
+      <div class="kpi warn pulse">L4告警<b>1</b></div>
+      <div class="kpi">待审批<b>2</b></div>
+      <div class="kpi">离泊窗口<b>37′</b></div>
+    </div>
+    <div class="modebox">
+      <span class="t">模式</span>
+      <span class="mode" id="modeLbl">系泊</span>
+      <span class="modesel" id="modes">
+        <button data-m="underway">在航</button><button data-m="departing">离泊</button>
+        <button data-m="berthing">靠泊</button><button data-m="alongside" class="on">系泊</button>
+      </span>
+    </div>
+    <div class="spacer"></div>
+    <div class="theme" id="theme">
+      <button data-t="night" class="on">Night</button><button data-t="dusk">Dusk</button><button data-t="day">Day</button>
+    </div>
+    <div class="user">
+      <div class="avatar" onclick="toggleDD(event)"><span id="avT">船</span>
+        <div class="dd" id="dd">
+          <button onclick="setRole('船长','船')">船长</button><button onclick="setRole('运营经理','经')">运营经理</button>
+          <button onclick="setRole('法务','法')">法务</button><button onclick="setRole('值班','值')">值班</button>
+        </div>
+      </div>
+      <div class="uth" id="uth">船长<small>登录用户</small></div>
+      <div class="clock">11:42<small>本地 · 船时</small></div>
+      <span class="chip">韧性 T0</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- 左栏（卡片式） -->
+    <div class="col c-left">
+      <div class="panel">
+        <div class="ph">局势图<span class="sub">· 泊位 3A</span></div>
+        <div class="map">
+          <svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg">
+            <g id="portBox">
+              <rect id="shore" x="6" y="20" width="48" height="150" rx="5" fill="var(--bg2)" stroke="var(--line1)" stroke-width="1.5"/>
+              <line x1="54" y1="20" x2="54" y2="170" stroke="var(--line0)" stroke-width="3"/>
+              <circle cx="30" cy="40" r="3" fill="var(--line1)"/>
+              <circle cx="30" cy="150" r="3" fill="var(--line1)"/>
+            </g>
+            <g id="gang">
+              <line x1="54" y1="60"  x2="120" y2="60"  stroke="var(--exec)" stroke-width="2.5"/>
+              <line x1="54" y1="95"  x2="120" y2="95"  stroke="var(--exec)" stroke-width="2.5"/>
+              <line x1="54" y1="130" x2="120" y2="130" stroke="var(--exec)" stroke-width="2.5"/>
+            </g>
+            <g id="ship">
+              <path id="shipHull" d="M121 34 Q135 16 149 34 L150 146 Q150 158 135 158 Q120 158 120 146 Z" fill="var(--bg1)" stroke="var(--th)" stroke-width="2.5"/>
+              <rect x="126" y="46" width="18" height="90" rx="8" fill="var(--bg2)" stroke="var(--line1)" stroke-width="1.5"/>
+              <line x1="126" y1="42" x2="144" y2="42" stroke="var(--line0)" stroke-width="2"/>
+              <circle cx="135" cy="150" r="5" fill="none" stroke="var(--outlib)" stroke-width="1.5" opacity=".7"/>
+            </g>
+            <g id="dots" style="display:none">
+              <circle cx="6" cy="118" r="5" fill="var(--bg0)" stroke="var(--outlib)" stroke-width="2"/>
+              <line x1="10" y1="118" x2="133" y2="92" stroke="var(--outlib)" stroke-dasharray="4 3" stroke-width="2"/>
+              <circle cx="214" cy="70" r="5" fill="var(--bg0)" stroke="var(--detect)" stroke-width="2"/>
+              <line x1="210" y1="73" x2="137" y2="88" stroke="var(--detect)" stroke-dasharray="4 3" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="oplog">
+        <div class="head"><b>操作台日志</b><span class="tagpill">LIVE</span><span class="sp"></span><button class="btn sm" onclick="copyLog()">复制</button></div>
+        <div class="ctl"><input placeholder="搜索日志"><button class="fil on">全部</button><button class="fil">事件</button><button class="fil">操作</button><button class="fil">⏸</button><span style="flex:1"></span><span>142</span></div>
+        <div class="opfeed" id="opfeed">
+          <div class="op"><span class="t">11:41</span><span>L4 全船应急 · 升级自 L3 <span class="abv">[升级]</span></span></div>
+          <div class="op"><span class="t">11:40</span><span>接驳晚点 移交执行端异常 <span class="evv">[交接异常]</span></span></div>
+          <div class="op"><span class="t">11:38</span><span>台风航变 方案A 待审批 <span class="opv">[审批]</span></span></div>
+          <div class="op"><span class="t">11:35</span><span>离泊窗口 收窄至 37′</span></div>
+          <div class="op"><span class="t">11:30</span><span>登离船 排队观察 <span class="opv">[受控持续·监测中]</span></span></div>
+        </div>
+      </div>
+      <div class="setbar"><span>操作台设置</span><button>设置</button><button>等级▾</button><button>时段▾</button></div>
+    </div>
+    <!-- 中栏：主列 + 整竖条卡片带 -->
+    <div class="c-mid">
+      <div class="c-mid-main">
+        <div class="panel" style="padding:6px 8px">
+          <div class="portbar" id="portbar" style="background:transparent;padding:0">
+            <button class="on">总览</button><button>天气/台风</button><button>口岸/通关</button>
+            <button>登离船</button><button>AIS</button><button>船舶系统</button><button>通知/广播</button>
+          </div>
+        </div>
+        <div class="reserved">保留区（供后续内容）</div>
+                <div class="timeline">
+          <svg id="tlgen" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <div class="tlleg">
+          <span><i class="evchip ev-d"></i>发现</span><span><i class="evchip ev-a"></i>异常/升级</span>
+          <span><i class="dot8"></i>恢复点</span><span>受控持续=虚线边监测段</span><span>竖线=瞬时移交(绿=正常/红=异常)</span>
+        </div>
+      </div>
+      <!-- 整竖条卡片带 -->
+                  <div class="cardband" id="cardband"></div>
+    </div>
+    <!-- 右栏（卡片式） -->
+    <div class="col c-right">
+      <div class="panel" style="flex:1">
+        <div class="rtabs" id="tabs">
+          <button class="on" data-tab="card">决策卡</button>
+          <button data-tab="flow">审批流</button>
+          <button data-tab="audit">端口·审计</button>
+        </div>
+        <div class="rbody" id="apwrap">
+                    <div class="tabpane" id="tab-card">
+            <div class="mcard">
+              <div class="lbl">当前审批对象 · L4</div>
+              <b>L4 全船应急指令</b>
+              <div class="static-inline">角色 船长 · 状态 待审批（升级自 L3）</div>
+              <div class="cdbar"><i></i></div>
+              <div class="act">
+                <button class="btn primary" onclick="toast('已确认/下达执行')">确认</button>
+                <button class="btn danger" onclick="toast('已拒绝(需原因)')">拒绝</button>
+                <button class="btn" onclick="toast('转人工接管')">转人工接管</button>
+              </div>
+            </div>
+            <div class="mcard">
+              <div class="lbl">决策卡 · 建议</div>
+              <b>推迟离泊 2h → 锚地 C</b> <button class="btn sm" onclick="copyTrace()">复制 trace</button>
+              <div class="static-inline">信号依据 · 置信度 0.84 · 条款 §R8-014</div>
+              <button class="btn sm" style="margin-top:6px" onclick="toggleRsn()">展开推理附件 ▾</button>
+            </div>
+            <div class="rsn" id="rsn">
+              <p><b>推理全文（示例）</b></p>
+              <p>3. 事件分类：命中 E09（台风靠离泊调整），匹配 0.91→标准管线。</p>
+              <p>4. 长链路推演+弱信号：台风 6h 进安全窗口→照常离泊将入 30kn 侧风区→叠加滞留客流→建议提前/推迟。A18 已抄送值班。</p>
+              <p>7. 方案比对（为何不用 B）：B=仅推迟不建口径→信息不一致风险高→否决。</p>
+              <button class="btn sm" onclick="copyRsn()">复制全文</button>
+            </div>
+          </div>
+          <div class="tabpane" id="tab-flow" style="display:none">
+            <div class="mcard">
+              <div class="lbl">审批流 · 值班→经理→法务→船长</div>
+              <div class="steps"><div class="step done">值班</div><div class="step done">经理</div><div class="step done">法务</div><div class="step cur">船长 L4</div></div>
+              <div class="static-inline" style="margin-top:6px">超时自动升级→更高层；接管=最小登记+循环提醒（§4.12）</div>
+            </div>
+          </div>
+          <div class="tabpane" id="tab-audit" style="display:none">
+            <div class="mcard">
+              <div class="lbl">端口 / 审计</div>
+              <div class="static-inline">乘客App 已送达(回执) · 船载屏 已显示 · 广播 待播报</div>
+              <div class="static-inline" style="margin-top:4px">trace: 07FA-3B2C · append-only · 哈希链</div>
+              <button class="btn sm" style="margin-top:8px" onclick="toast('导出审计包 PDF')">导出审计包 PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<script src="../mock/mock-data.js"></script>
+<script src="../mock/sim-core.js"></script>
+<script>
+  var MOCK = window.MOCK, SC = window.SimCore;
+  var total = MOCK.session.total, SNAP = 520, playing = true, spd = 20, W = 900; // 滑动窗口10min，事件矩形短
+  var role = "CAPT";
+  var ROLE_ACT = {"CAPT":["L4"], "MGR":["L2","L3"], "LEGAL":["L3"], "DUTY":["L1","L2"]};
+  function visibleActs(ev){ var allow=(ev.machine?ev.machine.allow:[]); if(ev.outlib&&ev.outlib.isX){ return (["DUTY","MGR"].indexOf(role)>=0)?allow:[]; } return (ROLE_ACT[role]||[]).indexOf(ev.level)>=0?allow:[]; }
+  var sel = MOCK.events[0].eventNo;
+  var CX = { detect: "#f0a43f", exec: "#51b873", approve: "#e8b64c", holding: "#7fb98a", abn: "#e5484d", handoff: "#51b873", upgrade: "#e5484d", recover: "#2f9e63" };
+  var LBL = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", ignore: "忽略", archive: "存档观察", escalate: "升级为正式" };
+
+  function get(no) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) return MOCK.events[i]; }
+  function fmt(t) { if (t == null) return "-"; var s = Math.floor(t % 60); var m = Math.floor(t / 60); return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
+
+  // ---------- KPI / 日志 ----------
+  function renderKPIs() {
+    var l4 = MOCK.events.filter(function (e) { return e.level === "L4"; }).length;
+    var pend = MOCK.events.filter(function (e) { return e.state === "待审批" || e.state === "待查看"; }).length;
+    document.getElementById("kpis").innerHTML =
+      '<div class="kpi warn pulse">L4告警<b>' + l4 + "</b></div>" +
+      '<div class="kpi">待审批<b>' + pend + "</b></div>" +
+      '<div class="kpi">离泊窗口<b>37′</b></div>';
+  }
+  function renderLog() {
+    var h = "";
+    MOCK.events.slice(0).reverse().forEach(function (e) {
+      var t = e.recoverAt || e.approval.decidedAt || e.approval.waitStart || e.discover.at;
+      var tag = e.upgrade && e.upgrade.at != null ? '[升级]' : (e.state === "已恢复" ? '[恢复]' : e.state);
+      h += '<div class="op"><span class="t">' + fmt(t) + '</span><span>' + e.eventNo + " " + e.name + " → " + e.state + ' <span class="opv">' + tag + "</span></span></div>";
+    });
+    document.getElementById("opfeed").innerHTML = h || '<div class="op"><span class="t">--</span><span>(空)</span></div>';
+  }
+  // ---------- 时间轴（从数据生成，多车道） ----------
+  var LANES = { L4: { rows: [23, 41] }, L3: { rows: [65, 83, 101, 119] }, L2: { rows: [143, 161, 179, 197, 215, 233] }, L1: { rows: [257, 275, 293, 311, 329, 347, 365, 383, 401, 419] }, X: { rows: [475, 493] } };
+  var rowUsed = { L4: 0, L3: 0, L2: 0, L1: 0, X: 0 };
+  function assignRow(lv) { var r = LANES[lv].rows[rowUsed[lv] % LANES[lv].rows.length]; rowUsed[lv]++; return r; }
+  // 事件在所属车道的实际行（与 assignRow 顺序一致，便于升级线接真实位置）
+  function laneRowOf(ev) {
+    var lv = ev.type === "X" ? "X" : ev.level;
+    if (lv === "X") { var xi = MOCK.events.filter(function (e) { return e.type === "X"; }).indexOf(ev); return LANES.X.rows[Math.max(0, xi) % LANES.X.rows.length]; }
+    var same = MOCK.events.filter(function (e) { return e.type !== "X" && e.level === lv; });
+    var idx = same.indexOf(ev); return LANES[lv].rows[Math.max(0, idx) % LANES[lv].rows.length];
+  }
+  // 升级后上级“子事件”的实际所在行（由其 eventNo 前缀 + 升级时刻确定）
+  function childRowOf(ev) {
+    for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i];
+      if (c.eventNo.indexOf(ev.eventNo + "-C") === 0 && (c.discover.at === ev.upgrade.at || !ev.upgrade.at)) return laneRowOf(c); }
+    return null;
+  }
+  function Xat(t) { return 70 + ((t - (SNAP - W)) / W) * 790; }
+  function inW(t) { return t >= SNAP - W && t <= SNAP; }
+  function drawTimeline() {
+    var s = [];
+    [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]].forEach(function(L){
+      s.push('<rect x="70" y="'+L[1]+'" width="790" height="'+L[2]+'" fill="transparent" stroke="var(--line0)"/>');
+    });
+    var grid=[[23,41],[65,83,101,119],[143,161,179,197,215,233],[257,275,293,311,329,347,365,383,401,419],[475,493]];
+    s.push('<g stroke="var(--line0)" stroke-width="1" stroke-dasharray="4 4">');
+    grid.forEach(function(rr){ rr.forEach(function(y){ s.push('<line x1="70" y1="'+y+'" x2="860" y2="'+y+'"/>'); }); });
+    s.push("</g>");
+    [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]].forEach(function(L){
+      s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="var(--bg2)" rx="6"/><text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">'+L[0]+'</text>');
+    });
+    // 相对时间轴（右端=现在/快照）
+    s.push('<line x1="70" y1="444" x2="860" y2="444" stroke="var(--line1)" stroke-width="2"/>');
+    for(var k=0;k<=6;k++){ var t=(SNAP-W)+(k/6)*W; var x=Xat(t); var rel=Math.round((t-SNAP)/60);
+      s.push('<line x1="'+x+'" y1="439" x2="'+x+'" y2="449" stroke="var(--line1)"/>');
+      if(k===0||k===3) s.push('<text x="'+(x-14)+'" y="460" font-size="8" fill="var(--tlo)">'+rel+'′</text>');
+      if(k===6) s.push('<text x="'+(x-16)+'" y="460" font-size="8" fill="var(--th)">现在</text>');
+    }
+    s.push('<line x1="860" y1="8" x2="860" y2="506" stroke="var(--th)" stroke-width="2"/>');
+    // 事件（只画已发生；滑窗裁剪 → 不再有“孤儿移交线”）
+    rowUsed = {L4:0,L3:0,L2:0,L1:0,X:0};
+    MOCK.events.forEach(function(ev){
+      var lv = ev.type==="X"?"X":ev.level, row = laneRowOf(ev);
+      if(ev.outlib && ev.outlib.isX){
+        var xf=Math.max(ev.discover.at, SNAP-W), xt=Math.min((ev.upgrade&&ev.upgrade.at)||ev.holding.to||SNAP, SNAP);
+        if(xt>xf){ s.push('<rect x="'+Xat(xf)+'" y="'+(row-5)+'" width="'+(Xat(xt)-Xat(xf))+'" height="9" fill="#6f7886" stroke="var(--line0)" stroke-dasharray="3 2" rx="2"/>'); }
+        if(ev.upgrade && ev.upgrade.at!=null && LANES[ev.upgrade.to]){
+          var ux=Xat(ev.upgrade.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:LANES[ev.upgrade.to].rows[0]-5);
+          s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
+        }
+        return;
+      }
+      var segs = SC.computeSegments(ev, SNAP);
+      segs.forEach(function(seg){
+        if(seg.type==="handoff"){ if(inW(seg.at)){ var hx=Xat(seg.at); s.push('<line x1="'+hx+'" y1="'+(row-7)+'" x2="'+hx+'" y2="'+(row+7)+'" stroke="'+(seg.kind==="error"?CX.abn:CX.exec)+'" stroke-width="3"/>'); } }
+        else if(seg.type==="upgrade"){ if(inW(seg.at)&&ev.upgrade&&LANES[ev.upgrade.to]){ var ux=Xat(seg.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:LANES[ev.upgrade.to].rows[0]-5); s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>'); } }
+        else if(seg.type==="recover"){ if(inW(seg.at)){ var rx=Xat(seg.at); s.push('<circle cx="'+rx+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.recover+'" stroke-width="2"/>'); } }
+        else { var f=Math.max(seg.from, SNAP-W), to=Math.min(seg.to, SNAP); if(to>f){ var X1=Xat(f), X2=Xat(to); s.push('<rect x="'+X1+'" y="'+(row-5)+'" width="'+(X2-X1)+'" height="9" fill="'+(CX[seg.color]||CX.detect)+'" rx="2" opacity="'+(seg.type==="holding"?0.6:1)+'"/>'); } }
+      });
+    });
+    document.getElementById("tlgen").innerHTML = s.join("");
+  }
+  // ---------- 卡片带（数据驱动：置顶/分组折叠/已处置） ----------
+  function isDone(e) { return e.state === "已恢复" || e.state === "已拒绝" || e.state === "已忽略" || e.state === "已关闭"; }
+  function cardHtml(e, active) {
+    return '<div class="card ' + (e.type === "X" ? "lvX" : "lv" + e.level) + (active ? " sel" : "") + '" data-no="' + e.eventNo + '">' +
+      '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + e.state + "</span></div>" +
+      '<div style="font-size:10px;color:var(--tlo)">' + (e.summary || "") + "</div></div>";
+  }
+  function renderCardBand() {
+    var pinned = [], groups = { L3: [], L2: [], L1: [] }, others = [];
+    MOCK.events.forEach(function (e) {
+      if (e.level === "L4" || e.type === "X") pinned.push(e);
+      else if (groups[e.level]) groups[e.level].push(e);
+      else others.push(e);
+    });
+    var h = '<div class="bandhead">事件卡片</div>';
+    pinned.forEach(function (e) { h += cardHtml(e, e.eventNo === sel); });
+    ["L3", "L2", "L1"].forEach(function (lv) {
+      var list = groups[lv] || [];
+      var act = list.filter(function (e) { return !isDone(e); });
+      var done = list.filter(isDone);
+      if (act.length + done.length === 0) return;
+      h += '<div class="grp" id="grp-' + lv + '"><div class="zone" data-zone="grp-' + lv + '">' + lv + " · " + (act.length + done.length) + " ▾</div>";
+      h += '<div class="zbody">' + act.map(function (e) { return cardHtml(e, e.eventNo === sel); }).join("") +
+        (done.length ? '<div class="done" data-done="dn-' + lv + '">已处置 <span class="cnt">' + done.length + "</span> ▸</div>" +
+          '<div class="donelist" id="dn-' + lv + '">' + done.map(function (e) { return '<div class="dcard" data-no="' + e.eventNo + '">' + e.eventNo + " " + e.name + " · " + e.state + "</div>"; }).join("") + "</div>" : "") +
+        "</div></div>";
+    });
+    others.forEach(function (e) { h += cardHtml(e, e.eventNo === sel); });
+    document.getElementById("cardband").innerHTML = h;
+  }
+  // ---------- 右栏 ----------
+  function switchTab(tab) {
+    ["card", "flow", "audit"].forEach(function (t) { document.getElementById("tab-" + t).style.display = t === tab ? "" : "none"; });
+    Array.from(document.querySelectorAll("#tabs button")).forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-tab") === tab); });
+  }
+  function renderRight() {
+    var e = get(sel);
+    var tid = SC.traceId(e);
+    // 决策卡
+    var acts = visibleActs(e).map(function (a) { return '<button data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
+    document.getElementById("tab-card").innerHTML =
+      '<div class="banner ' + (e.level === "L4" ? "err" : "ok") + '" id="l4ban">' + (e.level === "L4" ? "⚑ " : "✓ ") + e.name +
+      '<span style="flex:1"></span></div>' +
+      '<div class="mcard"><div class="lbl">决策卡 · ' + e.eventNo + " · " + e.level + '</div><b>' + e.state + "</b><div class=static-inline>" + e.summary + " · 置信度 " + e.confidence + '</div></div>' +
+      '<div class="mcard"><div class="lbl">处置动作（决策卡）</div><div class="act">' + (acts || '<span class="lbl">' + (isDone(e) ? '已终结，无动作' : '只读监控（'+role+' 无权处置 '+e.level+'）') + '</span>') + "</div></div>" +
+      '<div class="mcard"><div class="lbl">推理附件</div><button class="btn sm" onclick="toggleRsn()">展开推理附件 ▾</button>' +
+      '<div id="rsn" style="display:none;margin-top:6px">' + (e.reasoning.sections || []).map(function (x) { return "<p>" + x + "</p>"; }).join("") + "</div></div>";
+    // 审批流
+    var steps = (e.chain || []).map(function (c, i) { return '<div class="step' + (c.status === "done" ? " done" : (c.status === "current" ? " cur" : "")) + '">' + c.role + "</div>"; }).join("");
+    document.getElementById("tab-flow").innerHTML = '<div class="mcard"><div class="lbl">审批流 · trace ' + tid + '</div><div class="steps">' + steps + '</div>' +
+      '<div class="static-inline" style="margin-top:6px">状态 ' + e.state + (e.takeover && e.takeover.taken ? " · 已人工接管(" + e.takeover.by + ")" : "") + "</div></div>";
+    // 端口/审计
+    var ports = (e.ports || []).map(function (p) { return p.portCode + ":" + p.status + "@" + fmt(p.at); }).join(" · ") || "-";
+    var audit = SC.buildAuditChain(e, [
+      { at: e.discover.at, actor: "SENSE", action: "发现" },
+      { at: e.approval && e.approval.waitStart != null ? e.approval.waitStart : e.discover.at, actor: e.currentRole, action: "移交/待审批" },
+      { at: e.recoverAt || e.approval.decidedAt || e.upgrade.at || null, actor: e.currentRole, action: e.state }
+    ]);
+    document.getElementById("tab-audit").innerHTML = '<div class="mcard"><div class="lbl">端口/审计 · ' + tid + '</div><div class="static-inline">' + ports + "</div>" +
+      '<div style="margin-top:6px;font-size:10px;color:var(--tlo)">' + audit.map(function (r) { return r.no + " " + r.action + " " + r.hash; }).join("<br>") + "</div>" +
+      '<button class="btn sm" style="margin-top:8px" onclick="toast(\'导出审计包 PDF\')">导出审计包 PDF</button></div>';
+    // banner 显示当前
+    document.getElementById("tabs").style.display = "";
+    switchTab("card");
+  }
+  function renderAll() { renderKPIs(); renderLog(); renderCardBand(); drawTimeline(); renderRight(); }
+  // ---------- 交互（事件委托，避免丢点击） ----------
+  document.getElementById("cardband").addEventListener("click", function (e) {
+    var no = e.target.closest("[data-no]");
+    if (no) { sel = no.getAttribute("data-no"); renderAll(); return; }
+    var zn = e.target.closest("[data-zone]");
+    if (zn) { var g = document.getElementById(zn.getAttribute("data-zone")); g.classList.toggle("collapsed"); var z = g.querySelector(".zone"); z.innerHTML = z.textContent.indexOf("▸") > -1 ? z.textContent.replace("▸", "▾") : z.textContent.replace("▾", "▸"); return; }
+    var dn = e.target.closest("[data-done]");
+    if (dn) { var dl = document.getElementById(dn.getAttribute("data-done")); dl.classList.toggle("open"); var d = dn; d.innerHTML = d.innerHTML.indexOf("▸") > -1 ? d.innerHTML.replace("▸", "▾") : d.innerHTML.replace("▾", "▸"); }
+  });
+  document.getElementById("apwrap").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-act]"); if (!b) return;
+    var ev = get(sel), act = b.getAttribute("data-act");
+    if (act === "escalate") { SC.doEscalate(ev, (ev.escalate && ev.escalate.to) || "L3", MOCK, SNAP); }
+    else { var r = SC.applyAction(ev, act, SNAP); if (!r.ok) { alert("非法状态转移：" + act); return; } }
+    renderAll();
+  });
+  document.getElementById("tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; switchTab(b.getAttribute("data-tab"));
+  });
+  // ---------- 主题 / 模式 / 头像 / 缩放 ----------
+  function fit() {
+    var s = Math.min((innerWidth - 16) / 1520, (innerHeight - 24) / 940); s = Math.max(0.35, Math.min(1.4, s));
+    var st = document.getElementById("stage"); st.style.transform = "scale(" + s + ")";
+    st.style.marginTop = Math.max(8, (innerHeight - 940 * s) / 2) + "px";
+  }
+  addEventListener("resize", fit);
+  document.getElementById("theme").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    Array.from(this.children).forEach(function (x) { x.classList.toggle("on", x === b); });
+    document.body.className = b.getAttribute("data-t");
+  });
+  var MODES = { underway: "在航", departing: "离泊", berthing: "靠泊", alongside: "系泊" };
+  document.getElementById("modes").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    Array.from(this.children).forEach(function (x) { x.classList.toggle("on", x === b); });
+    setMode(b.getAttribute("data-m"));
+  });
+  function setMode(m) {
+    document.getElementById("modeLbl").textContent = MODES[m];
+    var underway = m === "underway";
+    var dots = document.getElementById("dots"), gang = document.getElementById("gang"), portBox = document.getElementById("portBox"), hull = document.getElementById("shipHull");
+    dots.style.display = underway ? "" : "none"; gang.style.display = underway ? "none" : ""; portBox.style.opacity = underway ? ".3" : "1";
+    hull.setAttribute("stroke", m === "alongside" ? "var(--exec)" : (m === "berthing" || m === "departing" ? "var(--detect)" : "var(--th)"));
+    var ls = gang.querySelectorAll("line");
+    for (var i = 0; i < ls.length; i++) { ls[i].setAttribute("stroke-dasharray", m === "alongside" ? "" : "5 4"); ls[i].setAttribute("stroke", m === "alongside" ? "var(--exec)" : (m === "berthing" ? "var(--detect)" : "var(--line1)")); }
+  }
+  function toggleDD(e) { e.stopPropagation(); document.getElementById("dd").classList.toggle("open"); }
+  function setRole(n, c) { var m = { "船长": "CAPT", "运营经理": "MGR", "法务": "LEGAL", "值班": "DUTY" }; role = m[n] || "CAPT"; document.getElementById("uth").innerHTML = n + '<small style="display:block;font-weight:400;color:var(--tlo);font-size:10px">登录用户 · ' + role + '</small>'; document.getElementById("avT").textContent = c; document.getElementById("dd").classList.remove("open"); renderAll(); }
+  document.addEventListener("click", function () { document.getElementById("dd").classList.remove("open"); });
+  function toggleRsn() { var r = document.getElementById("rsn"); if (r) r.style.display = r.style.display === "none" ? "" : "none"; }
+  function toast(m) { alert("操作登记：" + m); }
+  // ---------- 时钟 / 控制（时间轴实时生长） ----------
+  var tlleg=document.querySelector(".tlleg");
+  tlleg.innerHTML = tlleg.innerHTML + '<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center">' +
+    '<button class="btn sm" id="tlplay">⏸ 暂停</button>' +
+    '<input id="tlspeed" type="range" min="1" max="120" value="20" style="width:90px">' +
+    '<button class="btn sm" id="tlsnap">+60s</button>' +
+    '<span id="tlsnaplbl" style="font-size:10px">快照…</span></span>';
+  document.getElementById("tlplay").onclick=function(){ playing=!playing; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
+  document.getElementById("tlspeed").addEventListener("input",function(){ spd=+this.value; });
+  document.getElementById("tlsnap").onclick=function(){ SNAP=(SNAP+60)%total; if(!playing) tick(); };
+  function updateSnapLbl(){ var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+fmt(SNAP); }
+  function tick(){
+    SNAP=(SNAP+spd*0.1)%total;
+    var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
+    drawTimeline(); updateSnapLbl(); renderKPIs();
+    if(version>lastUI){ lastUI=version; renderLog(); renderCardBand(); renderRight(); }
+  }
+  setInterval(function(){ if(playing) tick(); },100);
+  var version=1, lastUI=0;
+  fit(); setMode("alongside"); updateSnapLbl(); renderAll();
+
+</script>
+</body>
+</html>
