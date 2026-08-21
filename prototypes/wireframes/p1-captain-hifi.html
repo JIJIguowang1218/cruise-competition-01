@@ -545,7 +545,7 @@
     bandSig = sig;
     var h = "";
     ZONES.forEach(function (z) {
-      var lv = z[0], col = z[1], cls = lv === "X" ? "lvX" : "lv" + lv.toLowerCase();
+      var lv = z[0], col = z[1], cls = lv === "X" ? "lvX" : "lv" + lv.slice(1).toLowerCase();
       var list = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
       var live = list.filter(function (e) { return e.discover.at <= SNAP && !isDoneAt(e); });
       var done = list.filter(function (e) { return e.discover.at <= SNAP && isDoneAt(e); });
@@ -555,7 +555,7 @@
       var pulse = lastDone[lv] !== undefined && done.length > lastDone[lv];
       lastDone[lv] = done.length;
       h += '<div class="zone' + (lv === "X" ? " zx" : "") + '">' +
-        '<div class="zh"><i class="dot" style="background:' + col + '"></i>' + (lv === "X" ? "X · 库外" : "L" + lv) +
+        '<div class="zh"><i class="dot" style="background:' + col + '"></i>' + (lv === "X" ? "X · 库外" : lv) +
         '<span class="zc">实时 ' + live.length + ' · 已处置 ' + done.length + "</span></div>" +
         '<div class="zbody">' +
         (live.length ? live.map(function (e) {
