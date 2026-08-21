@@ -2,15 +2,23 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>22 条事件 · 全量静态时间轴（高保真画法）</title>
+<title>22 条事件 · 时间轴（高保真画法 · 可交互：全览/窗口/拖时间/播放）</title>
 <style>
   body{margin:0;background:#05070a;color:#e6ebf2;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;font-size:13px}
   #wrap{padding:12px 16px}
   .head{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
   h1{font-size:16px;margin:0}
   .meta{color:#8b95a5;font-size:11px}
+  .ctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0;background:#0f1319;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 12px}
+  .ctl button{border:1px solid rgba(255,255,255,.16);background:#171c26;color:#e6ebf2;padding:4px 10px;font-size:11.5px;border-radius:8px;cursor:pointer}
+  .ctl button:hover{filter:brightness(1.25)}
+  .ctl button.on{background:#51b873;color:#04121a;font-weight:700;border-color:#51b873}
+  .ctl .jump{border-color:rgba(240,164,63,.5);color:#f0a43f}
+  .ctl label{font-size:11px;color:#8b95a5;display:inline-flex;align-items:center;gap:5px}
+  input[type=range]{vertical-align:middle;accent-color:#51b873}
+  .snap{font-size:12px;font-weight:700;color:#e6ebf2;min-width:72px}
   .mid{display:flex;gap:18px;margin-top:10px;align-items:flex-start;flex-wrap:wrap}
-  .mid svg{border-radius:10px;background:#0b0e13;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+  .mid svg{border-radius:10px;background:#0b0e13;box-shadow:0 6px 24px rgba(0,0,0,.35);display:block}
   .side{flex:1;min-width:400px;max-width:640px}
   .panel{background:#0f1319;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;margin-bottom:10px}
   .panel h2{font-size:12px;margin:0 0 8px;color:#8b95a5;font-weight:700}
@@ -22,7 +30,7 @@
   .dot8{width:8px;height:8px;border-radius:50%;border:2px solid #2f9e63;background:#fff;display:inline-block;vertical-align:middle;margin-right:4px}
   .dot8.am{border-color:#f0a43f}
   .lines{width:22px;height:0;border-top:2px solid #e5484d;display:inline-block;vertical-align:middle;margin-right:4px}
-  table{width:100%;border-collapse:collapse;font-size:10.5px;background:#0f1319;border-radius:10px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:10.5px;background:#0f1319;border-radius:10px;overflow:hidden;margin-top:10px}
   th,td{border-bottom:1px solid rgba(255,255,255,.07);padding:3px 8px;text-align:left;white-space:nowrap}
   th{color:#8b95a5;font-weight:600;background:#131a24}
   td.mono{font-family:ui-monospace,Consolas,monospace;color:#4c8dff}
@@ -35,8 +43,24 @@
 <body>
 <div id="wrap">
   <div class="head">
-    <h1>22 条事件 · 全量静态时间轴（参照高保真画法：L4→L3→L2→L1，X 库外在最下）</h1>
+    <h1>22 条事件时间轴（高保真画法·可交互：切模式 / 拖时间 / 播放）</h1>
     <span class="meta" id="meta">加载中…</span>
+  </div>
+
+  <div class="ctl">
+    <button id="modeFull" class="on">全览 95′（分布核对）</button>
+    <button id="modeWin">窗口 10′（同高保真滚动）</button>
+    <label>时间 <input id="snap" type="range" min="0" max="5700" step="30" value="3300"></label>
+    <span class="snap" id="snapLbl">快照 --:--</span>
+    <button id="play">▶ 播放</button>
+    <label>速度 <input id="spd" type="range" min="1" max="120" value="20" style="width:90px"></label>
+    <span id="jumps" style="display:inline-flex;gap:6px;align-items:center">
+      <span class="meta">跳转：</span>
+      <button class="jump" data-t="600">E01 挂起 10′</button>
+      <button class="jump" data-t="4320">E09 诞生 72′</button>
+      <button class="jump" data-t="4620">▲升级 77′</button>
+      <button class="jump" data-t="5700">靠岸 95′</button>
+    </span>
   </div>
 
   <div class="mid">
@@ -59,24 +83,25 @@
           <span><i class="sw" style="background:#6f7886"></i>库外 X（灰·虚线框·无字）</span>
           <span><i class="dot8" style="border-color:#2f9e63"></i>恢复点（深绿空心）</span>
           <span><i class="dot8 am"></i>挂起点（琥珀空心·§13）</span>
-          <span><i class="lines"></i>升级红线（关系A·实线）</span>
+          <span><i class="lines"></i>升级红线（关系A·实线·两头接矩形）</span>
           <span><i class="sw" style="background:#171c26;border:1px dashed #303847"></i>虚线导轨</span>
           <span>│ 实时"现在"竖线</span>
         </div>
       </div>
       <div class="panel">
-        <h2>叙事标注</h2>
+        <h2>使用说明 &amp; 叙事标注</h2>
         <div class="notes">
-          ◆ 主角链：X-0001 登船弱信号(灰) → ▲460 升级线 → E01(L2) 挂起(琥珀) → 72′ 信度达标 → E09(L3) → ▲4620 物理升级 → E-L4(L4) 执行中·开放收尾（直达"现在"竖线）<br>
-          ◆ 挂起示范：E01@10′ · E04@13′ · E27@48′ 琥珀空心点闭合，再检仅日志（不画线、不占车道）<br>
-          ◆ 次角：E11 接驳中断(L3) 完整闭环（绿点）；◆ 本次补 2 条在航 L1 底噪：<span class="star">A04-L1-03、E21-L1-04</span>（为 E09 埋线）<br>
-          ◆ 两例升级 reason=physical（物理劣化）：红实线，升级原因标注在卡片/日志（§10.2.4）
+          ◆ <b>全览</b>：95′ 全程一窗（分布核对，事件按比例压缩）；<b>窗口 10′</b>：同高保真滑动窗口（约 53px/分钟，事件矩形长、随时间生长）——拖时间条或播放，即可看到每条事件的完整解剖（发现→待审批→执行→闭合点）<br>
+          ◆ 主角链：X-0001 登船弱信号(灰) → ▲460 升级红线 → E01(L2) → 挂起(琥珀) → 72′ 信度达标 → E09(L3) → ▲4620 物理升级 → E-L4(L4) 执行中·开放收尾（直达"现在"竖线）<br>
+          ◆ 升级红线两头已按语法 §8.4 对齐：下级末端 x = 红竖线 x = 上级左起点 x（E01.discover=460、E-L4.discover=4620、E09 确认后增"推演评估执行段"4560→4620）<br>
+          ◆ 挂起示范：E01@10′ · E04@13′ · E27@48′ 琥珀空心点闭合，再检仅日志；次角 E11 接驳中断完整闭环（绿点）<br>
+          ◆ 本次补 2 条在航 L1 底噪：<span class="star">A04-L1-03、E21-L1-04</span>（为 E09 埋线）；两例升级 reason=physical
         </div>
       </div>
     </div>
   </div>
 
-  <div style="margin-top:10px">
+  <div>
     <table id="tbl">
       <thead><tr><th>车道</th><th>事件行</th><th>eventNo</th><th>事件名</th><th>状态</th><th>起点→终点(′)</th><th>闭合</th><th>备注</th></tr></thead>
       <tbody></tbody>
@@ -91,16 +116,15 @@ var MOCK = window.MOCK, SC = window.SimCore, total = MOCK.session.total;
 var v = SC.validate(MOCK);
 document.getElementById("meta").textContent =
   "voyageNo " + MOCK.meta.voyageNo + " · 95′ 单航段（登船→离泊→在航→靠泊·靠岸即停） · validate=" +
-  (v.ok ? "OK(22 条)" : "ERR " + v.errors.join(";")) + " · 窗口=全程 5700s";
+  (v.ok ? "OK(22 条)" : "ERR " + v.errors.join(";"));
 
 // ---- 高保真几何（p1-captain-hifi.html LANES/band，逐字对齐） ----
 var X0 = 70, XR = 860;
-function Xat(t){ return X0 + ((t - (0)) / total) * (XR - X0); }   // 静态：左端=0′，右端="现在"(95′)
 var BANDS = [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]];
 var ROWS  = { L4:[23,41], L3:[65,83,101,119], L2:[143,161,179,197,215,233], L1:[257,275,293,311,329,347,365,383,401,419], X:[475,493] };
 var CX = { detect:"#f0a43f", exec:"#51b873", approve:"#e8b64c", holding:"#7fb98a", abn:"#e5484d", handoff:"#51b873", upgrade:"#e5484d", recover:"#2f9e63", xgray:"#6f7886" };
 
-// ---- 行分配：按等级、按 discover 时间排序后逐轨分配（时间不重叠才坐同一轨；容量 L4=2/L3=4/L2=6/L1=10/X=2） ----
+// ---- 行分配：按时间排序 + 轮转铺轨（同轨时间不重叠才复用，顺延空轨） ----
 function evRange(ev){
   if (ev.outlib && ev.outlib.isX) return { from: ev.discover.at, to: ev.upgrade && ev.upgrade.at != null ? ev.upgrade.at : (ev.holding && ev.holding.to) || total };
   var to = ev.recoverAt != null ? ev.recoverAt
@@ -112,9 +136,7 @@ function evRange(ev){
 function allocRows(evs, rows){
   var placed = [], out = {};
   evs.slice().sort(function(a,b){ return a.discover.at - b.discover.at; }).forEach(function(ev, idx){
-    var rng = evRange(ev);
-    var start = idx % rows.length, pick = -1;
-    // 轮转铺轨（事件分散，同高保真习惯）；同轨时间不重叠才可复用，否则顺延下一空轨
+    var rng = evRange(ev), start = idx % rows.length, pick = -1;
     for (var k = 0; k < rows.length; k++){
       var i = (start + k) % rows.length;
       if (!placed[i] || rng.from >= placed[i].to || rng.to <= placed[i].from){ pick = i; break; }
@@ -130,7 +152,7 @@ MOCK.events.forEach(function(e){ (e.type === "X" ? byLevel.X : byLevel[e.level])
 var rowMap = {};
 Object.keys(byLevel).forEach(function(lv){ var m = allocRows(byLevel[lv], ROWS[lv]); Object.keys(m).forEach(function(k){ rowMap[k] = m[k]; }); });
 function rowOf(ev){ return rowMap[ev.eventNo]; }
-function childRowOf(up){   // 关系A 目标：找 parentTrace 命中 或 signals 来源标记 的事件实际行
+function childRowOf(up){
   var tid = SC.traceId(up);
   for (var i = 0; i < MOCK.events.length; i++){
     var c = MOCK.events[i];
@@ -141,78 +163,96 @@ function childRowOf(up){   // 关系A 目标：找 parentTrace 命中 或 signal
   return null;
 }
 
-// ---- 生成 SVG ----
-var s = [];
-// 车道背景（与高保真一致：透明底+描边；虚线导轨组居中）
-BANDS.forEach(function(L){ s.push('<rect x="'+X0+'" y="'+L[1]+'" width="'+(XR-X0)+'" height="'+L[2]+'" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)"/>'); });
-Object.keys(ROWS).forEach(function(lv){
-  g = ROWS[lv];
-  s.push('<g stroke="rgba(255,255,255,.14)" stroke-width="1" stroke-dasharray="4 4">');
-  g.forEach(function(y){ s.push('<line x1="'+X0+'" y1="'+y+'" x2="'+XR+'" y2="'+y+'"/>'); });
-  s.push("</g>");
-});
-// 等级名（左侧等高色块框，垂直居中）
-BANDS.forEach(function(L){
-  s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="#171c26" rx="6"/>');
-  s.push('<text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="#e6ebf2" text-anchor="middle">'+L[0]+(L[0]==="X"?"·库外":"")+'</text>');
-});
-// 底部时间轴（位于 L1 车道与 X 车道之间，与"现在"竖线同坐标系）
-s.push('<line x1="'+X0+'" y1="444" x2="'+XR+'" y2="444" stroke="rgba(255,255,255,.28)" stroke-width="2"/>');
-[[-90,-90],[-60,-60],[-30,-30],[0,0]].forEach(function(p){
-  var t = total + p[0]*60, mx = Xat(t);
-  s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="rgba(255,255,255,.28)"/>');
-  s.push('<text x="'+(mx-12)+'" y="460" font-size="8" fill="#8b95a5">'+(p[1]===0?"现在":p[1]+"′")+'</text>');
-});
-s.push('<text x="'+(X0-4)+'" y="460" font-size="8" fill="#8b95a5" text-anchor="end">登船 0′</text>');
-// "现在"竖线（L4 顶 → X 车道底）
-s.push('<line x1="'+XR+'" y1="8" x2="'+XR+'" y2="506" stroke="#e6ebf2" stroke-width="2"/>');
+// ---- 视图状态 ----
+var mode = "full", SNAP = 3300, playing = false, spd = 20, WIN = 900;
+function fmt(t){ var s = Math.floor(t % 60), m = Math.floor(t / 60); return (m<10?"0":"")+m+":"+(s<10?"0":"")+s; }
+function viewParams(){ return mode === "window" ? { start: SNAP - WIN, now: SNAP, w: WIN } : { start: 0, now: total, w: total }; }
+function Xat(t, P){ return X0 + ((t - P.start) / P.w) * (XR - X0); }
+function inW(t, P){ return t >= P.start && t <= P.now; }
 
-// ---- 事件（统一细高 9px；矩形上不写字） ----
-var SNAP = total;
-MOCK.events.forEach(function(ev){
-  var row = rowOf(ev);
-  if (ev.outlib && ev.outlib.isX){
-    var xf = Math.max(ev.discover.at, 0), xt = Math.min((ev.upgrade && ev.upgrade.at) || (ev.holding && ev.holding.to) || SNAP, SNAP);
-    if (xt > xf) s.push('<rect x="'+Xat(xf)+'" y="'+(row-5)+'" width="'+(Xat(xt)-Xat(xf))+'" height="9" fill="'+CX.xgray+'" stroke="rgba(255,255,255,.18)" stroke-dasharray="3 2" rx="2"/>');
-    if (ev.suspend && ev.suspend.decidedAt != null){   // 存档观察闭合（琥珀空心点，§8.5 观察停止）
-      var px = Xat(ev.suspend.decidedAt);
-      s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.detect+'" stroke-width="2"/>');
+// ---- 绘制 ----
+function draw(){
+  var P = viewParams(), s = [];
+  BANDS.forEach(function(L){ s.push('<rect x="'+X0+'" y="'+L[1]+'" width="'+(XR-X0)+'" height="'+L[2]+'" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)"/>'); });
+  Object.keys(ROWS).forEach(function(lv){
+    s.push('<g stroke="rgba(255,255,255,.14)" stroke-width="1" stroke-dasharray="4 4">');
+    ROWS[lv].forEach(function(y){ s.push('<line x1="'+X0+'" y1="'+y+'" x2="'+XR+'" y2="'+y+'"/>'); });
+    s.push("</g>");
+  });
+  BANDS.forEach(function(L){
+    s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="#171c26" rx="6"/>');
+    s.push('<text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="#e6ebf2" text-anchor="middle">'+L[0]+(L[0]==="X"?"·库外":"")+'</text>');
+  });
+  s.push('<line x1="'+X0+'" y1="444" x2="'+XR+'" y2="444" stroke="rgba(255,255,255,.28)" stroke-width="2"/>');
+  if (mode === "window"){
+    for (var k = 0; k <= 6; k++){
+      var t = P.start + (k/6)*P.w, mx = Xat(t, P), rel = Math.round((t - SNAP)/60);
+      s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="rgba(255,255,255,.28)"/>');
+      if (k === 0 || k === 3) s.push('<text x="'+(mx-12)+'" y="460" font-size="8" fill="#8b95a5">'+rel+'′</text>');
+      if (k === 6) s.push('<text x="'+(mx-18)+'" y="460" font-size="8" fill="#e6ebf2">现在</text>');
     }
-    if (ev.upgrade && ev.upgrade.at != null && ROWS[ev.upgrade.to]){
-      var ux = Xat(ev.upgrade.at), c1 = childRowOf(ev), yEnd = (c1 != null ? c1 : ROWS[ev.upgrade.to][0]) - 5;
-      s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
-    }
-    return;
+  } else {
+    [[-90,-90],[-60,-60],[-30,-30],[0,0]].forEach(function(p){
+      var t = total + p[0]*60, mx = Xat(t, P);
+      s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="rgba(255,255,255,.28)"/>');
+      s.push('<text x="'+(mx-12)+'" y="460" font-size="8" fill="#8b95a5">'+(p[1]===0?"现在":p[1]+"′")+'</text>');
+    });
+    s.push('<text x="'+(X0-4)+'" y="460" font-size="8" fill="#8b95a5" text-anchor="end">登船 0′</text>');
   }
-  var segs = SC.computeSegments(ev, SNAP);
-  segs.forEach(function(seg){
-    if (seg.type === "handoff"){
-      var hx = Xat(seg.at);
-      s.push('<line x1="'+hx+'" y1="'+(row-7)+'" x2="'+hx+'" y2="'+(row+7)+'" stroke="'+(seg.kind==="error"?CX.abn:CX.exec)+'" stroke-width="3"/>');
-    } else if (seg.type === "upgrade"){
-      if (ev.upgrade && ROWS[ev.upgrade.to]){
-        var ux = Xat(seg.at), c1 = childRowOf(ev), yEnd = (c1 != null ? c1 : ROWS[ev.upgrade.to][0]) - 5;
+  s.push('<line x1="'+XR+'" y1="8" x2="'+XR+'" y2="506" stroke="#e6ebf2" stroke-width="2"/>');
+
+  MOCK.events.forEach(function(ev){
+    var row = rowOf(ev);
+    if (ev.outlib && ev.outlib.isX){
+      var xf = Math.max(ev.discover.at, P.start), xt = Math.min((ev.upgrade && ev.upgrade.at) || (ev.holding && ev.holding.to) || P.now, P.now);
+      if (xt > xf) s.push('<rect x="'+Xat(xf,P)+'" y="'+(row-5)+'" width="'+(Xat(xt,P)-Xat(xf,P))+'" height="9" fill="'+CX.xgray+'" stroke="rgba(255,255,255,.18)" stroke-dasharray="3 2" rx="2"/>');
+      if (ev.suspend && ev.suspend.decidedAt != null && inW(ev.suspend.decidedAt, P)){
+        s.push('<circle cx="'+Xat(ev.suspend.decidedAt,P)+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.detect+'" stroke-width="2"/>');
+      }
+      if (ev.upgrade && ev.upgrade.at != null && inW(ev.upgrade.at, P) && ROWS[ev.upgrade.to]){
+        var ux = Xat(ev.upgrade.at, P), c1 = childRowOf(ev), yEnd = (c1 != null ? c1 : ROWS[ev.upgrade.to][0]) - 5;
         s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
       }
-    } else if (seg.type === "recover"){
-      var rx = Xat(seg.at);
-      s.push('<circle cx="'+rx+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.recover+'" stroke-width="2"/>');
-    } else if (seg.type === "suspend"){
-      var px = Xat(seg.at);
-      s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.detect+'" stroke-width="2"/>');
-    } else {
-      var f = Math.max(seg.from, 0), to = Math.min(seg.to, SNAP);
-      if (to > f){
-        s.push('<rect x="'+Xat(f)+'" y="'+(row-5)+'" width="'+(Xat(to)-Xat(f))+'" height="9" fill="'+(CX[seg.color]||CX.detect)+'" rx="2" opacity="'+(seg.type==="holding"?0.6:1)+'"/>');
-      }
+      return;
     }
+    var segs = SC.computeSegments(ev, P.now);
+    segs.forEach(function(seg){
+      if (seg.type === "handoff"){
+        if (inW(seg.at, P)){ var hx = Xat(seg.at, P); s.push('<line x1="'+hx+'" y1="'+(row-7)+'" x2="'+hx+'" y2="'+(row+7)+'" stroke="'+(seg.kind==="error"?CX.abn:CX.exec)+'" stroke-width="3"/>'); }
+      } else if (seg.type === "upgrade"){
+        if (inW(seg.at, P) && ev.upgrade && ROWS[ev.upgrade.to]){
+          var ux = Xat(seg.at, P), c1 = childRowOf(ev), yEnd = (c1 != null ? c1 : ROWS[ev.upgrade.to][0]) - 5;
+          s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
+        }
+      } else if (seg.type === "recover"){
+        if (inW(seg.at, P)){ s.push('<circle cx="'+Xat(seg.at,P)+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.recover+'" stroke-width="2"/>'); }
+      } else if (seg.type === "suspend"){
+        if (inW(seg.at, P)){ s.push('<circle cx="'+Xat(seg.at,P)+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.detect+'" stroke-width="2"/>'); }
+      } else {
+        var f = Math.max(seg.from, P.start), to = Math.min(seg.to, P.now);
+        if (to > f){
+          s.push('<rect x="'+Xat(f,P)+'" y="'+(row-5)+'" width="'+(Xat(to,P)-Xat(f,P))+'" height="9" fill="'+(CX[seg.color]||CX.detect)+'" rx="2" opacity="'+(seg.type==="holding"?0.6:1)+'"/>');
+        }
+      }
+    });
   });
-});
-document.getElementById("tl").innerHTML = s.join("");
+  document.getElementById("tl").innerHTML = s.join("");
+  document.getElementById("snapLbl").textContent = mode === "window" ? ("快照 " + fmt(SNAP)) : "全览 0:00–95:00";
+}
 
-// ---- 事件行映射表（下车道 → 顺序按时间） ----
-var LVS = ["L4","L3","L2","L1","X"];
-var tbody = "";
+// ---- 控件 ----
+document.getElementById("modeFull").onclick = function(){ mode="full"; playing=false; document.getElementById("play").textContent="▶ 播放"; document.getElementById("modeFull").classList.add("on"); document.getElementById("modeWin").classList.remove("on"); draw(); };
+document.getElementById("modeWin").onclick = function(){ mode="window"; document.getElementById("modeWin").classList.add("on"); document.getElementById("modeFull").classList.remove("on"); draw(); };
+document.getElementById("snap").oninput = function(){ SNAP = +this.value; draw(); };
+document.getElementById("play").onclick = function(){ playing=!playing; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
+document.getElementById("spd").oninput = function(){ spd = +this.value; };
+document.querySelectorAll("#jumps .jump").forEach(function(b){
+  b.onclick = function(){ mode="window"; document.getElementById("modeWin").classList.add("on"); document.getElementById("modeFull").classList.remove("on"); SNAP = +b.getAttribute("data-t"); document.getElementById("snap").value = SNAP; draw(); };
+});
+setInterval(function(){ if (playing && mode==="window"){ SNAP = (SNAP + spd*0.1) % total; document.getElementById("snap").value = SNAP; draw(); } }, 100);
+
+// ---- 事件行映射表 ----
+var LVS = ["L4","L3","L2","L1","X"], tbody = "";
 LVS.forEach(function(lv){
   var evs = byLevel[lv].slice().sort(function(a,b){ return a.discover.at - b.discover.at; });
   evs.forEach(function(ev){
@@ -226,6 +266,7 @@ LVS.forEach(function(lv){
   });
 });
 document.querySelector("#tbl tbody").innerHTML = tbody;
+draw();
 </script>
 </body>
 </html>

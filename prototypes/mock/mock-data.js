@@ -62,9 +62,9 @@
       category: "人流/秩序", semanticType: "持续运营型", state: "已关闭(再检恢复)",
       currentRole: "DUTY", needsCaptain: false, pinned: true, flash: false, foldGroup: "L2",
       phase: "berth-in", parentTrace: "1361-9291",   // 血缘：来源 X-0001 的 trace_id（关系A升级；连同 discover.signals[0] 的 x-upgrade 来源标记）
-      discover: { at: 480, signals: [
-        { src: "x-upgrade", from: "X-0001", at: 460, val: { note: "由库外弱信号 X-0001 升级而来（关系A）" } },
-        { src: "cam/count", at: 478, val: { density: 0.88, queue: "闸机口排队>25 人" } }
+      discover: { at: 460, signals: [
+        { src: "x-upgrade", from: "X-0001", at: 460, val: { note: "由库外弱信号 X-0001 升级而来（关系A，discover.at=升级点同 x，语法§8.4 无缝接线）" } },
+        { src: "cam/count", at: 458, val: { density: 0.88, queue: "闸机口排队>25 人" } }
       ], confidence: 0.88 },
       handoffs: [{ at: 486, from: "SENSE", to: "DUTY", kind: "normal" }],
       approval: { waitStart: 486, dueAt: 486 + 30 * MIN, outcome: "confirm", decidedAt: 540 },
@@ -477,7 +477,9 @@
       ], confidence: 0.92 },
       handoffs: [{ at: 4326, from: "SENSE", to: "MGR", kind: "normal" }],
       approval: { waitStart: 4326, dueAt: 4326 + 60 * MIN, outcome: "confirm", decidedAt: 4560 },
-      exec: null, holding: null, peakMark: false, recoverAt: null,
+      // 4560 经理确认 → 4560–4620 进入"推演评估执行段"（长链推演：需整体下船安全再排），
+      // 4620 评估定论 → 升级红竖线（关系A），E-L4-0001.discover.at=4620 同 x 无缝接线（语法 §8.4）
+      exec: { from: 4560, to: 4620, port: "MGMT", status: "running" }, holding: null, peakMark: false, recoverAt: null,
       upgrade: { to: "L4", at: 4620, reason: "physical" }, outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" }, recheck: { every: 300, reads: [] },
       summary: "经理审批确认 → 长链推演（台风×靠泊窗口×离船批次×接驳耦合）判'需整体下船安全再排' → 升级(L4·物理)", confidence: 0.92,
@@ -513,9 +515,9 @@
       category: "安全/离船", semanticType: "任务型", state: "执行中",
       currentRole: "CAPT", needsCaptain: true, pinned: true, flash: false, foldGroup: "L4",
       phase: "approach", parentTrace: "68F9-AE29",   // 血缘：来源 E09-0001 的 trace_id（关系A升级；连同 discover.signals[0] 的 escalate 来源标记）
-      discover: { at: 4680, signals: [
-        { src: "escalate", from: "E09-0001", at: 4620, val: { note: "由 E09 物理升级而来（关系A，upgrade.to=L4）" } },
-        { src: "ai-risk", at: 4675, val: { note: "本系统 AI 推理产物：安抚/赔付风险同步法务/客服端口（SCHEMA §2.6）", payoutRisk: "high" } }
+      discover: { at: 4620, signals: [
+        { src: "escalate", from: "E09-0001", at: 4620, val: { note: "由 E09 物理升级而来（关系A，upgrade.to=L4；discover.at=升级点同 x，语法§8.4 无缝接线）" } },
+        { src: "ai-risk", at: 4615, val: { note: "本系统 AI 推理产物：安抚/赔付风险同步法务/客服端口（SCHEMA §2.6）", payoutRisk: "high" } }
       ], confidence: 0.95 },
       handoffs: [{ at: 4690, from: "SENSE", to: "CAPT", kind: "normal" }],
       // L4 时限=0（引擎 levelTimeout 已修复 falsy 穿透 bug，2026-08-22）：dueAt = waitStart + 0 = 4700；
