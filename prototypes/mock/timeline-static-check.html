@@ -2,165 +2,230 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>22 条事件 · 全量静态时间轴分布核对</title>
+<title>22 条事件 · 全量静态时间轴（高保真画法）</title>
 <style>
   body{margin:0;background:#05070a;color:#e6ebf2;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;font-size:13px}
-  #wrap{padding:10px}
-  canvas{border-radius:10px;background:#0b0e13;display:block}
-  .meta{color:#8b95a5;font-size:11px;margin:6px 2px}
+  #wrap{padding:12px 16px}
+  .head{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+  h1{font-size:16px;margin:0}
+  .meta{color:#8b95a5;font-size:11px}
+  .mid{display:flex;gap:18px;margin-top:10px;align-items:flex-start;flex-wrap:wrap}
+  .mid svg{border-radius:10px;background:#0b0e13;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+  .side{flex:1;min-width:400px;max-width:640px}
+  .panel{background:#0f1319;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+  .panel h2{font-size:12px;margin:0 0 8px;color:#8b95a5;font-weight:700}
+  .chip{display:inline-flex;align-items:center;gap:5px;border-radius:14px;padding:3px 10px;font-size:11px;margin:2px 6px 2px 0}
+  .chip.low{border:1.5px dashed #f0a43f;color:#f0a43f}
+  .chip.met{background:#f0a43f;color:#15130b;font-weight:700}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:10.5px;color:#8b95a5;line-height:1.3}
+  .sw{width:14px;height:8px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:4px}
+  .dot8{width:8px;height:8px;border-radius:50%;border:2px solid #2f9e63;background:#fff;display:inline-block;vertical-align:middle;margin-right:4px}
+  .dot8.am{border-color:#f0a43f}
+  .lines{width:22px;height:0;border-top:2px solid #e5484d;display:inline-block;vertical-align:middle;margin-right:4px}
+  table{width:100%;border-collapse:collapse;font-size:10.5px;background:#0f1319;border-radius:10px;overflow:hidden}
+  th,td{border-bottom:1px solid rgba(255,255,255,.07);padding:3px 8px;text-align:left;white-space:nowrap}
+  th{color:#8b95a5;font-weight:600;background:#131a24}
+  td.mono{font-family:ui-monospace,Consolas,monospace;color:#4c8dff}
+  .lv-L4{color:#e5484d;font-weight:700}.lv-L3{color:#f0a43f}.lv-L2{color:#51b873}.lv-L1{color:#8b95a5}.lv-X{color:#6f7886}
+  .star{color:#f0a43f}
+  .ok{color:#51b873;font-weight:700}
+  .notes{font-size:11px;color:#8b95a5;line-height:1.6;margin-top:8px}
 </style>
 </head>
 <body>
 <div id="wrap">
-  <div class="meta" id="meta">加载中…</div>
-  <div style="display:none" id="snap"></div>
-  <canvas id="cv" width="1560" height="620"></canvas>
+  <div class="head">
+    <h1>22 条事件 · 全量静态时间轴（参照高保真画法：L4→L3→L2→L1，X 库外在最下）</h1>
+    <span class="meta" id="meta">加载中…</span>
+  </div>
+
+  <div class="mid">
+    <div>
+      <svg id="tl" width="900" height="540" viewBox="0 0 900 540"></svg>
+    </div>
+    <div class="side">
+      <div class="panel">
+        <h2>本系统 AI 风险推理状态（非事件，不占时间轴）</h2>
+        <span class="chip low">35′ · 低信度 → 态势图 chip</span>
+        <span class="chip met">72′ · 信度达标 → 升级为 E09</span>
+        <div class="meta" style="margin-top:4px">SCHEMA §2.6 / 治理框架 §4.11.5：航变风险 = 本系统 AI 推理产物</div>
+      </div>
+      <div class="panel">
+        <h2>图例（可视化语法 v1–v4 / 高保真一致）</h2>
+        <div class="legend">
+          <span><i class="sw" style="background:#f0a43f"></i>发现段</span>
+          <span><i class="sw" style="background:#e8b64c"></i>待确认/待审批段</span>
+          <span><i class="sw" style="background:#51b873"></i>执行段</span>
+          <span><i class="sw" style="background:#6f7886"></i>库外 X（灰·虚线框·无字）</span>
+          <span><i class="dot8" style="border-color:#2f9e63"></i>恢复点（深绿空心）</span>
+          <span><i class="dot8 am"></i>挂起点（琥珀空心·§13）</span>
+          <span><i class="lines"></i>升级红线（关系A·实线）</span>
+          <span><i class="sw" style="background:#171c26;border:1px dashed #303847"></i>虚线导轨</span>
+          <span>│ 实时"现在"竖线</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>叙事标注</h2>
+        <div class="notes">
+          ◆ 主角链：X-0001 登船弱信号(灰) → ▲460 升级线 → E01(L2) 挂起(琥珀) → 72′ 信度达标 → E09(L3) → ▲4620 物理升级 → E-L4(L4) 执行中·开放收尾（直达"现在"竖线）<br>
+          ◆ 挂起示范：E01@10′ · E04@13′ · E27@48′ 琥珀空心点闭合，再检仅日志（不画线、不占车道）<br>
+          ◆ 次角：E11 接驳中断(L3) 完整闭环（绿点）；◆ 本次补 2 条在航 L1 底噪：<span class="star">A04-L1-03、E21-L1-04</span>（为 E09 埋线）<br>
+          ◆ 两例升级 reason=physical（物理劣化）：红实线，升级原因标注在卡片/日志（§10.2.4）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:10px">
+    <table id="tbl">
+      <thead><tr><th>车道</th><th>事件行</th><th>eventNo</th><th>事件名</th><th>状态</th><th>起点→终点(′)</th><th>闭合</th><th>备注</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
 </div>
+
 <script src="mock-data.js"></script>
 <script src="sim-core.js"></script>
 <script>
-  var MOCK = window.MOCK, SC = window.SimCore, total = MOCK.session.total;
-  var v = SC.validate(MOCK);
-  document.getElementById("meta").textContent =
-    "静态核对：v0.3 清单 22 条 · voyageNo " + MOCK.meta.voyageNo + " · total=" + total + "s (" + Math.round(total/60) + "′)" +
-    "    validate=" + (v.ok ? "OK(" + MOCK.events.length + " 条)" : "ERR") +
-    (v.ok ? "" : " " + v.errors.join("; ")) +
-    "    phases=" + MOCK.session.phases.map(function(p){return p.id+":"+Math.round(p.dur/60)+"′";}).join(" ");
+var MOCK = window.MOCK, SC = window.SimCore, total = MOCK.session.total;
+var v = SC.validate(MOCK);
+document.getElementById("meta").textContent =
+  "voyageNo " + MOCK.meta.voyageNo + " · 95′ 单航段（登船→离泊→在航→靠泊·靠岸即停） · validate=" +
+  (v.ok ? "OK(22 条)" : "ERR " + v.errors.join(";")) + " · 窗口=全程 5700s";
 
-  var W = 1560, H = 620, X0 = 84, X1 = W - 20;
-  function x(t){ return X0 + (t / total) * (X1 - X0); }
-  var cv = document.getElementById("cv"), g = cv.getContext("2d");
-  g.clearRect(0,0,W,H); g.fillStyle="#0b0e13"; g.fillRect(0,0,W,H);
+// ---- 高保真几何（p1-captain-hifi.html LANES/band，逐字对齐） ----
+var X0 = 70, XR = 860;
+function Xat(t){ return X0 + ((t - (0)) / total) * (XR - X0); }   // 静态：左端=0′，右端="现在"(95′)
+var BANDS = [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]];
+var ROWS  = { L4:[23,41], L3:[65,83,101,119], L2:[143,161,179,197,215,233], L1:[257,275,293,311,329,347,365,383,401,419], X:[475,493] };
+var CX = { detect:"#f0a43f", exec:"#51b873", approve:"#e8b64c", holding:"#7fb98a", abn:"#e5484d", handoff:"#51b873", upgrade:"#e5484d", recover:"#2f9e63", xgray:"#6f7886" };
 
-  var C = { detect:"#f0a43f", approve:"#e8b64c", exec:"#51b873", holding:"#7fb98a",
-            abn:"#e5484d", recover:"#2f9e63", suspend:"#f0a43f", out:"#4c8dff", text:"#e6ebf2", dim:"#8b95a5" };
-
-  // ---- 顶部标题 + 验证 ----
-  g.fillStyle = C.text; g.font = "bold 17px sans-serif";
-  g.fillText("22 条事件全量静态时间轴（95′ 单航段：登船→离泊→在航→靠泊，靠岸即停）", 20, 26);
-  g.fillStyle = v.ok ? "#51b873" : "#e5484d"; g.font = "12px sans-serif";
-  g.fillText("校验：" + (v.ok ? "通过（22 条 · 编号唯一 · 时间有序 · 闭合点一致）" : "失败"), X1 - 400, 26);
-
-  // ---- 阶段分隔与标签 ----
-  var marks = [];
-  var acc = 0;
-  MOCK.session.phases.forEach(function(p){ marks.push({at:acc, id:p.id, name:p.name}); acc += p.dur; });
-  var LANE_TOP = 110, LANE_H = 62, LANE_GAP = 6;
-
-  // ---- 车道（L4 顶 → L1 底；X 独立车道） ----
-  var lanes = [
-    { id:"L4", y:LANE_TOP,                   note:"船长拍板 · 主角" },
-    { id:"X",  y:LANE_TOP+1*(LANE_H+LANE_GAP), note:"库外弱信号" },
-    { id:"L3", y:LANE_TOP+2*(LANE_H+LANE_GAP), note:"经理审批 · 主角根/次角" },
-    { id:"L2", y:LANE_TOP+3*(LANE_H+LANE_GAP), note:"值班/经理日常" },
-    { id:"L1", y:LANE_TOP+4*(LANE_H+LANE_GAP), note:"自动/低扰底噪" }
-  ];
-  var byLevel = {};
-  MOCK.events.forEach(function(e){ (byLevel[e.level] = byLevel[e.level] || []).push(e); });
-  var laneH = {};
-  ["L4","X","L3","L2","L1"].forEach(function(l){ laneH[l] = (byLevel[l]||[]).length; });
-
-  function segColor(type, ev){
-    if (ev.outlib && ev.outlib.isX) return C.out;
-    return { detect:C.detect, approve:C.approve, exec:C.exec, holding:C.holding }[type] || C.detect;
+// ---- 行分配：按等级、按 discover 时间排序后逐轨分配（时间不重叠才坐同一轨；容量 L4=2/L3=4/L2=6/L1=10/X=2） ----
+function evRange(ev){
+  if (ev.outlib && ev.outlib.isX) return { from: ev.discover.at, to: ev.upgrade && ev.upgrade.at != null ? ev.upgrade.at : (ev.holding && ev.holding.to) || total };
+  var to = ev.recoverAt != null ? ev.recoverAt
+        : (ev.suspend && ev.suspend.decidedAt != null) ? ev.suspend.decidedAt
+        : (ev.exec && ev.exec.to) ? ev.exec.to
+        : (ev.holding && ev.holding.to) || (ev.upgrade && ev.upgrade.at) || total;
+  return { from: ev.discover.at, to: to };
+}
+function allocRows(evs, rows){
+  var placed = [], out = {};
+  evs.slice().sort(function(a,b){ return a.discover.at - b.discover.at; }).forEach(function(ev, idx){
+    var rng = evRange(ev);
+    var start = idx % rows.length, pick = -1;
+    // 轮转铺轨（事件分散，同高保真习惯）；同轨时间不重叠才可复用，否则顺延下一空轨
+    for (var k = 0; k < rows.length; k++){
+      var i = (start + k) % rows.length;
+      if (!placed[i] || rng.from >= placed[i].to || rng.to <= placed[i].from){ pick = i; break; }
+    }
+    if (pick < 0) pick = start;
+    placed[pick] = placed[pick] ? { from: Math.min(placed[pick].from, rng.from), to: Math.max(placed[pick].to, rng.to) } : rng;
+    out[ev.eventNo] = rows[pick];
+  });
+  return out;
+}
+var byLevel = { L4:[], L3:[], L2:[], L1:[], X:[] };
+MOCK.events.forEach(function(e){ (e.type === "X" ? byLevel.X : byLevel[e.level]).push(e); });
+var rowMap = {};
+Object.keys(byLevel).forEach(function(lv){ var m = allocRows(byLevel[lv], ROWS[lv]); Object.keys(m).forEach(function(k){ rowMap[k] = m[k]; }); });
+function rowOf(ev){ return rowMap[ev.eventNo]; }
+function childRowOf(up){   // 关系A 目标：找 parentTrace 命中 或 signals 来源标记 的事件实际行
+  var tid = SC.traceId(up);
+  for (var i = 0; i < MOCK.events.length; i++){
+    var c = MOCK.events[i];
+    if (c.parentTrace === tid) return rowOf(c);
+    if (c.discover && c.discover.signals) for (var j = 0; j < c.discover.signals.length; j++)
+      if (c.discover.signals[j].from && c.discover.signals[j].from === up.eventNo) return rowOf(c);
   }
+  return null;
+}
 
-  // 先画升级线（关系A：X-0001→E01(L2)、E09→E-L4(L4)），再画车道内容，线在下方
-  var upLines = [];
-  MOCK.events.forEach(function(ev){
-    if (ev.upgrade && ev.upgrade.at != null && ev.upgrade.to) upLines.push(ev);
+// ---- 生成 SVG ----
+var s = [];
+// 车道背景（与高保真一致：透明底+描边；虚线导轨组居中）
+BANDS.forEach(function(L){ s.push('<rect x="'+X0+'" y="'+L[1]+'" width="'+(XR-X0)+'" height="'+L[2]+'" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)"/>'); });
+Object.keys(ROWS).forEach(function(lv){
+  g = ROWS[lv];
+  s.push('<g stroke="rgba(255,255,255,.14)" stroke-width="1" stroke-dasharray="4 4">');
+  g.forEach(function(y){ s.push('<line x1="'+X0+'" y1="'+y+'" x2="'+XR+'" y2="'+y+'"/>'); });
+  s.push("</g>");
+});
+// 等级名（左侧等高色块框，垂直居中）
+BANDS.forEach(function(L){
+  s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="#171c26" rx="6"/>');
+  s.push('<text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="#e6ebf2" text-anchor="middle">'+L[0]+(L[0]==="X"?"·库外":"")+'</text>');
+});
+// 底部时间轴（位于 L1 车道与 X 车道之间，与"现在"竖线同坐标系）
+s.push('<line x1="'+X0+'" y1="444" x2="'+XR+'" y2="444" stroke="rgba(255,255,255,.28)" stroke-width="2"/>');
+[[-90,-90],[-60,-60],[-30,-30],[0,0]].forEach(function(p){
+  var t = total + p[0]*60, mx = Xat(t);
+  s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="rgba(255,255,255,.28)"/>');
+  s.push('<text x="'+(mx-12)+'" y="460" font-size="8" fill="#8b95a5">'+(p[1]===0?"现在":p[1]+"′")+'</text>');
+});
+s.push('<text x="'+(X0-4)+'" y="460" font-size="8" fill="#8b95a5" text-anchor="end">登船 0′</text>');
+// "现在"竖线（L4 顶 → X 车道底）
+s.push('<line x1="'+XR+'" y1="8" x2="'+XR+'" y2="506" stroke="#e6ebf2" stroke-width="2"/>');
+
+// ---- 事件（统一细高 9px；矩形上不写字） ----
+var SNAP = total;
+MOCK.events.forEach(function(ev){
+  var row = rowOf(ev);
+  if (ev.outlib && ev.outlib.isX){
+    var xf = Math.max(ev.discover.at, 0), xt = Math.min((ev.upgrade && ev.upgrade.at) || (ev.holding && ev.holding.to) || SNAP, SNAP);
+    if (xt > xf) s.push('<rect x="'+Xat(xf)+'" y="'+(row-5)+'" width="'+(Xat(xt)-Xat(xf))+'" height="9" fill="'+CX.xgray+'" stroke="rgba(255,255,255,.18)" stroke-dasharray="3 2" rx="2"/>');
+    if (ev.suspend && ev.suspend.decidedAt != null){   // 存档观察闭合（琥珀空心点，§8.5 观察停止）
+      var px = Xat(ev.suspend.decidedAt);
+      s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.detect+'" stroke-width="2"/>');
+    }
+    if (ev.upgrade && ev.upgrade.at != null && ROWS[ev.upgrade.to]){
+      var ux = Xat(ev.upgrade.at), c1 = childRowOf(ev), yEnd = (c1 != null ? c1 : ROWS[ev.upgrade.to][0]) - 5;
+      s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
+    }
+    return;
+  }
+  var segs = SC.computeSegments(ev, SNAP);
+  segs.forEach(function(seg){
+    if (seg.type === "handoff"){
+      var hx = Xat(seg.at);
+      s.push('<line x1="'+hx+'" y1="'+(row-7)+'" x2="'+hx+'" y2="'+(row+7)+'" stroke="'+(seg.kind==="error"?CX.abn:CX.exec)+'" stroke-width="3"/>');
+    } else if (seg.type === "upgrade"){
+      if (ev.upgrade && ROWS[ev.upgrade.to]){
+        var ux = Xat(seg.at), c1 = childRowOf(ev), yEnd = (c1 != null ? c1 : ROWS[ev.upgrade.to][0]) - 5;
+        s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
+      }
+    } else if (seg.type === "recover"){
+      var rx = Xat(seg.at);
+      s.push('<circle cx="'+rx+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.recover+'" stroke-width="2"/>');
+    } else if (seg.type === "suspend"){
+      var px = Xat(seg.at);
+      s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.detect+'" stroke-width="2"/>');
+    } else {
+      var f = Math.max(seg.from, 0), to = Math.min(seg.to, SNAP);
+      if (to > f){
+        s.push('<rect x="'+Xat(f)+'" y="'+(row-5)+'" width="'+(Xat(to)-Xat(f))+'" height="9" fill="'+(CX[seg.color]||CX.detect)+'" rx="2" opacity="'+(seg.type==="holding"?0.6:1)+'"/>');
+      }
+    }
   });
+});
+document.getElementById("tl").innerHTML = s.join("");
 
-  // 车道背景 + 行网格
-  lanes.forEach(function(L){
-    var n = (byLevel[L.id]||[]).length, rowH = n > 6 ? 6 : (n > 3 ? 9 : 20);
-    g.fillStyle = "rgba(255,255,255,.05)"; g.fillRect(X0, L.y, X1-X0, LANE_H);
-    g.strokeStyle = "rgba(255,255,255,.12)"; g.strokeRect(X0, L.y, X1-X0, LANE_H);
-    g.fillStyle = C.dim; g.font = "10px sans-serif";
-    g.fillText("◆ " + L.id + " × " + n + "  " + L.note, 20, L.y + 12);
-    byLevel[L.id] && byLevel[L.id].forEach(function(ev, i){
-      var ry = L.y + 12 + i * rowH, rh = Math.max(3, rowH - 1);
-      var segs = SC.computeSegments(ev, total);
-      segs.forEach(function(s){
-        if (s.type === "handoff" || s.type === "upgrade" || s.type === "recover" || s.type === "suspend") return;
-        var f = s.from, to = s.to;
-        var xl = x(f), xr = x(to);
-        if (xr - xl < 1.5) return;
-        g.fillStyle = segColor(s.type, ev);
-        g.fillRect(xl, ry, xr - xl, rh);
-      });
-      // 闭合点 & 移交 & 挂起标记
-      segs.forEach(function(s){
-        if (s.type === "recover") { g.fillStyle="#fff"; g.strokeStyle=C.recover; g.lineWidth=2; g.beginPath(); g.arc(x(s.at), ry+rh/2, 4, 0, 7); g.fill(); g.stroke(); g.lineWidth=1; }
-        else if (s.type === "suspend") { g.fillStyle="#fff"; g.strokeStyle=C.suspend; g.lineWidth=2; g.beginPath(); g.arc(x(s.at), ry+rh/2, 4, 0, 7); g.fill(); g.stroke(); g.lineWidth=1; }
-        else if (s.type === "handoff") { g.strokeStyle = C.exec; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x(s.at), ry); g.lineTo(x(s.at), ry+rh); g.stroke(); g.lineWidth=1; }
-        else if (s.type === "upgrade") { /* 跨车道线单独画 */ }
-      });
-      // 事件标签
-      g.fillStyle = C.text; g.font = (rowH >= 9 ? "10px" : "8px") + " sans-serif";
-      var tx = x(ev.discover.at) + 3, lw = ev.eventNo.length * (rowH >= 9 ? 5.6 : 4.6);
-      if (tx + lw < X1) g.fillText(ev.eventNo, tx, ry - 2);
-    });
+// ---- 事件行映射表（下车道 → 顺序按时间） ----
+var LVS = ["L4","L3","L2","L1","X"];
+var tbody = "";
+LVS.forEach(function(lv){
+  var evs = byLevel[lv].slice().sort(function(a,b){ return a.discover.at - b.discover.at; });
+  evs.forEach(function(ev){
+    var rng = evRange(ev), fidx = ROWS[lv].indexOf(rowOf(ev));
+    var closure = ev.recoverAt != null ? "绿点" : (ev.suspend && ev.suspend.decidedAt != null ? "琥珀点(挂起)" : (ev.state === "执行中" ? "开放(执行中)" : ev.state));
+    var note = ev.parentTrace ? "由 " + (ev.discover.signals[0].from || "上游") + " 升级(关系A)" : "";
+    if (ev.eventNo === "A04-L1-03" || ev.eventNo === "E21-L1-04") note += (note ? " · " : "") + '<span class="star">★本次补</span>';
+    tbody += '<tr><td class="lv-'+lv+'">'+lv+'</td><td class="mono">轨 '+(fidx+1)+'/'+ROWS[lv].length+'</td>'+
+      '<td class="mono">'+ev.eventNo+'</td><td>'+ev.name+'</td><td>'+ev.state+'</td>'+
+      '<td>'+(rng.from/60|0)+"→"+(rng.to/60|0)+"′</td><td>"+closure+"</td><td>"+note+"</td></tr>";
   });
-
-  // 关系A 升级线（源车道 → 目标等级车道）
-  function laneYFor(level){ var L = lanes.filter(function(l){return l.id===level;})[0]; return L ? L.y + LANE_H/2 : 0; }
-  upLines.forEach(function(ev){
-    var fromY = laneYFor(ev.level), toY = laneYFor(ev.upgrade.to);
-    var ux = x(ev.upgrade.at);
-    g.strokeStyle = C.abn; g.lineWidth = 2; g.setLineDash([4,3]);
-    g.beginPath(); g.moveTo(ux, fromY); g.lineTo(ux, toY); g.stroke();
-    g.setLineDash([]);
-    g.fillStyle = C.abn; g.font = "bold 10px sans-serif";
-    g.fillText("▲"+ev.upgrade.to, ux+2, fromY + (toY < fromY ? -6 : 16));
-  });
-
-  // ---- 阶段分隔线 + 标签 ----
-  marks.forEach(function(m){
-    if (m.at === 0) return;
-    var mx = x(m.at);
-    g.strokeStyle = "rgba(255,255,255,.28)"; g.setLineDash([2,4]);
-    g.beginPath(); g.moveTo(mx, LANE_TOP - 22); g.lineTo(mx, lanes[4].y + LANE_H + 40); g.stroke();
-    g.setLineDash([]);
-  });
-  var names = ["登船 berth-in · 0–25′","离泊 depart · 25–45′","在航 sailing · 45–75′","靠泊 approach · 75–95′"];
-  marks.forEach(function(m, i){
-    var cx = x(m.at) + (x(marks[i+1] ? marks[i+1].at : total) - x(m.at)) / 2;
-    g.fillStyle = C.text; g.font = "bold 10.5px sans-serif";
-    g.fillText(names[i] || "", cx - 55, LANE_TOP - 8);
-  });
-
-  // ---- 时间轴 ----
-  var ay = lanes[4].y + LANE_H + 34;
-  g.strokeStyle = C.dim; g.beginPath(); g.moveTo(X0, ay); g.lineTo(X1, ay); g.stroke();
-  g.fillStyle = C.dim; g.font = "9px sans-serif";
-  [0, 1500, 2700, 4500, 5700].forEach(function(t){
-    var mx = x(t);
-    g.beginPath(); g.moveTo(mx, ay-4); g.lineTo(mx, ay+4); g.stroke();
-    g.fillText(Math.round(t/60) + "′", mx-6, ay+14);
-  });
-
-  // ---- 图例 ----
-  var ly = ay + 34;
-  g.font = "10px sans-serif";
-  function sw(c, xx){ g.fillStyle=c; g.fillRect(xx, ly-8, 14, 8); }
-  function dot(c, xx){ g.fillStyle="#fff"; g.strokeStyle=c; g.lineWidth=2; g.beginPath(); g.arc(xx+7, ly-4, 4, 0, 7); g.fill(); g.stroke(); g.lineWidth=1; }
-  sw(C.detect, X0); g.fillStyle=C.text; g.fillText("发现", X0+18, ly);
-  sw(C.approve, X0+60); g.fillText("待审批", X0+78, ly);
-  sw(C.exec, X0+138); g.fillText("执行", X0+156, ly);
-  sw(C.holding, X0+198); g.fillText("观察/持续", X0+216, ly);
-  sw(C.out, X0+284); g.fillText("库外X", X0+302, ly);
-  dot(C.recover, X0+354); g.fillText("恢复点(绿)", X0+368, ly);
-  dot(C.suspend, X0+440); g.fillText("挂起(琥珀)", X0+454, ly);
-  g.strokeStyle=C.abn; g.setLineDash([4,3]); g.beginPath(); g.moveTo(X0+528, ly-8); g.lineTo(X0+556, ly); g.stroke(); g.setLineDash([]);
-  g.fillStyle=C.text; g.fillText("升级线(关系A)", X0+562, ly);
-
-  // ---- 关键叙事标注 ----
-  var ny = ly + 30;
-  g.fillStyle = C.dim; g.font = "10.5px sans-serif";
-  [ "叙事要点：① X-0001 登船弱信号→升级 E01（关系A·R线）② E01/E04/E27 挂起=琥珀点闭合，再检仅日志 ③ 72′ 信度达标→E09 诞生（ai-risk），▲4620 物理升级 L4 ④ E-L4 执行中开放收尾（靠岸瞬间 95′）⑤ E11 次角接驳中断完整闭环 ⑥ 低信度 chip(35′) 不占时间轴" ].forEach(function(t){ g.fillText(t, 20, ny); });
-  g.fillStyle = C.suspend; g.font = "10px sans-serif";
-  g.fillText("▲ 挂起示范：E01(600s) E04(780s) E27(2880s)  X-0002 存档(3660s 琥珀)", 20, ny+16);
+});
+document.querySelector("#tbl tbody").innerHTML = tbody;
 </script>
 </body>
 </html>
