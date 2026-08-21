@@ -102,8 +102,7 @@
   .dot8.am{border-color:#f0a43f}
   /* 卡片带（整竖条） */
   .cardband{width:212px;flex:none;display:flex;flex-direction:column;gap:8px;overflow:hidden}
-  .zone{display:flex;flex-direction:column;min-height:0;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
-  .zone.zx{flex:0 0 96px}
+  .zone{display:flex;flex-direction:column;flex:1;min-height:0;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
   .zh{display:flex;align-items:center;gap:6px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
   .zh .dot{width:7px;height:7px;border-radius:50%;flex:none}
   .zh .zc{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
@@ -533,7 +532,7 @@
   }
   var cardSeen = {}, lastDone = {}, bandSig = "";
   function renderCardBand() {
-    var ZONES = [["L4", "#e5484d"], ["L3", "#f0a43f"], ["L2", "#51b873"], ["L1", "#6f7886"], ["X", "#4c8dff"]];
+    var ZONES = [["L4", "#e5484d"], ["X", "#4c8dff"], ["L3", "#f0a43f"], ["L2", "#51b873"], ["L1", "#6f7886"]];
     var sig = ZONES.map(function (z) {
       var lv = z[0];
       var list = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
@@ -554,7 +553,7 @@
       done.forEach(function (e) { cardSeen[e.eventNo] = 1; });
       var pulse = lastDone[lv] !== undefined && done.length > lastDone[lv];
       lastDone[lv] = done.length;
-      h += '<div class="zone' + (lv === "X" ? " zx" : "") + '">' +
+      h += '<div class="zone">' +
         '<div class="zh"><i class="dot" style="background:' + col + '"></i>' + (lv === "X" ? "X · 库外" : lv) +
         '<span class="zc">实时 ' + live.length + ' · 已处置 ' + done.length + "</span></div>" +
         '<div class="zbody">' +
