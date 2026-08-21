@@ -26,6 +26,7 @@
 - 端口：`APP`(乘客App) `SCR`(船载屏) `PA`(广播) `CRW`(船员端) `OTA`(OTA/客服) `VIS`(港口/外部) `MGMT`(内部系统)
 - 角色：`DUTY`(值班) `MGR`(经理) `LEGAL`(法务) `CAPT`(船长) `MED`(医疗) `ENG`(工程)
 - 说明：**法务/客服（LEGAL/OTA）是"知情/告知端口"**——航变/赔付风险由本系统 AI 推理生成后向其同步，不把判决责任外包给这些端口（见 §2.6）。
+- 引擎端口枚举（sim-core `PORT_CODES`）不含 LEGAL：**法务知情同步在数据层用 `portCode:"MGMT"`（内部系统）+ 附加字段 `role:"LEGAL"` 表达**（validate 不检查附加字段）；LEGAL 属角色码（`chain[].role` 合法取值），文案与审计中仍称"法务知情端口"。
 
 ### 1.3 哈希链（留痕防篡改）
 - 每条审计记录：`hash_i = H(hash_{i-1} + recordNo + payload)`（demo 用 FNV-1a；生产用 SHA-256）。
@@ -124,3 +125,4 @@
 ## 5. 变更记录
 - v0.1（2026-08-20）：编号体系 + 事件 schema + 校验规则 + 待确认/审批等待段（grammar §12）落地。
 - v0.4（2026-08-22）：①挂起=琥珀点闭合、再检 still=仅日志、upgrade/accident=衍生新事件（parentTrace 血缘，不画线）；②航变/赔付风险=本系统 AI 推理产物（信度阈值→升级事件，同步法务/客服端口）；③闭合点一致性、recheck、parentTrace 校验入 validate。
+- v0.4.1（2026-08-22）：补充法务知情端口的引擎表达口径（`portCode:"MGMT"` + `role:"LEGAL"`，§1.2）；sim-core 修复 `levelTimeout(L4)` falsy 穿透 bug（L4 时限=0 正确生效）。

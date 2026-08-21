@@ -23,7 +23,9 @@
   function jobNo(ev, n) { return traceId(ev) + "-JOB" + pad(n, 3); }
 
   // ---------- 时限 ----------
-  function levelTimeout(level) { return { L1: 15 * 60, L2: 30 * 60, L3: 60 * 60, L4: 0 }[level] || 30 * 60; }
+  // 修复（2026-08-22）：{L4:0}[level] 为 falsy，`|| 30*60` 会让 L4 实际返回 1800s；
+  // 改为显式 undefined 判断，L4 正确返回 0（时限=0：明令立即行动，不设超时升级）。
+  function levelTimeout(level) { var t = { L1: 15 * 60, L2: 30 * 60, L3: 60 * 60, L4: 0 }[level]; return t === undefined ? 30 * 60 : t; }
 
   // ---------- 事件 → 时间分段（渲染引擎据此画多段矩形） ----------
   function computeSegments(ev, tNow) {
