@@ -1,16 +1,18 @@
-/* 演示模拟数据 v0.5 —— 《事件清单表 v0.5》62 条完整落地（2026-08-22，已程序化修正）
+/* 演示模拟数据 v0.5 —— 《事件清单表 v0.5》62 条完整落地（2026-08-22，第三轮修正）
  * 会话：11:00 登船 → 12:35 靠岸（95′）。时间（秒）= 距 11:00 的分钟×60。
  * 阶段：berth-in 0–1500s / depart 1500–2700s / sailing 2700–4500s / approach 4500–5700s，total=5700s≈95′。
  * 等级分布：X=2 / L4=1 / L3=2 / L2=19 / L1=38，共 62 条。
- * 峰值并发（模拟约束，轨道上矩形零重叠）：L1 任意瞬间 ≤9（10 轨-1）；L2 ≤4（6 轨-2）。
- *   登船 L1 簇：起始 660→852s 每 24s 错峰（9 条，峰值窗口 852–900s）；午高峰 L1 簇：起始 3540→3780s 每 30s 错峰（9 条，峰值窗口 3780–3870s）。
- *   登船 L2 峰值 720–780s 4 条（起始 300/480/660/720 错开）。
+ * 时长尺度（人执行+恢复检测都要时间）：L1 自动 6–10′ / L1 任务 8–13′ / L2 任务 14–22′ / L2 持续(挂起) 12–20′；
+ *   所有事件 exec 段一直画到闭合点（琥珀/绿点落在矩形右缘）：执行耗时+恢复确认耗时都计入矩形。
+ * 峰值并发（模拟约束，轨道矩形零重叠）：L1 任意瞬间 ≤9（10 轨-1）；L2 ≤4（6 轨-2）。
+ *   登船 L1 簇：起始 630–790s 种子随机错峰（9 条，dur 10′）；午高峰 L1 簇：起始 3480–3640s 种子随机错峰（9 条，dur 10′）。
+ *   登船 L2 两波各 4 条（波A 11:05–11:18 / 波B 11:17–11:24）；午段 L2 两波（11:50–12:04 / 12:02–12:15），峰值均 ≤4。
  * 阶段纪律：berth-in 全部事件闭合 ≤1500s；登船段仅 排队/行李/客房/房卡/寻路/电梯/证件，无餐饮娱乐。
- * 闭合点与矩形：所有事件 exec 段末尾 = 闭合点时刻（绿点=recoverAt / 琥珀点=suspend.decidedAt），闭合点落在矩形右缘，不游离。
  * 挂起/再检/衍生（SCHEMA v0.4）：挂起=琥珀点闭合；再检 still/recovered 仅日志；upgrade/accident → 衍生新事件(parentTrace)。
  *   E03-0001 末次再检 upgrade@4560 → 衍生 E03-0001-C1（parentTrace=2323-1B43，关系B 仅日志关联，不画线）。
  *   所有带 reads 的事件预置 recheck._i = reads.length（防止演示运行时重复消费/二次生成）。
  * 关系 A（画升级线）：X-0001.upgrade.at=460=E01.discover.at；E09.upgrade.at=4620=E-L4.discover.at；E09 exec 4560→4620。
+ * 待审批段起点=移交竖线落点（语法§12.2）：E-L4 waitStart=4690=handoff，无断口。
  * 等级时限：L1=15′/L2=30′/L3=60′/L4=0（sim-core levelTimeout，L4 falsy bug 已修复）。
  */
 (function (global) {
@@ -117,12 +119,12 @@
           {
             src: "x-upgrade",
             from: "X-0001",
-            at: 460,
+            at: 458,
             val: { note: "由库外弱信号 X-0001 升级而来（关系A，discover.at=升级点同 x）" }
           },
           {
             src: "cam/count",
-            at: 458,
+            at: 457,
             val: { density: 0.88, queue: "闸机口排队>25 人" }
           }
         ],
@@ -131,20 +133,20 @@
       handoffs: [
         {at: 486, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 486, dueAt: 2286, outcome: "confirm", decidedAt: 540 },
-      exec: { from: 540, to: 600, port: "CRW", status: "running" },
+      approval: { waitStart: 486, dueAt: 2286, outcome: "confirm", decidedAt: 726 },
+      exec: { from: 726, to: 1026, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 600, reason: "增开两通道后排队仍超阈值，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 1026, reason: "增开两通道后排队仍超阈值，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
-        every: 300,
+        every: 360,
         reads: [
-          {at: 900, verdict: "still", note: "通道扩容到位，队列 25→22 人，仍高于阈值，保持监测（仅日志）"},
-          {at: 1260, verdict: "still", note: "OTA 预约分流生效中，队列 18 人，仍略高，保持监测（仅日志）"},
-          {at: 1620, verdict: "recovered", note: "队列回落至 8 人，低于阈值，关闭监测（无新事件）"}
+          {at: 1380, verdict: "still", note: "通道扩容到位，队列回落但仍高，保持监测"},
+          {at: 1560, verdict: "still", note: "OTA 分流生效中，保持监测"},
+          {at: 1800, verdict: "recovered", note: "队列回落至阈值下，关闭监测"}
         ],
         _i: 3
       },
@@ -161,14 +163,14 @@
         {id: "§A02", snippet: "错峰提示动作"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 540}
+        {role: "DUTY", status: "done", actionAt: 726}
       ],
       currentStep: 0,
       dueAt: 2286,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已发布", at: 560, content: "排队提示+错峰建议"}
+        {portCode: "APP", status: "已发布", at: 766, content: "排队提示+错峰建议"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -191,30 +193,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 240,
+        at: 120,
         signals: [
           {
             src: "cam/count",
-            at: 238,
+            at: 118,
             val: { queue: 12, threshold: 15 }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 246, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 180, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 246, to: 300, port: "APP", status: "running" },
+      exec: { from: 180, to: 480, port: "APP", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 300,
+      recoverAt: 480,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A01：闸机排队提示自动下发，队列回落，自动恢复",
       confidence: 0.9,
@@ -229,7 +232,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已自动发布", at: 250, content: "登船排队提示"}
+        {portCode: "APP", status: "已自动发布", at: 220, content: "登船排队提示"}
       ],
       machine: {
         current: "已恢复",
@@ -252,30 +255,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 300,
+        at: 180,
         signals: [
           {
             src: "ota/faq",
-            at: 298,
+            at: 178,
             val: { count: 6, note: "登船流程/证件问题集中询问" }
           }
         ],
         confidence: 0.85
       },
       handoffs: [
-        {at: 306, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 240, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 306, dueAt: 1206, outcome: "confirm", decidedAt: 330 },
-      exec: { from: 330, to: 360, port: "CRW", status: "running" },
+      approval: { waitStart: 240, dueAt: 1140, outcome: "confirm", decidedAt: 360 },
+      exec: { from: 360, to: 570, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 360,
+      recoverAt: 570,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "值班确认 A01（标准答询口径）→ 客服/BOT 应答 → 恢复",
       confidence: 0.85,
@@ -287,14 +291,14 @@
         {id: "§R8-014", snippet: "登船信息口径"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 330}
+        {role: "DUTY", status: "done", actionAt: 360}
       ],
       currentStep: 0,
-      dueAt: 1206,
+      dueAt: 1140,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 340, content: "登船答询口径"}
+        {portCode: "OTA", status: "已同步", at: 400, content: "登船答询口径"}
       ],
       machine: {
         current: "已恢复",
@@ -326,28 +330,28 @@
           },
           {
             src: "crw/report",
-            at: 296,
+            at: 297,
             val: { note: "行李区积压至登船大厅" }
           }
         ],
         confidence: 0.8
       },
       handoffs: [
-        {at: 306, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 360, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 306, dueAt: 2106, outcome: "confirm", decidedAt: 420 },
-      exec: { from: 420, to: 900, port: "CRW", status: "running" },
+      approval: { waitStart: 360, dueAt: 2160, outcome: "confirm", decidedAt: 660 },
+      exec: { from: 660, to: 1020, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 900, reason: "传送带持续低吞吐，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 1020, reason: "传送带持续低吞吐，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
-        every: 300,
+        every: 360,
         reads: [
-          {at: 1200, verdict: "still", note: "人工转运仍在进行，积压未清空，保持监测（仅日志）"},
-          {at: 1800, verdict: "recovered", note: "积压清空，吞吐恢复，关闭监测（无新事件）"}
+          {at: 1380, verdict: "still", note: "人工转运进行中，保持监测"},
+          {at: 1800, verdict: "recovered", note: "积压清空，吞吐恢复，关闭监测"}
         ],
         _i: 2
       },
@@ -361,15 +365,15 @@
         {id: "§A12", snippet: "人工行李转运动作"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 420}
+        {role: "DUTY", status: "done", actionAt: 660}
       ],
       currentStep: 0,
-      dueAt: 2106,
+      dueAt: 2160,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已发布", at: 430, content: "行李提取等待提示"},
-        {portCode: "CRW", status: "已下发", at: 440, content: "行李转运增援指令"}
+        {portCode: "APP", status: "已发布", at: 700, content: "行李提取等待提示"},
+        {portCode: "CRW", status: "已下发", at: 740, content: "行李转运增援指令"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -392,35 +396,36 @@
       foldGroup: "L2",
       phase: "berth-in",
       discover: {
-        at: 480,
+        at: 300,
         signals: [
           {
             src: "sensor/gangway",
-            at: 478,
+            at: 298,
             val: { unit: "G-02", status: "fault" }
           },
           {
             src: "crw/report",
-            at: 476,
+            at: 297,
             val: { note: "登船梯液压异常" }
           }
         ],
         confidence: 0.86
       },
       handoffs: [
-        {at: 486, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 360, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 486, dueAt: 2286, outcome: "confirm", decidedAt: 600 },
-      exec: { from: 600, to: 900, port: "CRW", status: "running" },
+      approval: { waitStart: 360, dueAt: 2160, outcome: "confirm", decidedAt: 600 },
+      exec: { from: 600, to: 1020, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 900,
+      recoverAt: 1020,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "A04 通知维修 + A10 启用备用登船梯 → 修复复位（绿点）",
       confidence: 0.86,
@@ -435,12 +440,12 @@
         {role: "DUTY", status: "done", actionAt: 600}
       ],
       currentStep: 0,
-      dueAt: 2286,
+      dueAt: 2160,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "已下发", at: 610, content: "维修+备用通道指令"},
-        {portCode: "APP", status: "已发布", at: 620, content: "登船梯调整提示"}
+        {portCode: "CRW", status: "已下发", at: 640, content: "维修+备用通道指令"},
+        {portCode: "APP", status: "已发布", at: 680, content: "登船梯调整提示"}
       ],
       machine: {
         current: "已恢复",
@@ -463,35 +468,36 @@
       foldGroup: "L2",
       phase: "berth-in",
       discover: {
-        at: 600,
+        at: 480,
         signals: [
           {
             src: "crw/report",
-            at: 598,
+            at: 478,
             val: { note: "B 层无障碍通道被行李堆放阻断" }
           },
           {
             src: "cam/flow",
-            at: 598,
+            at: 477,
             val: { deviate: 2.1, zone: "wheelchair-lane" }
           }
         ],
         confidence: 0.82
       },
       handoffs: [
-        {at: 608, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 540, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 608, dueAt: 2408, outcome: "confirm", decidedAt: 660 },
-      exec: { from: 660, to: 700, port: "CRW", status: "running" },
+      approval: { waitStart: 540, dueAt: 2340, outcome: "confirm", decidedAt: 780 },
+      exec: { from: 780, to: 1020, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 700,
+      recoverAt: 1020,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "值班确认 A15（无障碍通道清障）→ 现场清障完成 → 恢复（绿点）",
       confidence: 0.82,
@@ -503,14 +509,14 @@
         {id: "§R8-020", snippet: "无障碍保障口径"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 660}
+        {role: "DUTY", status: "done", actionAt: 780}
       ],
       currentStep: 0,
-      dueAt: 2408,
+      dueAt: 2340,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "已下发", at: 670, content: "无障碍通道清障指令"}
+        {portCode: "CRW", status: "已下发", at: 820, content: "无障碍通道清障指令"}
       ],
       machine: {
         current: "已恢复",
@@ -533,38 +539,38 @@
       foldGroup: "L2",
       phase: "berth-in",
       discover: {
-        at: 660,
+        at: 1040,
         signals: [
           {
             src: "ota/report",
-            at: 658,
+            at: 1038,
             val: { busDelay: 25, note: "接驳巴士晚点 25′" }
           },
           {
             src: "vis/port",
-            at: 656,
+            at: 1037,
             val: { note: "港口接驳站排队滞留" }
           }
         ],
         confidence: 0.78
       },
       handoffs: [
-        {at: 668, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 1100, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 668, dueAt: 2468, outcome: "confirm", decidedAt: 720 },
-      exec: { from: 720, to: 780, port: "CRW", status: "running" },
+      approval: { waitStart: 1100, dueAt: 2900, outcome: "confirm", decidedAt: 1340 },
+      exec: { from: 1340, to: 1440, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 780, reason: "巴士运力短期无法恢复，判定挂起转入周期再检（琥珀点闭合），为靠泊段 E11 埋线" },
+      suspend: { decidedAt: 1440, reason: "巴士运力短期无法恢复，判定挂起转入周期再检（琥珀点闭合），为靠泊段 E11 埋线" },
       recheck: {
         every: 360,
         reads: [
-          {at: 1020, verdict: "still", note: "巴士仍未到位，滞留持续，保持监测（仅日志）"},
-          {at: 1380, verdict: "still", note: "临时调车 1 辆，滞留略缓但仍超阈值，保持监测（仅日志）"},
-          {at: 1740, verdict: "recovered", note: "补班巴士到位，接驳点清空，关闭监测（无新事件）"}
+          {at: 1740, verdict: "still", note: "巴士未到位，保持监测"},
+          {at: 1980, verdict: "still", note: "临时调车，仍超阈值"},
+          {at: 2220, verdict: "recovered", note: "补班到位，关闭监测"}
         ],
         _i: 3
       },
@@ -580,15 +586,15 @@
         {id: "§A09", snippet: "接驳运力调车动作"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 720}
+        {role: "DUTY", status: "done", actionAt: 1340}
       ],
       currentStep: 0,
-      dueAt: 2468,
+      dueAt: 2900,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已发布", at: 740, content: "接驳晚点提示"},
-        {portCode: "OTA", status: "已同步", at: 750, content: "接驳延误同步"}
+        {portCode: "APP", status: "已发布", at: 1380, content: "接驳晚点提示"},
+        {portCode: "OTA", status: "已同步", at: 1420, content: "接驳延误同步"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -611,30 +617,31 @@
       foldGroup: "L2",
       phase: "berth-in",
       discover: {
-        at: 720,
+        at: 1030,
         signals: [
           {
             src: "mgmt/task",
-            at: 718,
+            at: 1028,
             val: { ttl: 120, note: "行李转运指令 2′ 无回执" }
           }
         ],
         confidence: 0.8
       },
       handoffs: [
-        {at: 728, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 1090, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 728, dueAt: 2528, outcome: "confirm", decidedAt: 780 },
-      exec: { from: 780, to: 870, port: "MGMT", status: "running" },
+      approval: { waitStart: 1090, dueAt: 2890, outcome: "confirm", decidedAt: 1330 },
+      exec: { from: 1330, to: 1440, port: "MGMT", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 870,
+      recoverAt: 1440,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "值班确认 A08（跟踪回执）→ 重发指令并人工确认 → 恢复",
       confidence: 0.8,
@@ -644,14 +651,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 780}
+        {role: "DUTY", status: "done", actionAt: 1330}
       ],
       currentStep: 0,
-      dueAt: 2528,
+      dueAt: 2890,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "MGMT", status: "已重发", at: 800, content: "调度指令重发"}
+        {portCode: "MGMT", status: "已重发", at: 1370, content: "调度指令重发"}
       ],
       machine: {
         current: "已恢复",
@@ -674,30 +681,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 480,
+        at: 1260,
         signals: [
           {
             src: "cam/count",
-            at: 478,
+            at: 1258,
             val: { queue: 16, threshold: 15 }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 484, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 1300, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 484, to: 660, port: "APP", status: "running" },
+      exec: { from: 1300, to: 1440, port: "APP", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 660,
+      recoverAt: 1440,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A01：第二波排队提示自动下发，队列回落，自动恢复",
       confidence: 0.9,
@@ -712,14 +720,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已自动发布", at: 490, content: "登船排队提示（波2）"}
+        {portCode: "APP", status: "已自动发布", at: 1340, content: "登船排队提示（波2）"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 11. E21-L1-05 行李托运问询（★登船 L1 并发簇·24s 错峰）
+    // 11. E21-L1-05 行李托运问询（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-05",
       name: "行李托运问询",
@@ -735,30 +743,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 660,
+        at: 761,
         signals: [
           {
             src: "ota/faq",
-            at: 658,
+            at: 759,
             val: { count: 5, keyword: "行李托运" }
           }
         ],
         confidence: 0.84
       },
       handoffs: [
-        {at: 664, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 821, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 664, dueAt: 1564, outcome: "confirm", decidedAt: 754 },
-      exec: { from: 754, to: 900, port: "OTA", status: "running" },
+      approval: { waitStart: 821, dueAt: 1721, outcome: "confirm", decidedAt: 941 },
+      exec: { from: 941, to: 1361, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 900,
+      recoverAt: 1361,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "值班确认 A01 答询口径 → 客服/BOT 回复 → 恢复",
       confidence: 0.84,
@@ -768,21 +777,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 754}
+        {role: "DUTY", status: "done", actionAt: 941}
       ],
       currentStep: 0,
-      dueAt: 1564,
+      dueAt: 1721,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 740, content: "行李托运口径"}
+        {portCode: "OTA", status: "已同步", at: 981, content: "行李托运口径"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 12. A01-L1-04 登船口分流引导（自动）（★登船 L1 并发簇·24s 错峰）
+    // 12. A01-L1-04 登船口分流引导（自动）（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-04",
       name: "登船口分流引导（自动）",
@@ -798,30 +807,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 684,
+        at: 712,
         signals: [
           {
             src: "cam/flow",
-            at: 682,
+            at: 710,
             val: { density: 0.81, zone: "gate-area" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 688, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 772, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 688, to: 924, port: "SCR", status: "running" },
+      exec: { from: 772, to: 1312, port: "SCR", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 924,
+      recoverAt: 1312,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动分流引导（船载屏），密度回落自动恢复",
       confidence: 0.9,
@@ -836,14 +846,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已自动发布", at: 680, content: "分流引导图"}
+        {portCode: "SCR", status: "已自动发布", at: 812, content: "分流引导图"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 13. E21-L1-06 房间/门禁卡问题集中（★登船 L1 并发簇·24s 错峰）
+    // 13. E21-L1-06 房间/门禁卡问题集中（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-06",
       name: "房间/门禁卡问题集中",
@@ -859,30 +869,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 708,
+        at: 703,
         signals: [
           {
             src: "ota/faq",
-            at: 706,
+            at: 701,
             val: { count: 4, keyword: "房卡" }
           }
         ],
         confidence: 0.82
       },
       handoffs: [
-        {at: 712, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 763, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 712, dueAt: 1612, outcome: "confirm", decidedAt: 802 },
-      exec: { from: 802, to: 948, port: "CRW", status: "running" },
+      approval: { waitStart: 763, dueAt: 1663, outcome: "confirm", decidedAt: 883 },
+      exec: { from: 883, to: 1303, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 948,
+      recoverAt: 1303,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "房卡/门禁问题 → A01 口径 + 前台补卡指引 → 恢复",
       confidence: 0.82,
@@ -892,21 +903,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 802}
+        {role: "DUTY", status: "done", actionAt: 883}
       ],
       currentStep: 0,
-      dueAt: 1612,
+      dueAt: 1663,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "已下发", at: 740, content: "补卡指引"}
+        {portCode: "CRW", status: "已下发", at: 923, content: "补卡指引"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 14. A01-L1-05 舱房区人流提示（自动）（★登船 L1 并发簇·24s 错峰）
+    // 14. A01-L1-05 舱房区人流提示（自动）（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-05",
       name: "舱房区人流提示（自动）",
@@ -922,30 +933,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 732,
+        at: 661,
         signals: [
           {
             src: "cam/count",
-            at: 730,
+            at: 659,
             val: { density: 0.78, zone: "cabin-wing" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 736, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 721, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 736, to: 972, port: "APP", status: "running" },
+      exec: { from: 721, to: 1261, port: "APP", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 972,
+      recoverAt: 1261,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "舱房走廊人流提示，自动恢复",
       confidence: 0.9,
@@ -960,14 +972,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已自动发布", at: 683, content: "舱房区人流提示"}
+        {portCode: "APP", status: "已自动发布", at: 761, content: "舱房区人流提示"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 15. E21-L1-07 登船证件/流程问询（★登船 L1 并发簇·24s 错峰）
+    // 15. E21-L1-07 登船证件/流程问询（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-07",
       name: "登船证件/流程问询",
@@ -983,30 +995,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 756,
+        at: 682,
         signals: [
           {
             src: "ota/faq",
-            at: 754,
+            at: 680,
             val: { count: 6, keyword: "证件" }
           }
         ],
         confidence: 0.83
       },
       handoffs: [
-        {at: 760, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 742, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 760, dueAt: 1660, outcome: "confirm", decidedAt: 850 },
-      exec: { from: 850, to: 996, port: "OTA", status: "running" },
+      approval: { waitStart: 742, dueAt: 1642, outcome: "confirm", decidedAt: 862 },
+      exec: { from: 862, to: 1282, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 996,
+      recoverAt: 1282,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "证件/流程问询 → A01 口径应答 → 恢复",
       confidence: 0.83,
@@ -1016,21 +1029,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 850}
+        {role: "DUTY", status: "done", actionAt: 862}
       ],
       currentStep: 0,
-      dueAt: 1660,
+      dueAt: 1642,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 746, content: "证件流程口径"}
+        {portCode: "OTA", status: "已同步", at: 902, content: "证件流程口径"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 16. E21-L1-08 房间位置/寻路问询（★登船 L1 并发簇·24s 错峰）
+    // 16. E21-L1-08 房间位置/寻路问询（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-08",
       name: "房间位置/寻路问询",
@@ -1046,30 +1059,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 780,
+        at: 770,
         signals: [
           {
             src: "ota/faq",
-            at: 778,
+            at: 768,
             val: { count: 5, keyword: "寻路" }
           }
         ],
         confidence: 0.8
       },
       handoffs: [
-        {at: 784, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 830, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 784, dueAt: 1684, outcome: "confirm", decidedAt: 874 },
-      exec: { from: 874, to: 1020, port: "OTA", status: "running" },
+      approval: { waitStart: 830, dueAt: 1730, outcome: "confirm", decidedAt: 950 },
+      exec: { from: 950, to: 1370, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 1020,
+      recoverAt: 1370,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "寻路问询 → 地图/引导口径 → 恢复",
       confidence: 0.8,
@@ -1079,21 +1093,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 874}
+        {role: "DUTY", status: "done", actionAt: 950}
       ],
       currentStep: 0,
-      dueAt: 1684,
+      dueAt: 1730,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已同步", at: 746, content: "寻路引导"}
+        {portCode: "APP", status: "已同步", at: 990, content: "寻路引导"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 17. A01-L1-06 行李区人流提示（自动）（★登船 L1 并发簇·24s 错峰）
+    // 17. A01-L1-06 行李区人流提示（自动）（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-06",
       name: "行李区人流提示（自动）",
@@ -1109,30 +1123,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 804,
+        at: 664,
         signals: [
           {
             src: "cam/count",
-            at: 802,
+            at: 662,
             val: { density: 0.79, zone: "luggage-hall" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 808, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 724, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 808, to: 1044, port: "SCR", status: "running" },
+      exec: { from: 724, to: 1264, port: "SCR", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 1044,
+      recoverAt: 1264,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "行李区人流提示，自动恢复",
       confidence: 0.9,
@@ -1147,14 +1162,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已自动发布", at: 686, content: "行李区人流提示"}
+        {portCode: "SCR", status: "已自动发布", at: 764, content: "行李区人流提示"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 18. E21-L1-09 设施/电梯方向问询（★登船 L1 并发簇·24s 错峰）
+    // 18. E21-L1-09 设施/电梯方向问询（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-09",
       name: "设施/电梯方向问询",
@@ -1170,30 +1185,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 828,
+        at: 637,
         signals: [
           {
             src: "ota/faq",
-            at: 826,
+            at: 635,
             val: { count: 4, keyword: "电梯/设施" }
           }
         ],
         confidence: 0.81
       },
       handoffs: [
-        {at: 832, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 697, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 832, dueAt: 1732, outcome: "confirm", decidedAt: 922 },
-      exec: { from: 922, to: 1068, port: "OTA", status: "running" },
+      approval: { waitStart: 697, dueAt: 1597, outcome: "confirm", decidedAt: 817 },
+      exec: { from: 817, to: 1237, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 1068,
+      recoverAt: 1237,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "设施/电梯方向问询 → 指引口径 → 恢复",
       confidence: 0.81,
@@ -1203,21 +1219,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 922}
+        {role: "DUTY", status: "done", actionAt: 817}
       ],
       currentStep: 0,
-      dueAt: 1732,
+      dueAt: 1597,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已同步", at: 749, content: "设施指引"}
+        {portCode: "APP", status: "已同步", at: 857, content: "设施指引"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 19. A01-L1-07 电梯厅人流提示（自动）（★登船 L1 并发簇·24s 错峰）
+    // 19. A01-L1-07 电梯厅人流提示（自动）（★登船 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-07",
       name: "电梯厅人流提示（自动）",
@@ -1233,30 +1249,31 @@
       foldGroup: "L1",
       phase: "berth-in",
       discover: {
-        at: 852,
+        at: 633,
         signals: [
           {
             src: "cam/count",
-            at: 850,
+            at: 631,
             val: { density: 0.83, zone: "lift-lobby" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 856, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 693, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 856, to: 1092, port: "SCR", status: "running" },
+      exec: { from: 693, to: 1233, port: "SCR", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 1092,
+      recoverAt: 1233,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "电梯厅人流提示，自动恢复",
       confidence: 0.9,
@@ -1271,7 +1288,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已自动发布", at: 692, content: "电梯厅人流提示"}
+        {portCode: "SCR", status: "已自动发布", at: 733, content: "电梯厅人流提示"}
       ],
       machine: {
         current: "已恢复",
@@ -1294,26 +1311,26 @@
       foldGroup: "L2",
       phase: "berth-in",
       discover: {
-        at: 1080,
+        at: 1030,
         signals: [
           {
             src: "sensor/belt",
-            at: 1078,
+            at: 1028,
             val: { belt: "B-02", status: "jammed" }
           },
           {
             src: "crw/report",
-            at: 1076,
+            at: 1027,
             val: { note: "转盘 2 号卡滞" }
           }
         ],
         confidence: 0.85
       },
       handoffs: [
-        {at: 1086, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 1090, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 1086, dueAt: 2886, outcome: "confirm", decidedAt: 1200 },
-      exec: { from: 1200, to: 1440, port: "CRW", status: "running" },
+      approval: { waitStart: 1090, dueAt: 2890, outcome: "confirm", decidedAt: 1330 },
+      exec: { from: 1330, to: 1440, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
       recoverAt: 1440,
@@ -1322,7 +1339,8 @@
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "A04 通知维修 + 人工清障 → 转盘复位（绿点）",
       confidence: 0.85,
@@ -1332,14 +1350,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 1200}
+        {role: "DUTY", status: "done", actionAt: 1330}
       ],
       currentStep: 0,
-      dueAt: 2886,
+      dueAt: 2890,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "已下发", at: 1210, content: "转盘清障指令"}
+        {portCode: "CRW", status: "已下发", at: 1370, content: "转盘清障指令"}
       ],
       machine: {
         current: "已恢复",
@@ -1362,26 +1380,26 @@
       foldGroup: "L2",
       phase: "berth-in",
       discover: {
-        at: 1200,
+        at: 1050,
         signals: [
           {
             src: "cam/flow",
-            at: 1198,
+            at: 1048,
             val: { density: 0.87, zone: "lift-lobby" }
           },
           {
             src: "sensor/lift",
-            at: 1196,
+            at: 1047,
             val: { note: "回房潮叠加，电梯厅滞留" }
           }
         ],
         confidence: 0.82
       },
       handoffs: [
-        {at: 1206, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 1110, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 1206, dueAt: 3006, outcome: "confirm", decidedAt: 1320 },
-      exec: { from: 1320, to: 1440, port: "CRW", status: "running" },
+      approval: { waitStart: 1110, dueAt: 2910, outcome: "confirm", decidedAt: 1350 },
+      exec: { from: 1350, to: 1440, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
@@ -1391,7 +1409,7 @@
       recheck: {
         every: 360,
         reads: [
-          {at: 1860, verdict: "recovered", note: "电梯厅密度回落至阈值下，关闭监测（无新事件）"}
+          {at: 1860, verdict: "recovered", note: "电梯厅密度回落，关闭监测"}
         ],
         _i: 1
       },
@@ -1405,15 +1423,15 @@
         {id: "§A16", snippet: "现场分流动作"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 1320}
+        {role: "DUTY", status: "done", actionAt: 1350}
       ],
       currentStep: 0,
-      dueAt: 3006,
+      dueAt: 2910,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已发布", at: 1330, content: "电梯厅分流引导"},
-        {portCode: "CRW", status: "已下发", at: 1340, content: "现场引导"}
+        {portCode: "SCR", status: "已发布", at: 1390, content: "电梯厅分流引导"},
+        {portCode: "CRW", status: "已下发", at: 1430, content: "现场引导"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -1450,19 +1468,20 @@
         confidence: 0.92
       },
       handoffs: [
-        {at: 1566, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 1620, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 1566, to: 1620, port: "MGMT", status: "running" },
+      exec: { from: 1620, to: 1980, port: "MGMT", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 1620,
+      recoverAt: 1980,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A03：离泊信息全端口同步提示，完成即恢复",
       confidence: 0.92,
@@ -1477,7 +1496,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已同步", at: 1580, content: "离泊时间同步"}
+        {portCode: "SCR", status: "已同步", at: 1660, content: "离泊时间同步"}
       ],
       machine: {
         current: "已恢复",
@@ -1500,30 +1519,31 @@
       foldGroup: "L1",
       phase: "depart",
       discover: {
-        at: 1800,
+        at: 1980,
         signals: [
           {
             src: "mgmt/schedule",
-            at: 1798,
+            at: 1978,
             val: { note: "离泊完成二次确认，端口校准" }
           }
         ],
         confidence: 0.92
       },
       handoffs: [
-        {at: 1804, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 2040, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 1804, to: 1920, port: "MGMT", status: "running" },
+      exec: { from: 2040, to: 2340, port: "MGMT", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 1920,
+      recoverAt: 2340,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A03：离泊完成二次同步，端口校准后恢复",
       confidence: 0.92,
@@ -1538,7 +1558,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "MGMT", status: "已校准", at: 1820, content: "离泊二次同步"}
+        {portCode: "MGMT", status: "已校准", at: 2080, content: "离泊二次同步"}
       ],
       machine: {
         current: "已恢复",
@@ -1570,28 +1590,28 @@
           },
           {
             src: "ota/report",
-            at: 1976,
+            at: 1977,
             val: { note: "末批乘客集中到港" }
           }
         ],
         confidence: 0.84
       },
       handoffs: [
-        {at: 1986, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 2040, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 1986, dueAt: 3786, outcome: "confirm", decidedAt: 2100 },
-      exec: { from: 2100, to: 2280, port: "CRW", status: "running" },
+      approval: { waitStart: 2040, dueAt: 3840, outcome: "confirm", decidedAt: 2280 },
+      exec: { from: 2280, to: 2460, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 2280, reason: "末批人流自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 2460, reason: "末批人流自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
         every: 300,
         reads: [
-          {at: 2580, verdict: "still", note: "末批仍在过检，保持监测（仅日志）"},
-          {at: 3000, verdict: "recovered", note: "安检口清空，关闭监测（无新事件）"}
+          {at: 2760, verdict: "still", note: "末批过检中，保持监测"},
+          {at: 3120, verdict: "recovered", note: "安检口清空，关闭监测"}
         ],
         _i: 2
       },
@@ -1605,14 +1625,14 @@
         {id: "§A02", snippet: "增开备用通道"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 2100}
+        {role: "DUTY", status: "done", actionAt: 2280}
       ],
       currentStep: 0,
-      dueAt: 3786,
+      dueAt: 3840,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已发布", at: 2110, content: "末批登船排队提示"}
+        {portCode: "APP", status: "已发布", at: 2320, content: "末批登船排队提示"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -1646,19 +1666,20 @@
         confidence: 0.82
       },
       handoffs: [
-        {at: 2284, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 2340, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 2284, dueAt: 3184, outcome: "confirm", decidedAt: 2364 },
-      exec: { from: 2364, to: 2400, port: "OTA", status: "running" },
+      approval: { waitStart: 2340, dueAt: 3240, outcome: "confirm", decidedAt: 2520 },
+      exec: { from: 2520, to: 2700, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 2400,
+      recoverAt: 2700,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "午餐预约问询 → A01 开放时段口径 → 恢复",
       confidence: 0.82,
@@ -1668,14 +1689,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 2364}
+        {role: "DUTY", status: "done", actionAt: 2520}
       ],
       currentStep: 0,
-      dueAt: 3184,
+      dueAt: 3240,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 2370, content: "午餐开放时段口径"}
+        {portCode: "OTA", status: "已同步", at: 2560, content: "午餐开放时段口径"}
       ],
       machine: {
         current: "已恢复",
@@ -1712,19 +1733,20 @@
         confidence: 0.93
       },
       handoffs: [
-        {at: 2764, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 2820, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 2764, to: 2880, port: "APP", status: "running" },
+      exec: { from: 2820, to: 3120, port: "APP", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 2880,
+      recoverAt: 3120,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A03：午餐开餐提示全端口推送，完成即恢复",
       confidence: 0.93,
@@ -1739,7 +1761,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已自动发布", at: 2780, content: "午餐开餐提示"}
+        {portCode: "APP", status: "已自动发布", at: 2860, content: "午餐开餐提示"}
       ],
       machine: {
         current: "已恢复",
@@ -1773,19 +1795,20 @@
         confidence: 0.88
       },
       handoffs: [
-        {at: 2946, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3000, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 2946, to: 3000, port: "CRW", status: "running" },
+      exec: { from: 3000, to: 3300, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3000,
+      recoverAt: 3300,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A04：扶梯异常自动派单 ENG，检修确认后自动恢复",
       confidence: 0.88,
@@ -1800,7 +1823,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "自动派单", at: 2950, content: "扶梯检修单（ENG 接收）"}
+        {portCode: "CRW", status: "自动派单", at: 3040, content: "扶梯检修单（ENG 接收）"}
       ],
       machine: {
         current: "已恢复",
@@ -1834,19 +1857,20 @@
         confidence: 0.86
       },
       handoffs: [
-        {at: 3126, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3180, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 3126, to: 3180, port: "CRW", status: "running" },
+      exec: { from: 3180, to: 3480, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3180,
+      recoverAt: 3480,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A04：泵房巡检提示下发 ENG，例行确认后自动恢复",
       confidence: 0.86,
@@ -1861,7 +1885,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "自动下发", at: 3130, content: "泵房巡检项（ENG 接收）"}
+        {portCode: "CRW", status: "自动下发", at: 3220, content: "泵房巡检项（ENG 接收）"}
       ],
       machine: {
         current: "已恢复",
@@ -1895,21 +1919,21 @@
         confidence: 0.83
       },
       handoffs: [
-        {at: 2768, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 2820, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 2768, dueAt: 4568, outcome: "confirm", decidedAt: 2820 },
-      exec: { from: 2820, to: 2880, port: "CRW", status: "running" },
+      approval: { waitStart: 2820, dueAt: 4620, outcome: "confirm", decidedAt: 3060 },
+      exec: { from: 3060, to: 3300, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 2880, reason: "活动高峰自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 3300, reason: "活动高峰自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
         every: 360,
         reads: [
-          {at: 3120, verdict: "still", note: "家庭区仍拥挤，保持监测（仅日志）"},
-          {at: 3480, verdict: "recovered", note: "活动结束人流疏散，关闭监测（无新事件）"}
+          {at: 3660, verdict: "still", note: "家庭区仍拥挤，保持监测"},
+          {at: 3900, verdict: "recovered", note: "活动疏散，关闭监测"}
         ],
         _i: 2
       },
@@ -1923,14 +1947,14 @@
         {id: "§A16", snippet: "现场活动协调动作"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 2820}
+        {role: "DUTY", status: "done", actionAt: 3060}
       ],
       currentStep: 0,
-      dueAt: 4568,
+      dueAt: 4620,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "已下发", at: 2830, content: "活动区分流引导"}
+        {portCode: "CRW", status: "已下发", at: 3100, content: "活动区分流引导"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -1953,35 +1977,36 @@
       foldGroup: "L2",
       phase: "sailing",
       discover: {
-        at: 3000,
+        at: 3120,
         signals: [
           {
             src: "mgmt/audit",
-            at: 2998,
+            at: 3118,
             val: { note: "SCR 与 APP 靠泊时间口径不一致" }
           },
           {
             src: "ota/feedback",
-            at: 2996,
+            at: 3117,
             val: { note: "乘客端看到两个到港时间" }
           }
         ],
         confidence: 0.81
       },
       handoffs: [
-        {at: 3008, from: "SENSE", to: "MGR", kind: "normal"}
+        {at: 3180, from: "SENSE", to: "MGR", kind: "normal"}
       ],
-      approval: { waitStart: 3008, dueAt: 4808, outcome: "confirm", decidedAt: 3060 },
-      exec: { from: 3060, to: 3180, port: "MGMT", status: "running" },
+      approval: { waitStart: 3180, dueAt: 4980, outcome: "confirm", decidedAt: 3420 },
+      exec: { from: 3420, to: 3660, port: "MGMT", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3180,
+      recoverAt: 3660,
       upgrade: { to: "L4", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "经理确认 A05 统一口径 → 全端口校准 → 恢复",
       confidence: 0.81,
@@ -1993,15 +2018,15 @@
         {id: "§A05", snippet: "统一口径动作"}
       ],
       chain: [
-        {role: "MGR", status: "done", actionAt: 3060}
+        {role: "MGR", status: "done", actionAt: 3420}
       ],
       currentStep: 0,
-      dueAt: 4808,
+      dueAt: 4980,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L4", reason: "timeout" },
       ports: [
-        {portCode: "MGMT", status: "已校准", at: 3100, content: "口径统一"},
-        {portCode: "APP", status: "已更新", at: 3120, content: "到港时间同步"}
+        {portCode: "MGMT", status: "已校准", at: 3460, content: "口径统一"},
+        {portCode: "APP", status: "已更新", at: 3500, content: "到港时间同步"}
       ],
       machine: {
         current: "已恢复",
@@ -2024,30 +2049,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3240,
+        at: 3180,
         signals: [
           {
             src: "ota/faq",
-            at: 3238,
+            at: 3178,
             val: { count: 4, keyword: "台风/靠泊/行程", note: "天气类询问初现" }
           }
         ],
         confidence: 0.7
       },
       handoffs: [
-        {at: 3246, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3240, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3246, dueAt: 4146, outcome: "confirm", decidedAt: 3270 },
-      exec: { from: 3270, to: 3330, port: "CRW", status: "running" },
+      approval: { waitStart: 3240, dueAt: 4140, outcome: "confirm", decidedAt: 3360 },
+      exec: { from: 3360, to: 3480, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3330,
+      recoverAt: 3480,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "航变相关询问初现：值班确认 A01 模板答复；为 E09 与 E-L4 安抚告知埋线",
       confidence: 0.7,
@@ -2059,14 +2085,14 @@
         {id: "§R8-014", snippet: "航变口径（待通知）"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3270}
+        {role: "DUTY", status: "done", actionAt: 3360}
       ],
       currentStep: 0,
-      dueAt: 4146,
+      dueAt: 4140,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 3280, content: "航变答询口径"}
+        {portCode: "OTA", status: "已同步", at: 3400, content: "航变答询口径"}
       ],
       machine: {
         current: "已恢复",
@@ -2089,30 +2115,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3360,
+        at: 3300,
         signals: [
           {
             src: "ota/faq",
-            at: 3358,
+            at: 3298,
             val: { count: 4, keyword: "演出/活动" }
           }
         ],
         confidence: 0.8
       },
       handoffs: [
-        {at: 3364, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3360, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3364, dueAt: 4264, outcome: "confirm", decidedAt: 3454 },
-      exec: { from: 3454, to: 3480, port: "OTA", status: "running" },
+      approval: { waitStart: 3360, dueAt: 4260, outcome: "confirm", decidedAt: 3480 },
+      exec: { from: 3480, to: 3600, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3480,
+      recoverAt: 3600,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "娱乐活动咨询 → 节目表口径 → 恢复",
       confidence: 0.8,
@@ -2122,14 +2149,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3454}
+        {role: "DUTY", status: "done", actionAt: 3480}
       ],
       currentStep: 0,
-      dueAt: 4264,
+      dueAt: 4260,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已同步", at: 3460, content: "娱乐活动节目表"}
+        {portCode: "APP", status: "已同步", at: 3520, content: "娱乐活动节目表"}
       ],
       machine: {
         current: "已恢复",
@@ -2152,30 +2179,31 @@
       foldGroup: "L2",
       phase: "sailing",
       discover: {
-        at: 3300,
+        at: 3120,
         signals: [
           {
             src: "sensor/lift",
-            at: 3298,
+            at: 3118,
             val: { unit: "L-02", status: "fault" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 3308, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3180, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3308, dueAt: 5108, outcome: "confirm", decidedAt: 3360 },
-      exec: { from: 3360, to: 3480, port: "ENG", status: "running" },
+      approval: { waitStart: 3180, dueAt: 4980, outcome: "confirm", decidedAt: 3420 },
+      exec: { from: 3420, to: 3780, port: "ENG", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3480,
+      recoverAt: 3780,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "值班确认 A04（维修派单）+ A11（暂停使用提示）→ 工程修复 → 恢复",
       confidence: 0.9,
@@ -2185,14 +2213,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3360}
+        {role: "DUTY", status: "done", actionAt: 3420}
       ],
       currentStep: 0,
-      dueAt: 5108,
+      dueAt: 4980,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已发布", at: 3380, content: "电梯暂停使用提示"}
+        {portCode: "SCR", status: "已发布", at: 3460, content: "电梯暂停使用提示"}
       ],
       machine: {
         current: "已恢复",
@@ -2215,30 +2243,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3480,
+        at: 3420,
         signals: [
           {
             src: "sensor/engine",
-            at: 3478,
+            at: 3418,
             val: { unit: "M-01", note: "机舱例行巡检项自动生成" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 3486, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3480, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 3486, to: 3540, port: "CRW", status: "running" },
+      exec: { from: 3480, to: 3600, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3540,
+      recoverAt: 3600,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A04：机舱/泵房设备例行巡检自动登记，ENG 例行确认后恢复",
       confidence: 0.9,
@@ -2253,7 +2282,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "自动下发", at: 3490, content: "机舱巡检登记（ENG 接收）"}
+        {portCode: "CRW", status: "自动下发", at: 3520, content: "机舱巡检登记（ENG 接收）"}
       ],
       machine: {
         current: "已恢复",
@@ -2268,7 +2297,7 @@
       level: "L2",
       category: "餐饮/人流",
       semanticType: "持续运营型",
-      state: "已升级(L2-C1)",
+      state: "已关闭(再检恢复)",
       currentRole: "DUTY",
       needsCaptain: false,
       pinned: false,
@@ -2285,28 +2314,28 @@
           },
           {
             src: "ota/report",
-            at: 2996,
+            at: 2997,
             val: { note: "午餐开餐 10′ 后主餐厅排队超 20 人" }
           }
         ],
         confidence: 0.87
       },
       handoffs: [
-        {at: 3006, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3060, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3006, dueAt: 4806, outcome: "confirm", decidedAt: 3120 },
-      exec: { from: 3120, to: 3480, port: "CRW", status: "running" },
+      approval: { waitStart: 3060, dueAt: 4860, outcome: "confirm", decidedAt: 3360 },
+      exec: { from: 3360, to: 3840, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 3480, reason: "午餐用餐周期长，判定挂起转入周期再检（琥珀点闭合），高峰期长按'再出现'处理" },
+      suspend: { decidedAt: 3840, reason: "午餐用餐周期长，判定挂起转入周期再检（琥珀点闭合），高峰期长按'再出现'处理" },
       recheck: {
         every: 480,
         reads: [
-          {at: 3960, verdict: "still", note: "12:06 排队仍 15+ 人，保持监测（仅日志）"},
-          {at: 4560, verdict: "upgrade", note: "12:16 第二波用餐高峰复燃，排队再超阈值 → 衍生新事件（parentTrace 仅日志）", toLevel: "L2"}
+          {at: 4320, verdict: "still", note: "12:12 排队仍 15+ 人，保持监测"},
+          {at: 4560, verdict: "upgrade", note: "12:16 复燃，排队再超阈值 → 衍生新事件"}
         ],
         _i: 2
       },
@@ -2323,22 +2352,22 @@
         {id: "§A16", snippet: "分流动作"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3120}
+        {role: "DUTY", status: "done", actionAt: 3360}
       ],
       currentStep: 0,
-      dueAt: 4806,
+      dueAt: 4860,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已发布", at: 3130, content: "午餐错峰提示"},
-        {portCode: "SCR", status: "已发布", at: 3140, content: "餐厅分流引导"}
+        {portCode: "APP", status: "已发布", at: 3400, content: "午餐错峰提示"},
+        {portCode: "SCR", status: "已发布", at: 3440, content: "餐厅分流引导"}
       ],
       machine: {
-        current: "已升级(L2-C1)",
+        current: "已关闭(再检恢复)",
         allow: []
       }
     },
-    // 36. A01-L1-08 午餐区人流提示（自动）（★午高峰 L1 并发簇·30s 错峰）
+    // 36. A01-L1-08 午餐区人流提示（自动）（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-08",
       name: "午餐区人流提示（自动）",
@@ -2354,30 +2383,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3540,
+        at: 3480,
         signals: [
           {
             src: "cam/count",
-            at: 3538,
+            at: 3478,
             val: { density: 0.8, zone: "dining-hall" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 3544, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3540, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 3544, to: 3870, port: "APP", status: "running" },
+      exec: { from: 3540, to: 4080, port: "APP", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3870,
+      recoverAt: 4080,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "午餐区人流自动提示，密度回落自动恢复",
       confidence: 0.9,
@@ -2392,14 +2422,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已自动发布", at: 3550, content: "午餐区人流提示"}
+        {portCode: "APP", status: "已自动发布", at: 3580, content: "午餐区人流提示"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 37. E21-L1-12 座位/预约问询（★午高峰 L1 并发簇·30s 错峰）
+    // 37. E21-L1-12 座位/预约问询（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-12",
       name: "座位/预约问询",
@@ -2415,30 +2445,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3570,
+        at: 3550,
         signals: [
           {
             src: "ota/faq",
-            at: 3568,
+            at: 3548,
             val: { count: 5, keyword: "座位" }
           }
         ],
         confidence: 0.81
       },
       handoffs: [
-        {at: 3574, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3610, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3574, dueAt: 4474, outcome: "confirm", decidedAt: 3664 },
-      exec: { from: 3664, to: 3900, port: "OTA", status: "running" },
+      approval: { waitStart: 3610, dueAt: 4510, outcome: "confirm", decidedAt: 3730 },
+      exec: { from: 3730, to: 4150, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3900,
+      recoverAt: 4150,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "座位/预约问询 → A01 口径 → 恢复",
       confidence: 0.81,
@@ -2448,21 +2479,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3664}
+        {role: "DUTY", status: "done", actionAt: 3730}
       ],
       currentStep: 0,
-      dueAt: 4474,
+      dueAt: 4510,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 3700, content: "座位/预约口径"}
+        {portCode: "OTA", status: "已同步", at: 3770, content: "座位/预约口径"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 38. A01-L1-09 甜品台人流提示（自动）（★午高峰 L1 并发簇·30s 错峰）
+    // 38. A01-L1-09 甜品台人流提示（自动）（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-09",
       name: "甜品台人流提示（自动）",
@@ -2478,30 +2509,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3600,
+        at: 3563,
         signals: [
           {
             src: "cam/count",
-            at: 3598,
+            at: 3561,
             val: { density: 0.82, zone: "dessert-station" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 3604, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3623, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 3604, to: 3930, port: "SCR", status: "running" },
+      exec: { from: 3623, to: 4163, port: "SCR", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3930,
+      recoverAt: 4163,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "甜品台人流自动提示，自动恢复",
       confidence: 0.9,
@@ -2516,14 +2548,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已自动发布", at: 3610, content: "甜品台人流提示"}
+        {portCode: "SCR", status: "已自动发布", at: 3663, content: "甜品台人流提示"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 39. E21-L1-13 菜式/开放时段问询（★午高峰 L1 并发簇·30s 错峰）
+    // 39. E21-L1-13 菜式/开放时段问询（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-13",
       name: "菜式/开放时段问询",
@@ -2539,30 +2571,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3630,
+        at: 3566,
         signals: [
           {
             src: "ota/faq",
-            at: 3628,
+            at: 3564,
             val: { count: 4, keyword: "菜式" }
           }
         ],
         confidence: 0.8
       },
       handoffs: [
-        {at: 3634, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3626, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3634, dueAt: 4534, outcome: "confirm", decidedAt: 3724 },
-      exec: { from: 3724, to: 3960, port: "OTA", status: "running" },
+      approval: { waitStart: 3626, dueAt: 4526, outcome: "confirm", decidedAt: 3746 },
+      exec: { from: 3746, to: 4166, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3960,
+      recoverAt: 4166,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "菜式/开放时段问询 → 口径 → 恢复",
       confidence: 0.8,
@@ -2572,21 +2605,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3724}
+        {role: "DUTY", status: "done", actionAt: 3746}
       ],
       currentStep: 0,
-      dueAt: 4534,
+      dueAt: 4526,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 3730, content: "菜式/时段口径"}
+        {portCode: "OTA", status: "已同步", at: 3786, content: "菜式/时段口径"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 40. A01-L1-10 剧场入场人流提示（自动）（★午高峰 L1 并发簇·30s 错峰）
+    // 40. A01-L1-10 剧场入场人流提示（自动）（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-10",
       name: "剧场入场人流提示（自动）",
@@ -2602,30 +2635,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3660,
+        at: 3552,
         signals: [
           {
             src: "cam/count",
-            at: 3658,
+            at: 3550,
             val: { density: 0.81, zone: "theater-entrance" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 3664, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3612, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 3664, to: 3990, port: "SCR", status: "running" },
+      exec: { from: 3612, to: 4152, port: "SCR", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 3990,
+      recoverAt: 4152,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "剧场入场人流自动提示，自动恢复",
       confidence: 0.9,
@@ -2640,14 +2674,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已自动发布", at: 3670, content: "剧场入场提示"}
+        {portCode: "SCR", status: "已自动发布", at: 3652, content: "剧场入场提示"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 41. E21-L1-14 儿童活动问询（★午高峰 L1 并发簇·30s 错峰）
+    // 41. E21-L1-14 儿童活动问询（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-14",
       name: "儿童活动问询",
@@ -2663,30 +2697,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3690,
+        at: 3547,
         signals: [
           {
             src: "ota/faq",
-            at: 3688,
+            at: 3545,
             val: { count: 3, keyword: "儿童" }
           }
         ],
         confidence: 0.79
       },
       handoffs: [
-        {at: 3694, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3607, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3694, dueAt: 4594, outcome: "confirm", decidedAt: 3784 },
-      exec: { from: 3784, to: 4020, port: "OTA", status: "running" },
+      approval: { waitStart: 3607, dueAt: 4507, outcome: "confirm", decidedAt: 3727 },
+      exec: { from: 3727, to: 4147, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4020,
+      recoverAt: 4147,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "儿童活动问询 → 活动安排口径 → 恢复",
       confidence: 0.79,
@@ -2696,21 +2731,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3784}
+        {role: "DUTY", status: "done", actionAt: 3727}
       ],
       currentStep: 0,
-      dueAt: 4594,
+      dueAt: 4507,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 3760, content: "儿童活动口径"}
+        {portCode: "OTA", status: "已同步", at: 3767, content: "儿童活动口径"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 42. A01-L1-11 泳池甲板人流提示（自动）（★午高峰 L1 并发簇·30s 错峰）
+    // 42. A01-L1-11 泳池甲板人流提示（自动）（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-11",
       name: "泳池甲板人流提示（自动）",
@@ -2726,30 +2761,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3720,
+        at: 3609,
         signals: [
           {
             src: "cam/count",
-            at: 3718,
+            at: 3607,
             val: { density: 0.83, zone: "pool-deck" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 3724, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3669, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 3724, to: 4050, port: "SCR", status: "running" },
+      exec: { from: 3669, to: 4209, port: "SCR", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4050,
+      recoverAt: 4209,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "泳池甲板人流自动提示，自动恢复",
       confidence: 0.9,
@@ -2764,14 +2800,14 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已自动发布", at: 3730, content: "泳池甲板人流提示"}
+        {portCode: "SCR", status: "已自动发布", at: 3709, content: "泳池甲板人流提示"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 43. E21-L1-15 演出时间问询（★午高峰 L1 并发簇·30s 错峰）
+    // 43. E21-L1-15 演出时间问询（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "E21-L1-15",
       name: "演出时间问询",
@@ -2787,30 +2823,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3750,
+        at: 3624,
         signals: [
           {
             src: "ota/faq",
-            at: 3748,
+            at: 3622,
             val: { count: 4, keyword: "演出时间" }
           }
         ],
         confidence: 0.8
       },
       handoffs: [
-        {at: 3754, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3684, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3754, dueAt: 4654, outcome: "confirm", decidedAt: 3844 },
-      exec: { from: 3844, to: 4080, port: "OTA", status: "running" },
+      approval: { waitStart: 3684, dueAt: 4584, outcome: "confirm", decidedAt: 3804 },
+      exec: { from: 3804, to: 4224, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4080,
+      recoverAt: 4224,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "演出时间问询 → 节目表口径 → 恢复",
       confidence: 0.8,
@@ -2820,21 +2857,21 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3844}
+        {role: "DUTY", status: "done", actionAt: 3804}
       ],
       currentStep: 0,
-      dueAt: 4654,
+      dueAt: 4584,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 3820, content: "演出时间口径"}
+        {portCode: "OTA", status: "已同步", at: 3844, content: "演出时间口径"}
       ],
       machine: {
         current: "已恢复",
         allow: []
       }
     },
-    // 44. A01-L1-12 电梯厅午间人流提示（自动）（★午高峰 L1 并发簇·30s 错峰）
+    // 44. A01-L1-12 电梯厅午间人流提示（自动）（★午高峰 L1 并发簇·随机错峰）
     {
       eventNo: "A01-L1-12",
       name: "电梯厅午间人流提示（自动）",
@@ -2850,30 +2887,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 3780,
+        at: 3532,
         signals: [
           {
             src: "cam/count",
-            at: 3778,
+            at: 3530,
             val: { density: 0.84, zone: "lift-lobby" }
           }
         ],
         confidence: 0.9
       },
       handoffs: [
-        {at: 3784, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 3592, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 3784, to: 4110, port: "SCR", status: "running" },
+      exec: { from: 3592, to: 4132, port: "SCR", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4110,
+      recoverAt: 4132,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "电梯厅午间人流自动提示，自动恢复",
       confidence: 0.9,
@@ -2888,7 +2926,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已自动发布", at: 3790, content: "电梯厅午间人流提示"}
+        {portCode: "SCR", status: "已自动发布", at: 3632, content: "电梯厅午间人流提示"}
       ],
       machine: {
         current: "已恢复",
@@ -2911,39 +2949,38 @@
       foldGroup: "L2",
       phase: "sailing",
       discover: {
-        at: 3300,
+        at: 3900,
         signals: [
           {
             src: "cam/flow",
-            at: 3298,
+            at: 3898,
             val: { density: 0.9, zone: "theater" }
           },
           {
             src: "ota/report",
-            at: 3296,
+            at: 3897,
             val: { note: "演出前后人流叠加" }
           }
         ],
         confidence: 0.85
       },
       handoffs: [
-        {at: 3306, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3960, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3306, dueAt: 5106, outcome: "confirm", decidedAt: 3420 },
-      exec: { from: 3420, to: 4080, port: "CRW", status: "running" },
+      approval: { waitStart: 3960, dueAt: 5760, outcome: "confirm", decidedAt: 4200 },
+      exec: { from: 4200, to: 4500, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 4080, reason: "演出周期人流自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4500, reason: "演出周期人流自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
         every: 360,
         reads: [
-          {at: 4320, verdict: "still", note: "散场人流仍集中，保持监测（仅日志）"},
-          {at: 4560, verdict: "recovered", note: "剧场清场，关闭监测（无新事件）"}
+          {at: 4800, verdict: "recovered", note: "剧场清场，关闭监测"}
         ],
-        _i: 2
+        _i: 1
       },
       summary: "剧场入场/散场拥挤（E03）→ A16 分流 → 挂起（琥珀点）→ 再检 still/recovered",
       confidence: 0.85,
@@ -2955,15 +2992,15 @@
         {id: "§A16", snippet: "错峰分流动作"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3420}
+        {role: "DUTY", status: "done", actionAt: 4200}
       ],
       currentStep: 0,
-      dueAt: 5106,
+      dueAt: 5760,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "PA", status: "已广播", at: 3430, content: "错峰入场广播"},
-        {portCode: "SCR", status: "已发布", at: 3440, content: "剧场分流引导图"}
+        {portCode: "PA", status: "已广播", at: 4240, content: "错峰入场广播"},
+        {portCode: "SCR", status: "已发布", at: 4280, content: "剧场分流引导图"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -2986,36 +3023,36 @@
       foldGroup: "L2",
       phase: "sailing",
       discover: {
-        at: 3480,
+        at: 3840,
         signals: [
           {
             src: "cam/count",
-            at: 3478,
+            at: 3838,
             val: { density: 0.86, zone: "dessert-station" }
           },
           {
             src: "ota/report",
-            at: 3476,
+            at: 3837,
             val: { note: "甜品/收餐台排队超 12 人" }
           }
         ],
         confidence: 0.83
       },
       handoffs: [
-        {at: 3486, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3900, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3486, dueAt: 5286, outcome: "confirm", decidedAt: 3600 },
-      exec: { from: 3600, to: 3960, port: "CRW", status: "running" },
+      approval: { waitStart: 3900, dueAt: 5700, outcome: "confirm", decidedAt: 4140 },
+      exec: { from: 4140, to: 4440, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 3960, reason: "用餐周期自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4440, reason: "用餐周期自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
         every: 360,
         reads: [
-          {at: 4440, verdict: "recovered", note: "甜品台排队回落，关闭监测（无新事件）"}
+          {at: 4800, verdict: "recovered", note: "甜品台回落，关闭监测"}
         ],
         _i: 1
       },
@@ -3027,14 +3064,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3600}
+        {role: "DUTY", status: "done", actionAt: 4140}
       ],
       currentStep: 0,
-      dueAt: 5286,
+      dueAt: 5700,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已发布", at: 3610, content: "甜品台分流提示"}
+        {portCode: "SCR", status: "已发布", at: 4180, content: "甜品台分流提示"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -3057,36 +3094,36 @@
       foldGroup: "L2",
       phase: "sailing",
       discover: {
-        at: 3600,
+        at: 3780,
         signals: [
           {
             src: "cam/flow",
-            at: 3598,
+            at: 3778,
             val: { density: 0.88, zone: "kids-club" }
           },
           {
             src: "crw/report",
-            at: 3596,
+            at: 3777,
             val: { note: "儿童俱乐部活动区超容" }
           }
         ],
         confidence: 0.84
       },
       handoffs: [
-        {at: 3606, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3840, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3606, dueAt: 5406, outcome: "confirm", decidedAt: 3720 },
-      exec: { from: 3720, to: 4080, port: "CRW", status: "running" },
+      approval: { waitStart: 3840, dueAt: 5640, outcome: "confirm", decidedAt: 4080 },
+      exec: { from: 4080, to: 4380, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 4080, reason: "活动批次自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4380, reason: "活动批次自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
         every: 360,
         reads: [
-          {at: 4440, verdict: "recovered", note: "活动批次结束，关闭监测（无新事件）"}
+          {at: 4740, verdict: "recovered", note: "活动批次结束，关闭监测"}
         ],
         _i: 1
       },
@@ -3098,14 +3135,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3720}
+        {role: "DUTY", status: "done", actionAt: 4080}
       ],
       currentStep: 0,
-      dueAt: 5406,
+      dueAt: 5640,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "CRW", status: "已下发", at: 3730, content: "儿童俱乐部批次协调"}
+        {portCode: "CRW", status: "已下发", at: 4120, content: "儿童俱乐部批次协调"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -3137,27 +3174,27 @@
           },
           {
             src: "ota/report",
-            at: 3716,
+            at: 3717,
             val: { note: "泳池区午间人流超阈值" }
           }
         ],
         confidence: 0.85
       },
       handoffs: [
-        {at: 3726, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 3780, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 3726, dueAt: 5526, outcome: "confirm", decidedAt: 3840 },
-      exec: { from: 3840, to: 4200, port: "CRW", status: "running" },
+      approval: { waitStart: 3780, dueAt: 5580, outcome: "confirm", decidedAt: 4020 },
+      exec: { from: 4020, to: 4380, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 4200, reason: "泳池午间自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4380, reason: "泳池午间自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
         every: 360,
         reads: [
-          {at: 4680, verdict: "recovered", note: "泳池区密度回落，关闭监测（无新事件）"}
+          {at: 4740, verdict: "recovered", note: "泳池区回落，关闭监测"}
         ],
         _i: 1
       },
@@ -3169,14 +3206,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 3840}
+        {role: "DUTY", status: "done", actionAt: 4020}
       ],
       currentStep: 0,
-      dueAt: 5526,
+      dueAt: 5580,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已发布", at: 3850, content: "泳池区分流提示"}
+        {portCode: "SCR", status: "已发布", at: 4060, content: "泳池区分流提示"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -3199,30 +3236,31 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 4080,
+        at: 4260,
         signals: [
           {
             src: "ota/faq",
-            at: 4078,
+            at: 4258,
             val: { count: 9, keyword: "台风/靠泊" }
           }
         ],
         confidence: 0.77
       },
       handoffs: [
-        {at: 4084, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 4320, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 4084, dueAt: 4984, outcome: "confirm", decidedAt: 4174 },
-      exec: { from: 4174, to: 4200, port: "CRW", status: "running" },
+      approval: { waitStart: 4320, dueAt: 5220, outcome: "confirm", decidedAt: 4440 },
+      exec: { from: 4440, to: 4560, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4200,
+      recoverAt: 4560,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "航变询问第三波（贴 E09 诞生）→ 按'待通知'口径答复",
       confidence: 0.77,
@@ -3232,14 +3270,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 4174}
+        {role: "DUTY", status: "done", actionAt: 4440}
       ],
       currentStep: 0,
-      dueAt: 4984,
+      dueAt: 5220,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 4180, content: "航变待通知口径"}
+        {portCode: "OTA", status: "已同步", at: 4480, content: "航变待通知口径"}
       ],
       machine: {
         current: "已恢复",
@@ -3262,35 +3300,36 @@
       foldGroup: "L1",
       phase: "sailing",
       discover: {
-        at: 4140,
+        at: 4320,
         signals: [
           {
             src: "ota/faq",
-            at: 4138,
+            at: 4318,
             val: { count: 14, keyword: "台风/行程变更", note: "询问量较初现翻倍" }
           },
           {
             src: "ai-risk",
-            at: 4136,
+            at: 4317,
             val: { note: "并入 E09 信度计算：乘客感知航变风险上升" }
           }
         ],
         confidence: 0.78
       },
       handoffs: [
-        {at: 4146, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 4380, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 4146, dueAt: 5046, outcome: "confirm", decidedAt: 4170 },
-      exec: { from: 4170, to: 4260, port: "CRW", status: "running" },
+      approval: { waitStart: 4380, dueAt: 5280, outcome: "confirm", decidedAt: 4500 },
+      exec: { from: 4500, to: 4620, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4260,
+      recoverAt: 4620,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "航变相关询问增多：值班按 A01 口径答复并上报趋势；为 E09（12:12 诞生）埋线",
       confidence: 0.78,
@@ -3302,14 +3341,14 @@
         {id: "§R8-014", snippet: "航变口径（待通知）"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 4170}
+        {role: "DUTY", status: "done", actionAt: 4500}
       ],
       currentStep: 0,
-      dueAt: 5046,
+      dueAt: 5280,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 4180, content: "航变询问统一口径"}
+        {portCode: "OTA", status: "已同步", at: 4540, content: "航变询问统一口径"}
       ],
       machine: {
         current: "已恢复",
@@ -3513,7 +3552,7 @@
       handoffs: [
         {at: 4690, from: "SENSE", to: "CAPT", kind: "normal"}
       ],
-      approval: { waitStart: 4700, dueAt: 4700, outcome: "confirm", decidedAt: 4740 },
+      approval: { waitStart: 4690, dueAt: 4690, outcome: "confirm", decidedAt: 4740 },
       exec: { from: 4740, to: 5700, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
@@ -3591,19 +3630,20 @@
         confidence: 0.92
       },
       handoffs: [
-        {at: 4564, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 4620, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 4564, to: 4680, port: "MGMT", status: "running" },
+      exec: { from: 4620, to: 4860, port: "MGMT", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4680,
+      recoverAt: 4860,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A03：靠泊窗口信息全端口同步，完成即恢复",
       confidence: 0.92,
@@ -3618,7 +3658,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "SCR", status: "已同步", at: 4580, content: "靠泊窗口提示"}
+        {portCode: "SCR", status: "已同步", at: 4660, content: "靠泊窗口提示"}
       ],
       machine: {
         current: "已恢复",
@@ -3646,32 +3686,32 @@
         signals: [
           {
             src: "recheck/derived",
-            at: 4560,
+            at: 4558,
             val: { note: "由 E03-0001 再检 upgrade（12:16 复燃）衍生，parentTrace=2323-1B43（关系B 仅日志，不画线）" }
           },
           {
             src: "cam/count",
-            at: 4558,
+            at: 4557,
             val: { density: 0.87, zone: "main-dining" }
           }
         ],
         confidence: 0.78
       },
       handoffs: [
-        {at: 4566, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 4620, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 4566, dueAt: 6366, outcome: "confirm", decidedAt: 4680 },
-      exec: { from: 4680, to: 5040, port: "CRW", status: "running" },
+      approval: { waitStart: 4620, dueAt: 6420, outcome: "confirm", decidedAt: 4860 },
+      exec: { from: 4860, to: 5220, port: "CRW", status: "running" },
       holding: null,
       peakMark: true,
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 5040, reason: "第二波用餐高峰自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 5220, reason: "第二波用餐高峰自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
       recheck: {
         every: 360,
         reads: [
-          {at: 5520, verdict: "recovered", note: "第二波用餐收尾，关闭监测（无新事件）"}
+          {at: 5580, verdict: "recovered", note: "第二波收尾，关闭监测"}
         ],
         _i: 1
       },
@@ -3683,15 +3723,15 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 4680}
+        {role: "DUTY", status: "done", actionAt: 4860}
       ],
       currentStep: 0,
-      dueAt: 6366,
+      dueAt: 6420,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已发布", at: 4690, content: "午餐错峰提示（波2）"},
-        {portCode: "SCR", status: "已发布", at: 4700, content: "餐厅分流引导（对齐离船口径）"}
+        {portCode: "APP", status: "已发布", at: 4900, content: "午餐错峰提示（波2）"},
+        {portCode: "SCR", status: "已发布", at: 4940, content: "餐厅分流引导（对齐离船口径）"}
       ],
       machine: {
         current: "已关闭(再检恢复)",
@@ -3725,19 +3765,20 @@
         confidence: 0.9
       },
       handoffs: [
-        {at: 4746, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 4800, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 4746, to: 4800, port: "APP", status: "running" },
+      exec: { from: 4800, to: 5040, port: "APP", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4800,
+      recoverAt: 5040,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A01：靠泊排队提示自动下发，队列回落，自动恢复",
       confidence: 0.9,
@@ -3752,7 +3793,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已自动发布", at: 4750, content: "靠泊排队提示"}
+        {portCode: "APP", status: "已自动发布", at: 4840, content: "靠泊排队提示"}
       ],
       machine: {
         current: "已恢复",
@@ -3786,19 +3827,20 @@
         confidence: 0.8
       },
       handoffs: [
-        {at: 4804, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 4860, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 4804, dueAt: 5704, outcome: "confirm", decidedAt: 4894 },
-      exec: { from: 4894, to: 4980, port: "OTA", status: "running" },
+      approval: { waitStart: 4860, dueAt: 5760, outcome: "confirm", decidedAt: 5010 },
+      exec: { from: 5010, to: 5190, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 4980,
+      recoverAt: 5190,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "离船顺序问询 → 按 E-L4 分组口径答复 → 恢复",
       confidence: 0.8,
@@ -3808,14 +3850,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 4894}
+        {role: "DUTY", status: "done", actionAt: 5010}
       ],
       currentStep: 0,
-      dueAt: 5704,
+      dueAt: 5760,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 4900, content: "离船顺序口径"}
+        {portCode: "OTA", status: "已同步", at: 5050, content: "离船顺序口径"}
       ],
       machine: {
         current: "已恢复",
@@ -3922,19 +3964,20 @@
         confidence: 0.8
       },
       handoffs: [
-        {at: 4924, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 4980, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 4924, dueAt: 5824, outcome: "confirm", decidedAt: 5014 },
-      exec: { from: 5014, to: 5040, port: "OTA", status: "running" },
+      approval: { waitStart: 4980, dueAt: 5880, outcome: "confirm", decidedAt: 5130 },
+      exec: { from: 5130, to: 5310, port: "OTA", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 5040,
+      recoverAt: 5310,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "航变/离船问答波2 → 按 L4 口径答复 → 恢复",
       confidence: 0.8,
@@ -3944,14 +3987,14 @@
       alternatives: [],
       clauses: [],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 5014}
+        {role: "DUTY", status: "done", actionAt: 5130}
       ],
       currentStep: 0,
-      dueAt: 5824,
+      dueAt: 5880,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 5020, content: "航变/离船口径"}
+        {portCode: "OTA", status: "已同步", at: 5170, content: "航变/离船口径"}
       ],
       machine: {
         current: "已恢复",
@@ -3985,19 +4028,20 @@
         confidence: 0.9
       },
       handoffs: [
-        {at: 5044, from: "SENSE", to: "AUTO", kind: "normal"}
+        {at: 5100, from: "SENSE", to: "AUTO", kind: "normal"}
       ],
       approval: { waitStart: null, dueAt: null, outcome: null, decidedAt: null },
-      exec: { from: 5044, to: 5160, port: "APP", status: "running" },
+      exec: { from: 5100, to: 5280, port: "APP", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 5160,
+      recoverAt: 5280,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "自动 A01：离船排队提示自动下发，队列回落，自动恢复",
       confidence: 0.9,
@@ -4012,7 +4056,7 @@
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "APP", status: "已自动发布", at: 5050, content: "离船排队提示"}
+        {portCode: "APP", status: "已自动发布", at: 5140, content: "离船排队提示"}
       ],
       machine: {
         current: "已恢复",
@@ -4044,26 +4088,27 @@
           },
           {
             src: "ai-risk",
-            at: 5095,
+            at: 5097,
             val: { note: "赔付/安抚告知落地（E-L4 同步 LEGAL/OTA 口径的执行侧）" }
           }
         ],
         confidence: 0.8
       },
       handoffs: [
-        {at: 5106, from: "SENSE", to: "DUTY", kind: "normal"}
+        {at: 5160, from: "SENSE", to: "DUTY", kind: "normal"}
       ],
-      approval: { waitStart: 5106, dueAt: 6006, outcome: "confirm", decidedAt: 5130 },
-      exec: { from: 5130, to: 5220, port: "CRW", status: "running" },
+      approval: { waitStart: 5160, dueAt: 6060, outcome: "confirm", decidedAt: 5310 },
+      exec: { from: 5310, to: 5550, port: "CRW", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 5220,
+      recoverAt: 5550,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "值班按 E-L4-0001 统一口径回复安抚/航变问答（赔付告知落地）→ 恢复",
       confidence: 0.8,
@@ -4075,14 +4120,14 @@
         {id: "§R8-040", snippet: "安抚/赔付告知口径"}
       ],
       chain: [
-        {role: "DUTY", status: "done", actionAt: 5130}
+        {role: "DUTY", status: "done", actionAt: 5310}
       ],
       currentStep: 0,
-      dueAt: 6006,
+      dueAt: 6060,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: null, reason: "timeout" },
       ports: [
-        {portCode: "OTA", status: "已同步", at: 5140, content: "安抚答询口径"}
+        {portCode: "OTA", status: "已同步", at: 5350, content: "安抚答询口径"}
       ],
       machine: {
         current: "已恢复",
@@ -4114,26 +4159,27 @@
           },
           {
             src: "vis/port",
-            at: 4796,
+            at: 4797,
             val: { note: "岸侧接驳时段与批次冲突" }
           }
         ],
         confidence: 0.86
       },
       handoffs: [
-        {at: 4806, from: "SENSE", to: "MGR", kind: "normal"}
+        {at: 4860, from: "SENSE", to: "MGR", kind: "normal"}
       ],
-      approval: { waitStart: 4806, dueAt: 6606, outcome: "confirm", decidedAt: 4920 },
-      exec: { from: 4920, to: 5280, port: "MGMT", status: "running" },
+      approval: { waitStart: 4860, dueAt: 6660, outcome: "confirm", decidedAt: 5100 },
+      exec: { from: 5100, to: 5400, port: "MGMT", status: "running" },
       holding: null,
       peakMark: false,
-      recoverAt: 5280,
+      recoverAt: 5400,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
       suspend: { decidedAt: null, reason: "" },
       recheck: {
         every: 300,
-        reads: []
+        reads: [],
+        _i: 0
       },
       summary: "离船批次重排（对齐 E-L4 分组方案）→ A03 调整批次 → 恢复（绿点）",
       confidence: 0.86,
@@ -4145,15 +4191,15 @@
         {id: "§A03", snippet: "调整离船批次动作"}
       ],
       chain: [
-        {role: "MGR", status: "done", actionAt: 4920}
+        {role: "MGR", status: "done", actionAt: 5100}
       ],
       currentStep: 0,
-      dueAt: 6606,
+      dueAt: 6660,
       takeover: { taken: false, by: null, at: null, note: "" },
       escalate: { to: "L3", reason: "timeout" },
       ports: [
-        {portCode: "MGMT", status: "已校准", at: 4940, content: "离船批次新排"},
-        {portCode: "APP", status: "已更新", at: 4960, content: "离船批次通知（分组）"}
+        {portCode: "MGMT", status: "已校准", at: 5140, content: "离船批次新排"},
+        {portCode: "APP", status: "已更新", at: 5180, content: "离船批次通知（分组）"}
       ],
       machine: {
         current: "已恢复",
@@ -4183,7 +4229,7 @@
 
   global.MOCK = {
     meta: { schema: "v0.4", voyageNo: "VN-0420", hashType: "fnv1a", createdAt: "2026-08-22", voyageStart: "11:00",
-            note: "62 条清单 v0.5 落地（2026-08-22）·挂起=琥珀点闭合·再检=仅日志·衍生=新事件(parentTrace)·峰值并发 L1≤9/L2≤4·exec末尾=闭合点" },
+            note: "62 条清单 v0.5 落地（2026-08-22）·挂起=琥珀点闭合·再检=仅日志·衍生=新事件(parentTrace)·时长=人执行+恢复检测·簇随机错峰" },
     session: { loop: true, total: total, phases: phases, speed: 20 },
     riskStates: riskStates,
     events: events
