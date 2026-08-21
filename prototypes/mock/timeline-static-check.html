@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>22 条事件 · 全量静态时间轴分布核对</title>
+<style>
+  body{margin:0;background:#05070a;color:#e6ebf2;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;font-size:13px}
+  #wrap{padding:10px}
+  canvas{border-radius:10px;background:#0b0e13;display:block}
+  .meta{color:#8b95a5;font-size:11px;margin:6px 2px}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div class="meta" id="meta">加载中…</div>
+  <div style="display:none" id="snap"></div>
+  <canvas id="cv" width="1560" height="620"></canvas>
+</div>
+<script src="mock-data.js"></script>
+<script src="sim-core.js"></script>
+<script>
+  var MOCK = window.MOCK, SC = window.SimCore, total = MOCK.session.total;
+  var v = SC.validate(MOCK);
+  document.getElementById("meta").textContent =
+    "静态核对：v0.3 清单 22 条 · voyageNo " + MOCK.meta.voyageNo + " · total=" + total + "s (" + Math.round(total/60) + "′)" +
+    "    validate=" + (v.ok ? "OK(" + MOCK.events.length + " 条)" : "ERR") +
+    (v.ok ? "" : " " + v.errors.join("; ")) +
+    "    phases=" + MOCK.session.phases.map(function(p){return p.id+":"+Math.round(p.dur/60)+"′";}).join(" ");
+
+  var W = 1560, H = 620, X0 = 84, X1 = W - 20;
+  function x(t){ return X0 + (t / total) * (X1 - X0); }
+  var cv = document.getElementById("cv"), g = cv.getContext("2d");
+  g.clearRect(0,0,W,H); g.fillStyle="#0b0e13"; g.fillRect(0,0,W,H);
+
+  var C = { detect:"#f0a43f", approve:"#e8b64c", exec:"#51b873", holding:"#7fb98a",
+            abn:"#e5484d", recover:"#2f9e63", suspend:"#f0a43f", out:"#4c8dff", text:"#e6ebf2", dim:"#8b95a5" };
+
+  // ---- 顶部标题 + 验证 ----
+  g.fillStyle = C.text; g.font = "bold 17px sans-serif";
+  g.fillText("22 条事件全量静态时间轴（95′ 单航段：登船→离泊→在航→靠泊，靠岸即停）", 20, 26);
+  g.fillStyle = v.ok ? "#51b873" : "#e5484d"; g.font = "12px sans-serif";
+  g.fillText("校验：" + (v.ok ? "通过（22 条 · 编号唯一 · 时间有序 · 闭合点一致）" : "失败"), X1 - 400, 26);
+
+  // ---- 阶段分隔与标签 ----
+  var marks = [];
+  var acc = 0;
+  MOCK.session.phases.forEach(function(p){ marks.push({at:acc, id:p.id, name:p.name}); acc += p.dur; });
+  var LANE_TOP = 110, LANE_H = 62, LANE_GAP = 6;
+
+  // ---- 车道（L4 顶 → L1 底；X 独立车道） ----
+  var lanes = [
+    { id:"L4", y:LANE_TOP,                   note:"船长拍板 · 主角" },
+    { id:"X",  y:LANE_TOP+1*(LANE_H+LANE_GAP), note:"库外弱信号" },
+    { id:"L3", y:LANE_TOP+2*(LANE_H+LANE_GAP), note:"经理审批 · 主角根/次角" },
+    { id:"L2", y:LANE_TOP+3*(LANE_H+LANE_GAP), note:"值班/经理日常" },
+    { id:"L1", y:LANE_TOP+4*(LANE_H+LANE_GAP), note:"自动/低扰底噪" }
+  ];
+  var byLevel = {};
+  MOCK.events.forEach(function(e){ (byLevel[e.level] = byLevel[e.level] || []).push(e); });
+  var laneH = {};
+  ["L4","X","L3","L2","L1"].forEach(function(l){ laneH[l] = (byLevel[l]||[]).length; });
+
+  function segColor(type, ev){
+    if (ev.outlib && ev.outlib.isX) return C.out;
+    return { detect:C.detect, approve:C.approve, exec:C.exec, holding:C.holding }[type] || C.detect;
+  }
+
+  // 先画升级线（关系A：X-0001→E01(L2)、E09→E-L4(L4)），再画车道内容，线在下方
+  var upLines = [];
+  MOCK.events.forEach(function(ev){
+    if (ev.upgrade && ev.upgrade.at != null && ev.upgrade.to) upLines.push(ev);
+  });
+
+  // 车道背景 + 行网格
+  lanes.forEach(function(L){
+    var n = (byLevel[L.id]||[]).length, rowH = n > 6 ? 6 : (n > 3 ? 9 : 20);
+    g.fillStyle = "rgba(255,255,255,.05)"; g.fillRect(X0, L.y, X1-X0, LANE_H);
+    g.strokeStyle = "rgba(255,255,255,.12)"; g.strokeRect(X0, L.y, X1-X0, LANE_H);
+    g.fillStyle = C.dim; g.font = "10px sans-serif";
+    g.fillText("◆ " + L.id + " × " + n + "  " + L.note, 20, L.y + 12);
+    byLevel[L.id] && byLevel[L.id].forEach(function(ev, i){
+      var ry = L.y + 12 + i * rowH, rh = Math.max(3, rowH - 1);
+      var segs = SC.computeSegments(ev, total);
+      segs.forEach(function(s){
+        if (s.type === "handoff" || s.type === "upgrade" || s.type === "recover" || s.type === "suspend") return;
+        var f = s.from, to = s.to;
+        var xl = x(f), xr = x(to);
+        if (xr - xl < 1.5) return;
+        g.fillStyle = segColor(s.type, ev);
+        g.fillRect(xl, ry, xr - xl, rh);
+      });
+      // 闭合点 & 移交 & 挂起标记
+      segs.forEach(function(s){
+        if (s.type === "recover") { g.fillStyle="#fff"; g.strokeStyle=C.recover; g.lineWidth=2; g.beginPath(); g.arc(x(s.at), ry+rh/2, 4, 0, 7); g.fill(); g.stroke(); g.lineWidth=1; }
+        else if (s.type === "suspend") { g.fillStyle="#fff"; g.strokeStyle=C.suspend; g.lineWidth=2; g.beginPath(); g.arc(x(s.at), ry+rh/2, 4, 0, 7); g.fill(); g.stroke(); g.lineWidth=1; }
+        else if (s.type === "handoff") { g.strokeStyle = C.exec; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x(s.at), ry); g.lineTo(x(s.at), ry+rh); g.stroke(); g.lineWidth=1; }
+        else if (s.type === "upgrade") { /* 跨车道线单独画 */ }
+      });
+      // 事件标签
+      g.fillStyle = C.text; g.font = (rowH >= 9 ? "10px" : "8px") + " sans-serif";
+      var tx = x(ev.discover.at) + 3, lw = ev.eventNo.length * (rowH >= 9 ? 5.6 : 4.6);
+      if (tx + lw < X1) g.fillText(ev.eventNo, tx, ry - 2);
+    });
+  });
+
+  // 关系A 升级线（源车道 → 目标等级车道）
+  function laneYFor(level){ var L = lanes.filter(function(l){return l.id===level;})[0]; return L ? L.y + LANE_H/2 : 0; }
+  upLines.forEach(function(ev){
+    var fromY = laneYFor(ev.level), toY = laneYFor(ev.upgrade.to);
+    var ux = x(ev.upgrade.at);
+    g.strokeStyle = C.abn; g.lineWidth = 2; g.setLineDash([4,3]);
+    g.beginPath(); g.moveTo(ux, fromY); g.lineTo(ux, toY); g.stroke();
+    g.setLineDash([]);
+    g.fillStyle = C.abn; g.font = "bold 10px sans-serif";
+    g.fillText("▲"+ev.upgrade.to, ux+2, fromY + (toY < fromY ? -6 : 16));
+  });
+
+  // ---- 阶段分隔线 + 标签 ----
+  marks.forEach(function(m){
+    if (m.at === 0) return;
+    var mx = x(m.at);
+    g.strokeStyle = "rgba(255,255,255,.28)"; g.setLineDash([2,4]);
+    g.beginPath(); g.moveTo(mx, LANE_TOP - 22); g.lineTo(mx, lanes[4].y + LANE_H + 40); g.stroke();
+    g.setLineDash([]);
+  });
+  var names = ["登船 berth-in · 0–25′","离泊 depart · 25–45′","在航 sailing · 45–75′","靠泊 approach · 75–95′"];
+  marks.forEach(function(m, i){
+    var cx = x(m.at) + (x(marks[i+1] ? marks[i+1].at : total) - x(m.at)) / 2;
+    g.fillStyle = C.text; g.font = "bold 10.5px sans-serif";
+    g.fillText(names[i] || "", cx - 55, LANE_TOP - 8);
+  });
+
+  // ---- 时间轴 ----
+  var ay = lanes[4].y + LANE_H + 34;
+  g.strokeStyle = C.dim; g.beginPath(); g.moveTo(X0, ay); g.lineTo(X1, ay); g.stroke();
+  g.fillStyle = C.dim; g.font = "9px sans-serif";
+  [0, 1500, 2700, 4500, 5700].forEach(function(t){
+    var mx = x(t);
+    g.beginPath(); g.moveTo(mx, ay-4); g.lineTo(mx, ay+4); g.stroke();
+    g.fillText(Math.round(t/60) + "′", mx-6, ay+14);
+  });
+
+  // ---- 图例 ----
+  var ly = ay + 34;
+  g.font = "10px sans-serif";
+  function sw(c, xx){ g.fillStyle=c; g.fillRect(xx, ly-8, 14, 8); }
+  function dot(c, xx){ g.fillStyle="#fff"; g.strokeStyle=c; g.lineWidth=2; g.beginPath(); g.arc(xx+7, ly-4, 4, 0, 7); g.fill(); g.stroke(); g.lineWidth=1; }
+  sw(C.detect, X0); g.fillStyle=C.text; g.fillText("发现", X0+18, ly);
+  sw(C.approve, X0+60); g.fillText("待审批", X0+78, ly);
+  sw(C.exec, X0+138); g.fillText("执行", X0+156, ly);
+  sw(C.holding, X0+198); g.fillText("观察/持续", X0+216, ly);
+  sw(C.out, X0+284); g.fillText("库外X", X0+302, ly);
+  dot(C.recover, X0+354); g.fillText("恢复点(绿)", X0+368, ly);
+  dot(C.suspend, X0+440); g.fillText("挂起(琥珀)", X0+454, ly);
+  g.strokeStyle=C.abn; g.setLineDash([4,3]); g.beginPath(); g.moveTo(X0+528, ly-8); g.lineTo(X0+556, ly); g.stroke(); g.setLineDash([]);
+  g.fillStyle=C.text; g.fillText("升级线(关系A)", X0+562, ly);
+
+  // ---- 关键叙事标注 ----
+  var ny = ly + 30;
+  g.fillStyle = C.dim; g.font = "10.5px sans-serif";
+  [ "叙事要点：① X-0001 登船弱信号→升级 E01（关系A·R线）② E01/E04/E27 挂起=琥珀点闭合，再检仅日志 ③ 72′ 信度达标→E09 诞生（ai-risk），▲4620 物理升级 L4 ④ E-L4 执行中开放收尾（靠岸瞬间 95′）⑤ E11 次角接驳中断完整闭环 ⑥ 低信度 chip(35′) 不占时间轴" ].forEach(function(t){ g.fillText(t, 20, ny); });
+  g.fillStyle = C.suspend; g.font = "10px sans-serif";
+  g.fillText("▲ 挂起示范：E01(600s) E04(780s) E27(2880s)  X-0002 存档(3660s 琥珀)", 20, ny+16);
+</script>
+</body>
+</html>
