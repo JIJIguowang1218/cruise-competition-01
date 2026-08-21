@@ -68,7 +68,22 @@
       summary: "库外弱信号：观察期信度持续升高（0.55→0.86），按关系A升级为正式事件 E01",
       confidence: 0.86,
       reasoning: {
-        sections: ["库外识别：未命中 E 库模板（当前版本 L1 样本稀疏）", "观察 126s→460s：cam/flow 偏离 1.8σ 且楼层密度持续不回落 → 信度 0.55→0.86", "信度过阈值 → 升级为 E01-0001（容量型正式事件），关系A升级线由绘制层落线"]
+        sections: [
+          "① 输入信号（2 路，11:02 前后到达）：cam/flow B 层廊桥区域人流滞留偏离历史基线 1.8σ；sensor/floor-density 楼层密度 0.72 异常抬升。两路独立到达、时间戳对齐，排除单点噪声。",
+          "② 事件分类尝试（§4.4 库检索）——未命中：遍历事件库 30 类，E01 排队（无通道队列形态）、E03 容量（密度未超 0.9 关注线）、E07 设施（无设备报警）…全部低于命中线。判定：库外/未分类信号（开放域异常），进入异常风险评估。",
+          "③ 异常风险评估（AI 推理）：指标偏离 1.8σ + 密度 0.72 且持续不回落；初始信度 0.55（偏弱，不升级、仅提醒）；风险等级 L2（一般）——滞留持续将传导至登船口排队。按 §4.11.2[4] 路由：送值班船员，抄送运营经理。",
+          "④ 观察期验证（126s→460s，约 5.5 分钟）：每 300s 再检一次，偏离未收敛、密度继续爬升；信度 0.55→0.86，跨过升级阈值 0.8。",
+          "⑤ 升级判定（11:07:40）：滞留持续 5 分钟以上 + 信度 0.86 → 升级为正式事件，映射 E01-0001 登船口/安检排队过长（容量型），走标准管线；升级线入时间轴（关系 A）。",
+          "⑥ 替代方案比较：A 升级为 E01-0001 走标准管线（采纳）；B 继续观察不升级（否决：滞留已持续 5′+，传导成本可预期）。",
+          "⑦ 边界声明（§4.11.4）：本附件为说明性存在——AI 判断依据全部可见，但不自动决定任何事；最终处置（确认/拒绝/接管）永远是人。"
+        ],
+        pipeline: [
+          { step: "信号接入", detail: "cam/flow + sensor/floor-density 双路对齐，剔除坏值" },
+          { step: "分类失配检查", detail: "30 类模板全部低于命中线 → 标记库外/未分类" },
+          { step: "异常风险评估", detail: "偏离 1.8σ + 密度 0.72 不回落 → 风险 L2，信度 0.55" },
+          { step: "观察期再检", detail: "300s 间隔 ×2：信度 0.55→0.86，跨阈值 0.8" },
+          { step: "升级判定", detail: "滞留 5′+ 且信度达标 → 升级 E01-0001（关系 A）" }
+        ]
       },
       alternatives: [
         {id: "B", reason: "继续观察不升级（否决：滞留持续 5′+，成本已可预期）"}
@@ -132,7 +147,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 1026, reason: "增开两通道后排队仍超阈值，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 1026, reason: "增开两通道后排队仍超阈值，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -142,10 +157,10 @@
         ],
         _i: 3
       },
-      summary: "增开两通道(A01)+错峰提示(A02) → 执行后仍超阈值 → 挂起（琥珀点）→ 三次再检后恢复关闭",
+      summary: "增开两通道(A01)+错峰提示(A02) → 执行后仍超阈值 → 挂起 → 三次再检后恢复关闭",
       confidence: 0.88,
       reasoning: {
-        sections: ["分类 E01 匹配 0.91（由 X-0001 升级，信度 0.86→0.88）", "处置 A01 扩通道 + A02 错峰提示；10′ 复核队列", "540s 确认执行，600s 复核仍超阈值 → 判定挂起（琥珀点闭合，不再占车道）"]
+        sections: ["分类 E01 匹配 0.91（由 X-0001 升级，信度 0.86→0.88）", "处置 A01 扩通道 + A02 错峰提示；10′ 复核队列", "540s 确认执行，600s 复核仍超阈值 → 判定挂起（挂起闭合，不再占车道）"]
       },
       alternatives: [
         {id: "B", reason: "继续派员硬顶不挂起（否决：持续占车道）"}
@@ -338,7 +353,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 1020, reason: "传送带持续低吞吐，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 1020, reason: "传送带持续低吞吐，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -347,7 +362,7 @@
         ],
         _i: 2
       },
-      summary: "A01 提示 + A12 人工行李转运 → 吞吐仍低 → 挂起（琥珀点）→ 再检 still/recovered",
+      summary: "A01 提示 + A12 人工行李转运 → 吞吐仍低 → 挂起 → 再检 仍同类→复查确认恢复",
       confidence: 0.8,
       reasoning: {
         sections: ["E07 行李传送带低吞吐 → A12 人工转运兜底", "660s 执行中仍无改善 → 900s 挂起，转周期再检"]
@@ -420,7 +435,7 @@
         reads: [],
         _i: 0
       },
-      summary: "A04 通知维修 + A10 启用备用登船梯 → 修复复位（绿点）",
+      summary: "A04 通知维修 + A10 启用备用登船梯 → 修复复位，事件闭合",
       confidence: 0.86,
       reasoning: {
         sections: ["E05 廊桥故障 → A04 派单 + A10 备用通道切换", "600s 确认，900s 维修复位 → 恢复"]
@@ -492,7 +507,7 @@
         reads: [],
         _i: 0
       },
-      summary: "值班确认 A15（无障碍通道清障）→ 现场清障完成 → 恢复（绿点）",
+      summary: "值班确认 A15（无障碍通道清障）→ 现场清障完成 → 恢复，事件闭合",
       confidence: 0.82,
       reasoning: {
         sections: ["分类 E25 匹配 0.83：无障碍通道被行李堆阻断", "处置 A15：派员清障 + 轮椅队列走备用通道"]
@@ -557,7 +572,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 1460, reason: "巴士运力短期无法恢复，判定挂起转入周期再检（琥珀点闭合），为靠泊段 E11 埋线" },
+      suspend: { decidedAt: 1460, reason: "巴士运力短期无法恢复，判定挂起转入周期再检（挂起闭合），为靠泊段 E11 埋线" },
       recheck: {
         every: 360,
         reads: [
@@ -567,10 +582,10 @@
         ],
         _i: 3
       },
-      summary: "接驳点滞留+巴士晚点：A01 提示 + A09 调车 → 运力不足挂起（琥珀点）→ 再检仍/仍/恢复；靠泊段与 E11 同源耦合",
+      summary: "接驳点滞留+巴士晚点：A01 提示 + A09 调车 → 运力不足 → 挂起 → 再检 仍/仍 → 恢复；靠泊段与 E11 同源耦合",
       confidence: 0.78,
       reasoning: {
-        sections: ["分类 E04 匹配 0.80：接驳点滞留 + 巴士晚点", "处置 A01 乘客提示 + A09 调备用巴士；预警靠泊段接驳中断风险（与 E11 耦合）", "720s 确认执行，780s 运力仍不足 → 挂起（琥珀点闭合），再检 still/still/recovered 仅日志"]
+        sections: ["分类 E04 匹配 0.80：接驳点滞留 + 巴士晚点", "处置 A01 乘客提示 + A09 调备用巴士；预警靠泊段接驳中断风险（与 E11 耦合）", "720s 确认执行，780s 运力仍不足 → 挂起闭合，再检 仍同类/复查确认恢复 仅日志"]
       },
       alternatives: [
         {id: "B", reason: "持续占车道盯到恢复（否决：挂起后走再检更省车道）"}
@@ -1344,7 +1359,7 @@
         reads: [],
         _i: 0
       },
-      summary: "A04 通知维修 + 人工清障 → 转盘复位（绿点）",
+      summary: "A04 通知维修 + 人工清障 → 转盘复位，事件闭合",
       confidence: 0.85,
       reasoning: {
         sections: ["转盘卡滞 → A04 派单 + 人工清障"]
@@ -1409,7 +1424,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 1480, reason: "回房高峰为自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 1480, reason: "回房高峰为自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -1417,7 +1432,7 @@
         ],
         _i: 1
       },
-      summary: "回房潮电梯厅挤塞 → 分流引导 → 挂起（琥珀点）→ 单次再检 recovered",
+      summary: "回房潮电梯厅挤塞 → 分流引导 → 挂起 → 单次再检复查确认恢复",
       confidence: 0.82,
       reasoning: {
         sections: ["登船后回房潮 → 电梯厅密度 0.87", "A16 分流引导 → 自然回落型 → 挂起+再检"]
@@ -1610,7 +1625,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 2460, reason: "末批人流自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 2460, reason: "末批人流自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 300,
         reads: [
@@ -1619,7 +1634,7 @@
         ],
         _i: 2
       },
-      summary: "登船口排队第二波（隔段再现）→ A01+A02 → 挂起（琥珀点）→ 再检 still/recovered",
+      summary: "登船口排队第二波（隔段再现）→ A01+A02 → 挂起 → 再检 仍同类→复查确认恢复",
       confidence: 0.84,
       reasoning: {
         sections: ["迟到批次 → 安检口二次排队（新事件，非原事件复开）", "A01 提示 + A02 增开通道 → 自然回落 → 挂起+再检"]
@@ -1933,7 +1948,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 3300, reason: "活动高峰自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 3300, reason: "活动高峰自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -1942,7 +1957,7 @@
         ],
         _i: 2
       },
-      summary: "儿童/家庭活动区拥挤（E27）→ A16 分流 → 挂起（琥珀点）→ 再检 still/recovered",
+      summary: "儿童/家庭活动区拥挤（E27）→ A16 分流 → 挂起 → 再检 仍同类→复查确认恢复",
       confidence: 0.83,
       reasoning: {
         sections: ["E27 儿童/家庭活动区拥挤（对齐库语义）", "A16 现场分流 → 自然回落 → 挂起+再检"]
@@ -2337,7 +2352,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 3660, reason: "午餐用餐周期长，判定挂起转入周期再检（琥珀点闭合），高峰期长按'再出现'处理" },
+      suspend: { decidedAt: 3660, reason: "午餐用餐周期长，判定挂起转入周期再检（挂起闭合），高峰期长按'再出现'处理" },
       recheck: {
         every: 480,
         reads: [
@@ -2346,10 +2361,10 @@
         ],
         _i: 2
       },
-      summary: "午餐主餐厅高峰波1：A01+A16 分流 → 用餐周期长挂起（琥珀点）→ 12:16 复燃再检 upgrade → 衍生 E03-0001-C1",
+      summary: "午餐主餐厅高峰波1：A01+A16 分流 → 用餐周期长 → 挂起 → 12:16 复燃再检 upgrade → 衍生 E03-0001-C1",
       confidence: 0.87,
       reasoning: {
-        sections: ["E03 主餐厅午高峰（人流/秩序类）→ A01 排队提示 + A16 分流", "用餐周期长：3480s 挂起（琥珀点闭合），周期再检 every 480s", "4560s 再检 upgrade（第二波复燃）→ 衍生 E03-0001-C1（关系B：仅日志 parentTrace=2323-1B43，不画线）"]
+        sections: ["E03 主餐厅午高峰（人流/秩序类）→ A01 排队提示 + A16 分流", "用餐周期长：3480s 挂起闭合，周期再检 every 480s", "4560s 再检 upgrade（第二波复燃）→ 衍生 E03-0001-C1（关系B：仅日志 parentTrace=2323-1B43，不画线）"]
       },
       alternatives: [
         {id: "B", reason: "持续占车道盯到收餐（否决：用餐周期长，挂起+再检更省车道）"}
@@ -2981,7 +2996,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 4460, reason: "演出周期人流自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4460, reason: "演出周期人流自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -2989,7 +3004,7 @@
         ],
         _i: 1
       },
-      summary: "剧场入场/散场拥挤（E03）→ A16 分流 → 挂起（琥珀点）→ 再检 still/recovered",
+      summary: "剧场入场/散场拥挤（E03）→ A16 分流 → 挂起 → 再检 仍同类→复查确认恢复",
       confidence: 0.85,
       reasoning: {
         sections: ["剧场人流拥挤（原'剧院散场'改挂 E03，对齐库语义）", "A16 错峰分流 → 自然回落 → 挂起+再检"]
@@ -3055,7 +3070,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 4240, reason: "用餐周期自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4240, reason: "用餐周期自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -3063,7 +3078,7 @@
         ],
         _i: 1
       },
-      summary: "甜品/收餐台排队 → 分流 → 挂起（琥珀点）→ 再检 recovered",
+      summary: "甜品/收餐台排队 → 分流 → 挂起 → 再检复查确认恢复",
       confidence: 0.83,
       reasoning: {
         sections: ["甜品台排队 → A16 分流 → 挂起+再检"]
@@ -3128,7 +3143,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 4200, reason: "活动批次自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4200, reason: "活动批次自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -3136,7 +3151,7 @@
         ],
         _i: 1
       },
-      summary: "儿童俱乐部活动拥挤（E27）→ A16 协调 → 挂起（琥珀点）→ 再检 recovered",
+      summary: "儿童俱乐部活动拥挤（E27）→ A16 协调 → 挂起 → 再检复查确认恢复",
       confidence: 0.84,
       reasoning: {
         sections: ["E27 儿童俱乐部超容 → A16 活动协调 → 挂起+再检"]
@@ -3201,7 +3216,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 4280, reason: "泳池午间自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 4280, reason: "泳池午间自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -3209,7 +3224,7 @@
         ],
         _i: 1
       },
-      summary: "泳池甲板午间高峰 → 分流 → 挂起（琥珀点）→ 再检 recovered",
+      summary: "泳池甲板午间高峰 → 分流 → 挂起 → 再检复查确认恢复",
       confidence: 0.85,
       reasoning: {
         sections: ["泳池区密度 0.89 → A16 分流 → 挂起+再检"]
@@ -3407,15 +3422,15 @@
       recoverAt: null,
       upgrade: { to: null, at: null, reason: "timeout" },
       outlib: { isX: true, riskLevel: "L2" },
-      suspend: { decidedAt: 4980, reason: "存档观察（琥珀点闭合）：弱信号组合信度不足，不升级为正式事件，供台风长链推演引用" },
+      suspend: { decidedAt: 4980, reason: "存档观察（挂起闭合）：弱信号组合信度不足，不升级为正式事件，供台风长链推演引用" },
       recheck: {
         every: 300,
         reads: []
       },
-      summary: "库外弱信号组合（接驳×离船批次）：观察后存档（琥珀点），作为 E09 长链推演的弱信号输入之一",
+      summary: "库外弱信号组合（接驳×离船批次）：观察后存档（挂起），作为 E09 长链推演的弱信号输入之一",
       confidence: 0.58,
       reasoning: {
-        sections: ["库外识别：未命中 E 库模板（组合式弱信号）", "观察 3546s→3660s：单一信号均 < 升级阈值（各自 0.52/0.58）", "选型：琥珀点存档闭合（suspend.decidedAt），无 upgrade.at，关系B不入正式管线", "与台风长链耦合：接驳×离船批次并入 E09 的 ai-risk 信度计算"]
+        sections: ["库外识别：未命中 E 库模板（组合式弱信号）", "观察 3546s→3660s：单一信号均 < 升级阈值（各自 0.52/0.58）", "选型：挂起存档闭合（suspend.decidedAt），无 upgrade.at，关系B不入正式管线", "与台风长链耦合：接驳×离船批次并入 E09 的 ai-risk 信度计算"]
       },
       alternatives: [
         {id: "B", reason: "强行升级为正式事件（否决：信度不足，避免底噪污染）"}
@@ -3723,7 +3738,7 @@
       recoverAt: null,
       upgrade: { to: "L3", at: null, reason: "timeout" },
       outlib: { isX: false, riskLevel: null },
-      suspend: { decidedAt: 5220, reason: "第二波用餐高峰自然回落型，判定挂起转入周期再检（琥珀点闭合）" },
+      suspend: { decidedAt: 5220, reason: "第二波用餐高峰自然回落型，判定挂起转入周期再检（挂起闭合）" },
       recheck: {
         every: 360,
         reads: [
@@ -3731,10 +3746,10 @@
         ],
         _i: 1
       },
-      summary: "午餐高峰复燃（衍生自 E03-0001）：12:16 再检 upgrade → 新事件 → 挂起（琥珀点）→ 再检 recovered；配合 E-L4 离船口径",
+      summary: "午餐高峰复燃（衍生自 E03-0001）：12:16 再检 upgrade → 新事件 → 挂起 → 再检复查确认恢复；配合 E-L4 离船口径",
       confidence: 0.78,
       reasoning: {
-        sections: ["衍生自 E03-0001（parentTrace 仅日志关联，不画流转线）", "第二波复燃 → A01+A16 分流 → 挂起+再检 recovered", "与 E-L4 离船方案并行：餐厅按新离船批次口径同步调整"]
+        sections: ["衍生自 E03-0001（parentTrace 仅日志关联，不画流转线）", "第二波复燃 → A01+A16 分流 → 挂起 + 再检复查确认恢复", "与 E-L4 离船方案并行：餐厅按新离船批次口径同步调整"]
       },
       alternatives: [],
       clauses: [
@@ -3935,10 +3950,10 @@
         every: 300,
         reads: []
       },
-      summary: "运营经理确认 A09（调备用接驳/重排批次）→ 备用运力到位执行 → 恢复（绿点，完整闭环）",
+      summary: "运营经理确认 A09（调备用接驳/重排批次）→ 备用运力到位执行 → 恢复，完整闭环",
       confidence: 0.9,
       reasoning: {
-        sections: ["E04 靠泊段同源恶化 → E11 接驳中断（与 E09 整体下船方案协同）", "处置 A09：备用巴士 + 离船批次重排（对齐 E-L4 分组口径）", "4920s 经理确认执行，5220s 运力恢复 → 绿点闭合"]
+        sections: ["E04 靠泊段同源恶化 → E11 接驳中断（与 E09 整体下船方案协同）", "处置 A09：备用巴士 + 离船批次重排（对齐 E-L4 分组口径）", "4920s 经理确认执行，5220s 运力恢复 → 事件闭合"]
       },
       alternatives: [
         {id: "B", reason: "仅公告不调车（否决：接驳中断影响离船批次）"}
@@ -4209,7 +4224,7 @@
         reads: [],
         _i: 0
       },
-      summary: "离船批次重排（对齐 E-L4 分组方案）→ A03 调整批次 → 恢复（绿点）",
+      summary: "离船批次重排（对齐 E-L4 分组方案）→ A03 调整批次 → 恢复，事件闭合",
       confidence: 0.86,
       reasoning: {
         sections: ["E-L4 方案落地侧：批次重排 → A03 调整 + 端口同步", "4920s 经理确认，5280s 批次落地 → 恢复"]

@@ -165,6 +165,13 @@
   .rsn.open{display:block}
   .rsn p{color:var(--th);margin:4px 0}
   .static-inline{font-size:11px;color:var(--tlo)}
+  .holder{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
+  .srow{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 0;border-bottom:1px dashed var(--line1)}
+  .srow span{color:var(--tlo);white-space:nowrap}
+  .srow b{font-size:11px;text-align:right}
+  .prow{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
+  .arow{display:flex;justify-content:space-between;gap:8px;padding:2px 0;font-size:10px}
+  .arow code{font-family:monospace;color:var(--exec)}
   /* 告警/动画 */
   .banner{display:none;margin:0 0 8px;border-radius:8px;padding:8px 12px;font-size:12px;align-items:center;gap:8px}
   .banner.err{display:flex;background:rgba(229,72,77,.16);box-shadow:inset 0 0 0 1px var(--abn);color:#ffd9da;animation:flash 1.2s infinite}
@@ -405,7 +412,28 @@
   var role = "CAPT";
   var ROLE_ACT = {"CAPT":["L4"], "MGR":["L2","L3"], "LEGAL":["L3"], "DUTY":["L1","L2"]};
   function visibleActs(ev){ var allow=(ev.machine?ev.machine.allow:[]); if(ev.outlib&&ev.outlib.isX){ return (["DUTY","MGR"].indexOf(role)>=0)?allow:[]; } return (ROLE_ACT[role]||[]).indexOf(ev.level)>=0?allow:[]; }
+  // 按时刻给动作权限：待审批期 → 确认/拒绝/接管；执行期由 renderRight 的 inExec 分支接管显示
+  function actsAt(ev){
+    var allow = visibleActs(ev);
+    if (ev.outlib && ev.outlib.isX) return allow;
+    var a = ev.approval || {};
+    var execStart = ev.exec && ev.exec.from != null ? ev.exec.from : (a.decidedAt != null ? a.decidedAt : null);
+    // 待审批期：waitStart ≤ SNAP < 执行起点（数据预置 decidedAt 也视为"已由脚本定案"，交互窗口在 waitStart~execStart 之间）
+    if (a.waitStart != null && SNAP >= a.waitStart && (execStart == null || SNAP < execStart)) {
+      return allow.length ? allow : ["confirm", "refuse", "takeover"];
+    }
+    return allow;
+  }
   var sel = MOCK.events[0].eventNo;
+  // 拍摄辅助：?sel=事件号&snap=秒&role=角色 可精确定位镜头（也可用于自动化验证）
+  (function () {
+    try {
+      var q = {}; location.search.replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { q[k] = v; });
+      if (q.sel) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === q.sel) { sel = q.sel; break; } }
+      if (q.snap) SNAP = Math.min(total - 1, Math.max(0, +q.snap));
+      if (q.role) { var m = { "CAPT": ["船长", "船"], "MGR": ["运营经理", "经"], "LEGAL": ["法务", "法"], "DUTY": ["值班", "值"] }[q.role]; if (m) setRole(m[0], m[1]); }
+    } catch (err) { console.error("param-init:", err && err.message); }
+  })();
   var CX = { detect: "#f0a43f", exec: "#51b873", approve: "#e8b64c", holding: "#7fb98a", abn: "#e5484d", handoff: "#51b873", upgrade: "#e5484d", recover: "#2f9e63" };
   var LBL = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", ignore: "忽略", archive: "存档观察", escalate: "升级为正式" };
 
@@ -542,9 +570,24 @@
   }
   // ---------- 卡片带（数据驱动：置顶/分组折叠/已处置） ----------
   function isDone(e) { return /已恢复|已关闭|已存档|已拒绝|已忽略|已升级/.test(e.state); }
+  // 按时刻计算"当前状态"（决策卡/审批流显示用；静态 state 只作初始与终态参考）
+  function stateAt(e, t) {
+    if (t === undefined) t = SNAP;
+    if (e.outlib && e.outlib.isX) {
+      if (e.upgrade && e.upgrade.at != null && t >= e.upgrade.at) return "已升级(" + (e.upgrade.to || "L2") + ")";
+      if (e.suspend && e.suspend.decidedAt != null && t >= e.suspend.decidedAt) return "已存档观察";
+      return t >= e.discover.at ? "发现（库外观察中）" : "未发生";
+    }
+    if (e.suspend && e.suspend.decidedAt != null && t >= e.suspend.decidedAt) return "已挂起";
+    if (e.recoverAt != null && t >= e.recoverAt) return "已恢复";
+    if (e.exec && e.exec.from != null && t >= e.exec.from) return "执行中";
+    if (e.approval && e.approval.waitStart != null && t >= e.approval.waitStart) return "待审批";
+    if (t >= e.discover.at) return "发现";
+    return "未发生";
+  }
   function cardHtml(e, active) {
     return '<div class="card ' + (e.type === "X" ? "lvX" : "lv" + e.level) + (active ? " sel" : "") + '" data-no="' + e.eventNo + '">' +
-      '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + e.state + "</span></div>" +
+      '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + stateAt(e) + "</span></div>" +
       '<div style="font-size:10px;color:var(--tlo)">' + (e.summary || "") + "</div></div>";
   }
   // ---------- 事件卡片带（时间驱动：区域实时弹出 → 执行阶段发生即收入已处置栏，带动画） ----------
@@ -827,30 +870,80 @@
   function renderRight() {
     var e = get(sel);
     var tid = SC.traceId(e);
-    // 决策卡
-    var acts = visibleActs(e).map(function (a) { return '<button data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
+    var inExec = e.exec && e.exec.from != null && SNAP >= e.exec.from && SNAP <= (e.exec.to || SNAP);
+    // 决策卡：执行段中不显示"确认"类动作，改为处置人员框 + 人工接管入口（接管按钮本镜头不点，仅展示）
+    var actsHtml = "";
+    if (inExec) {
+      var holder = (e.chain && e.chain.length && e.chain[e.chain.length - 1].role) || e.currentRole || "DUTY";
+      var holderName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长", ENG: "工程 · 张工" })[holder] || holder;
+      actsHtml = '<div class="holder"><div class="lbl">处置人员（当前执行端）</div>' +
+        '<div class="static-inline">' + holderName + ' · ' + holder + ' · ' + clock(e.exec.from) + ' 起执行' +
+        (e.ports && e.ports.length ? ' · 已投放 ' + e.ports.map(function (p) { return p.portCode; }).join('/') : '') + '</div></div>' +
+        '<div class="act"><button class="btn" data-act="takeover" title="本镜头不点，仅展示人工接管入口">转人工接管</button></div>';
+    } else {
+      var acts = actsAt(e).map(function (a) { return '<button data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
+      var idleTxt = isDone(e) ? '已终结，无动作' : '只读监控（'+role+' 无权处置 '+e.level+'）';
+      if (e.outlib && e.outlib.isX && e.upgrade && e.upgrade.at != null && SNAP >= e.upgrade.at) idleTxt = "已升级 → 移交 " + (function(){ for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) return c.eventNo + " 处置"; } return "正式事件处置"; })();
+      actsHtml = '<div class="act">' + (acts || '<span class="lbl">' + idleTxt + '</span>') + "</div>";
+    }
     document.getElementById("tab-card").innerHTML =
       '<div class="banner ' + (e.level === "L4" ? "err" : "ok") + '" id="l4ban">' + (e.level === "L4" ? "⚑ " : "✓ ") + e.name +
       '<span style="flex:1"></span></div>' +
-      '<div class="mcard"><div class="lbl">决策卡 · ' + e.eventNo + " · " + e.level + '</div><b>' + e.state + "</b><div class=static-inline>" + e.summary + " · 置信度 " + e.confidence + '</div></div>' +
-      '<div class="mcard"><div class="lbl">处置动作（决策卡）</div><div class="act">' + (acts || '<span class="lbl">' + (isDone(e) ? '已终结，无动作' : '只读监控（'+role+' 无权处置 '+e.level+'）') + '</span>') + "</div></div>" +
+      '<div class="mcard"><div class="lbl">决策卡 · ' + e.eventNo + " · " + e.level + '</div><b>' + stateAt(e) + "</b><div class=static-inline>" + e.summary + " · 置信度 " + e.confidence + '</div></div>' +
+      '<div class="mcard"><div class="lbl">处置动作（决策卡）</div>' + actsHtml + "</div>" +
       '<div class="mcard"><div class="lbl">推理附件</div><button class="btn sm" onclick="toggleRsn()">展开推理附件 ▾</button>' +
       '<div id="rsn" style="display:none;margin-top:6px">' + (e.reasoning.sections || []).map(function (x) { return "<p>" + x + "</p>"; }).join("") +
       (e.reasoning.pipeline ? "<p style='margin-top:6px'><b>推理流水（模拟 AI 推理后台）</b></p>" + e.reasoning.pipeline.map(function (x) { return "<p>• " + x.step + "：" + x.detail + "</p>"; }).join("") : "") + "</div></div>";
-    // 审批流
-    var steps = (e.chain || []).map(function (c, i) { return '<div class="step' + (c.status === "done" ? " done" : (c.status === "current" ? " cur" : "")) + '">' + c.role + "</div>"; }).join("");
-    document.getElementById("tab-flow").innerHTML = '<div class="mcard"><div class="lbl">审批流 · trace ' + tid + '</div><div class="steps">' + steps + '</div>' +
-      '<div class="static-inline" style="margin-top:6px">状态 ' + e.state + (e.takeover && e.takeover.taken ? " · 已人工接管(" + e.takeover.by + ")" : "") + "</div></div>";
-    // 端口/审计
-    var ports = (e.ports || []).map(function (p) { return p.portCode + ":" + p.status + "@" + fmt(p.at); }).join(" · ") || "-";
+    // 审批流：链式步骤 + 签署单（§4.13.1 确认/签署分级）+ 处置人员框
+    var chainArr = (e.chain && e.chain.length) ? e.chain : [];
+    var steps = chainArr.map(function (c, i) {
+      var roleName = ({ DUTY: "值班", MGR: "运营经理", LEGAL: "法务", CAPT: "船长", SENSE: "感知", ENG: "工程" })[c.role] || c.role;
+      return '<div class="step' + (c.status === "done" ? " done" : (c.status === "current" ? " cur" : "")) + '">' +
+        roleName + (c.actionAt != null ? '<small>' + clock(c.actionAt) + '</small>' : '') + "</div>";
+    }).join("");
+    var approve = e.approval || {};
+    var signRows = [
+      ["事件", e.eventNo + " " + e.name],
+      ["处置等级", e.level === "X" ? "库外/未分类（异常提醒 · 只路由不审批）" : e.level + "（" + (e.level === "L1" ? "自动 · 事后审计" : e.level === "L2" ? "值班级 · 值班点击确认" : e.level === "L3" ? "审批级 · 经理/法务电子签署" : "最高级 · 船长直接触发，事后补签") + "）"],
+      ["依据条款", (e.clauses || []).map(function (c) { return c.id + " " + c.snippet; }).join("；") || "—"],
+      ["审批人", (e.chain && e.chain.length) ? ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[e.chain[e.chain.length - 1].role] || e.chain[e.chain.length - 1].role : "—"],
+      ["时间", approve.decidedAt != null ? clock(approve.decidedAt) : "待审批"],
+      ["trace", tid]
+    ].map(function (r) { return '<div class="srow"><span>' + r[0] + "</span><b>" + r[1] + "</b></div>"; }).join("");
+    var signed = approve.decidedAt != null;
+    var holder = (e.chain && e.chain.length && e.chain[e.chain.length - 1].role) || e.currentRole || "DUTY";
+    var holderName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长", ENG: "工程 · 张工" })[holder] || holder;
+    document.getElementById("tab-flow").innerHTML =
+      '<div class="mcard"><div class="lbl">审批流 · trace ' + tid + '</div><div class="steps">' + (steps || '<div class="step cur">待建链</div>') + '</div>' +
+      '<div class="static-inline" style="margin-top:6px">状态 ' + stateAt(e) + (e.takeover && e.takeover.taken ? " · 已人工接管(" + e.takeover.by + ")" : "") + "</div></div>" +
+      '<div class="mcard"><div class="lbl">确认单（电子签署 · §4.13.1 ' + e.level + '）</div>' + signRows +
+      '<div class="static-inline" style="margin-top:6px">' + (signed ? "✓ 已电子签署" : "⏳ 待签署") + "</div></div>" +
+      '<div class="mcard"><div class="lbl">处置人员</div><div class="static-inline">' + holderName + " · " + holder +
+      (e.exec && e.exec.from != null ? " · " + clock(e.exec.from) + " 起执行" : "") +
+      '</div><div class="act" style="margin-top:6px"><button class="btn" data-act="takeover" title="本镜头不点，仅展示入口">转人工接管</button></div></div>';
+    // 端口/审计：端口执行记录（§4.7 端口库分类）+ 审计哈希链（§4.13.2 append-only）
+    var PORT_META = { APP: "告知端口 · 数字化/IT", SCR: "告知端口 · 娱乐/AV", PA: "告知端口 · 通播系统", CRW: "执行端 · 现场部门", OTA: "告知端口 · 商务/客服", VIS: "告知端口 · 港航外联", MGMT: "决策端 · 运营管理" };
+    var portRows = (e.ports || []).map(function (p) {
+      return '<div class="prow"><div class="lbl">' + p.portCode + '（' + (PORT_META[p.portCode] || "端口") + '）</div>' +
+        '<div class="static-inline">' + clock(p.at) + " 发布「" + (p.content || p.status) + "」 · " + p.status + "</div></div>";
+    }).join("");
+    if ((e.exec && e.exec.port) || (e.chain && e.chain.length)) {
+      var exPort = e.exec && e.exec.port || "CRW";
+      portRows += '<div class="prow"><div class="lbl">' + exPort + '（' + (PORT_META[exPort] || "执行端") + '）</div>' +
+        '<div class="static-inline">' + clock(e.exec && e.exec.from != null ? e.exec.from : e.approval.decidedAt) + " 执行中（人工作业 · 含恢复确认）</div></div>";
+    }
+    if (!portRows) portRows = '<div class="static-inline">（暂无端口投放记录）</div>';
     var audit = SC.buildAuditChain(e, [
       { at: e.discover.at, actor: "SENSE", action: "发现" },
       { at: e.approval && e.approval.waitStart != null ? e.approval.waitStart : e.discover.at, actor: e.currentRole, action: "移交/待审批" },
-      { at: e.recoverAt || e.approval.decidedAt || e.upgrade.at || null, actor: e.currentRole, action: e.state }
-    ]);
-    document.getElementById("tab-audit").innerHTML = '<div class="mcard"><div class="lbl">端口/审计 · ' + tid + '</div><div class="static-inline">' + ports + "</div>" +
-      '<div style="margin-top:6px;font-size:10px;color:var(--tlo)">' + audit.map(function (r) { return r.no + " " + r.action + " " + r.hash; }).join("<br>") + "</div>" +
-      '<button class="btn sm" style="margin-top:8px" onclick="toast(\'导出审计包 PDF\')">导出审计包 PDF</button></div>';
+      { at: e.approval && e.approval.decidedAt != null ? e.approval.decidedAt : null, actor: e.currentRole, action: "确认签署" },
+      { at: e.recoverAt || e.upgrade.at || null, actor: e.currentRole, action: e.state }
+    ].filter(function (x) { return x.at != null; }));
+    document.getElementById("tab-audit").innerHTML =
+      '<div class="mcard"><div class="lbl">端口执行记录 · trace ' + tid + '</div>' + portRows + "</div>" +
+      '<div class="mcard"><div class="lbl">审计哈希链（append-only · §4.13.2）</div><div style="font-size:10px;color:var(--tlo)">' +
+      audit.map(function (r) { return '<div class="arow"><span>' + r.no + " " + r.action + '</span><code>' + r.hash + "</code></div>"; }).join("") +
+      "</div><button class='btn sm' style='margin-top:8px' onclick=\"toast('导出审计包 PDF')\">导出审计包 PDF</button></div>";
     // banner 显示当前
     document.getElementById("tabs").style.display = "";
     switchTab("card");
