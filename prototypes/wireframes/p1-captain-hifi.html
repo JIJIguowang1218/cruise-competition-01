@@ -526,12 +526,45 @@
       '<div style="font-size:10px;color:var(--tlo)">' + (e.summary || "") + "</div></div>";
   }
   // ---------- 事件卡片带（时间驱动：区域实时弹出 → 执行阶段发生即收入已处置栏，带动画） ----------
-  function isDoneAt(e){
+  function zoneOf(e) { return e.type === "X" ? "X" : e.level; }
+  function isDoneAt(e, t){
+    if (t === undefined) t = SNAP;
     if (e.outlib && e.outlib.isX) {
-      var t = (e.upgrade && e.upgrade.at != null) ? e.upgrade.at : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : null;
-      return t != null && SNAP >= t;
+      var x = (e.upgrade && e.upgrade.at != null) ? e.upgrade.at : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : null;
+      return x != null && t >= x;
     }
-    return e.exec && e.exec.from != null && SNAP >= e.exec.from;   // 只要有执行阶段发生 → 已处置
+    return e.exec && e.exec.from != null && t >= e.exec.from;   // 只要有执行阶段发生 → 已处置
+  }
+  // 按目标时刻确定性重建队列（拖动/回退时调用：任何 SNAP 状态一致）
+  function resetBand(t) {
+    ["L4", "X", "L3", "L2", "L1"].forEach(function (k) { zoneQ[k] = { list: [], done: 0, consumed: {} }; });
+    var evs = MOCK.events.slice().sort(function (a, b) { return a.discover.at - b.discover.at; });
+    evs.forEach(function (e) {
+      if (e.discover.at > t) return;
+      var clock = e.discover.at;
+      ["L4", "X", "L3", "L2", "L1"].forEach(function (lv) {
+        var q = zoneQ[lv];
+        q.list.forEach(function (it) {
+          if (it.status !== "live") return;
+          var x = MOCK.events.filter(function (y) { return y.eventNo === it.no; })[0];
+          if (x && isDoneAt(x, clock)) it.status = "linger";
+        });
+      });
+      var lv = zoneOf(e), q = zoneQ[lv];
+      var oldIdx = -1;
+      for (var i = q.list.length - 1; i >= 0; i--) { if (q.list[i].status === "linger" && q.list[i].pushed) { oldIdx = i; break; } }
+      if (oldIdx >= 0) { var it0 = q.list[oldIdx]; it0.status = "collect"; q.consumed[it0.no] = 1; q.done++; q.list = q.list.filter(function (x) { return x.no !== it0.no; }); }
+      q.list.forEach(function (it) { if (it.status === "linger") it.pushed = true; });
+      q.list.unshift({ no: e.eventNo, status: "live", pushed: false });
+    });
+    ["L4", "X", "L3", "L2", "L1"].forEach(function (lv) {
+      var q = zoneQ[lv];
+      q.list.forEach(function (it) {
+        if (it.status !== "live") return;
+        var x = MOCK.events.filter(function (y) { return y.eventNo === it.no; })[0];
+        if (x && isDoneAt(x, t)) it.status = "linger";
+      });
+    });
   }
   // 队列式卡片带：新事件从顶部插入（挤推旧的往下）；执行阶段发生 → 原地变暗(linger)；
   // 已被挤推过的最老 linger，在后续新事件到达时做"收入已处置栏"动画并移除（以此类推）
@@ -539,10 +572,16 @@
   var bandSig = "", freshPop = {};
   function renderCardBand() {
     var ZONES = [["L4", "#e5484d"], ["X", "#4c8dff"], ["L3", "#f0a43f"], ["L2", "#51b873"], ["L1", "#6f7886"]];
-    // 1) 状态推进（到达/收集/挤推/转移）
+    // 1) 状态推进（先转移 live→linger，再到达/收集/挤推 —— 与连续推演一致）
     ZONES.forEach(function (z) {
       var lv = z[0], q = zoneQ[lv];
       var evs = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
+      // 转移：live → linger（执行阶段发生）
+      q.list.forEach(function (it) {
+        if (it.status !== "live") return;
+        var e = evs.filter(function (x) { return x.eventNo === it.no; })[0];
+        if (e && isDoneAt(e)) it.status = "linger";
+      });
       // 到达：新发现且从未收集过 → 顶部插入（先收集最老的已挤推 linger）
       var arrivals = evs.filter(function (e) {
         return e.discover.at <= SNAP && !q.list.some(function (it) { return it.no === e.eventNo; }) && !q.consumed[e.eventNo];
@@ -566,12 +605,6 @@
         q.list.forEach(function (it) { if (it.status === "linger") it.pushed = true; });
         q.list.unshift({ no: e.eventNo, status: "live", pushed: false });
         freshPop[e.eventNo] = 1;
-      });
-      // 转移：live → linger（执行阶段发生）
-      q.list.forEach(function (it) {
-        if (it.status !== "live") return;
-        var e = evs.filter(function (x) { return x.eventNo === it.no; })[0];
-        if (e && isDoneAt(e)) it.status = "linger";
       });
     });
     // 2) 签名（含完整队列状态；集合变化才重建，保滚动位置）
@@ -735,6 +768,7 @@
     SNAP = +this.value;
     playing = false;
     var p = document.getElementById("tlplay"); if (p) p.textContent = "▶ 播放";
+    resetBand(SNAP);          // 拖动/回退：按目标时刻确定性重建队列，任何时刻状态一致
     updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog(); renderCardBand();
   });
   function updateSnapLbl(){
