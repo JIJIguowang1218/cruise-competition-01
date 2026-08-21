@@ -94,7 +94,7 @@
   .portbar button{border:none;background:transparent;color:var(--tlo);padding:4px 10px;font-size:11px;border-radius:999px;cursor:pointer}
   .portbar button.on{background:var(--bg3);color:var(--th)}
   .reserve{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
-  .portlive{flex:0 0 60px;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
+  .portlive{flex:0 0 auto;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
   .infer{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
   .infer .head{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
   .infer .head .cnt{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
@@ -854,6 +854,14 @@
     var s = Math.min((innerWidth - 16) / 1520, (innerHeight - 24) / 940); s = Math.max(0.35, Math.min(1.4, s));
     var st = document.getElementById("stage"); st.style.transform = "scale(" + s + ")";
     st.style.marginTop = Math.max(8, (innerHeight - 940 * s) / 2) + "px";
+    fitReserve();
+  }
+  // 只动端口窗高度：其下边缘拓展到"操作台日志顶 - 12px 间隙"，推理窗上边缘因此落在与日志顶同高；推理窗下边缘/时间轴一律不动
+  function fitReserve() {
+    var oplog = document.querySelector(".oplog"), reserve = document.querySelector(".reserve"), portlive = document.querySelector(".portlive");
+    if (!oplog || !reserve || !portlive) return;
+    var h = Math.max(40, (oplog.offsetTop - reserve.offsetTop) - 12);
+    portlive.style.height = h + "px";
   }
   addEventListener("resize", fit);
   document.getElementById("theme").addEventListener("click", function (e) {
