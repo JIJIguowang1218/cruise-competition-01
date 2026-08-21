@@ -93,7 +93,7 @@
   .portbar{display:flex;gap:6px;flex-wrap:wrap;background:var(--bg1);border-radius:10px;padding:6px 8px}
   .portbar button{border:none;background:transparent;color:var(--tlo);padding:4px 10px;font-size:11px;border-radius:999px;cursor:pointer}
   .portbar button.on{background:var(--bg3);color:var(--th)}
-  .reserve{flex:none;display:flex;flex-direction:column;gap:12px;min-height:0}
+  .reserve{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
   .portlive{flex:0 0 60px;border:1px dashed var(--line1);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
   .infer{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
   .infer .head{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
@@ -108,8 +108,8 @@
   .ino{font-family:ui-monospace,Consolas,monospace;font-size:9px;color:var(--tlo);flex:none;width:62px;overflow:hidden;white-space:nowrap}
   .imarqwrap{flex:1;overflow:hidden;white-space:nowrap;position:relative;height:14px}
   .imarq{display:inline-block;position:absolute;left:0;top:0;white-space:nowrap}
-  .timeline{background:var(--bg1);border-radius:10px;flex:1;min-height:0;overflow:hidden}
-  .timeline svg{display:block;width:100%;height:auto;max-height:100%;margin:0 auto}
+  .timeline{background:var(--bg1);border-radius:10px;flex:0 1 auto;min-height:0;overflow:hidden}
+  .timeline svg{display:block;width:100%;height:auto}
   .tlleg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--tlo);background:var(--bg1);border-radius:10px;padding:6px 12px}
   .sw{width:12px;height:7px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px;box-shadow:inset 0 0 0 1px var(--line0)}
   .dot8{width:7px;height:7px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
@@ -854,20 +854,6 @@
     var s = Math.min((innerWidth - 16) / 1520, (innerHeight - 24) / 940); s = Math.max(0.35, Math.min(1.4, s));
     var st = document.getElementById("stage"); st.style.transform = "scale(" + s + ")";
     st.style.marginTop = Math.max(8, (innerHeight - 940 * s) / 2) + "px";
-    fitReserve();
-  }
-  // 推理监视窗：顶部对齐操作台日志顶；高度按"给时间轴留足下限"计算（offset 布局值，不受 transform 缩放影响）
-  function fitReserve() {
-    var oplog = document.querySelector(".oplog"), reserve = document.querySelector(".reserve");
-    var col = document.querySelector(".c-mid-main"), tlleg = document.querySelector(".tlleg"), portbar = document.querySelector(".portbar");
-    if (!oplog || !reserve || !col) return;
-    var reserveTop = reserve.offsetTop;
-    var oplogTop = oplog.offsetTop;
-    // 给时间轴至少留 430px：可用高度 = 中栏总高 - 端口条 - 图例 - 3 段间隙
-    var avail = col.offsetHeight - (portbar ? portbar.offsetHeight : 0) - (tlleg ? tlleg.offsetHeight : 0) - 36;
-    var reserveH = Math.min(oplog.offsetHeight, Math.max(150, avail - 430));
-    reserve.style.height = reserveH + "px";
-    reserve.style.marginTop = Math.max(0, oplogTop - reserveTop) + "px";
   }
   addEventListener("resize", fit);
   document.getElementById("theme").addEventListener("click", function (e) {
