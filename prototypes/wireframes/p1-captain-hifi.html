@@ -108,7 +108,7 @@
   .ino{font-family:ui-monospace,Consolas,monospace;font-size:9px;color:var(--tlo);flex:none;width:62px;overflow:hidden;white-space:nowrap}
   .imarqwrap{flex:1;overflow:hidden;white-space:nowrap;position:relative;height:14px}
   .imarq{display:inline-block;position:absolute;left:0;top:0;white-space:nowrap}
-  .timeline{background:var(--bg1);border-radius:10px;flex:0 1 auto;min-height:0;overflow:hidden}
+  .timeline{background:var(--bg1);border-radius:10px;flex:1;min-height:0;overflow:hidden}
   .timeline svg{display:block;width:100%;height:auto}
   .tlleg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--tlo);background:var(--bg1);border-radius:10px;padding:6px 12px}
   .sw{width:12px;height:7px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px;box-shadow:inset 0 0 0 1px var(--line0)}
@@ -740,16 +740,17 @@
     INFER[ev.eventNo] = sp;
   }
   MOCK.events.forEach(buildInferSpec);
-  var inferRows = {}, inferFeed = null;
+  var inferRows = {}, inferEvicted = {}, inferFeed = null;
+  function resetInfer() { inferRows = {}; inferEvicted = {}; if (inferFeed) inferFeed.innerHTML = ""; }
   function renderInfer() {
     if (!inferFeed) inferFeed = document.getElementById("inferfeed");
     var now = SNAP;
     MOCK.events.forEach(function (ev) {
       var sp = INFER[ev.eventNo];
-      if (!sp || now < sp.start || now > sp.end + sp.hold + 1.5) return;
+      if (!sp || now < sp.start || now > sp.end || inferEvicted[ev.eventNo]) return;
       var row = inferRows[ev.eventNo];
       if (!row) {
-        row = { el: null, dot: null, ino: null, marq: null, faded: false };
+        row = { el: null, dot: null, ino: null, marq: null, done: false };
         var el = document.createElement("div");
         el.className = "irow";
         row.dot = document.createElement("i"); row.dot.className = "idot";
@@ -762,35 +763,35 @@
         inferRows[ev.eventNo] = row;
         inferFeed.insertBefore(el, inferFeed.firstChild);   // 最新在最上，旧的被挤下
       }
-      // 当前步骤 + 滚动进度（按 SNAP 精确驱动）
-      var cur = null;
-      for (var i = 0; i < sp.steps.length; i++) { var st = sp.steps[i]; if (now <= st.t1) { cur = st; break; } }
-      if (!cur) cur = sp.steps[sp.steps.length - 1];
-      row.marq.textContent = cur.caption;
-      var dur = Math.max(1, cur.t1 - cur.t0);
-      var p = Math.min(1, Math.max(0, (now - cur.t0) / dur));
-      row.marq.style.transform = "translateX(" + (100 - 200 * p) + "%)";
+      if (!row.done) {
+        var cur = null;
+        for (var i = 0; i < sp.steps.length; i++) { var st = sp.steps[i]; if (now <= st.t1) { cur = st; break; } }
+        if (!cur) cur = sp.steps[sp.steps.length - 1];
+        row.marq.textContent = cur.caption;
+        if (now >= sp.end) {
+          row.marq.style.transform = "none";   // 推理完成：字幕静止在行内，留在原地
+          row.done = true;
+        } else {
+          var dur = Math.max(1, cur.t1 - cur.t0);
+          var p = Math.min(1, Math.max(0, (now - cur.t0) / dur));
+          row.marq.style.transform = "translateX(" + (100 - 200 * p) + "%)";
+        }
+      }
       var on = sp.dotAt != null && now >= sp.dotAt;
       row.dot.classList.toggle("on", on);
       if (on) row.dot.style.background = LVC[sp.dotLevel] || "#888";
-      if (row._pendingRemove) clearTimeout(row._pendingRemove);
     });
-    // 清理过期行（链走完停 hold 秒 → 淡出移除，不等处置）
-    Object.keys(inferRows).forEach(function (no) {
-      var sp = INFER[no], row = inferRows[no];
-      if (now > sp.end + sp.hold) {
-        if (!row.faded) {
-          row.faded = true;
-          row.el.classList.add("fade");
-          row._pendingRemove = setTimeout(function () { if (inferRows[no]) { inferRows[no].el.remove(); delete inferRows[no]; } }, 700);
-        }
-      } else if (row.faded) {
-        row.faded = false; row.el.classList.remove("fade");
-        if (row._pendingRemove) { clearTimeout(row._pendingRemove); row._pendingRemove = null; }
-      }
-    });
+    // 容量挤出：新行顶部插入，最旧行被挤出窗口（即使还在推理）；被挤出后不再重建
+    var rowH = 26, cap = Math.max(3, Math.floor((inferFeed.clientHeight || 140) / rowH));
+    while (inferFeed.childElementCount > cap) {
+      var last = inferFeed.lastElementChild;
+      if (!last) break;
+      var noEl = last.querySelector(".ino");
+      if (noEl) inferEvicted[noEl.textContent] = 1;
+      last.remove();
+    }
     var cnt = document.getElementById("infercnt");
-    if (cnt) cnt.textContent = Object.keys(inferRows).length;
+    if (cnt) cnt.textContent = inferFeed.childElementCount;
   }
   // ---------- 右栏 ----------
   function switchTab(tab) {
@@ -854,6 +855,17 @@
     var s = Math.min((innerWidth - 16) / 1520, (innerHeight - 24) / 940); s = Math.max(0.35, Math.min(1.4, s));
     var st = document.getElementById("stage"); st.style.transform = "scale(" + s + ")";
     st.style.marginTop = Math.max(8, (innerHeight - 940 * s) / 2) + "px";
+    fitReserve();
+  }
+  // 推理监视窗：顶部与操作台日志顶部对齐，高度不超其区域
+  function fitReserve() {
+    var main = document.querySelector(".main"), oplog = document.querySelector(".oplog"), reserve = document.querySelector(".reserve");
+    if (!main || !oplog || !reserve) return;
+    var mainTop = main.getBoundingClientRect().top;
+    var oplogTop = oplog.getBoundingClientRect().top - mainTop;
+    var reserveTop = reserve.getBoundingClientRect().top - mainTop;
+    reserve.style.maxHeight = Math.max(60, oplog.getBoundingClientRect().height) + "px";
+    reserve.style.marginTop = (reserveTop < oplogTop ? (oplogTop - reserveTop) : 0) + "px";
   }
   addEventListener("resize", fit);
   document.getElementById("theme").addEventListener("click", function (e) {
@@ -917,6 +929,7 @@
     playing = false;
     var p = document.getElementById("tlplay"); if (p) p.textContent = "▶ 播放";
     resetBand(SNAP);          // 拖动/回退：按目标时刻确定性重建队列，任何时刻状态一致
+    resetInfer();             // 推理窗同样按目标时刻重建
     updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog(); renderCardBand(); renderInfer();
   });
   function updateSnapLbl(){
