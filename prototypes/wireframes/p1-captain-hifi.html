@@ -535,7 +535,7 @@
   }
   // 队列式卡片带：新事件从顶部插入（挤推旧的往下）；执行阶段发生 → 原地变暗(linger)；
   // 已被挤推过的最老 linger，在后续新事件到达时做"收入已处置栏"动画并移除（以此类推）
-  var zoneQ = { L4: { list: [], done: 0 }, X: { list: [], done: 0 }, L3: { list: [], done: 0 }, L2: { list: [], done: 0 }, L1: { list: [], done: 0 } };
+  var zoneQ = { L4: { list: [], done: 0, consumed: {} }, X: { list: [], done: 0, consumed: {} }, L3: { list: [], done: 0, consumed: {} }, L2: { list: [], done: 0, consumed: {} }, L1: { list: [], done: 0, consumed: {} } };
   var bandSig = "", freshPop = {};
   function renderCardBand() {
     var ZONES = [["L4", "#e5484d"], ["X", "#4c8dff"], ["L3", "#f0a43f"], ["L2", "#51b873"], ["L1", "#6f7886"]];
@@ -543,15 +543,18 @@
     ZONES.forEach(function (z) {
       var lv = z[0], q = zoneQ[lv];
       var evs = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
-      var arrivals = evs.filter(function (e) { return e.discover.at <= SNAP && !q.list.some(function (it) { return it.no === e.eventNo; }); });
+      // 到达：新发现且从未收集过 → 顶部插入（先收集最老的已挤推 linger）
+      var arrivals = evs.filter(function (e) {
+        return e.discover.at <= SNAP && !q.list.some(function (it) { return it.no === e.eventNo; }) && !q.consumed[e.eventNo];
+      });
       arrivals.sort(function (a, b) { return a.discover.at - b.discover.at; });
       arrivals.forEach(function (e) {
-        // 收集：最老的"已挤推"linger → 收入已处置（动画）
         var oldIdx = -1;
         for (var i = q.list.length - 1; i >= 0; i--) { if (q.list[i].status === "linger" && q.list[i].pushed) { oldIdx = i; break; } }
         if (oldIdx >= 0) {
           var it0 = q.list[oldIdx];
           it0.status = "collect";
+          q.consumed[it0.no] = 1;   // 收集过 → 永不再作为新到达
           q.done++;
           (function (no0, lv0) {
             setTimeout(function () {
@@ -560,9 +563,7 @@
             }, 480);
           })(it0.no, lv);
         }
-        // 其余 linger 标记为已被挤推
         q.list.forEach(function (it) { if (it.status === "linger") it.pushed = true; });
-        // 新事件从顶部插入（旧的被挤到下方）
         q.list.unshift({ no: e.eventNo, status: "live", pushed: false });
         freshPop[e.eventNo] = 1;
       });
@@ -594,14 +595,17 @@
           '<div class="t1"><span>' + it.no + " " + (e ? e.name : "") + '</span><span class="tag">' + tag + "</span></div>" +
           '<div style="font-size:9.5px;color:var(--tlo)">' + (e ? (e.summary || "") : "") + "</div></div>";
       }).join("");
-      var pulse = q._lastDone !== undefined && q.done > q._lastDone;
-      q._lastDone = q.done;
+      // 已处置总数 = 已收集 + 当前滞留中（与可见卡片对得上）；脉冲只在"收入动画"瞬间触发
+      var lingerN = q.list.filter(function (x) { return x.status === "linger"; }).length;
+      var totalDone = q.done + lingerN;
+      var pulse = q._lastCollect !== undefined && q.done > q._lastCollect;
+      q._lastCollect = q.done;
       var liveN = q.list.filter(function (x) { return x.status === "live"; }).length;
       h += '<div class="zone">' +
         '<div class="zh"><i class="dot" style="background:' + col + '"></i>' + (lv === "X" ? "X · 库外" : lv) +
-        '<span class="zc">实时 ' + liveN + ' · 已处置 ' + q.done + "</span></div>" +
+        '<span class="zc">实时 ' + liveN + ' · 已处置 ' + totalDone + "</span></div>" +
         '<div class="zbody">' + (cards || '<div class="zempty">— 暂无实时事件 —</div>') + "</div>" +
-        '<button class="donebar' + (pulse ? " zpulse" : "") + '" data-donebar="' + lv + '" title="已处置明细（弹窗待定）">已处置 <span class="cnt">' + q.done + "</span> ▸</button>" +
+        '<button class="donebar' + (pulse ? " zpulse" : "") + '" data-donebar="' + lv + '" title="已处置明细（弹窗待定）">已处置 <span class="cnt">' + totalDone + "</span> ▸</button>" +
         "</div>";
     });
     document.getElementById("cardband").innerHTML = h;
