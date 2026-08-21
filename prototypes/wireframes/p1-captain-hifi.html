@@ -895,29 +895,40 @@
       '<div id="rsn" style="display:none;margin-top:6px">' + (e.reasoning.sections || []).map(function (x) { return "<p>" + x + "</p>"; }).join("") +
       (e.reasoning.pipeline ? "<p style='margin-top:6px'><b>推理流水（模拟 AI 推理后台）</b></p>" + e.reasoning.pipeline.map(function (x) { return "<p>• " + x.step + "：" + x.detail + "</p>"; }).join("") : "") + "</div></div>";
     // 审批流：链式步骤 + 签署单（§4.13.1 确认/签署分级）+ 处置人员框
-    var chainArr = (e.chain && e.chain.length) ? e.chain : [];
-    var steps = chainArr.map(function (c, i) {
-      var roleName = ({ DUTY: "值班", MGR: "运营经理", LEGAL: "法务", CAPT: "船长", SENSE: "感知", ENG: "工程" })[c.role] || c.role;
-      return '<div class="step' + (c.status === "done" ? " done" : (c.status === "current" ? " cur" : "")) + '">' +
-        roleName + (c.actionAt != null ? '<small>' + clock(c.actionAt) + '</small>' : '') + "</div>";
-    }).join("");
     var approve = e.approval || {};
+    var signed = approve.decidedAt != null;
+    var approved = signed && SNAP >= approve.decidedAt;   // 已过审批时刻 = 已审批/已签署
+    // 审批链：发现 → 移交 → 审批签署 → 执行（按时刻驱动状态，而非静态 chain 单节点）
+    var chainSteps = [];
+    chainSteps.push({ label: "发现", role: "SENSE", at: e.discover.at, done: SNAP >= e.discover.at });
+    (e.handoffs || []).forEach(function (h) { chainSteps.push({ label: "移交", role: h.to, at: h.at, done: SNAP >= h.at }); });
+    if (approve.waitStart != null) {
+      chainSteps.push({
+        label: signed ? "审批·签署" : "待审批", role: e.currentRole || "DUTY", at: approve.waitStart,
+        done: signed && SNAP >= approve.decidedAt, signed: signed && SNAP >= approve.decidedAt
+      });
+    }
+    if (e.exec && e.exec.from != null) chainSteps.push({ label: "执行", role: (e.exec.port || "CRW"), at: e.exec.from, done: SNAP >= e.exec.from });
+    var steps = chainSteps.map(function (c) {
+      return '<div class="step' + (c.done ? " done" : " cur") + '">' +
+        ({ DUTY: "值班", MGR: "运营经理", LEGAL: "法务", CAPT: "船长", SENSE: "感知", CRW: "现场", ENG: "工程", EXEC: "执行端" }[c.role] || c.role) +
+        (c.signed ? '<small>✓已审批</small>' : '<small>' + clock(c.at) + '</small>') + "</div>";
+    }).join("");
     var signRows = [
       ["事件", e.eventNo + " " + e.name],
       ["处置等级", e.level === "X" ? "库外/未分类（异常提醒 · 只路由不审批）" : e.level + "（" + (e.level === "L1" ? "自动 · 事后审计" : e.level === "L2" ? "值班级 · 值班点击确认" : e.level === "L3" ? "审批级 · 经理/法务电子签署" : "最高级 · 船长直接触发，事后补签") + "）"],
       ["依据条款", (e.clauses || []).map(function (c) { return c.id + " " + c.snippet; }).join("；") || "—"],
       ["审批人", (e.chain && e.chain.length) ? ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[e.chain[e.chain.length - 1].role] || e.chain[e.chain.length - 1].role : "—"],
-      ["时间", approve.decidedAt != null ? clock(approve.decidedAt) : "待审批"],
+      ["审批时间", approve.decidedAt != null ? clock(approve.decidedAt) : "待审批"],
       ["trace", tid]
     ].map(function (r) { return '<div class="srow"><span>' + r[0] + "</span><b>" + r[1] + "</b></div>"; }).join("");
-    var signed = approve.decidedAt != null;
     var holder = (e.chain && e.chain.length && e.chain[e.chain.length - 1].role) || e.currentRole || "DUTY";
     var holderName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长", ENG: "工程 · 张工" })[holder] || holder;
     document.getElementById("tab-flow").innerHTML =
       '<div class="mcard"><div class="lbl">审批流 · trace ' + tid + '</div><div class="steps">' + (steps || '<div class="step cur">待建链</div>') + '</div>' +
       '<div class="static-inline" style="margin-top:6px">状态 ' + stateAt(e) + (e.takeover && e.takeover.taken ? " · 已人工接管(" + e.takeover.by + ")" : "") + "</div></div>" +
       '<div class="mcard"><div class="lbl">确认单（电子签署 · §4.13.1 ' + e.level + '）</div>' + signRows +
-      '<div class="static-inline" style="margin-top:6px">' + (signed ? "✓ 已电子签署" : "⏳ 待签署") + "</div></div>" +
+      '<div class="static-inline" style="margin-top:6px">' + (approved ? "✓ 已审批 · ✓ 已电子签署" : (signed ? "✓ 已电子签署（待生效）" : "⏳ 待审批 / 待签署")) + "</div></div>" +
       '<div class="mcard"><div class="lbl">处置人员</div><div class="static-inline">' + holderName + " · " + holder +
       (e.exec && e.exec.from != null ? " · " + clock(e.exec.from) + " 起执行" : "") +
       '</div><div class="act" style="margin-top:6px"><button class="btn" data-act="takeover" title="本镜头不点，仅展示入口">转人工接管</button></div></div>';
@@ -946,7 +957,7 @@
       "</div><button class='btn sm' style='margin-top:8px' onclick=\"toast('导出审计包 PDF')\">导出审计包 PDF</button></div>";
     // banner 显示当前
     document.getElementById("tabs").style.display = "";
-    switchTab("card");
+    switchTab(demoTab || "card");
   }
   function renderAll() { renderKPIs(); renderLog(); renderCardBand(); drawTimeline(); renderRight(); renderInfer(); }
   // ---------- 交互（事件委托，避免丢点击） ----------
@@ -1035,6 +1046,7 @@
     '<button class="btn sm" id="tlplay">⏸ 暂停</button>' +
     '<input id="tlspeed" type="range" min="1" max="120" value="20" style="width:90px">' +
     '<button class="btn sm" id="tlsnap">+60s</button>' +
+    '<button class="btn sm" id="tldemo" title="按镜头计划自动点击（选中事件/展开附件/确认/切换审批流/审计）">🎬 自动演示</button>' +
     '<span id="tlsnaplbl" style="font-size:10px">快照…</span></span>';
   document.getElementById("tlplay").onclick=function(){ playing=!playing; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
   document.getElementById("tlspeed").addEventListener("input",function(){ spd=+this.value; });
@@ -1063,7 +1075,34 @@
     var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
     drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog(); renderCardBand(); renderInfer();
     if(version>lastUI){ lastUI=version; renderRight(); }
+    demoStep();
   }
+  // ---------- 自动演示（导演层）：按镜头计划自动点击，拍摄/演示用 ----------
+  var DEMO_ON = false, demoIdx = 0, demoTab = null;
+  function demoReset() { demoIdx = 0; demoTab = null; }
+  var DEMO = [
+    // E01 主镜头（X-0001 升级 → E01 全流程）
+    { at: 466, run: function () { demoTab = null; sel = "X-0001"; renderAll(); } },                       // 升级绿竖线后点 X 卡
+    { at: 520, run: function () { var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 稍等展开推理附件
+    { at: 620, run: function () { demoTab = null; sel = "E01-0001"; renderAll(); } },                     // 点 E01 卡（待审批期）
+    { at: 660, run: function () { var e = get("E01-0001"); if (e) { var r = SC.applyAction(e, "confirm", SNAP); if (r.ok) renderAll(); } } },  // 到执行段前点确认
+    { at: 760, run: function () { demoTab = "flow"; renderRight(); } },                  // 执行段中点审批流
+    { at: 860, run: function () { demoTab = "audit"; renderRight(); } }                  // 执行段中点端口·审计
+  ];
+  function demoStep() {
+    if (!DEMO_ON || !playing) return;
+    while (demoIdx < DEMO.length && SNAP >= DEMO[demoIdx].at) {
+      var d = DEMO[demoIdx++];
+      try { d.run(); } catch (err) { console.error("demo-step:", err && err.message); }
+    }
+  }
+  document.getElementById("tldemo").onclick = function () {
+    DEMO_ON = !DEMO_ON; demoIdx = 0; demoTab = null;
+    this.textContent = DEMO_ON ? "🎬 演示中…" : "🎬 自动演示";
+    this.classList.toggle("on", DEMO_ON);
+  };
+  // 拍摄辅助：?demo=1 自动开启演示（放在 DEMO 定义后，确保变量就绪）
+  if (/[?&]demo=1/.test(location.search)) { DEMO_ON = true; demoIdx = 0; var _db = document.getElementById("tldemo"); if (_db) { _db.textContent = "🎬 演示中…"; _db.classList.add("on"); } }
   setInterval(function(){ if(playing) tick(); },100);
   var version=1, lastUI=0;
   fit(); setMode("alongside"); updateSnapLbl(); renderAll();
