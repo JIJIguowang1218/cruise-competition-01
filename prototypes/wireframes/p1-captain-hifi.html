@@ -51,7 +51,7 @@
   .clock small{display:block;font-size:10px;color:var(--tlo);font-weight:400}
   .chip{background:var(--bg2);padding:2px 10px;font-size:10px;color:var(--tlo);border-radius:999px}
   /* 主区：卡片式分区，靠留白/gap/底色分层，去边框线 */
-  .main{flex:1;display:flex;gap:14px;padding:14px;min-height:0}
+  .main{flex:1;display:flex;gap:14px;padding:14px;min-height:0;position:relative}
   .col{min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:12px}
   .c-left{width:248px}
   .c-mid{flex:1;display:flex;gap:14px;min-width:0}
@@ -93,7 +93,7 @@
   .portbar{display:flex;gap:6px;flex-wrap:wrap;background:var(--bg1);border-radius:10px;padding:6px 8px}
   .portbar button{border:none;background:transparent;color:var(--tlo);padding:4px 10px;font-size:11px;border-radius:999px;cursor:pointer}
   .portbar button.on{background:var(--bg3);color:var(--th)}
-  .reserve{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+  .reserve{flex:none;display:flex;flex-direction:column;gap:12px;min-height:0}
   .portlive{flex:0 0 60px;border:1px dashed var(--line1);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
   .infer{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
   .infer .head{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
@@ -109,7 +109,7 @@
   .imarqwrap{flex:1;overflow:hidden;white-space:nowrap;position:relative;height:14px}
   .imarq{display:inline-block;position:absolute;left:0;top:0;white-space:nowrap}
   .timeline{background:var(--bg1);border-radius:10px;flex:1;min-height:0;overflow:hidden}
-  .timeline svg{display:block;width:100%;height:auto}
+  .timeline svg{display:block;width:100%;height:auto;max-height:100%;margin:0 auto}
   .tlleg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--tlo);background:var(--bg1);border-radius:10px;padding:6px 12px}
   .sw{width:12px;height:7px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px;box-shadow:inset 0 0 0 1px var(--line0)}
   .dot8{width:7px;height:7px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
@@ -750,15 +750,15 @@
       if (!sp || now < sp.start || now > sp.end || inferEvicted[ev.eventNo]) return;
       var row = inferRows[ev.eventNo];
       if (!row) {
-        row = { el: null, dot: null, ino: null, marq: null, done: false };
+        row = { el: null, dot: null, marq: null, done: false };
         var el = document.createElement("div");
         el.className = "irow";
+        el.dataset.no = ev.eventNo;   // 推理时无事件编号，行内不显示；仅内部用于挤出标记
         row.dot = document.createElement("i"); row.dot.className = "idot";
-        row.ino = document.createElement("span"); row.ino.className = "ino"; row.ino.textContent = ev.eventNo;
         var wrap = document.createElement("span"); wrap.className = "imarqwrap";
         row.marq = document.createElement("span"); row.marq.className = "imarq";
         wrap.appendChild(row.marq);
-        el.appendChild(row.dot); el.appendChild(row.ino); el.appendChild(wrap);
+        el.appendChild(row.dot); el.appendChild(wrap);
         row.el = el;
         inferRows[ev.eventNo] = row;
         inferFeed.insertBefore(el, inferFeed.firstChild);   // 最新在最上，旧的被挤下
@@ -786,8 +786,7 @@
     while (inferFeed.childElementCount > cap) {
       var last = inferFeed.lastElementChild;
       if (!last) break;
-      var noEl = last.querySelector(".ino");
-      if (noEl) inferEvicted[noEl.textContent] = 1;
+      if (last.dataset && last.dataset.no) inferEvicted[last.dataset.no] = 1;
       last.remove();
     }
     var cnt = document.getElementById("infercnt");
@@ -857,15 +856,18 @@
     st.style.marginTop = Math.max(8, (innerHeight - 940 * s) / 2) + "px";
     fitReserve();
   }
-  // 推理监视窗：顶部与操作台日志顶部对齐，高度不超其区域
+  // 推理监视窗：顶部对齐操作台日志顶；高度按"给时间轴留足下限"计算（offset 布局值，不受 transform 缩放影响）
   function fitReserve() {
-    var main = document.querySelector(".main"), oplog = document.querySelector(".oplog"), reserve = document.querySelector(".reserve");
-    if (!main || !oplog || !reserve) return;
-    var mainTop = main.getBoundingClientRect().top;
-    var oplogTop = oplog.getBoundingClientRect().top - mainTop;
-    var reserveTop = reserve.getBoundingClientRect().top - mainTop;
-    reserve.style.maxHeight = Math.max(60, oplog.getBoundingClientRect().height) + "px";
-    reserve.style.marginTop = (reserveTop < oplogTop ? (oplogTop - reserveTop) : 0) + "px";
+    var oplog = document.querySelector(".oplog"), reserve = document.querySelector(".reserve");
+    var col = document.querySelector(".c-mid-main"), tlleg = document.querySelector(".tlleg"), portbar = document.querySelector(".portbar");
+    if (!oplog || !reserve || !col) return;
+    var reserveTop = reserve.offsetTop;
+    var oplogTop = oplog.offsetTop;
+    // 给时间轴至少留 430px：可用高度 = 中栏总高 - 端口条 - 图例 - 3 段间隙
+    var avail = col.offsetHeight - (portbar ? portbar.offsetHeight : 0) - (tlleg ? tlleg.offsetHeight : 0) - 36;
+    var reserveH = Math.min(oplog.offsetHeight, Math.max(150, avail - 430));
+    reserve.style.height = reserveH + "px";
+    reserve.style.marginTop = Math.max(0, oplogTop - reserveTop) + "px";
   }
   addEventListener("resize", fit);
   document.getElementById("theme").addEventListener("click", function (e) {
