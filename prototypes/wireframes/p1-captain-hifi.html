@@ -94,7 +94,7 @@
   .portbar button{border:none;background:transparent;color:var(--tlo);padding:4px 10px;font-size:11px;border-radius:999px;cursor:pointer}
   .portbar button.on{background:var(--bg3);color:var(--th)}
   .reserve{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
-  .portlive{flex:0 0 60px;border:1px dashed var(--line1);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
+  .portlive{flex:0 0 60px;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
   .infer{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
   .infer .head{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
   .infer .head .cnt{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
@@ -941,5 +941,6 @@
   fit(); setMode("alongside"); updateSnapLbl(); renderAll();
 
 </script>
-</body>
+
+  (function(){ var c=document.querySelector(".col"),r=document.querySelector(".reserve"); if(c&&r){ var d=document.createElement("div"); d.id="gapmeasure"; d.style.display="none"; d.textContent=JSON.stringify({colGap:getComputedStyle(c).gap, reserveGap:getComputedStyle(r).gap}); document.body.appendChild(d); } })();</body>
 </html>
