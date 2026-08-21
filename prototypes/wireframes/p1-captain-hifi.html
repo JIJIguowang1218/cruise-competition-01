@@ -683,31 +683,38 @@
     });
     return m || "A01";
   }
-  function inferSigText(ev) {
-    var sig = (ev.discover.signals || [])[0];
-    if (!sig) return "多源信号";
-    var v = sig.val || {};
-    var brief = "";
-    ["deviate", "density", "queue", "count", "busDelay", "wind", "note", "status"].forEach(function (k) { if (brief === "" && v[k] != null) brief = String(v[k]); });
-    return sig.src + (brief !== "" ? " " + brief : "");
+  function describeSignals(ev) {
+    return (ev.discover.signals || []).map(function (s) {
+      var v = s.val || {}, note = v.note || "";
+      var brief = Object.keys(v).filter(function (k) { return k !== "note"; }).map(function (k) { return k + "=" + v[k]; }).join(" ");
+      return s.src + (brief ? "(" + brief + ")" : "") + (note ? " " + note : "");
+    }).join("；");
   }
+  function levelSem(lv) {
+    return { L1: "L1 低扰（自动/无需人审）", L2: "L2 值班处置", L3: "L3 运营经理审批", L4: "L4 船长拍板（最高级）" }[lv] || lv;
+  }
+  function firstReason(ev) { return ((ev.reasoning.sections || [])[0] || ev.summary || ""); }
   function evenSplit(caps, t0, t1) {
     var n = caps.length, steps = [];
     caps.forEach(function (c, i) { steps.push({ t0: t0 + (t1 - t0) * i / n, t1: t0 + (t1 - t0) * (i + 1) / n, caption: c }); });
     return steps;
   }
   function buildPre(ev, t0, t1) {
-    return evenSplit([
-      "输入端口和数据 · " + inferSigText(ev),
-      "推理关联 · 匹配事件库 " + (ev.outlib && ev.outlib.isX ? "未命中（库外）" : "命中 " + (ev.type === "X" ? "E" : ev.type) + " · " + ev.name),
-      "判断事件等级 · " + ev.level + " · 置信度 " + ev.confidence
-    ], t0, t1);
+    var sig = describeSignals(ev);
+    var c1 = "感知层接入端口信号：" + sig + "。数据进入预处理——检查时间戳连续性、量纲（密度0-1、队列人数）、滑窗去抖；多源信号时间对齐后送事件识别。";
+    var c2 = "特征比对事件库 30 类：人流/秩序类（E01/E03）、设施/设备类（E05/E06/E07）、信息沟通类（E21/E22）等。结合：" + (firstReason(ev) || "信号特征") + " → 判定最贴近 " + (ev.type === "X" ? "（库外，未命中）" : ev.type + "「" + ev.name + "」") + "。";
+    if (ev.alternatives && ev.alternatives.length) c2 += " 次近候选 " + ev.alternatives[0].id + " 因「" + ev.alternatives[0].reason + "」排除。规则复核：类别与信号特征一致。";
+    var c3 = "按等级表评估严重度：" + (firstReason(ev) || "综合信号") + " → 判定 " + levelSem(ev.level) + "。置信度 " + ev.confidence + "：多源交叉一致；若低于 0.6 将强制转人工复核（R11），本案" + (ev.confidence >= 0.6 ? "未触及该阈值，按自动化链推进" : "触发低信度兜底，先呈人工确认") + "。";
+    return evenSplit([c1, c2, c3], t0, t1);
   }
   function buildPost(ev, t0, t1, lvl) {
-    var caps = ["匹配处置动作库 · " + inferActs(ev) + "（方案组合）"];
-    if (lvl !== "L1" && ev.clauses && ev.clauses.length) caps.push("检索条款库 · " + ev.clauses.map(function (c) { return c.id; }).join(" / "));
-    caps.push("自我审核 · 置信度校验通过（低信度→转人工）");
-    caps.push("下达执行端 → " + ((ev.ports && ev.ports.length) ? ev.ports.map(function (p) { return p.portCode; }).join("/") : "CRW"));
+    var acts = inferActs(ev);
+    var caps = ["从动作库 A01–A19 检索并组合方案：匹配「" + acts + "」。方案 A = " + (ev.summary || "按库内模板组合") + (ev.alternatives && ev.alternatives[0] ? "；备选 " + ev.alternatives[0].id + " 因「" + ev.alternatives[0].reason + "」否决。" : "。均为库内既定动作，不自由编造。")];
+    if (lvl !== "L1" && ev.clauses && ev.clauses.length) {
+      caps.push("检索条款库（RAG 引用原文）：" + ev.clauses.map(function (c) { return c.id + "「" + c.snippet + "」"; }).join("；") + "。逐字引用、禁止改写（反幻觉）。");
+    }
+    caps.push("自我审核：①信号/条款引用在 trace 中可回溯（哈希链）；②置信度 " + ev.confidence + " 在有效区间；③方案参数可复算；④低信度→转人工兜底（§3.8）。审核通过。");
+    caps.push("投放审核矩阵：公共可见端口（广播/船载屏）须 ≥L2 人工确认；本案 " + levelSem(lvl) + (ev.needsCaptain ? "，船长已确认" : "，审批已通过") + " → 下达执行端 " + ((ev.ports && ev.ports.length) ? ev.ports.map(function (p) { return p.portCode + (p.content ? "「" + p.content + "」" : ""); }).join("；") : "CRW") + "。回执入审计（append-only 哈希链）。");
     return evenSplit(caps, t0, t1);
   }
   var INFER = {};
@@ -717,18 +724,24 @@
     if (ev.outlib && ev.outlib.isX) {
       var loopEnd = (ev.upgrade && ev.upgrade.at != null) ? ev.upgrade.at : (ev.suspend && ev.suspend.decidedAt != null) ? ev.suspend.decidedAt : (ev.holding && ev.holding.to) || (D + 600);
       sp.start = D;
-      var t = D, k = 0;
-      while (t < loopEnd) { var t2 = Math.min(loopEnd, t + 12); sp.steps.push({ t0: t, t1: t2, caption: (k++ % 2 === 0) ? "风险评估 · 未命中事件库（库外）" : "状态检测 · 持续观察（密度/吞吐）" }); t = t2; }
+      var t = D, k = 0, sigx = describeSignals(ev);
+      while (t < loopEnd) {
+        var t2 = Math.min(loopEnd, t + 12);
+        sp.steps.push({ t0: t, t1: t2, caption: (k++ % 2 === 0)
+          ? "风险评估：特征与事件库 30 类均低于命中线（开放域异常）→ 不做断言、用推测语气；暂定风险 L" + ((ev.outlib && ev.outlib.riskLevel) || "2") + "，只提醒不执行。"
+          : "状态检测：对信号「" + sigx + "」持续监测并与历史基线比较（偏离 1.8σ 级），暂未恶化，继续观察。" });
+        t = t2;
+      }
       if (ev.upgrade && ev.upgrade.at != null) {
         var target = null;
         for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(ev) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === ev.eventNo; }))) { target = c; break; } }
         var H = target && target.handoffs && target.handoffs[0] ? target.handoffs[0].at : (loopEnd + 60);
-        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: "升级判定 → " + target.name + "（" + target.level + "）" });
+        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: "偏离持续扩大，综合信度升至 " + ev.confidence + "，超过升级阈值 → 判定升级为正式事件「" + (target ? target.name : "正式事件") + "（" + (target ? target.level : ev.level) + "）」，进入标准管线（关系A）。" });
         sp.steps = sp.steps.concat(buildPost(ev, loopEnd + 3, H, target ? target.level : ev.level));
         sp.dotAt = loopEnd; sp.dotLevel = target ? target.level : ev.level;
         sp.end = H;
       } else {
-        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: "存档观察 · 琥珀闭合（不入正式管线）" });
+        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: "偏离收敛/信度不足（" + ev.confidence + "），判定存档观察（琥珀闭合），不入正式管线；如信号复现将重新评估。" });
         sp.end = loopEnd + 3;
       }
     } else {
@@ -759,6 +772,7 @@
         var wrap = document.createElement("span"); wrap.className = "imarqwrap";
         row.marq = document.createElement("span"); row.marq.className = "imarq";
         wrap.appendChild(row.marq);
+        row.wrap = wrap;
         el.appendChild(row.dot); el.appendChild(wrap);
         row.el = el;
         inferRows[ev.eventNo] = row;
@@ -775,7 +789,9 @@
         } else {
           var dur = Math.max(1, cur.t1 - cur.t0);
           var p = Math.min(1, Math.max(0, (now - cur.t0) / dur));
-          row.marq.style.transform = "translateX(" + (100 - 200 * p) + "%)";
+          var wrapW = (row.wrap && row.wrap.clientWidth) || 300;
+          var textW = row.marq.scrollWidth || 500;
+          row.marq.style.transform = "translateX(" + (wrapW - (wrapW + textW) * p) + "px)";   // 整段文本滚穿窗口，填满该步时长
         }
       }
       var on = sp.dotAt != null && now >= sp.dotAt;
