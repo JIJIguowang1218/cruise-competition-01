@@ -95,6 +95,35 @@
   .portbar button.on{background:var(--bg3);color:var(--th)}
   .reserve{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
   .portlive{flex:0 0 auto;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
+  /* 执行监督条（reserve 顶部，替换原端口占位） */
+  .execsup{flex-direction:column;align-items:stretch;justify-content:flex-start;padding:6px 8px;overflow:hidden}
+  .es-head{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--tlo);padding-bottom:4px;border-bottom:1px solid var(--line0)}
+  .es-head b{color:var(--th);font-size:11px}
+  .es-clk{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--th)}
+  .es-cnt{color:var(--exec)}
+  .es-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:3px;overflow:hidden;padding:4px 0}
+  .es-row{background:var(--bg2);border-radius:6px;padding:3px 6px;border-left:2px solid var(--line1);animation:espop .3s ease}
+  .es-row.lv4{border-left-color:#e5484d;background:rgba(229,72,77,.10)}
+  .es-row.lv3{border-left-color:#f0a43f}
+  .es-row.lv2{border-left-color:#51b873}
+  @keyframes espop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .es-r1{display:flex;align-items:center;gap:6px;font-size:10px}
+  .es-r1 .no{color:var(--th);font-weight:700}
+  .es-r1 .nm{color:var(--tlo);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .es-r1 .tag{margin-left:auto;flex:none;font-size:9px;color:var(--tlo);border:1px solid var(--line1);border-radius:4px;padding:0 4px}
+  .es-batches{display:flex;gap:4px;margin-top:3px;font-size:9px}
+  .es-bat{flex:1;text-align:center;border-radius:3px;padding:1px 0;background:var(--bg3);color:var(--tlo);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .es-bat.done{background:rgba(81,184,115,.2);color:#9fe6bc}
+  .es-bat.cur{background:var(--exec);color:#04121a;font-weight:700;animation:esblink 1.2s ease 2}
+  @keyframes esblink{0%,100%{opacity:1}50%{opacity:.5}}
+  .es-ports{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap}
+  .es-p{font-size:8px;border-radius:3px;padding:0 4px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .es-p.ok{background:rgba(81,184,115,.16);color:#9fe6bc}
+  .es-p.wait{background:rgba(240,164,63,.16);color:#f6c98a}
+  .es-p.bad{background:rgba(229,72,77,.18);color:#ffb4b6}
+  .es-done{display:flex;gap:6px;font-size:8.5px;color:var(--tlo);border-top:1px solid var(--line0);padding-top:3px;white-space:nowrap;overflow:hidden}
+  .es-done i{font-style:normal;color:var(--exec)}
+  .es-row.exiting{transition:opacity .3s,transform .3s;opacity:0;transform:translateY(-6px)}
   .infer{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
   .infer .head{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
   .infer .head .cnt{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
@@ -301,7 +330,11 @@
           </div>
         </div>
         <div class="reserve">
-          <div class="portlive">实时端口输入输出（待设计）</div>
+          <div class="portlive execsup">
+            <div class="es-head"><b>执行监督</b><span class="es-cnt" id="esCnt">0 项</span><span class="es-clk" id="esClk">11:00</span></div>
+            <div class="es-body" id="esBody"></div>
+            <div class="es-done" id="esDone"></div>
+          </div>
           <div class="infer">
             <div class="head">AI 实时推理监视<span class="cnt" id="infercnt">0</span></div>
             <div class="inferfeed" id="inferfeed"></div>
@@ -795,6 +828,77 @@
     INFER[ev.eventNo] = sp;
   }
   MOCK.events.forEach(buildInferSpec);
+  // ---------- 执行监督条：船长视角，只监督需要人执行的事（L4/L3 全程 + 执行中的 L2 最多 2 条；L1 自动不打扰） ----------
+  // 计划与回执驱动，不做测量型进度（完成度/剩余时间不下发执行端）
+  var BATCH_START = 6300, BATCH_STEP = 300;   // 靠岸 12:45 起 3 批次，每批 5 分钟窗口
+  var PORT_NAME = { APP: "APP", SCR: "SCR", PA: "PA", CRW: "CRW", OTA: "OTA", MGMT: "MGMT", VIS: "VIS" };
+  function execState(e) {
+    if (!e.exec || e.exec.from == null) return null;
+    if (SNAP >= e.exec.from && SNAP <= (e.exec.to != null ? e.exec.to : SNAP)) return "run";
+    if (SNAP < e.exec.from) return "wait";
+    return "done";
+  }
+  function batchState(e, idx) {
+    var t0 = BATCH_START + idx * BATCH_STEP;
+    if (SNAP >= t0 + BATCH_STEP) return "done";
+    if (SNAP >= t0) return "cur";
+    return "todo";
+  }
+  function portState(p) { return SNAP >= p.at ? "ok" : "wait"; }
+  function renderExecSup() {
+    var body = document.getElementById("esBody"), doneEl = document.getElementById("esDone"),
+        cnt = document.getElementById("esCnt"), clk = document.getElementById("esClk");
+    if (!body) return;
+    // 活跃集合：L4/L3（从发现算起，到落幕）+ 执行中的 L2
+    var active = [], doneList = [];
+    MOCK.events.forEach(function (e) {
+      if (e.outlib && e.outlib.isX) { return; }
+      if (e.level === "L4" || e.level === "L3") {
+        if (SNAP >= e.discover.at && SNAP <= ((e.exec && e.exec.to) || SNAP) + 60) active.push(e);
+        else if (e.exec && e.exec.to != null && SNAP > e.exec.to) doneList.push(e);
+      } else if (e.level === "L2" && execState(e) === "run") {
+        active.push(e);
+      }
+    });
+    // L2 拥挤：只留最新 2 条（按 exec.from 排序，溢出的进落幕）
+    var l2 = active.filter(function (e) { return e.level === "L2"; }).sort(function (a, b) { return b.exec.from - a.exec.from; });
+    var keep = new Set(active.filter(function (e) { return e.level !== "L2"; }).map(function (e) { return e.eventNo; }));
+    l2.slice(0, 2).forEach(function (e) { keep.add(e.eventNo); });
+    active = active.filter(function (e) { return keep.has(e.eventNo); });
+    // 排序：L4 置顶 → L3 → L2（同等级按执行开始）
+    var LVO = { L4: 0, L3: 1, L2: 2 };
+    active.sort(function (a, b) { return (LVO[a.level] - LVO[b.level]) || ((a.exec && a.exec.from || 0) - (b.exec && b.exec.from || 0)); });
+    var LBLV = { L4: "⚑L4", L3: "L3", L2: "L2" };
+    var prevNo = body.dataset.act || "";
+    var rows = active.map(function (e) {
+      var st = execState(e);
+      var batchHtml = "";
+      if (e.level === "L4" && e.plan && e.plan.batches) {
+        var bats = e.plan.batches.map(function (b, i) {
+          var bs = batchState(e, i);
+          return '<span class="es-bat ' + (bs === "done" ? "done" : bs === "cur" ? "cur" : "") + '">' + (bs === "done" ? "✓" : bs === "cur" ? "●" : "◻") + " 批次" + (i + 1) + "</span>";
+        }).join("");
+        batchHtml = '<div class="es-batches">' + bats + "</div>";
+      }
+      var portsHtml = (e.ports || []).map(function (p) {
+        var ps = portState(p);
+        return '<span class="es-p ' + (ps === "ok" ? "ok" : ps === "wait" ? "wait" : "") + '" title="' + (p.content || p.portCode) + '">' + p.portCode + (ps === "ok" ? "✓" : "◐") + "</span>";
+      }).join("");
+      var tag = st === "run" ? "执行中" : st === "wait" ? "待执行" : "";
+      return '<div class="es-row ' + ("lv" + e.level.toLowerCase()) + '" data-no="' + e.eventNo + '">' +
+        '<div class="es-r1"><span class="no">' + e.eventNo + '</span><span class="nm">' + e.name + '</span><span class="tag">' + LBLV[e.level] + "</span></div>" +
+        batchHtml +
+        (portsHtml ? '<div class="es-ports">' + portsHtml + "</div>" : "") +
+        "</div>";
+    }).join("");
+    body.innerHTML = rows || '<div style="font-size:9px;color:var(--tlo);padding:4px 2px">（当前无需要监督的执行）</div>';
+    body.dataset.act = active.map(function (e) { return e.eventNo; }).join(",");
+    // 已落幕：最近 6 个（L2+ 且已结束）
+    var doneItems = doneList.slice(0, 6).map(function (e) { return "<i>✓</i>" + e.eventNo; }).join(" ");
+    doneEl.innerHTML = doneItems ? doneItems : "—";
+    if (cnt) cnt.textContent = active.length + " 项";
+    if (clk) clk.textContent = clock(SNAP);
+  }
   var inferRows = {}, inferEvicted = {}, inferFeed = null;
   function resetInfer() { inferRows = {}; inferEvicted = {}; if (inferFeed) inferFeed.innerHTML = ""; }
   function renderInfer() {
@@ -989,8 +1093,13 @@
     document.getElementById("tabs").style.display = "";
     switchTab(demoTab || "card");
   }
-  function renderAll() { renderKPIs(); renderLog(); renderCardBand(); drawTimeline(); renderRight(); renderInfer(); }
+  function renderAll() { renderKPIs(); renderLog(); renderCardBand(); drawTimeline(); renderRight(); renderInfer(); renderExecSup(); }
   // ---------- 交互（事件委托，避免丢点击） ----------
+  var esBody = document.getElementById("esBody");
+  if (esBody) esBody.addEventListener("click", function (e) {
+    var row = e.target.closest(".es-row[data-no]");
+    if (row) { tapFx(row); sel = row.getAttribute("data-no"); demoTab = null; renderAll(); }
+  });
   document.getElementById("cardband").addEventListener("click", function (e) {
     var no = e.target.closest("[data-no]");
     if (no) { tapFx(no); sel = no.getAttribute("data-no"); demoTab = null; renderAll(); return; }
@@ -1143,7 +1252,7 @@
   function tick(){
     SNAP=(SNAP+spd*0.1)%total;
     var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
-    drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog(); renderCardBand(); renderInfer();
+    drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog(); renderCardBand(); renderInfer(); renderExecSup();
     if(version>lastUI){ lastUI=version; renderRight(); }
     demoStep();
   }
