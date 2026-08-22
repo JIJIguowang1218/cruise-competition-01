@@ -3541,8 +3541,7 @@
         {id: "§R8-031", snippet: "离船安全再排预案"}
       ],
       chain: [
-        {role: "MGR", status: "done", actionAt: 5160},
-        {role: "CAPT", status: "todo", actionAt: null}
+        {role: "MGR", status: "done", actionAt: 5160}
       ],
       currentStep: 1,
       dueAt: 8526,
