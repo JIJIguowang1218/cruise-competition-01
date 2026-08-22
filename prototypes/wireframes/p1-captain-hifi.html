@@ -165,12 +165,12 @@
   .rsn.open{display:block}
   .rsn p{color:var(--th);margin:4px 0}
   .static-inline{font-size:11px;color:var(--tlo)}
-  /* 点击波纹（简约：细圆环 + 极淡填充，无发光） */
+  /* 点击波纹（简约但清晰：细圆环 + 明亮填充，无发光） */
   .ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%) scale(0);
-    background:radial-gradient(circle,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 55%);
+    background:radial-gradient(circle,rgba(255,255,255,.55) 0%,rgba(255,255,255,.16) 45%,rgba(255,255,255,0) 65%);
     animation:rip .55s cubic-bezier(.2,.6,.35,1) forwards}
-  .ripple::after{content:"";position:absolute;inset:18%;border-radius:50%;border:1.5px solid rgba(255,255,255,.5)}
-  @keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.8}60%{opacity:.4}
+  .ripple::after{content:"";position:absolute;inset:16%;border-radius:50%;border:2px solid rgba(255,255,255,.85)}
+  @keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.9}60%{opacity:.5}
     100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
   /* 页面内轻提示条（替代原生 alert，不阻断演示） */
   .toastbar{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-24px);z-index:1000;
