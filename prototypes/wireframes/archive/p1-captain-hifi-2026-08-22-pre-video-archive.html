@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P1 船长端高保真 v1（卡片式分区 · 整体等比缩放）</title>
+<style>
+  :root{
+    --bg0:#0b0e13; --bg1:#10141b; --bg2:#171c26; --bg3:#1f2633;
+    --line0:rgba(255,255,255,.06); --line1:rgba(255,255,255,.12);
+    --th:#e6ebf2; --tlo:#8b95a5;
+    --detect:#f0a43f; --exec:#51b873; --abn:#e5484d; --outlib:#4c8dff; --recover:#2f9e63;
+    --r:10px; --dur:160ms;
+    --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  body.dusk{ --bg0:#12161d; --bg1:#161b24; --bg2:#1d2430; --bg3:#252d3c; --th:#eef1f6; --tlo:#97a1b0; }
+  body.day{ --bg0:#232a34; --bg1:#29313d; --bg2:#313a49; --bg3:#3b4657; --th:#f4f6f9; --tlo:#b3bcc9; --shadow:0 6px 20px rgba(0,0,0,.3); }
+  *{box-sizing:border-box;margin:0}
+  body{margin:0;background:#05070a;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--th);font-size:13px;line-height:1.35}
+  /* === 整体等比缩放（scale-to-fit 画布） === */
+  .viewport{width:100vw;min-height:100vh;display:flex;justify-content:center;overflow:auto;padding:10px 4px 40px}
+  .stage{width:1520px;height:940px;flex:none;transform-origin:top center}
+  .app{width:100%;height:100%;background:var(--bg0);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 70px rgba(0,0,0,.55);}
+  /* 顶栏：留白分隔，仅一条极淡基线 */
+  .topbar{display:flex;align-items:center;gap:14px;padding:12px 20px;background:transparent;box-shadow:0 1px 0 var(--line0)}
+  .brand{font-weight:800;font-size:15px}
+  .brand small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  .kpis{display:flex;gap:8px}
+  .kpi{background:var(--bg2);padding:5px 12px;border-radius:8px;font-size:11px;color:var(--tlo);min-width:74px}
+  .kpi b{font-size:17px;color:var(--th);display:block;line-height:1.15}
+  .kpi.warn b{color:var(--abn)}
+  .spacer{flex:1}
+  .modebox{display:flex;align-items:center;gap:8px;background:var(--bg2);padding:4px 10px;border-radius:8px}
+  .modebox .t{font-size:10px;color:var(--tlo)}
+  .mode{font-weight:800;font-size:15px;padding:1px 10px;border-radius:6px;background:var(--bg3)}
+  .modesel{display:flex;gap:4px}
+  .modesel button{border:1px solid var(--line0);background:var(--bg1);color:var(--tlo);padding:3px 9px;font-size:11px;cursor:pointer;border-radius:6px}
+  .modesel button.on{background:var(--exec);color:#04121a;font-weight:700;border-color:var(--exec)}
+  .theme{display:flex;gap:2px;background:var(--bg2);border-radius:8px;padding:2px}
+  .theme button{border:none;background:transparent;color:var(--tlo);padding:3px 9px;font-size:11px;cursor:pointer;border-radius:6px}
+  .theme button.on{background:var(--bg3);color:var(--th)}
+  .user{display:flex;align-items:center;gap:10px}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;position:relative}
+  .dd{display:none;position:absolute;top:38px;right:0;background:var(--bg2);border:1px solid var(--line1);border-radius:10px;z-index:60;min-width:140px;overflow:hidden;box-shadow:var(--shadow)}
+  .dd.open{display:block}
+  .dd button{display:block;width:100%;text-align:left;padding:8px 12px;background:transparent;border:none;color:var(--th);cursor:pointer;font-size:12px}
+  .dd button:hover{background:rgba(255,255,255,.06)}
+  .uth{font-size:13px;font-weight:700}
+  .uth small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  .clock{font-size:24px;font-weight:800;letter-spacing:.5px}
+  .clock small{display:block;font-size:10px;color:var(--tlo);font-weight:400}
+  .chip{background:var(--bg2);padding:2px 10px;font-size:10px;color:var(--tlo);border-radius:999px}
+  /* 主区：卡片式分区，靠留白/gap/底色分层，去边框线 */
+  .main{flex:1;display:flex;gap:14px;padding:14px;min-height:0;position:relative}
+  .col{min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .c-left{width:248px}
+  .c-mid{flex:1;display:flex;gap:14px;min-width:0}
+  .c-mid-main{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;min-height:0}
+  .c-right{width:352px}
+  .panel{background:var(--bg1);border-radius:var(--r);box-shadow:0 2px 10px rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column;min-height:0}
+  .panel>.ph{padding:10px 14px;font-weight:700;font-size:12px;display:flex;align-items:center;gap:8px}
+  .ph .sub{font-size:10px;color:var(--tlo);font-weight:400}
+  .ph .sp{flex:1}
+  .tagpill{font-size:9px;color:var(--exec);border:1px solid var(--exec);border-radius:999px;padding:0 7px}
+  /* 左栏卡片 */
+  .map{border-radius:10px;background:linear-gradient(160deg,var(--bg2),var(--bg1));height:180px;margin:0 0 6px}
+  .map svg{width:100%;height:100%}
+  .oplog{background:var(--bg1);border-radius:10px;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line0)}
+  .oplog .head{display:flex;align-items:center;gap:6px;padding:8px 12px;line-height:18px}
+  .oplog .head b{font-size:12px;line-height:18px;flex:none}
+  .oplog .head b{font-size:12px}
+  .oplog .ctl{display:flex;align-items:center;gap:5px;padding:0 12px 8px;font-size:10px;color:var(--tlo)}
+  .oplog .ctl .fil{flex:none}
+  .btn.icn{width:26px;height:24px;padding:0;display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .btn.icn svg{display:block}
+  .oplog .head input{flex:1;min-width:120px;max-width:270px;height:18px;box-sizing:border-box;border:1px solid var(--line0);background:var(--bg2);color:var(--th);border-radius:10px;padding:0 10px;font-size:10px;outline:none;transition:border-color var(--dur)}
+  .oplog .head input:focus{border-color:var(--outlib)}
+  .oplog .head input::placeholder{color:var(--tlo)}
+  .fil{border:1px solid var(--line0);background:var(--bg2);color:var(--tlo);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
+  .fil.on{background:var(--exec);color:#04121a;border-color:var(--exec)}
+  .opfeed{flex:1;overflow:auto;padding:2px 12px 8px;display:flex;flex-direction:column;gap:1px}
+  .opfeed::-webkit-scrollbar,.rbody::-webkit-scrollbar,.zbody::-webkit-scrollbar,.donelist::-webkit-scrollbar,.inferfeed::-webkit-scrollbar{width:14px;height:14px}
+  .opfeed::-webkit-scrollbar-track,.rbody::-webkit-scrollbar-track,.zbody::-webkit-scrollbar-track,.donelist::-webkit-scrollbar-track,.inferfeed::-webkit-scrollbar-track{background:transparent}
+  .opfeed::-webkit-scrollbar-thumb,.rbody::-webkit-scrollbar-thumb,.zbody::-webkit-scrollbar-thumb,.donelist::-webkit-scrollbar-thumb,.inferfeed::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border:4px solid transparent;background-clip:padding-box;border-radius:7px}
+  .opfeed::-webkit-scrollbar-thumb:hover,.rbody::-webkit-scrollbar-thumb:hover,.zbody::-webkit-scrollbar-thumb:hover,.donelist::-webkit-scrollbar-thumb:hover,.inferfeed::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.3);border:4px solid transparent;background-clip:padding-box}
+  .opfeed::-webkit-scrollbar-corner,.rbody::-webkit-scrollbar-corner,.zbody::-webkit-scrollbar-corner,.donelist::-webkit-scrollbar-corner,.inferfeed::-webkit-scrollbar-corner{background:transparent}
+  .op{font-size:11px;padding:5px 0;color:var(--th);border-top:1px solid var(--line0);display:flex;gap:8px}
+  .op .t{color:var(--tlo);font-size:10px;flex:none;padding-top:1px}
+  .op .evv{color:var(--detect)} .op .opv{color:var(--outlib)} .op .abv{color:var(--abn)}
+  .setbar{margin-top:auto;background:var(--bg2);border-radius:10px;padding:8px 12px;display:flex;gap:6px;align-items:center;font-size:10px;color:var(--tlo);flex-wrap:wrap}
+  .setbar button{border:1px solid var(--line0);background:var(--bg3);color:var(--th);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
+  /* 中栏 */
+  .portbar{display:flex;gap:6px;flex-wrap:wrap;background:var(--bg1);border-radius:10px;padding:6px 8px}
+  .portbar button{border:none;background:transparent;color:var(--tlo);padding:4px 10px;font-size:11px;border-radius:999px;cursor:pointer}
+  .portbar button.on{background:var(--bg3);color:var(--th)}
+  .reserve{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+  .portlive{flex:0 0 auto;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
+  /* 执行监督条（reserve 顶部，替换原端口占位） */
+  .execsup{flex-direction:column;align-items:stretch;justify-content:flex-start;padding:6px 8px;overflow:hidden}
+  .es-head{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
+  .es-cnt{font-size:9.5px;color:var(--tlo);font-weight:400}
+  .es-clk{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400;font-variant-numeric:tabular-nums}
+  .es-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:3px;overflow:hidden;padding:4px 0}
+  .es-row{display:flex;align-items:center;gap:6px;background:var(--bg2);border-radius:6px;padding:3px 8px;border-left:2px solid var(--line1);animation:espop .3s ease}
+  .es-row.done{opacity:.45;filter:grayscale(.6)}
+  .es-row.lv4{border-left-color:#e5484d;background:rgba(229,72,77,.10)}
+  .es-row.lv3{border-left-color:#f0a43f}
+  .es-row.lv2{border-left-color:#51b873}
+  @keyframes espop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .es-no{color:var(--th);font-weight:700;font-size:10px;flex:none}
+  .es-nm{color:var(--tlo);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:120px;flex:none}
+  .es-tag{flex:none;font-size:9px;color:var(--tlo);border:1px solid var(--line1);border-radius:4px;padding:0 4px;font-weight:400}
+  .es-st{margin-left:auto;display:inline-flex;align-items:center;gap:4px;min-width:0}
+  .es-bats{display:inline-flex;gap:2px;flex:none}
+  .es-bat{font-size:8px;border-radius:3px;padding:0 4px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .es-bat.done{background:rgba(81,184,115,.2);color:#9fe6bc}
+  .es-bat.cur{background:var(--exec);color:#04121a;font-weight:700}
+  .es-ports{display:inline-flex;gap:2px;flex-wrap:wrap}
+  .es-p{font-size:8px;border-radius:3px;padding:0 4px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .es-p.ok{background:rgba(81,184,115,.16);color:#9fe6bc}
+  .es-p.wait{background:rgba(240,164,63,.16);color:#f6c98a}
+  .es-p.bad{background:rgba(229,72,77,.18);color:#ffb4b6}
+  .es-done{display:flex;gap:6px;font-size:8.5px;color:var(--tlo);border-top:1px solid var(--line0);padding-top:3px;white-space:nowrap;overflow:hidden}
+  .es-done i{font-style:normal;color:var(--exec)}
+  .es-row.exiting{transition:opacity .3s,transform .3s;opacity:0;transform:translateY(-6px)}
+  .infer{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
+  .infer .head{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
+  .infer .head .cnt{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
+  .inferfeed{flex:1;min-height:0;overflow-y:auto;padding:4px 10px 6px;display:flex;flex-direction:column}
+  .irow{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--th);border-top:1px solid var(--line0);padding:5px 8px;overflow:hidden;flex:none;transition:opacity .6s;animation:ifadein .3s ease}
+  @keyframes ifadein{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+  .irow.fade{opacity:0}
+  .irow.new{background:rgba(255,255,255,.05);box-shadow:inset 3px 0 0 var(--outlib)}
+  .idot{width:8px;height:8px;border-radius:50%;background:var(--tlo);flex:none;animation:bob .7s ease-in-out infinite}
+  .idot.on{animation:none}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+  .ino{font-family:ui-monospace,Consolas,monospace;font-size:9px;color:var(--tlo);flex:none;width:62px;overflow:hidden;white-space:nowrap}
+  .imarqwrap{flex:1;overflow:hidden;white-space:nowrap;position:relative;height:14px}
+  .imarq{display:inline-block;position:absolute;left:0;top:0;white-space:nowrap}
+  .timeline{background:var(--bg1);border-radius:10px;flex:0 1 auto;min-height:0;overflow:hidden}
+  .timeline svg{display:block;width:100%;height:auto}
+  .tlleg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--tlo);background:var(--bg1);border-radius:10px;padding:6px 12px}
+  .sw{width:12px;height:7px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px;box-shadow:inset 0 0 0 1px var(--line0)}
+  .dot8{width:7px;height:7px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
+  .dot8.am{border-color:#f0a43f}
+  /* 卡片带（整竖条） */
+  .cardband{width:212px;flex:none;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+  .zone{display:flex;flex-direction:column;flex:1;min-height:0;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
+  .zh{display:flex;align-items:center;gap:6px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
+  .zh .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .zh .zc{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
+  .zbody{flex:1;min-height:0;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
+  .zempty{flex:1;border:1px dashed var(--line1);border-radius:8px;color:var(--tlo);font-size:10px;display:flex;align-items:center;justify-content:center;min-height:32px}
+  .card{background:var(--bg2);border-radius:8px;padding:6px 8px;font-size:10.5px;cursor:pointer;color:var(--th);box-shadow:inset 3px 0 0 var(--lv,#555);transition:transform var(--dur),filter var(--dur);flex:none}
+  .card:hover{filter:brightness(1.15);transform:translateY(-1px)}
+  .card.sel{outline:1px solid var(--th)}
+  .card.pop{animation:pop .3s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(5px) scale(.96)}to{opacity:1;transform:none}}
+  .card.lv4{--lv:var(--abn)} .card.lv3{--lv:var(--detect)} .card.lv2{--lv:var(--exec)} .card.lv1{--lv:#6f7886} .card.lvX{--lv:var(--outlib)}
+  .card.linger{opacity:.5;filter:saturate(.5)}
+  .card.collect{animation:collect .46s ease forwards;pointer-events:none}
+  @keyframes collect{from{opacity:.5}to{opacity:0;transform:translateY(10px) scale(.96)}}
+  .card .t1{display:flex;justify-content:space-between;gap:4px;font-weight:700}
+  .tag{font-size:9px;padding:0 6px;border-radius:999px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .tag.pin{background:var(--outlib);color:#04101f}
+  .donebar{display:flex;align-items:center;gap:6px;width:100%;border-top:1px solid var(--line0);background:var(--bg2);color:var(--tlo);font-size:10px;padding:4px 10px;cursor:pointer;flex:none}
+  .donebar:hover{color:var(--th)}
+  .donebar .cnt{background:var(--bg3);border-radius:999px;padding:0 7px;font-size:9px}
+  .donebar.zpulse{animation:zflash .8s ease}
+  @keyframes zflash{0%{background:rgba(81,184,115,.28)}100%{background:var(--bg2)}}
+  /* 右栏（卡片式） */
+  .rtabs{display:flex;gap:2px;background:var(--bg1);border-radius:10px 10px 0 0;padding:6px 10px 0}
+  .rtabs button{border:none;background:transparent;color:var(--tlo);padding:8px 12px;font-size:12px;cursor:pointer;border-radius:8px 8px 0 0}
+  .rtabs button.on{background:var(--bg2);color:var(--th)}
+  .rbody{background:var(--bg2);border-radius:0 10px 10px 10px;flex:1;min-height:0;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+  .mcard{background:var(--bg3);border-radius:8px;padding:10px;font-size:12px}
+  .mcard .lbl{font-size:10px;color:var(--tlo);margin-bottom:3px}
+  .mcard b{font-size:13px}
+  .steps{display:flex;gap:3px;align-items:center;margin-top:6px}
+  .step{flex:1;text-align:center;font-size:10px;padding:4px 0;border-radius:6px;color:var(--tlo);background:var(--bg2)}
+  .step.done{color:var(--th)} .step.cur{background:var(--exec);color:#04121a;font-weight:700}
+  .act{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .btn{position:relative;border:1px solid var(--line1);background:var(--bg3);color:var(--th);padding:6px 12px;font-size:12px;cursor:pointer;border-radius:8px;overflow:hidden}
+  .btn::before{content:"";position:absolute;inset:0;border-radius:inherit;transition:background var(--dur)}
+  .btn:hover::before{background:rgba(255,255,255,.07)}
+  .btn:active::before{background:rgba(255,255,255,.14)}
+  .btn:focus-visible{outline:2px solid var(--outlib);outline-offset:2px}
+  .btn.primary{background:var(--exec);border-color:var(--exec);color:#04121a;font-weight:700}
+  .btn.danger{background:var(--abn);border-color:var(--abn);color:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.sm{font-size:10px;padding:2px 8px}
+  .rsn{display:none;background:var(--bg3);border-radius:8px;padding:10px;font-size:11px;color:var(--tlo)}
+  .rsn.open{display:block}
+  .rsn p{color:var(--th);margin:4px 0}
+  .static-inline{font-size:11px;color:var(--tlo)}
+  /* 点击波纹（简约但清晰：细圆环 + 明亮填充，无发光） */
+  .ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%) scale(0);
+    background:radial-gradient(circle,rgba(255,255,255,.55) 0%,rgba(255,255,255,.16) 45%,rgba(255,255,255,0) 65%);
+    animation:rip .55s cubic-bezier(.2,.6,.35,1) forwards}
+  .ripple::after{content:"";position:absolute;inset:16%;border-radius:50%;border:2px solid rgba(255,255,255,.85)}
+  @keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.9}60%{opacity:.5}
+    100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+  /* 页面内轻提示条（替代原生 alert，不阻断演示） */
+  .toastbar{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-24px);z-index:1000;
+    background:rgba(10,18,26,.92);border:1px solid var(--exec);color:#e8fff3;font-size:12px;padding:8px 16px;
+    border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.5);opacity:0;transition:transform .25s ease,opacity .25s ease;pointer-events:none}
+  .toastbar.show{transform:translateX(-50%) translateY(0);opacity:1}
+  .holder{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
+  .srow{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 0;border-bottom:1px dashed var(--line1)}
+  .srow span{color:var(--tlo);white-space:nowrap}
+  .srow b{font-size:11px;text-align:right}
+  .prow{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
+  .plan-sec{margin-top:6px;background:var(--bg2);border-radius:6px;padding:6px 8px}
+  .plan-sec b{display:block;font-size:10px;color:var(--tlo);margin-bottom:3px}
+  .plan-row{display:flex;gap:6px;font-size:10.5px;padding:2px 0;color:var(--th)}
+  .plan-row span{flex:none;color:var(--exec);white-space:nowrap}
+  .arow{display:flex;justify-content:space-between;gap:8px;padding:2px 0;font-size:10px}
+  .arow code{font-family:monospace;color:var(--exec)}
+  /* 告警/动画 */
+  .banner{display:none;margin:0 0 8px;border-radius:8px;padding:8px 12px;font-size:12px;align-items:center;gap:8px}
+  .banner.err{display:flex;background:rgba(229,72,77,.16);box-shadow:inset 0 0 0 1px var(--abn);color:#ffd9da;animation:flash 1.2s infinite}
+  .banner.ok{display:flex;background:rgba(81,184,115,.14);box-shadow:inset 0 0 0 1px var(--exec);color:#d4f4e0}
+  @keyframes flash{0%,100%{opacity:1}50%{opacity:.45}}
+  .cdbar{height:5px;border-radius:3px;background:var(--bg2);overflow:hidden;margin-top:6px}
+  .cdbar i{display:block;height:100%;background:var(--abn);animation:shrink 30s linear forwards}
+  @keyframes shrink{from{width:100%}to{width:4%}}
+  .pulse{animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,72,77,.45)}50%{box-shadow:0 0 0 10px rgba(229,72,77,0)}}
+  .evchip{width:12px;height:7px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
+  .ev-d{background:var(--detect)}.ev-x{background:var(--exec)}.ev-a{background:var(--abn)}.ev-o{background:var(--outlib)}
+</style>
+</head>
+<body class="night">
+<div class="viewport">
+<div class="stage" id="stage">
+<div class="app">
+  <!-- 顶栏 -->
+  <div class="topbar">
+    <div class="brand">事件协同工作台<small>翡翠号 · 航次 VN-0420</small></div>
+    <div class="kpis" id="kpis">
+      <div class="kpi">L4 处置<b>0</b></div>
+      <div class="kpi">处置中<b>0</b></div>
+      <div class="kpi">挂起监测<b>0</b></div>
+    </div>
+    <div class="modebox">
+      <span class="t">模式</span>
+      <span class="mode" id="modeLbl">系泊</span>
+      <span class="modesel" id="modes">
+        <button data-m="underway">在航</button><button data-m="departing">离泊</button>
+        <button data-m="berthing">靠泊</button><button data-m="alongside" class="on">系泊</button>
+      </span>
+    </div>
+    <div class="spacer"></div>
+    <div class="theme" id="theme">
+      <button data-t="night" class="on">Night</button><button data-t="dusk">Dusk</button><button data-t="day">Day</button>
+    </div>
+    <div class="user">
+      <div class="avatar" onclick="toggleDD(event)"><span id="avT">船</span>
+        <div class="dd" id="dd">
+          <button onclick="setRole('船长','船')">船长</button><button onclick="setRole('运营经理','经')">运营经理</button>
+          <button onclick="setRole('法务','法')">法务</button><button onclick="setRole('值班','值')">值班</button>
+        </div>
+      </div>
+      <div class="uth" id="uth">船长<small>登录用户</small></div>
+      <div class="clock"><span id="clockTop">11:42</span><small>本地 · 船时</small></div>
+      <span class="chip">韧性 T0</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- 左栏（卡片式） -->
+    <div class="col c-left">
+      <div class="panel">
+        <div class="ph">局势图<span class="sub">· 泊位 3A</span></div>
+        <div class="map">
+          <svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg">
+            <g id="portBox">
+              <rect id="shore" x="6" y="20" width="48" height="150" rx="5" fill="var(--bg2)" stroke="var(--line1)" stroke-width="1.5"/>
+              <line x1="54" y1="20" x2="54" y2="170" stroke="var(--line0)" stroke-width="3"/>
+              <circle cx="30" cy="40" r="3" fill="var(--line1)"/>
+              <circle cx="30" cy="150" r="3" fill="var(--line1)"/>
+            </g>
+            <g id="gang">
+              <line x1="54" y1="60"  x2="120" y2="60"  stroke="var(--exec)" stroke-width="2.5"/>
+              <line x1="54" y1="95"  x2="120" y2="95"  stroke="var(--exec)" stroke-width="2.5"/>
+              <line x1="54" y1="130" x2="120" y2="130" stroke="var(--exec)" stroke-width="2.5"/>
+            </g>
+            <g id="ship">
+              <path id="shipHull" d="M121 34 Q135 16 149 34 L150 146 Q150 158 135 158 Q120 158 120 146 Z" fill="var(--bg1)" stroke="var(--th)" stroke-width="2.5"/>
+              <rect x="126" y="46" width="18" height="90" rx="8" fill="var(--bg2)" stroke="var(--line1)" stroke-width="1.5"/>
+              <line x1="126" y1="42" x2="144" y2="42" stroke="var(--line0)" stroke-width="2"/>
+              <circle cx="135" cy="150" r="5" fill="none" stroke="var(--outlib)" stroke-width="1.5" opacity=".7"/>
+            </g>
+            <g id="dots" style="display:none">
+              <circle cx="6" cy="118" r="5" fill="var(--bg0)" stroke="var(--outlib)" stroke-width="2"/>
+              <line x1="10" y1="118" x2="133" y2="92" stroke="var(--outlib)" stroke-dasharray="4 3" stroke-width="2"/>
+              <circle cx="214" cy="70" r="5" fill="var(--bg0)" stroke="var(--detect)" stroke-width="2"/>
+              <line x1="210" y1="73" x2="137" y2="88" stroke="var(--detect)" stroke-dasharray="4 3" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="oplog">
+        <div class="head"><b>操作台日志</b><input id="logSearch" placeholder="搜索日志…"></div>
+        <div class="ctl">
+          <button class="fil on" data-f="all">全部</button><button class="fil" data-f="evt">事件</button><button class="fil" data-f="op">操作</button>
+          <button class="btn sm" onclick="copyLog()">复制</button>
+          <span style="flex:1"></span>
+          <button class="btn sm icn" id="logFz" title="冻结日志滚动"><svg width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="0" width="3" height="10" rx="1" fill="currentColor"/><rect x="6" y="0" width="3" height="10" rx="1" fill="currentColor"/></svg></button>
+          <span id="logcnt">0</span>
+        </div>
+        <div class="opfeed" id="opfeed">
+          <div class="op"><span class="t">11:41</span><span>L4 全船应急 · 升级自 L3 <span class="abv">[升级]</span></span></div>
+          <div class="op"><span class="t">11:40</span><span>接驳晚点 移交执行端异常 <span class="evv">[交接异常]</span></span></div>
+          <div class="op"><span class="t">11:38</span><span>台风航变 方案A 待审批 <span class="opv">[审批]</span></span></div>
+          <div class="op"><span class="t">11:35</span><span>离泊窗口 收窄至 37′</span></div>
+          <div class="op"><span class="t">11:30</span><span>登离船 排队观察 <span class="opv">[受控持续·监测中]</span></span></div>
+        </div>
+      </div>
+      <div class="setbar"><span>操作台设置</span><button>设置</button><button>等级▾</button><button>时段▾</button></div>
+    </div>
+    <!-- 中栏：主列 + 整竖条卡片带 -->
+    <div class="c-mid">
+      <div class="c-mid-main">
+        <div class="panel" style="padding:6px 8px">
+          <div class="portbar" id="portbar" style="background:transparent;padding:0">
+            <button class="on">总览</button><button>天气/台风</button><button>口岸/通关</button>
+            <button>登离船</button><button>AIS</button><button>船舶系统</button><button>通知/广播</button>
+          </div>
+        </div>
+        <div class="reserve">
+          <div class="portlive execsup">
+            <div class="es-head"><b>执行监督</b><span class="es-cnt" id="esCnt">0 项</span><span class="es-clk" id="esClk">11:00</span></div>
+            <div class="es-body" id="esBody"></div>
+            <div class="es-done" id="esDone"></div>
+          </div>
+          <div class="infer">
+            <div class="head">AI 实时推理监视<span class="cnt" id="infercnt">0</span></div>
+            <div class="inferfeed" id="inferfeed"></div>
+          </div>
+        </div>
+                <div class="timeline">
+          <svg id="tlgen" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <div class="tlleg">
+          <span><i class="evchip ev-d"></i>发现</span><span><i class="evchip ev-a"></i>异常/升级</span>
+          <span><i class="dot8"></i>恢复点（深绿空心）</span><span><i class="dot8 am"></i>挂起点（琥珀空心·§13）</span><span>竖线=瞬时移交(绿=正常/红=异常)</span>
+        </div>
+      </div>
+      <!-- 整竖条卡片带 -->
+                  <div class="cardband" id="cardband"></div>
+    </div>
+    <!-- 右栏（卡片式） -->
+    <div class="col c-right">
+      <div class="panel" style="flex:1">
+        <div class="rtabs" id="tabs">
+          <button class="on" data-tab="card">决策卡</button>
+          <button data-tab="flow">审批流</button>
+          <button data-tab="audit">端口·审计</button>
+        </div>
+        <div class="rbody" id="apwrap">
+          <div class="tabpane" id="tab-card"><div class="mcard" id="tab-card-empty"><div class="lbl">决策卡</div><div class="static-inline" style="color:var(--tlo)">点击左侧事件卡片查看决策卡</div></div></div>
+          <div class="tabpane" id="tab-flow" style="display:none"></div>
+          <div class="tabpane" id="tab-audit" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<script src="../mock/mock-data.js"></script>
+<script src="../mock/sim-core.js"></script>
+<script src="../mock/cot-text.js"></script>
+<script>
+  var MOCK = window.MOCK, SC = window.SimCore;
+  var total = MOCK.session.total, SNAP = 0, playing = true, spd = 20, W = 900; // 起始 11:00，滑动窗口10min
+  // ---- 会话起点时钟（11:00）+ 半小时真实时刻刻度（grammar v5 §8.6） ----
+  var VS = MOCK.meta.voyageStart || "11:00", vsParts = VS.split(":").map(Number), vsMin = vsParts[0] * 60 + (vsParts[1] || 0);
+  function clock(t){ var m = vsMin + t / 60, h = Math.floor(m / 60) % 24, mm = Math.floor(m % 60); return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm; }
+  var HALF = [], TICKS2 = [];
+  (function(){ for (var tm = 0; tm <= total / 60; tm++){ if ((vsMin + tm) % 10 === 0) HALF.push({ t: tm * 60, label: clock(tm * 60) }); if ((vsMin + tm) % 2 === 0) TICKS2.push(tm * 60); } })();
+  // ---- 车道行分配：按时间排序 + 轮转铺轨（同轨时间不重叠 → L2 7 条 > 6 轨也不重叠） ----
+  var ROWS = { L4: [23,41], L3: [65,83,101,119], L2: [143,161,179,197,215,233], L1: [257,275,293,311,329,347,365,383,401,419], X: [475,493] };
+  function evRange(ev){
+    if (ev.outlib && ev.outlib.isX) return { from: ev.discover.at, to: ev.upgrade && ev.upgrade.at != null ? ev.upgrade.at : (ev.holding && ev.holding.to) || total };
+    var to = ev.recoverAt != null ? ev.recoverAt
+          : (ev.suspend && ev.suspend.decidedAt != null) ? ev.suspend.decidedAt
+          : (ev.exec && ev.exec.to) ? ev.exec.to
+          : (ev.holding && ev.holding.to) || (ev.upgrade && ev.upgrade.at) || total;
+    return { from: ev.discover.at, to: to };
+  }
+  function allocRows(evs, rows){
+    var placed = [], out = {};
+    evs.slice().sort(function(a,b){ return a.discover.at - b.discover.at; }).forEach(function(ev, idx){
+      var rng = evRange(ev), start = idx % rows.length, pick = -1;
+      for (var k = 0; k < rows.length; k++){
+        var i = (start + k) % rows.length;
+        if (!placed[i] || rng.from >= placed[i].to || rng.to <= placed[i].from){ pick = i; break; }
+      }
+      if (pick < 0) pick = start;
+      placed[pick] = placed[pick] ? { from: Math.min(placed[pick].from, rng.from), to: Math.max(placed[pick].to, rng.to) } : rng;
+      out[ev.eventNo] = rows[pick];
+    });
+    return out;
+  }
+  var byLevel = { L4: [], L3: [], L2: [], L1: [], X: [] };
+  MOCK.events.forEach(function(e){ (e.type === "X" ? byLevel.X : byLevel[e.level]).push(e); });
+  var rowMap = {};
+  Object.keys(byLevel).forEach(function(lv){ var m = allocRows(byLevel[lv], ROWS[lv]); Object.keys(m).forEach(function(k){ rowMap[k] = m[k]; }); });
+  function rowOf(ev){ return rowMap[ev.eventNo]; }
+  function childRowOf(up){
+    var tid = SC.traceId(up);
+    for (var i = 0; i < MOCK.events.length; i++){
+      var c = MOCK.events[i];
+      if (c.parentTrace === tid) return rowOf(c);
+      if (c.discover && c.discover.signals) for (var j = 0; j < c.discover.signals.length; j++)
+        if (c.discover.signals[j].from && c.discover.signals[j].from === up.eventNo) return rowOf(c);
+    }
+    return null;
+  }
+  var role = "CAPT";
+  var ROLE_ACT = {"CAPT":["L4"], "MGR":["L2","L3"], "LEGAL":["L3"], "DUTY":["L1","L2"]};
+  function visibleActs(ev){ var allow=(ev.machine?ev.machine.allow:[]); if(ev.outlib&&ev.outlib.isX){ return (["DUTY","MGR"].indexOf(role)>=0)?allow:[]; } return (ROLE_ACT[role]||[]).indexOf(ev.level)>=0?allow:[]; }
+  // 演示语义：审批人由数据预置（已审批/已签署），不提供"确认"类交互按钮；执行段由 renderRight 的 inExec 分支显示处置人员框
+  // 例外：L4（船长主剧情高潮）——船长拍板是镜头动作，提供"确认当前执行方案"按钮；升级本身是 AI 判据自动触发，不需要人确认
+  function actsAt(ev){
+    var allow = visibleActs(ev);
+    if (ev.outlib && ev.outlib.isX) return allow;
+    if (role === "CAPT" && ev.level === "L4" && SNAP >= ev.discover.at && !(ev.exec && ev.exec.from != null && SNAP >= ev.exec.from)) {
+      // 船长确认 L4 方案：从 E-L4 诞生到确认前始终可确认（展开附件后点确认按钮）
+      return ["confirm", "takeover"];
+    }
+    var a = ev.approval || {};
+    // 数据已预置审批结果（decidedAt 非空）→ 无确认/拒绝按钮（审批已完成，仅展示签署信息）
+    if (a.decidedAt != null) return [];
+    return allow;
+  }
+  var sel = "";   // 初始未选中：决策卡区空，点击事件卡片后填充
+  // 拍摄辅助：?sel=事件号&snap=秒&role=角色 可精确定位镜头（也可用于自动化验证）
+  (function () {
+    try {
+      var q = {}; location.search.replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { q[k] = v; });
+      if (q.sel) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === q.sel) { sel = q.sel; break; } }
+      if (q.snap) SNAP = Math.min(total - 1, Math.max(0, +q.snap));
+      if (q.role) { var m = { "CAPT": ["船长", "船"], "MGR": ["运营经理", "经"], "LEGAL": ["法务", "法"], "DUTY": ["值班", "值"] }[q.role]; if (m) setRole(m[0], m[1]); }
+    } catch (err) { console.error("param-init:", err && err.message); }
+  })();
+  var CX = { detect: "#f0a43f", exec: "#51b873", approve: "#e8b64c", holding: "#7fb98a", abn: "#e5484d", handoff: "#51b873", upgrade: "#e5484d", recover: "#2f9e63" };
+  var LBL = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", ignore: "忽略", archive: "存档观察", escalate: "升级为正式" };
+
+  function get(no) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) return MOCK.events[i]; }
+  function fmt(t) { if (t == null) return "-"; var s = Math.floor(t % 60); var m = Math.floor(t / 60); return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
+
+  // ---------- KPI（数据驱动，跟随真实发生时间） ----------
+  function renderKPIs() {
+    function endOf(e){ return e.recoverAt != null ? e.recoverAt : (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : (e.exec && e.exec.to) || total; }
+    var l4 = MOCK.events.filter(function (e) { return e.level === "L4" && e.discover.at <= SNAP && SNAP <= endOf(e); }).length;
+    // 处置中 = 当前时刻处于处理生命周期的事件（发现/审批/执行），挂起监测中与库外 X 不计入 → 与时间轴可见矩形一致
+    var act = MOCK.events.filter(function (e) {
+      if (e.outlib && e.outlib.isX) return false;
+      if (e.discover.at > SNAP || SNAP >= endOf(e)) return false;
+      if (e.suspend && e.suspend.decidedAt != null && e.suspend.decidedAt <= SNAP) return false;
+      return true;
+    }).length;
+    var sus = MOCK.events.filter(function (e) {
+      if (!e.suspend || e.suspend.decidedAt == null) return false;
+      var until = (e.recheck && e.recheck.reads && e.recheck.reads.length) ? e.recheck.reads[e.recheck.reads.length - 1].at : e.suspend.decidedAt;
+      return e.suspend.decidedAt <= SNAP && SNAP <= until;   // 实时挂起数：解决/升级后不再计入
+    }).length;
+    var alert = l4 > 0 && SNAP < 5820;   // L4 告警期 = E-L4 诞生(12:27)后约 8 分钟闪烁
+    document.getElementById("kpis").innerHTML =
+      '<div class="kpi' + (alert ? " warn pulse" : "") + '">L4 处置<b>' + l4 + "</b></div>" +
+      '<div class="kpi">处置中<b>' + act + "</b></div>" +
+      '<div class="kpi">挂起监测<b>' + sus + "</b></div>";
+  }
+  // ---------- 操作台日志（append-only：发现/移交/审批/执行/挂起/再检/衍生，按时间排序） ----------
+  var OPLOG = (function () {
+    var lines = [];
+    MOCK.events.forEach(function (ev) {
+      function log(at, text, kind) { lines.push({ at: at, no: ev.eventNo, text: text, kind: kind }); }
+      log(ev.discover.at, "发现 " + ev.eventNo + " " + ev.name, "事件");
+      (ev.handoffs || []).forEach(function (h) {
+        log(h.at, "移交 " + ev.eventNo + " → " + (h.to === "AUTO" ? "自动执行" : (h.to === "SENSE" ? "感知接入" : h.to)), "操作");
+      });
+      if (ev.approval && ev.approval.waitStart != null) {
+        log(ev.approval.waitStart, ev.eventNo + " 待确认/待审批（时限 " + Math.round(SC.levelTimeout(ev.level) / 60) + "′）", "操作");
+        if (ev.approval.decidedAt != null) log(ev.approval.decidedAt, ev.eventNo + " 确认通过 → 进入执行段", "操作");
+      }
+      if (ev.exec && ev.exec.from != null && !(ev.outlib && ev.outlib.isX)) log(ev.exec.from, ev.eventNo + " 执行中（人工作业·含恢复确认）", "操作");
+      if (ev.suspend && ev.suspend.decidedAt != null) log(ev.suspend.decidedAt, ev.eventNo + " 判定挂起 → 转入周期再检", "操作");
+      (ev.recheck && ev.recheck.reads || []).forEach(function (r, i) {
+        var t = (r.verdict === "upgrade" || r.verdict === "accident") ? "升级/事故 → 生成衍生新事件（parentTrace 仅日志）"
+              : (r.verdict === "recovered") ? "恢复，关闭监测（无新事件）" : "仍同类，保持监测（仅日志）";
+        log(r.at, ev.eventNo + " 再检 " + (i + 1) + "/" + ev.recheck.reads.length + "：" + t, "操作");
+      });
+      if (ev.recoverAt != null) log(ev.recoverAt, ev.eventNo + " 恢复，事件闭合", "事件");
+      if (ev.upgrade && ev.upgrade.at != null) {
+        if (ev.outlib && ev.outlib.isX) {
+          log(ev.upgrade.at, ev.eventNo + " 库外信号升级 → 值班·李工核实确认 → 升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化" : "超时") + "，关系A升级线）", "事件");
+          log(ev.upgrade.at, ev.eventNo + " 已回写事件分类库（闭环学习）", "操作");
+        } else {
+          // 等级升级（L3→L4）：执行中检测到更强信号（港口回执/气象持续恶化等）→ AI 判据达标自动升级，无需人确认升级
+          log(ev.upgrade.at, ev.eventNo + " 执行中检测更强信号 → AI 判据达标，自动升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化：侧风持续超操作限值" : "超时") + "，呈船长处置，关系A升级线）", "事件");
+        }
+      }
+      if (ev.parentTrace) log(ev.discover.at, ev.eventNo + " 衍生自 " + ((ev.discover.signals && ev.discover.signals[0].from) || "上游") + "（parentTrace=" + ev.parentTrace + "）", "事件");
+    });
+    lines.sort(function (a, b) { return a.at - b.at; });
+    return lines;
+  })();
+  var logFilter = "all", logFrozen = false, logFrozenAt = 0;
+  function renderLog() {
+    var kw = (document.getElementById("logSearch").value || "").trim();
+    var revealAt = logFrozen ? logFrozenAt : SNAP;   // 冻结时保持当时进度
+    var rows = OPLOG.filter(function (l) {
+      if (l.at > revealAt) return false;              // 只显示"已发生"：随播放进度滚动出现
+      if (logFilter === "evt" && l.kind !== "事件") return false;
+      if (logFilter === "op" && l.kind !== "操作") return false;
+      if (kw && l.text.indexOf(kw) < 0 && l.no.indexOf(kw) < 0) return false;
+      return true;
+    });
+    document.getElementById("logcnt").textContent = rows.length;
+    var h = rows.slice(-40).reverse().map(function (l) {
+      return '<div class="op"><span class="t">' + clock(l.at) + '</span><span>' + l.text + '</span></div>';
+    }).join("");
+    var feed = document.getElementById("opfeed");
+    feed.innerHTML = h || '<div class="op"><span class="t">--</span><span>(无日志)</span></div>';
+    feed.scrollTop = 0;                            // 最新在顶部，滚动保持可见
+  }
+  // ---------- 时间轴（从数据生成，多车道；62 条数据驱动） ----------
+  function Xat(t) { return 70 + ((t - (SNAP - W)) / W) * 790; }
+  function inW(t) { return t >= SNAP - W && t <= SNAP; }
+  function drawTimeline() {
+    var s = [];
+    var BANDS = [["L4",14,36],["L3",56,72],["L2",134,108],["L1",248,180],["X",466,40]];
+    BANDS.forEach(function(L){
+      s.push('<rect x="70" y="'+L[1]+'" width="790" height="'+L[2]+'" fill="rgba(255,255,255,.03)" stroke="var(--line0)"/>');
+    });
+    s.push('<g stroke="var(--line0)" stroke-width="1" stroke-dasharray="4 4">');
+    BANDS.forEach(function(L, bi){
+      var lv = L[0];
+      ROWS[lv].forEach(function(y){ s.push('<line x1="70" y1="'+y+'" x2="860" y2="'+y+'"/>'); });
+    });
+    s.push("</g>");
+    BANDS.forEach(function(L){
+      s.push('<rect x="8" y="'+L[1]+'" width="54" height="'+L[2]+'" fill="var(--bg2)" rx="6"/><text x="35" y="'+(L[1]+L[2]/2+4)+'" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">'+L[0]+(L[0]==="X"?"·库外":"")+'</text>');
+    });
+    // 底部时间轴：每 2 分钟次刻度 + 每 10 分钟主刻度（真实时刻，内容坐标，随窗口滚动）
+    s.push('<line x1="70" y1="444" x2="860" y2="444" stroke="var(--line1)" stroke-width="2"/>');
+    TICKS2.forEach(function(t){
+      if (!inW(t)) return;
+      var mx = Xat(t);
+      s.push('<line x1="'+mx+'" y1="441" x2="'+mx+'" y2="447" stroke="var(--line0)"/>');
+    });
+    HALF.forEach(function(tk){
+      if (!inW(tk.t)) return;
+      var mx = Xat(tk.t);
+      s.push('<line x1="'+mx+'" y1="8" x2="'+mx+'" y2="506" stroke="rgba(255,255,255,.05)"/>');
+      s.push('<line x1="'+mx+'" y1="439" x2="'+mx+'" y2="449" stroke="var(--line1)"/>');
+      s.push('<text x="'+(mx-14)+'" y="460" font-size="8" fill="var(--tlo)">'+tk.label+'</text>');
+    });
+    s.push('<text x="'+(860-18)+'" y="460" font-size="8" fill="var(--th)">现在</text>');
+    s.push('<line x1="860" y1="8" x2="860" y2="506" stroke="var(--th)" stroke-width="2"/>');
+    // 事件（只画已发生；滑窗裁剪；统一细矩形 9px；闭合点贴矩形末端）
+    MOCK.events.forEach(function(ev){
+      var row = rowOf(ev);
+      if(ev.outlib && ev.outlib.isX){
+        var xf=Math.max(ev.discover.at, SNAP-W), xt=Math.min((ev.upgrade&&ev.upgrade.at)||(ev.holding&&ev.holding.to)||SNAP, SNAP);
+        if(xt>xf){ s.push('<rect x="'+Xat(xf)+'" y="'+(row-5)+'" width="'+(Xat(xt)-Xat(xf))+'" height="9" fill="#6f7886" stroke="var(--line0)" stroke-dasharray="3 2" rx="2"/>'); }
+        if(ev.suspend && ev.suspend.decidedAt != null && inW(ev.suspend.decidedAt)){
+          var px=Xat(ev.suspend.decidedAt); s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="#f0a43f" stroke-width="2"/>');
+        }
+        if(ev.upgrade && ev.upgrade.at!=null && inW(ev.upgrade.at) && ROWS[ev.upgrade.to]){
+          var ux=Xat(ev.upgrade.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:ROWS[ev.upgrade.to][0]-5);
+          s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>');
+        }
+        return;
+      }
+      var segs = SC.computeSegments(ev, SNAP);
+      segs.forEach(function(seg){
+        if(seg.type==="handoff"){ if(inW(seg.at)){ var hx=Xat(seg.at); s.push('<line x1="'+hx+'" y1="'+(row-7)+'" x2="'+hx+'" y2="'+(row+7)+'" stroke="'+(seg.kind==="error"?CX.abn:CX.exec)+'" stroke-width="3"/>'); } }
+        else if(seg.type==="upgrade"){ if(inW(seg.at)&&ev.upgrade&&ROWS[ev.upgrade.to]){ var ux=Xat(seg.at), c1=childRowOf(ev), yEnd=((c1!=null)?c1-5:ROWS[ev.upgrade.to][0]-5); s.push('<line x1="'+ux+'" y1="'+yEnd+'" x2="'+ux+'" y2="'+(row+5)+'" stroke="'+CX.upgrade+'" stroke-width="3"/>'); } }
+        else if(seg.type==="recover"){ if(inW(seg.at)){ var rx=Xat(seg.at); s.push('<circle cx="'+rx+'" cy="'+row+'" r="4.5" fill="#fff" stroke="'+CX.recover+'" stroke-width="2"/>'); } }
+        else if(seg.type==="suspend"){ if(inW(seg.at)){ var px=Xat(seg.at); s.push('<circle cx="'+px+'" cy="'+row+'" r="4.5" fill="#fff" stroke="#f0a43f" stroke-width="2"/>'); } }
+        else { var f=Math.max(seg.from, SNAP-W), to=Math.min(seg.to, SNAP); if(to>f){ var X1=Xat(f), X2=Xat(to); s.push('<rect x="'+X1+'" y="'+(row-5)+'" width="'+(X2-X1)+'" height="9" fill="'+(CX[seg.color]||CX.detect)+'" rx="2" opacity="'+(seg.type==="holding"?0.6:1)+'"/>'); } }
+      });
+    });
+    document.getElementById("tlgen").innerHTML = s.join("");
+  }
+  // ---------- 卡片带（数据驱动：置顶/分组折叠/已处置） ----------
+  function isDone(e) { return /已恢复|已关闭|已存档|已拒绝|已忽略|已升级/.test(e.state); }
+  // 按时刻计算"当前状态"（决策卡/审批流显示用；静态 state 只作初始与终态参考）
+  function stateAt(e, t) {
+    if (t === undefined) t = SNAP;
+    if (e.outlib && e.outlib.isX) {
+      if (e.upgrade && e.upgrade.at != null && t >= e.upgrade.at) return "已升级(" + (e.upgrade.to || "L2") + ")";
+      if (e.suspend && e.suspend.decidedAt != null && t >= e.suspend.decidedAt) return "已存档观察";
+      return t >= e.discover.at ? "发现（库外观察中）" : "未发生";
+    }
+    if (e.suspend && e.suspend.decidedAt != null && t >= e.suspend.decidedAt) return "已挂起";
+    if (e.recoverAt != null && t >= e.recoverAt) return "已恢复";
+    if (e.exec && e.exec.from != null && t >= e.exec.from) return "执行中";
+    if (e.approval && e.approval.waitStart != null && t >= e.approval.waitStart) return "待审批";
+    if (t >= e.discover.at) {
+      // 升级来源的事件：状态显示"事件升级（自 X）"而非"发现"（E-L4 由 E09 升级而来，X 类升级同理）
+      var fromUp = e.discover && e.discover.signals && e.discover.signals.some(function (s) { return s.src === "escalate" || s.src === "x-upgrade" || (s.from != null); });
+      return fromUp ? "事件升级（自 " + ((e.discover.signals && e.discover.signals.filter(function (s) { return s.from != null; })[0] || {}).from || "上游") + "）" : "发现";
+    }
+    return "未发生";
+  }
+  function cardHtml(e, active) {
+    return '<div class="card ' + (e.type === "X" ? "lvX" : "lv" + e.level) + (active ? " sel" : "") + '" data-no="' + e.eventNo + '">' +
+      '<div class="t1"><span>' + e.eventNo + " " + e.name + '</span><span class="tag">' + stateAt(e) + "</span></div>" +
+      '<div style="font-size:10px;color:var(--tlo)">' + (e.summary || "") + "</div></div>";
+  }
+  // ---------- 事件卡片带（时间驱动：区域实时弹出 → 执行阶段发生即收入已处置栏，带动画） ----------
+  function zoneOf(e) { return e.type === "X" ? "X" : e.level; }
+  function isDoneAt(e, t){
+    if (t === undefined) t = SNAP;
+    if (e.outlib && e.outlib.isX) {
+      if (e.upgrade && e.upgrade.at != null) {
+        // 关系A 升级：以目标正式事件的执行段开始（绿色）才算已处置
+        for (var i = 0; i < MOCK.events.length; i++) {
+          var c = MOCK.events[i];
+          if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) {
+            return c.exec && c.exec.from != null ? t >= c.exec.from : t >= e.upgrade.at;
+          }
+        }
+        return t >= e.upgrade.at;
+      }
+      var x = (e.suspend && e.suspend.decidedAt != null) ? e.suspend.decidedAt : null;
+      return x != null && t >= x;
+    }
+    return e.exec && e.exec.from != null && t >= e.exec.from;   // 只要有执行阶段发生 → 已处置
+  }
+  // 按目标时刻确定性重建队列（拖动/回退时调用：任何 SNAP 状态一致）
+  function resetBand(t) {
+    ["L4", "X", "L3", "L2", "L1"].forEach(function (k) { zoneQ[k] = { list: [], done: 0, consumed: {} }; });
+    var evs = MOCK.events.slice().sort(function (a, b) { return a.discover.at - b.discover.at; });
+    evs.forEach(function (e) {
+      if (e.discover.at > t) return;
+      var clock = e.discover.at;
+      ["L4", "X", "L3", "L2", "L1"].forEach(function (lv) {
+        var q = zoneQ[lv];
+        q.list.forEach(function (it) {
+          if (it.status !== "live") return;
+          var x = MOCK.events.filter(function (y) { return y.eventNo === it.no; })[0];
+          if (x && isDoneAt(x, clock)) it.status = "linger";
+        });
+      });
+      var lv = zoneOf(e), q = zoneQ[lv];
+      var oldIdx = -1;
+      for (var i = q.list.length - 1; i >= 0; i--) { if (q.list[i].status === "linger" && q.list[i].pushed) { oldIdx = i; break; } }
+      if (oldIdx >= 0) { var it0 = q.list[oldIdx]; it0.status = "collect"; q.consumed[it0.no] = 1; q.done++; q.list = q.list.filter(function (x) { return x.no !== it0.no; }); }
+      q.list.forEach(function (it) { if (it.status === "linger") it.pushed = true; });
+      q.list.unshift({ no: e.eventNo, status: "live", pushed: false });
+    });
+    ["L4", "X", "L3", "L2", "L1"].forEach(function (lv) {
+      var q = zoneQ[lv];
+      q.list.forEach(function (it) {
+        if (it.status !== "live") return;
+        var x = MOCK.events.filter(function (y) { return y.eventNo === it.no; })[0];
+        if (x && isDoneAt(x, t)) it.status = "linger";
+      });
+    });
+  }
+  // 队列式卡片带：新事件从顶部插入（挤推旧的往下）；执行阶段发生 → 原地变暗(linger)；
+  // 已被挤推过的最老 linger，在后续新事件到达时做"收入已处置栏"动画并移除（以此类推）
+  var zoneQ = { L4: { list: [], done: 0, consumed: {} }, X: { list: [], done: 0, consumed: {} }, L3: { list: [], done: 0, consumed: {} }, L2: { list: [], done: 0, consumed: {} }, L1: { list: [], done: 0, consumed: {} } };
+  var bandSig = "", freshPop = {};
+  function renderCardBand() {
+    var ZONES = [["L4", "#e5484d"], ["X", "#4c8dff"], ["L3", "#f0a43f"], ["L2", "#51b873"], ["L1", "#6f7886"]];
+    // 1) 状态推进（先转移 live→linger，再到达/收集/挤推 —— 与连续推演一致）
+    ZONES.forEach(function (z) {
+      var lv = z[0], q = zoneQ[lv];
+      var evs = MOCK.events.filter(function (e) { return (e.type === "X" ? "X" : e.level) === lv; });
+      // 转移：live → linger（执行阶段发生）
+      q.list.forEach(function (it) {
+        if (it.status !== "live") return;
+        var e = evs.filter(function (x) { return x.eventNo === it.no; })[0];
+        if (e && isDoneAt(e)) it.status = "linger";
+      });
+      // 到达：新发现且从未收集过 → 顶部插入（先收集最老的已挤推 linger）
+      var arrivals = evs.filter(function (e) {
+        return e.discover.at <= SNAP && !q.list.some(function (it) { return it.no === e.eventNo; }) && !q.consumed[e.eventNo];
+      });
+      arrivals.sort(function (a, b) { return a.discover.at - b.discover.at; });
+      arrivals.forEach(function (e) {
+        var oldIdx = -1;
+        for (var i = q.list.length - 1; i >= 0; i--) { if (q.list[i].status === "linger" && q.list[i].pushed) { oldIdx = i; break; } }
+        if (oldIdx >= 0) {
+          var it0 = q.list[oldIdx];
+          it0.status = "collect";
+          q.consumed[it0.no] = 1;   // 收集过 → 永不再作为新到达
+          q.done++;
+          (function (no0, lv0) {
+            setTimeout(function () {
+              zoneQ[lv0].list = zoneQ[lv0].list.filter(function (x) { return x.no !== no0; });
+              bandSig = ""; renderCardBand();
+            }, 480);
+          })(it0.no, lv);
+        }
+        q.list.forEach(function (it) { if (it.status === "linger") it.pushed = true; });
+        q.list.unshift({ no: e.eventNo, status: "live", pushed: false });
+        freshPop[e.eventNo] = 1;
+      });
+    });
+    // 2) 签名（含完整队列状态；集合变化才重建，保滚动位置）
+    var sig = ZONES.map(function (z) { return z[0] + ":" + JSON.stringify(zoneQ[z[0]].list); }).join("|") + ":" + sel;
+    if (sig === bandSig) return;
+    bandSig = sig;
+    // 3) 渲染
+    var h = "";
+    ZONES.forEach(function (z) {
+      var lv = z[0], col = z[1], cls = lv === "X" ? "lvX" : "lv" + lv.slice(1).toLowerCase();
+      var q = zoneQ[lv];
+      var cards = q.list.map(function (it) {
+        var e = MOCK.events.filter(function (x) { return x.eventNo === it.no; })[0];
+        var k = "card " + cls;
+        if (freshPop[it.no]) k += " pop";
+        if (it.status === "linger") k += " linger";
+        if (it.status === "collect") k += " collect";
+        if (it.no === sel) k += " sel";
+        return '<div class="' + k + '" data-no="' + it.no + '">' +
+          '<div class="t1"><span>' + it.no + " " + (e ? e.name : "") + "</span></div>" +
+          '<div style="font-size:9.5px;color:var(--tlo)">' + (e ? (e.summary || "") : "") + "</div></div>";
+      }).join("");
+      // 已处置总数 = 已收集 + 当前滞留中（与可见卡片对得上）；脉冲只在"收入动画"瞬间触发
+      var lingerN = q.list.filter(function (x) { return x.status === "linger"; }).length;
+      var totalDone = q.done + lingerN;
+      var pulse = q._lastCollect !== undefined && q.done > q._lastCollect;
+      q._lastCollect = q.done;
+      var liveN = q.list.filter(function (x) { return x.status === "live"; }).length;
+      h += '<div class="zone">' +
+        '<div class="zh"><i class="dot" style="background:' + col + '"></i>' + (lv === "X" ? "X · 库外" : lv) +
+        '<span class="zc">实时 ' + liveN + ' · 已处置 ' + totalDone + "</span></div>" +
+        '<div class="zbody">' + (cards || '<div class="zempty">— 暂无实时事件 —</div>') + "</div>" +
+        '<button class="donebar' + (pulse ? " zpulse" : "") + '" data-donebar="' + lv + '" title="已处置明细（弹窗待定）">已处置 <span class="cnt">' + totalDone + "</span> ▸</button>" +
+        "</div>";
+    });
+    document.getElementById("cardband").innerHTML = h;
+    freshPop = {};
+  }
+  // ---------- AI 实时推理监视窗（每事件一行：灰点跳动→判定等级变色静止；字幕按 SNAP 驱动，节点精确对齐） ----------
+  var LVC = { L4: "#e5484d", L3: "#f0a43f", L2: "#51b873", L1: "#6f7886", X: "#4c8dff" };
+  function inferActs(ev) {
+    var m = "";
+    (ev.reasoning.sections || []).concat(ev.summary ? [ev.summary] : []).forEach(function (s) {
+      var r = String(s).match(/A\d{2}/g); if (r) m += r.join("+");
+    });
+    return m || "A01";
+  }
+  function describeSignals(ev) {
+    return (ev.discover.signals || []).map(function (s) {
+      var v = s.val || {}, note = v.note || "";
+      var brief = Object.keys(v).filter(function (k) { return k !== "note"; }).map(function (k) { return k + "=" + v[k]; }).join(" ");
+      return s.src + (brief ? "(" + brief + ")" : "") + (note ? " " + note : "");
+    }).join("；");
+  }
+  function levelSem(lv) {
+    return { L1: "L1 低扰（自动/无需人审）", L2: "L2 值班处置", L3: "L3 运营经理审批", L4: "L4 船长拍板（最高级）" }[lv] || lv;
+  }
+  function firstReason(ev) { return ((ev.reasoning.sections || [])[0] || ev.summary || ""); }
+  function evenSplit(caps, t0, t1) {
+    var n = caps.length, steps = [];
+    caps.forEach(function (c, i) { steps.push({ t0: t0 + (t1 - t0) * i / n, t1: t0 + (t1 - t0) * (i + 1) / n, caption: c }); });
+    return steps;
+  }
+  function buildPre(ev, t0, t1) {
+    var c = (window.COT && COT[ev.eventNo] && COT[ev.eventNo].pre) || [];
+    if (!c.length) {   // 兜底（正常情况下每条都已手写）
+      c = ["感知层接入信号：" + describeSignals(ev) + "，预处理后送识别。",
+           "特征比对事件库，结合：" + (firstReason(ev) || ev.summary || "") + "，判定贴近 " + (ev.type === "X" ? "库外" : ev.type + "「" + ev.name + "」") + "。",
+           "评估严重度，判 " + levelSem(ev.level) + "；置信度 " + ev.confidence + "，低信度则转人工。"];
+    }
+    return evenSplit(c, t0, t1);
+  }
+  function buildPost(ev, t0, t1) {
+    var c = (window.COT && COT[ev.eventNo] && COT[ev.eventNo].post) || [];
+    if (!c.length) {
+      c = ["匹配动作库 " + inferActs(ev) + "，方案 = " + (ev.summary || "库内模板") + "。",
+           "自我审核：引用可回溯、置信度有效、参数可复算，通过。",
+           "下达执行端 " + ((ev.ports && ev.ports.length) ? ev.ports.map(function (p) { return p.portCode; }).join("/") : "CRW") + "，回执入审计。"];
+    }
+    return evenSplit(c, t0, t1);
+  }
+  var INFER = {};
+  function buildInferSpec(ev) {
+    var lead = { L1: 60, L2: 120, L3: 180, L4: 180 }[ev.level] || 120;
+    var D = ev.discover.at, sp = { no: ev.eventNo, level: ev.level, hold: 4, steps: [], dotAt: null, dotLevel: ev.level };
+    if (ev.outlib && ev.outlib.isX) {
+      var loopEnd = (ev.upgrade && ev.upgrade.at != null) ? ev.upgrade.at : (ev.suspend && ev.suspend.decidedAt != null) ? ev.suspend.decidedAt : (ev.holding && ev.holding.to) || (D + 600);
+      sp.start = D;
+      var t = D, k = 0, sigx = describeSignals(ev);
+      var loopC = (window.COT && COT[ev.eventNo] && COT[ev.eventNo].loop) || [];
+      var endC = (window.COT && COT[ev.eventNo] && COT[ev.eventNo].end) || "";
+      while (t < loopEnd) {
+        var t2 = Math.min(loopEnd, t + 12);
+        var lc = loopC[k % loopC.length];
+        if (!lc) lc = (k++ % 2 === 0)
+          ? "风险评估：特征与事件库 30 类均低于命中线（开放域异常）→ 不做断言、用推测语气；暂定风险 L" + ((ev.outlib && ev.outlib.riskLevel) || "2") + "，只提醒不执行。"
+          : "状态检测：对信号「" + sigx + "」持续监测并与历史基线比较（偏离 1.8σ 级），暂未恶化，继续观察。";
+        sp.steps.push({ t0: t, t1: t2, caption: lc });
+        k++;
+        t = t2;
+      }
+      if (ev.upgrade && ev.upgrade.at != null) {
+        var target = null;
+        for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(ev) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === ev.eventNo; }))) { target = c; break; } }
+        var H = target && target.handoffs && target.handoffs[0] ? target.handoffs[0].at : (loopEnd + 60);
+        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: endC || ("偏离持续扩大，综合信度升至 " + ev.confidence + "，超过升级阈值 → 判定升级为正式事件「" + (target ? target.name : "正式事件") + "（" + (target ? target.level : ev.level) + "）」，进入标准管线（关系A）。") });
+        sp.steps = sp.steps.concat(buildPost(ev, loopEnd + 3, H, target ? target.level : ev.level));
+        sp.dotAt = loopEnd; sp.dotLevel = target ? target.level : ev.level;
+        sp.end = H;
+      } else {
+        sp.steps.push({ t0: loopEnd, t1: loopEnd + 3, caption: endC || ("偏离收敛/信度不足（" + ev.confidence + "），判定存档观察（挂起闭合，不入正式管线）；如信号复现将重新评估。") });
+        sp.end = loopEnd + 3;
+      }
+    } else {
+      var H = ev.handoffs && ev.handoffs[0] ? ev.handoffs[0].at : (D + 60);
+      sp.start = Math.max(0, D - lead);
+      sp.steps = buildPre(ev, sp.start, D).concat(buildPost(ev, D, H, ev.level));
+      sp.dotAt = D;
+      sp.end = H;
+    }
+    INFER[ev.eventNo] = sp;
+  }
+  MOCK.events.forEach(buildInferSpec);
+  // ---------- 执行监督条：船长视角，只监督需要人执行的事 ----------
+  // 从"执行段瞬间"开始监督（L4/L3/L2 统一）：exec.from ≤ SNAP ≤ exec.to 为活跃；结束后原行变灰停留 3 秒再移除
+  // 计划与回执驱动，不做测量型进度（完成度/剩余时间不下发执行端）
+  var BATCH_START = 6300, BATCH_STEP = 300;   // 靠岸 12:45 起 3 批次，每批 5 分钟窗口
+  function execState(e) {
+    if (!e.exec || e.exec.from == null) return null;
+    if (SNAP >= e.exec.from && SNAP <= (e.exec.to != null ? e.exec.to : SNAP)) return "run";
+    if (SNAP < e.exec.from) return "wait";
+    return "done";
+  }
+  function batchState(e, idx) {
+    var t0 = BATCH_START + idx * BATCH_STEP;
+    if (SNAP >= t0 + BATCH_STEP) return "done";
+    if (SNAP >= t0) return "cur";
+    return "todo";
+  }
+  function portState(p) { return SNAP >= p.at ? "ok" : "wait"; }
+  var esGrey = {}, esGreyTm = 0;   // 变灰停留：eventNo → 进入灰色时刻
+  function renderExecSup() {
+    var body = document.getElementById("esBody"), doneEl = document.getElementById("esDone"),
+        cnt = document.getElementById("esCnt"), clk = document.getElementById("esClk");
+    if (!body) return;
+    if (SNAP < esGreyTm || SNAP - esGreyTm > 180) { esGreyTm = SNAP; }
+    // 活跃集合：执行段内（exec.from ≤ SNAP ≤ exec.to）的 L2+；L1 自动不上
+    var active = [], doneList = [];
+    MOCK.events.forEach(function (e) {
+      if (e.outlib && e.outlib.isX) return;
+      if (e.level === "L1") return;
+      if (execState(e) === "run") active.push(e);
+      else if (execState(e) === "done" && e.level === "L3") doneList.push(e);
+    });
+    // L2 拥挤：只留最新 4 条
+    var l2 = active.filter(function (e) { return e.level === "L2"; }).sort(function (a, b) { return b.exec.from - a.exec.from; });
+    var keep = new Set(active.filter(function (e) { return e.level !== "L2"; }).map(function (e) { return e.eventNo; }));
+    l2.slice(0, 4).forEach(function (e) { keep.add(e.eventNo); });
+    active = active.filter(function (e) { return keep.has(e.eventNo); });
+    // 排序：L4 置顶 → L3 → L2
+    var LVO = { L4: 0, L3: 1, L2: 2 };
+    active.sort(function (a, b) { return (LVO[a.level] - LVO[b.level]) || ((a.exec && a.exec.from || 0) - (b.exec && b.exec.from || 0)); });
+    // 变灰停留：刚从"执行中"结束（≤3 秒）的事件保留一行灰色再消失
+    var prevActive = (body.dataset.prevAct || "").split(",").filter(Boolean);
+    var prevSet = {}; prevActive.forEach(function (n) { prevSet[n] = 1; });
+    greyRows = [];
+    Object.keys(esGrey).forEach(function (no) {
+      var e = null; for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) { e = MOCK.events[i]; break; }
+      if (!e) { delete esGrey[no]; return; }
+      if (SNAP - (esGrey[no] || 0) > 180) { delete esGrey[no]; return; }   // 灰 3 秒后移除
+      greyRows.push(e);
+    });
+    // 新增灰：上一 tick 在执行中、本 tick 已结束（exec.to 刚过）
+    active = active.filter(function (e) { return execState(e) === "run"; });   // 仅保留真正执行中
+    MOCK.events.forEach(function (e) {
+      if (e.outlib && e.outlib.isX) return;
+      if (e.level === "L1") return;
+      if (e.exec && e.exec.to != null && SNAP > e.exec.to && SNAP - e.exec.to <= 3 && prevSet[e.eventNo] && !(e.eventNo in esGrey)) {
+        esGrey[e.eventNo] = SNAP;
+      }
+      if (execState(e) === "run") delete esGrey[e.eventNo];
+    });
+    // 每 tick 签名：集合 + 状态 → 不变不重建 DOM
+    var LBLV = { L4: "⚑L4", L3: "L3", L2: "L2" };
+    function rowSig(e) {
+      var bs = e.level === "L4" && e.plan ? e.plan.batches.map(function (_, i) { return batchState(e, i); }).join("") : "";
+      var ps = (e.ports || []).map(function (p) { return portState(p); }).join("");
+      return e.eventNo + "|" + execState(e) + "|" + bs + "|" + ps;
+    }
+    var sig = active.map(rowSig).join(";") + "#" + greyRows.map(rowSig).join(";") + "@" + doneList.slice(0, 8).map(function (e) { return e.eventNo; }).join(",");
+    if (body.dataset.sig !== sig) {
+      function rowHtml(e, grey) {
+        var bat = "";
+        if (e.level === "L4" && e.plan && e.plan.batches) {
+          bat = '<span class="es-bats">' + e.plan.batches.map(function (b, i) {
+            var bs = batchState(e, i);
+            return '<span class="es-bat ' + (bs === "done" ? "done" : bs === "cur" ? "cur" : "") + '">' + (bs === "done" ? "✓" : bs === "cur" ? "●" : "") + (i + 1) + "</span>";
+          }).join("") + "</span>";
+        }
+        var ports = (e.ports || []).map(function (p) {
+          var ps = portState(p);
+          return '<span class="es-p ' + (ps === "ok" ? "ok" : ps === "wait" ? "wait" : "") + '" title="' + (p.content || p.portCode) + '">' + p.portCode + (ps === "ok" ? "✓" : "◐") + "</span>";
+        }).join("");
+        return '<div class="es-row ' + ("lv" + e.level.toLowerCase()) + (grey ? " done" : "") + '" data-no="' + e.eventNo + '">' +
+          '<span class="es-no">' + e.eventNo + '</span><span class="es-nm">' + e.name + '</span><span class="es-tag">' + LBLV[e.level] + '</span>' +
+          (bat || ports ? '<span class="es-st">' + bat + (ports ? '<span class="es-ports">' + ports + "</span>" : "") + "</span>" : "") +
+          "</div>";
+      }
+      var html = active.map(function (e) { return rowHtml(e, false); }).concat(greyRows.map(function (e) { return rowHtml(e, true); })).join("");
+      body.innerHTML = html || '<div style="font-size:9px;color:var(--tlo);padding:4px 2px">（当前无需要监督的执行）</div>';
+      body.dataset.sig = sig;
+      body.dataset.prevAct = active.map(function (e) { return e.eventNo; }).join(",");
+    }
+    var doneItems = doneList.slice(0, 8).map(function (e) { return "<i>✓</i>" + e.eventNo; }).join(" ");
+    if (doneEl.innerHTML !== doneItems) doneEl.innerHTML = doneItems || "—";
+    if (cnt) cnt.textContent = active.length + " 项";
+    if (clk) clk.textContent = clock(SNAP);
+  }
+  var inferRows = {}, inferEvicted = {}, inferFeed = null;
+  function resetInfer() { inferRows = {}; inferEvicted = {}; if (inferFeed) inferFeed.innerHTML = ""; }
+  function renderInfer() {
+    if (!inferFeed) inferFeed = document.getElementById("inferfeed");
+    var now = SNAP;
+    MOCK.events.forEach(function (ev) {
+      var sp = INFER[ev.eventNo];
+      if (!sp || now < sp.start || now > sp.end || inferEvicted[ev.eventNo]) return;
+      var row = inferRows[ev.eventNo];
+      if (!row) {
+        row = { el: null, dot: null, marq: null, done: false };
+        var el = document.createElement("div");
+        el.className = "irow";
+        el.dataset.no = ev.eventNo;   // 推理时无事件编号，行内不显示；仅内部用于挤出标记
+        row.dot = document.createElement("i"); row.dot.className = "idot";
+        var wrap = document.createElement("span"); wrap.className = "imarqwrap";
+        row.marq = document.createElement("span"); row.marq.className = "imarq";
+        wrap.appendChild(row.marq);
+        row.wrap = wrap;
+        el.appendChild(row.dot); el.appendChild(wrap);
+        row.el = el;
+        inferRows[ev.eventNo] = row;
+        inferFeed.insertBefore(el, inferFeed.firstChild);   // 最新在最上，旧的被挤下
+      }
+      if (!row.done) {
+        var cur = null;
+        for (var i = 0; i < sp.steps.length; i++) { var st = sp.steps[i]; if (now <= st.t1) { cur = st; break; } }
+        if (!cur) cur = sp.steps[sp.steps.length - 1];
+        row.marq.textContent = cur.caption;
+        if (now >= sp.end) {
+          row.marq.style.transform = "none";   // 推理完成：字幕静止在行内，留在原地
+          row.done = true;
+        } else {
+          var dur = Math.max(1, cur.t1 - cur.t0);
+          var p = Math.min(1, Math.max(0, (now - cur.t0) / dur));
+          var wrapW = (row.wrap && row.wrap.clientWidth) || 300;
+          var textW = row.marq.scrollWidth || 500;
+          row.marq.style.transform = "translateX(" + (wrapW - (wrapW + textW) * p) + "px)";   // 整段文本滚穿窗口，填满该步时长
+        }
+      }
+      var on = sp.dotAt != null && now >= sp.dotAt;
+      row.dot.classList.toggle("on", on);
+      if (on) row.dot.style.background = LVC[sp.dotLevel] || "#888";
+    });
+    // 容量挤出：新行顶部插入，最旧行被挤出窗口（即使还在推理）；被挤出后不再重建
+    var rowH = 26, cap = Math.max(3, Math.floor((inferFeed.clientHeight || 140) / rowH));
+    while (inferFeed.childElementCount > cap) {
+      var last = inferFeed.lastElementChild;
+      if (!last) break;
+      if (last.dataset && last.dataset.no) inferEvicted[last.dataset.no] = 1;
+      last.remove();
+    }
+    // 最新行标记：顶部一行 = 最新出现的推理事件（高亮底+左强调条+『最新』标签）
+    var first = inferFeed.firstElementChild;
+    Array.prototype.forEach.call(inferFeed.children, function (el) { el.classList.remove("new"); });
+    if (first) first.classList.add("new");
+    var cnt = document.getElementById("infercnt");
+    if (cnt) cnt.textContent = inferFeed.childElementCount;
+  }
+  // ---------- 右栏 ----------
+  function switchTab(tab) {
+    ["card", "flow", "audit"].forEach(function (t) { document.getElementById("tab-" + t).style.display = t === tab ? "" : "none"; });
+    Array.from(document.querySelectorAll("#tabs button")).forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-tab") === tab); });
+  }
+  function renderRight() {
+    var e = get(sel);
+    if (!e) {   // 未选中事件：右栏三个 tab 显示占位
+      document.getElementById("tab-card").innerHTML = '<div class="mcard"><div class="lbl">决策卡</div><div class="static-inline" style="color:var(--tlo)">点击左侧事件卡片查看决策卡</div></div>';
+      document.getElementById("tab-flow").innerHTML = "";
+      document.getElementById("tab-audit").innerHTML = "";
+      document.getElementById("tabs").style.display = "";
+      switchTab(demoTab || "card");
+      return;
+    }
+    var tid = SC.traceId(e);
+    // 升级确认窗口优先：E09（L3→L4）船长确认升级（decidedAt ≤ SNAP < upgrade.at）优先于执行段显示
+    var upActs = actsAt(e);
+    var inUpWin = false;
+    var inExec = e.exec && e.exec.from != null && SNAP >= e.exec.from && SNAP <= (e.exec.to || SNAP) && !inUpWin;
+    // 决策卡：执行段中不显示"确认"类动作，改为处置人员框 + 人工接管入口（接管按钮本镜头不点，仅展示）
+    var actsHtml = "";
+    if (inExec) {
+      var holder = "";
+      (e.chain || []).forEach(function (c) { if (!holder && ["CAPT", "MGR", "DUTY", "CRW"].indexOf(c.role) >= 0) holder = c.role; });
+      if (!holder) holder = e.currentRole || "DUTY";
+      var holderName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长", ENG: "工程 · 张工", CRW: "现场船员" })[holder] || holder;
+      actsHtml = '<div class="holder"><div class="lbl">处置人员（当前执行端）</div>' +
+        '<div class="static-inline">' + holderName + ' · ' + holder + ' · ' + clock(e.exec.from) + ' 起执行' +
+        (e.ports && e.ports.length ? ' · 已投放 ' + e.ports.map(function (p) { return p.portCode; }).join('/') : '') + '</div></div>' +
+        '<div class="act"><button class="btn" data-act="takeover" title="本镜头不点，仅展示人工接管入口">转人工接管</button></div>';
+    } else {
+      var acts = actsAt(e).map(function (a) { var cls = (a === "confirm") ? "btn primary" : "btn"; return '<button class="' + cls + '" data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
+      var idleTxt = '只读监控（'+role+' 无权处置 '+e.level+'）';
+      if (e.level === "L4" && role === "CAPT" && SNAP >= e.discover.at) idleTxt = "待船长确认执行方案（展开推理附件后点确认）";
+      var st = stateAt(e);
+      if (st === "未发生") idleTxt = "未发生（事件尚未出现）";
+      else if (st === "待审批") {
+        var apprName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[e.currentRole] || e.currentRole || "值班";
+        idleTxt = "待审批 · 审批人 " + apprName;
+      }
+      else if (st === "已恢复" || st === "已挂起") idleTxt = st + "，无处置动作";
+      if (e.outlib && e.outlib.isX && e.upgrade && e.upgrade.at != null && SNAP >= e.upgrade.at) idleTxt = "已升级 → 值班·李工核实升级 → 移交 " + (function(){ for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) return c.eventNo + " 处置"; } return "正式事件处置"; })();
+      actsHtml = '<div class="act">' + (acts || '<span class="lbl">' + idleTxt + '</span>') + "</div>";
+    }
+    document.getElementById("tab-card").innerHTML =
+      '<div class="banner ' + (e.level === "L4" ? "err" : "ok") + '" id="l4ban">' + (e.level === "L4" ? "⚑ " : "✓ ") + e.name +
+      '<span style="flex:1"></span><button class="btn sm" onclick="copyTrace()">复制 trace</button></div>' +
+      '<div class="mcard"><div class="lbl">决策卡 · ' + e.eventNo + " · " + e.level + '</div><b>' + stateAt(e) + "</b><div class=static-inline>" + e.summary + " · 置信度 " + e.confidence + '</div></div>' +
+      '<div class="mcard"><div class="lbl">处置动作</div>' + actsHtml + "</div>" +
+      (e.level === "L4" && e.plan ? '<div class="mcard"><div class="lbl">调整方案详情（船长决策）</div>' +
+        (e.plan.timing ? '<div class="plan-sec"><b>下船时机</b>' + e.plan.timing.map(function (x) { return '<div class="plan-row"><span>' + x.label + '</span>' + x.detail + '</div>'; }).join("") + '</div>' : "") +
+        (e.plan.batches ? '<div class="plan-sec"><b>分组批次</b>' + e.plan.batches.map(function (x) { return '<div class="plan-row"><span>' + x.label + '</span>' + x.detail + '</div>'; }).join("") + '</div>' : "") +
+        (e.plan.onboard ? '<div class="plan-sec"><b>船上通道</b>' + e.plan.onboard.map(function (x) { return '<div class="plan-row"><span>' + x.label + '</span>' + x.detail + '</div>'; }).join("") + '</div>' : "") +
+        '</div>' : "") +
+      '<div class="mcard"><div class="lbl">推理附件</div><button class="btn sm" onclick="toggleRsn()">展开推理附件 ▾</button>' +
+      '<div id="rsn" style="display:none;margin-top:6px">' + (e.reasoning.sections || []).map(function (x) { return "<p>" + x + "</p>"; }).join("") +
+      (e.reasoning.pipeline ? "<p style='margin-top:6px'><b>推理流水（模拟 AI 推理后台）</b></p>" + e.reasoning.pipeline.map(function (x) { return "<p>• " + x.step + "：" + x.detail + "</p>"; }).join("") : "") + "</div></div>";
+    // 审批流：链式步骤 + 签署单（§4.13.1 确认/签署分级）+ 处置人员框
+    var approve = e.approval || {};
+    var signed = approve.decidedAt != null;
+    var approved = signed && SNAP >= approve.decidedAt;   // 已过审批时刻 = 已审批/已签署
+    // 审批链：发现 → 移交 → 审批签署 → 执行（按时刻驱动状态，而非静态 chain 单节点）
+    var chainSteps = [];
+    chainSteps.push({ label: "发现", role: "SENSE", at: e.discover.at, done: SNAP >= e.discover.at });
+    (e.handoffs || []).forEach(function (h) { chainSteps.push({ label: "移交", role: h.to, at: h.at, done: SNAP >= h.at }); });
+    if (approve.waitStart != null) {
+      chainSteps.push({
+        label: signed ? "审批·签署" : "待审批", role: e.currentRole || "DUTY", at: approve.waitStart,
+        done: signed && SNAP >= approve.decidedAt, signed: signed && SNAP >= approve.decidedAt
+      });
+    }
+    if (e.exec && e.exec.from != null) chainSteps.push({ label: "执行", role: (e.exec.port || "CRW"), at: e.exec.from, done: SNAP >= e.exec.from });
+    // L3→L4 升级：经理审批并执行后，请求船长审批升级（船长确认是升级 L4 的门槛，放在执行段之后）
+    if (e.upgrade && e.upgrade.to === "L4" && e.level === "L3") {
+      // 升级 = AI 判据自动触发（执行中检测到更强信号达到 L4 安全判据），不需要人确认；L4 处置归船长
+      chainSteps.push({ label: "自动升级 L4", role: "CAPT", at: e.upgrade.at, done: e.upgrade.at != null && SNAP >= e.upgrade.at, auto: true });
+    }
+    var steps = chainSteps.map(function (c) {
+      return '<div class="step' + (c.done ? " done" : " cur") + '">' +
+        ({ DUTY: "值班", MGR: "运营经理", LEGAL: "法务", CAPT: "船长", SENSE: "感知", CRW: "现场", ENG: "工程", EXEC: "执行端" }[c.role] || c.role) +
+        (c.signed ? '<small>✓已审批</small>' : c.auto ? '<small>自动升级</small>' : '<small>' + clock(c.at) + '</small>') + "</div>";
+    }).join("");
+    // 审批人：L3 升级场景 → 经理已批（执行中更强信号→自动升级L4）；L4 → 船长；其余取决策角色
+    var approverRole = "";
+    (e.chain || []).forEach(function (c) { if (!approverRole && ["CAPT", "MGR", "DUTY"].indexOf(c.role) >= 0) approverRole = c.role; });
+    var approverTxt = "—";
+    if (e.level === "L3" && e.upgrade && e.upgrade.to === "L4") approverTxt = "经理 · 王主管（已批；执行中检测更强信号 → 自动升级 L4，呈船长处置）";
+    else if (e.level === "L4") approverTxt = "船长 · 郑船长";
+    else approverTxt = approverRole ? ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[approverRole] : "—";
+    var signRows = [
+      ["事件", e.eventNo + " " + e.name],
+      ["处置等级", e.level === "X" ? "库外/未分类（异常提醒 · 只路由不审批）" : e.level + "（" + (e.level === "L1" ? "自动 · 事后审计" : e.level === "L2" ? "值班级 · 值班点击确认" : e.level === "L3" ? "审批级 · 经理/法务电子签署" : "最高级 · 船长直接触发，事后补签") + "）"],
+      ["依据条款", (e.clauses || []).map(function (c) { return c.id + " " + c.snippet; }).join("；") || "—"],
+      ["审批人", approverTxt],
+      ["审批时间", approve.decidedAt != null ? clock(approve.decidedAt) : "待审批"],
+      ["trace", tid]
+    ].map(function (r) { return '<div class="srow"><span>' + r[0] + "</span><b>" + r[1] + "</b></div>"; }).join("");
+    var holder = (e.chain && e.chain.length && e.chain[e.chain.length - 1].role) || e.currentRole || "DUTY";
+    var holderName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长", ENG: "工程 · 张工" })[holder] || holder;
+    document.getElementById("tab-flow").innerHTML =
+      '<div class="mcard"><div class="lbl">审批流 · trace ' + tid + '</div><div class="steps">' + (steps || '<div class="step cur">待建链</div>') + '</div>' +
+      '<div class="static-inline" style="margin-top:6px">状态 ' + stateAt(e) + (e.takeover && e.takeover.taken ? " · 已人工接管(" + e.takeover.by + ")" : "") + "</div></div>" +
+      '<div class="mcard"><div class="lbl">确认单（电子签署 · §4.13.1 ' + e.level + '）</div>' + signRows +
+      '<div class="static-inline" style="margin-top:6px">' + (approved ? "✓ 已审批 · ✓ 已电子签署" : (signed ? "✓ 已电子签署（待生效）" : "⏳ 待审批 / 待签署")) + "</div></div>" +
+      '<div class="mcard"><div class="lbl">处置人员</div><div class="static-inline">' + holderName + " · " + holder +
+      (e.exec && e.exec.from != null ? " · " + clock(e.exec.from) + " 起执行" : "") +
+      '</div><div class="act" style="margin-top:6px"><button class="btn" data-act="takeover" title="本镜头不点，仅展示入口">转人工接管</button></div></div>';
+    // 端口/审计：端口执行记录（§4.7 端口库分类）+ 审计哈希链（§4.13.2 append-only）
+    var PORT_META = { APP: "告知端口 · 数字化/IT", SCR: "告知端口 · 娱乐/AV", PA: "告知端口 · 通播系统", CRW: "执行端 · 现场部门", OTA: "告知端口 · 商务/客服", VIS: "告知端口 · 港航外联", MGMT: "决策端 · 运营管理" };
+    var portRows = (e.ports || []).map(function (p) {
+      return '<div class="prow"><div class="lbl">' + p.portCode + '（' + (PORT_META[p.portCode] || "端口") + '）</div>' +
+        '<div class="static-inline">' + clock(p.at) + " 发布「" + (p.content || p.status) + "」 · " + p.status + "</div></div>";
+    }).join("");
+    if ((e.exec && e.exec.port) || (e.chain && e.chain.length)) {
+      var exPort = e.exec && e.exec.port || "CRW";
+      portRows += '<div class="prow"><div class="lbl">' + exPort + '（' + (PORT_META[exPort] || "执行端") + '）</div>' +
+        '<div class="static-inline">' + clock(e.exec && e.exec.from != null ? e.exec.from : e.approval.decidedAt) + " 执行中（人工作业 · 含恢复确认）</div></div>";
+    }
+    if (!portRows) portRows = '<div class="static-inline">（暂无端口投放记录）</div>';
+    var audit = SC.buildAuditChain(e, [
+      { at: e.discover.at, actor: "SENSE", action: "发现" },
+      { at: e.approval && e.approval.waitStart != null ? e.approval.waitStart : e.discover.at, actor: e.currentRole, action: "移交/待审批" },
+      { at: e.approval && e.approval.decidedAt != null ? e.approval.decidedAt : null, actor: e.currentRole, action: "确认签署" },
+      { at: e.recoverAt || e.upgrade.at || null, actor: e.currentRole, action: e.state }
+    ].filter(function (x) { return x.at != null; }));
+    document.getElementById("tab-audit").innerHTML =
+      '<div class="mcard"><div class="lbl">端口执行记录 · trace ' + tid + '</div>' + portRows + "</div>" +
+      '<div class="mcard"><div class="lbl">审计哈希链（append-only · §4.13.2）</div><div style="font-size:10px;color:var(--tlo)">' +
+      audit.map(function (r) { return '<div class="arow"><span>' + r.no + " " + r.action + '</span><code>' + r.hash + "</code></div>"; }).join("") +
+      "</div><button class='btn sm' style='margin-top:8px' onclick=\"toast('导出审计包 PDF')\">导出审计包 PDF</button></div>";
+    // banner 显示当前
+    document.getElementById("tabs").style.display = "";
+    switchTab(demoTab || "card");
+  }
+  function renderAll() { renderKPIs(); renderLog(); renderCardBand(); drawTimeline(); renderRight(); renderInfer(); renderExecSup(); }
+  // ---------- 交互（事件委托，避免丢点击） ----------
+  var esBody = document.getElementById("esBody");
+  if (esBody) esBody.addEventListener("click", function (e) {
+    var row = e.target.closest(".es-row[data-no]");
+    if (row) { tapFx(row); sel = row.getAttribute("data-no"); demoTab = null; renderAll(); }
+  });
+  document.getElementById("cardband").addEventListener("click", function (e) {
+    var no = e.target.closest("[data-no]");
+    if (no) { tapFx(no); sel = no.getAttribute("data-no"); demoTab = null; renderAll(); return; }
+    var db = e.target.closest("[data-donebar]");
+    if (db) {
+      var cnt = db.querySelector(".cnt"); 
+      toast("已处置明细弹窗（待定）· " + db.getAttribute("data-donebar") + " 已处置 " + (cnt ? cnt.textContent : "0") + " 条");
+    }
+  });
+  document.getElementById("apwrap").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-act]"); if (!b) return;
+    var ev = get(sel), act = b.getAttribute("data-act");
+    if (act === "escalate") { SC.doEscalate(ev, (ev.escalate && ev.escalate.to) || "L3", MOCK, SNAP); }
+    else if (act === "confirm") { doConfirm(ev); return; }
+    else { var r = SC.applyAction(ev, act, SNAP); if (!r.ok) { alert("非法状态转移：" + act); return; } renderAll(); }
+  });
+  document.getElementById("tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; tapFx(b); switchTab(b.getAttribute("data-tab"));
+  });
+  // ---------- 主题 / 模式 / 头像 / 缩放 ----------
+  var PAGE_SCALE = 1;   // stage 等比缩放因子（波纹定位用：屏幕坐标 ÷ scale = CSS 坐标）
+  function fit() {
+    var s = Math.min((innerWidth - 16) / 1520, (innerHeight - 24) / 940); s = Math.max(0.35, Math.min(1.4, s));
+    PAGE_SCALE = s;
+    var st = document.getElementById("stage"); st.style.transform = "scale(" + s + ")";
+    st.style.marginTop = Math.max(8, (innerHeight - 940 * s) / 2) + "px";
+    fitReserve();
+  }
+  // 只动端口窗高度：其下边缘拓展到"操作台日志顶 - 12px 间隙"，推理窗上边缘因此落在与日志顶同高；推理窗下边缘/时间轴一律不动
+  function fitReserve() {
+    var oplog = document.querySelector(".oplog"), reserve = document.querySelector(".reserve"), portlive = document.querySelector(".portlive");
+    if (!oplog || !reserve || !portlive) return;
+    var h = Math.max(40, (oplog.offsetTop - reserve.offsetTop) - 12);
+    portlive.style.height = h + "px";
+  }
+  addEventListener("resize", fit);
+  document.getElementById("theme").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    Array.from(this.children).forEach(function (x) { x.classList.toggle("on", x === b); });
+    document.body.className = b.getAttribute("data-t");
+  });
+  var MODES = { underway: "在航", departing: "离泊", berthing: "靠泊", alongside: "系泊" };
+  document.getElementById("modes").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    Array.from(this.children).forEach(function (x) { x.classList.toggle("on", x === b); });
+    setMode(b.getAttribute("data-m"));
+  });
+  function setMode(m) {
+    document.getElementById("modeLbl").textContent = MODES[m];
+    var underway = m === "underway";
+    var dots = document.getElementById("dots"), gang = document.getElementById("gang"), portBox = document.getElementById("portBox"), hull = document.getElementById("shipHull");
+    dots.style.display = underway ? "" : "none"; gang.style.display = underway ? "none" : ""; portBox.style.opacity = underway ? ".3" : "1";
+    hull.setAttribute("stroke", m === "alongside" ? "var(--exec)" : (m === "berthing" || m === "departing" ? "var(--detect)" : "var(--th)"));
+    var ls = gang.querySelectorAll("line");
+    for (var i = 0; i < ls.length; i++) { ls[i].setAttribute("stroke-dasharray", m === "alongside" ? "" : "5 4"); ls[i].setAttribute("stroke", m === "alongside" ? "var(--exec)" : (m === "berthing" ? "var(--detect)" : "var(--line1)")); }
+  }
+  function toggleDD(e) { e.stopPropagation(); document.getElementById("dd").classList.toggle("open"); }
+  function setRole(n, c) { var m = { "船长": "CAPT", "运营经理": "MGR", "法务": "LEGAL", "值班": "DUTY" }; role = m[n] || "CAPT"; document.getElementById("uth").innerHTML = n + '<small style="display:block;font-weight:400;color:var(--tlo);font-size:10px">登录用户 · ' + role + '</small>'; document.getElementById("avT").textContent = c; document.getElementById("dd").classList.remove("open"); renderAll(); }
+  document.addEventListener("click", function () { document.getElementById("dd").classList.remove("open"); });
+  function toggleRsn() { var r = document.getElementById("rsn"); if (r) r.style.display = r.style.display === "none" ? "" : "none"; }
+  // 确认执行方案（L4 船长拍板）：手动点击与 DEMO 自动点击共用；不走 machine.allow 校验（E-L4 数据 allow 不含 confirm）
+  function doConfirm(ev) {
+    var t = SNAP;
+    ev.approval = ev.approval || {};
+    ev.approval.outcome = "confirm";
+    ev.approval.decidedAt = t;
+    if (!ev.handoffs) ev.handoffs = [];
+    var hasExec = ev.handoffs.some(function (h) { return h.to === "EXEC"; });
+    if (!hasExec) ev.handoffs.push({ at: t, from: ev.currentRole || "CAPT", to: "EXEC", kind: "normal" });
+    ev.exec = { from: t, to: (ev.exec && ev.exec.to) || null, port: (ev.exec && ev.exec.port) || "CRW", status: "running" };
+    ev.state = "执行中";
+    if (ev.machine) { ev.machine.current = "执行中"; ev.machine.allow = ["recover", "suspend"]; }
+    toast("船长已确认执行方案 → 下达执行");
+    renderAll();
+  }
+  // ---------- 点击波纹（触屏质感特效：点击处扩散光圈，让观众看清点了哪里） ----------
+  // 坐标换算：getBoundingClientRect 返回屏幕像素；挂在 .main（stage 缩放坐标系内）需 ÷PAGE_SCALE 得 CSS 像素
+  function tapFx(el) {
+    if (!el) return;
+    var host = document.querySelector(".main") || document.body;
+    var r = el.getBoundingClientRect(), h = host.getBoundingClientRect();
+    var s = PAGE_SCALE || 1;
+    var cx = (r.left + r.width / 2 - h.left) / s, cy = (r.top + r.height / 2 - h.top) / s;
+    var d = (Math.max(r.width, r.height) * 0.6 + 8) / s;
+    var rip = document.createElement("i");
+    rip.className = "ripple";
+    rip.style.left = cx + "px"; rip.style.top = cy + "px";
+    rip.style.width = d + "px"; rip.style.height = d + "px";
+    host.appendChild(rip);
+    setTimeout(function () { if (rip.parentNode) rip.parentNode.removeChild(rip); }, 700);
+  }
+  function tapFxSel(sel) { var el = document.querySelector(sel); if (el) tapFx(el); }
+  function toast(m) {   // 页面内轻提示（不弹原生 alert，避免阻断演示）
+    var t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toastbar"; document.body.appendChild(t); }
+    t.textContent = "✓ " + m;
+    t.classList.remove("show"); void t.offsetWidth; t.classList.add("show");
+    clearTimeout(t._tm); t._tm = setTimeout(function () { t.classList.remove("show"); }, 1600);
+  }
+  function copyLog() { toast("日志已复制（append-only · 哈希链）"); }
+  function copyTrace() { toast("trace 已复制（可扫码/检索）"); }
+  function copyRsn() { toast("推理全文已复制"); }
+  // 操作台日志：筛选 + 搜索
+  document.querySelector(".oplog .ctl").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-f]"); if (!b) return;
+    Array.from(document.querySelectorAll(".oplog .ctl button[data-f]")).forEach(function (x) { x.classList.toggle("on", x === b); });
+    logFilter = b.getAttribute("data-f"); renderLog();
+  });
+  document.getElementById("logSearch").addEventListener("input", function () { renderLog(); });
+  document.getElementById("logFz").onclick = function () {
+    logFrozen = !logFrozen;
+    if (logFrozen) logFrozenAt = SNAP;
+    this.innerHTML = logFrozen
+      ? '<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 1 L9 5 L2 9 Z" fill="currentColor"/></svg>'
+      : '<svg width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="0" width="3" height="10" rx="1" fill="currentColor"/><rect x="6" y="0" width="3" height="10" rx="1" fill="currentColor"/></svg>';
+    this.title = logFrozen ? "继续日志滚动" : "冻结日志滚动";
+    renderLog();
+  };
+  // ---------- 时钟 / 控制（时间轴实时生长） ----------
+  var tlleg=document.querySelector(".tlleg");
+  tlleg.innerHTML = tlleg.innerHTML + '<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center">' +
+    '<label style="color:var(--tlo);font-size:10px;display:inline-flex;align-items:center;gap:3px">时间 <input id="tlsnaprange" type="range" min="0" max="'+total+'" step="30" value="0" style="width:170px"></label>' +
+    '<button class="btn sm" id="tlplay">⏸ 暂停</button>' +
+    '<input id="tlspeed" type="range" min="1" max="120" value="20" style="width:90px">' +
+    '<button class="btn sm" id="tlsnap">+60s</button>' +
+    '<button class="btn sm" id="tldemo" title="按镜头计划自动点击（选中事件/展开附件/确认/切换审批流/审计）">🎬 自动演示</button>' +
+    '<span id="tlsnaplbl" style="font-size:10px">快照…</span></span>';
+  document.getElementById("tlplay").onclick=function(){ playing=!playing; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
+  document.getElementById("tlspeed").addEventListener("input",function(){ spd=+this.value; });
+  document.getElementById("tlsnap").onclick=function(){ SNAP=(SNAP+60)%total; if(!playing) tick(); };
+  // 可拖动时间条：拖到哪，时间轴/时钟/刻度/KPI/日志/模式 全部对齐
+  document.getElementById("tlsnaprange").addEventListener("input", function(){
+    SNAP = +this.value;
+    playing = false;
+    var p = document.getElementById("tlplay"); if (p) p.textContent = "▶ 播放";
+    resetBand(SNAP);          // 拖动/回退：按目标时刻确定性重建队列，任何时刻状态一致
+    resetInfer();             // 推理窗同样按目标时刻重建
+    updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog(); renderCardBand(); renderInfer();
+  });
+  function updateSnapLbl(){
+    var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+clock(SNAP);
+    var ck=document.getElementById("clockTop"); if(ck) ck.textContent=clock(SNAP);
+    var sr=document.getElementById("tlsnaprange"); if(sr) sr.value=SNAP;
+    // 局势图模式跟随当前阶段（系泊/离泊/在航/靠泊）
+    var acc=0, modes=["alongside","departing","underway","berthing"], idx=modes.length-1;
+    for(var i=0;i<MOCK.session.phases.length;i++){ acc+=MOCK.session.phases[i].dur; if(SNAP<acc){ idx=i; break; } }
+    setMode(modes[idx]);
+    Array.from(document.querySelectorAll("#modes button")).forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-m")===modes[idx]); });
+  }
+  function tick(){
+    SNAP=(SNAP+spd*0.1)%total;
+    var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
+    drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog(); renderCardBand(); renderInfer(); renderExecSup();
+    if(version>lastUI){ lastUI=version; renderRight(); }
+    demoStep();
+  }
+  // ---------- 自动演示（导演层）：按镜头计划自动点击，拍摄/演示用 ----------
+  var DEMO_ON = false, demoIdx = 0, demoTab = null;
+  function demoReset() { demoIdx = 0; demoTab = null; }
+  var DEMO = [
+    // E01 主镜头（船长视角：跳过值班审核过程，执行段开始瞬间直接看到已审核状态）
+    { at: 466, run: function () { demoTab = null; sel = "X-0001"; tapFxSel('#cardband [data-no="X-0001"]'); renderAll(); } },                       // 升级绿竖线后点 X 卡（波纹+决策卡）
+    { at: 540, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 点展开推理附件（X）
+    { at: 726, run: function () { demoTab = null; sel = "E01-0001"; tapFxSel('#cardband [data-no="E01-0001"]'); renderAll(); } },                     // 执行段开始瞬间点 E01 卡（直接显示已审核/执行中）
+    { at: 760, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 点展开推理附件（E01）
+    { at: 795, run: function () { tapFxSel('#l4ban button'); toast("trace 已复制（可扫码/检索）"); } },                  // 点复制 trace（哈希链可追溯）
+    { at: 830, run: function () { demoTab = "flow"; tapFxSel('#tabs button[data-tab="flow"]'); renderRight(); } },                  // 执行段中点审批流（已审批/已签署）
+    { at: 900, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } },                  // 审批流停留后点端口·审计
+    { at: 940, run: function () { tapFxSel('#tab-audit button'); toast("导出审计包 PDF"); } },                  // 审计页点导出审计包 PDF（§4.13.2 可打印性）
+    { at: 980, run: function () { tapFxSel('.oplog .ctl button[data-f="all"]'); toast("日志已复制（append-only · 哈希链）"); } },                  // 收尾：操作台日志复制（可选）
+    // ===== E09 主镜头（L3 预警 → 执行中更强信号 → 自动升级 L4，4920–5220） =====
+    { at: 4940, run: function () { demoTab = null; sel = "E09-0001"; tapFxSel('#cardband [data-no="E09-0001"]'); renderAll(); } },   // 点 E09 卡（L3 长链推演）
+    { at: 5175, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 经理审批后展开 E09 推理附件（长链推演/执行段更强信号依据）
+    { at: 5210, run: function () { toast("执行段收到更强信号（港口靠泊窗口取消·侧风 34kn）→ AI 判据达标自动升级 L4"); } },   // 升级前提示（无需人确认升级）
+    // ===== L4 主镜头（主剧情高潮：船长确认执行方案，12:27–12:33） =====
+    { at: 5240, run: function () { demoTab = null; sel = "E-L4-0001"; tapFxSel('#cardband [data-no="E-L4-0001"]'); renderAll(); } },   // 点 L4 卡（L4 告警脉冲 + 决策页含调整方案详情）
+    { at: 5270, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 船长先展开 L4 推理附件（7 段长链）
+    { at: 5315, run: function () { tapFxSel('#tab-card [data-act="confirm"]'); var e = get("E-L4-0001"); if (e) { doConfirm(e); demoTab = null; } } },  // 船长点确认方案（doConfirm 直接生效，进执行段）
+    { at: 5450, run: function () { demoTab = "flow"; tapFxSel('#tabs button[data-tab="flow"]'); renderRight(); } },                  // 执行段中点审批流（船长签署 + 法务知情）
+    { at: 5600, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } }                   // 审批流停留后点端口·审计（五端口）
+  ];
+  function demoStep() {
+    if (!DEMO_ON || !playing) return;
+    while (demoIdx < DEMO.length && SNAP >= DEMO[demoIdx].at) {
+      var d = DEMO[demoIdx++];
+      try { d.run(); } catch (err) { console.error("demo-step:", err && err.message); }
+    }
+  }
+  document.getElementById("tldemo").onclick = function () {
+    DEMO_ON = !DEMO_ON; demoIdx = 0; demoTab = null;
+    this.textContent = DEMO_ON ? "🎬 演示中…" : "🎬 自动演示";
+    this.classList.toggle("on", DEMO_ON);
+  };
+  // 拍摄辅助：?demo=1 自动开启演示（放在 DEMO 定义后，确保变量就绪）
+  if (/[?&]demo=1/.test(location.search)) { DEMO_ON = true; demoIdx = 0; var _db = document.getElementById("tldemo"); if (_db) { _db.textContent = "🎬 演示中…"; _db.classList.add("on"); } }
+  setInterval(function(){ if(playing) tick(); },100);
+  var version=1, lastUI=0;
+  fit(); setMode("alongside"); updateSnapLbl(); renderAll();
+
+</script>
+
+</body>
+</html>

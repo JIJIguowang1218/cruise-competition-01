@@ -23,8 +23,12 @@
   .app{width:100%;height:100%;background:var(--bg0);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 70px rgba(0,0,0,.55);}
   /* 顶栏：留白分隔，仅一条极淡基线 */
   .topbar{display:flex;align-items:center;gap:14px;padding:12px 20px;background:transparent;box-shadow:0 1px 0 var(--line0)}
-  .brand{font-weight:800;font-size:15px}
-  .brand small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px}
+  .brand-logo{height:22px;width:auto;image-rendering:pixelated;display:block}
+  .brand-text{display:block;line-height:1.1}
+  .brand-text small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  @keyframes brandFlash{0%,100%{opacity:1}50%{opacity:.12}}
+  .brand-logo.flash{animation:brandFlash .35s linear 2}
   .kpis{display:flex;gap:8px}
   .kpi{background:var(--bg2);padding:5px 12px;border-radius:8px;font-size:11px;color:var(--tlo);min-width:74px}
   .kpi b{font-size:17px;color:var(--th);display:block;line-height:1.15}
@@ -50,6 +54,8 @@
   .clock{font-size:24px;font-weight:800;letter-spacing:.5px}
   .clock small{display:block;font-size:10px;color:var(--tlo);font-weight:400}
   .chip{background:var(--bg2);padding:2px 10px;font-size:10px;color:var(--tlo);border-radius:999px}
+  .chip.warn{color:#f0a43f;background:rgba(240,164,63,.12);border:1px solid rgba(240,164,63,.4)}
+  .chip.danger{color:#e5484d;background:rgba(229,72,77,.12);border:1px solid rgba(229,72,77,.4)}
   /* 主区：卡片式分区，靠留白/gap/底色分层，去边框线 */
   .main{flex:1;display:flex;gap:14px;padding:14px;min-height:0;position:relative}
   .col{min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:12px}
@@ -205,6 +211,19 @@
     background:rgba(10,18,26,.92);border:1px solid var(--exec);color:#e8fff3;font-size:12px;padding:8px 16px;
     border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.5);opacity:0;transition:transform .25s ease,opacity .25s ease;pointer-events:none}
   .toastbar.show{transform:translateX(-50%) translateY(0);opacity:1}
+  /* 开场/聚光/字幕层（录屏用，不参与布局） */
+  .cinema-mask{position:fixed;inset:0;z-index:900;pointer-events:none;display:none}
+  .cinema-pane{position:fixed;background:rgba(3,5,8,.74);z-index:900;pointer-events:none;transition:opacity .2s ease}
+  .cinema-title{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:950;text-align:center;display:none;pointer-events:none;line-height:1.25}
+  .cinema-title .clarsyn-hero{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:8px}
+  .cinema-title .clarsyn-logo{flex:none;line-height:0}
+  .cinema-title .clarsyn-logo svg{display:block;width:min(40vw,250px);height:auto;image-rendering:pixelated}
+  .cinema-title .clarsyn-sub{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.55);max-width:92vw;margin-left:auto;margin-right:auto}
+  .cinema-title .clarsyn-sub.cn{font-size:22px;font-weight:700;letter-spacing:1px;line-height:1.4;text-align:left;white-space:nowrap}
+  .cinema-title .clarsyn-sub.en{font-size:14px;color:#c7d0dc;margin-top:6px;letter-spacing:.5px;line-height:1.45}
+  .cinema-caption{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:950;background:rgba(140,150,165,.38);padding:8px 22px;border-radius:6px;font-size:20px;line-height:1.5;color:#fff;text-align:center;max-width:80vw;display:none;pointer-events:none;white-space:normal}
+  .ff-icon{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:950;font-size:72px;color:rgba(255,255,255,.75);text-shadow:0 2px 14px rgba(0,0,0,.5);display:none;pointer-events:none;animation:ffblink .8s ease-in-out infinite;line-height:1}
+  @keyframes ffblink{0%,100%{opacity:.25}50%{opacity:1}}
   .holder{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
   .srow{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 0;border-bottom:1px dashed var(--line1)}
   .srow span{color:var(--tlo);white-space:nowrap}
@@ -236,7 +255,10 @@
 <div class="app">
   <!-- 顶栏 -->
   <div class="topbar">
-    <div class="brand">事件协同工作台<small>翡翠号 · 航次 VN-0420</small></div>
+    <div class="brand">
+      <img class="brand-logo" src="../../assets/brand/clarsyn-title-preview.svg" alt="ClarSyn">
+      <span class="brand-text">事件协同工作台<small>翡翠号 · 航次 VN-0420</small></span>
+    </div>
     <div class="kpis" id="kpis">
       <div class="kpi">L4 处置<b>0</b></div>
       <div class="kpi">处置中<b>0</b></div>
@@ -263,7 +285,7 @@
       </div>
       <div class="uth" id="uth">船长<small>登录用户</small></div>
       <div class="clock"><span id="clockTop">11:42</span><small>本地 · 船时</small></div>
-      <span class="chip">韧性 T0</span>
+      <span class="chip" id="resChip">韧性 100</span>
     </div>
   </div>
 
@@ -369,12 +391,158 @@
 </div>
 </div>
 </div>
+<!-- 录屏用：开场/聚光/字幕层（固定定位，不参与布局） -->
+<div id="cinemaMask" class="cinema-mask">
+  <i class="cinema-pane" data-side="top"></i>
+  <i class="cinema-pane" data-side="bottom"></i>
+  <i class="cinema-pane" data-side="left"></i>
+  <i class="cinema-pane" data-side="right"></i>
+</div>
+<div id="cinemaTitle" class="cinema-title">
+  <div class="clarsyn-hero">
+    <div class="clarsyn-logo"><svg xmlns="http://www.w3.org/2000/svg" width="240" height="70" viewBox="0 0 240 70" shape-rendering="crispEdges">
+<title>ClarSyn</title>
+<rect x="6" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="16" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="16" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="22" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="28" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="34" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="40" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="40" width="5" height="5" fill="#4c8dff"/>
+<rect x="6" y="46" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="46" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="46" width="5" height="5" fill="#4c8dff"/>
+<text x="38" y="52" textLength="82" lengthAdjust="spacingAndGlyphs" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#e6ebf2" style="shape-rendering:auto">lar</text>
+<rect x="134" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="16" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="22" width="5" height="5" fill="#f0a43f"/>
+<rect x="134" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="34" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="40" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="134" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="46" width="5" height="5" fill="#f0a43f"/>
+<text x="166" y="52" textLength="60" lengthAdjust="spacingAndGlyphs" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#e6ebf2" style="shape-rendering:auto">yn</text>
+</svg></div>
+    <div class="clarsyn-sub cn">基于多agent协同的邮轮靠港接驳动态调度系统</div>
+  </div>
+  <div class="clarsyn-sub en">Multi-Agent Collaborative Dynamic Scheduling System for Cruise Berthing &amp; Shore Connection</div>
+</div>
+<div id="cinemaCaption" class="cinema-caption"></div>
+<div id="fastForwardIcon" class="ff-icon">⏩</div>
 <script src="../mock/mock-data.js"></script>
 <script src="../mock/sim-core.js"></script>
 <script src="../mock/cot-text.js"></script>
 <script>
   var MOCK = window.MOCK, SC = window.SimCore;
   var total = MOCK.session.total, SNAP = 0, playing = true, spd = 20, W = 900; // 起始 11:00，滑动窗口10min
+  // ---- 默认播放节奏：两段默认速度，其余加速，总时长约109.6s（90-120s 内） ----
+  var VIDEO_ON = true;   // 始终按该节奏播放，无需按钮/参数
+  var VIDEO_SPD_DEFAULT = 20, VIDEO_SPD_FAST = 120;
+  var VIDEO_A = { start: 120, end: 945 };    // X-0001 AI推理出现 → E01 端口·审计 + 导出PDF + 5s
+  var VIDEO_B = { start: 4920, end: 5605 };  // E09 正式发现(AI推理出现) → L4 端口·审计 + 5s
+  var VIDEO_END = VIDEO_B.end;
+  function videoSpdFor(s) {
+    if ((s >= VIDEO_A.start && s < VIDEO_A.end) || (s >= VIDEO_B.start && s < VIDEO_B.end)) return VIDEO_SPD_DEFAULT;
+    return VIDEO_SPD_FAST;
+  }
+  // ---- 录屏用：开场字幕与聚光效果（按实际播放秒数驱动） ----
+  var videoReal = 0, lastVideoTs = null;
+  var CINEMA_SECTIONS = {
+    top:    { el: function () { return document.querySelector(".topbar"); } },
+    left:   { el: function () { return document.querySelector(".c-left"); } },
+    center: { el: function () { return document.querySelector(".c-mid"); } },
+    right:  { el: function () { return document.querySelector(".c-right"); } },
+    card:   { el: function () { return document.getElementById("cardband"); } }
+  };
+  var CINEMA_PLAN = [
+    { from: 0,    to: 4,    type: "title" },
+    { from: 4,    to: 7,    type: "focus", key: "top",    caption: "上栏 — 全局状态与核心 KPI" },
+    { from: 7,    to: 10,   type: "focus", key: "left",   caption: "左栏 — 泊位态势与操作日志" },
+    { from: 10,   to: 13,   type: "focus", key: "center", caption: "中栏 — AI 推理 / 时间轴 / 事件队列" },
+    { from: 13,   to: 16,   type: "focus", key: "right",  caption: "右栏 — 决策卡 / 审批流 / 审计" },
+    { from: 16.3, to: 18.3, type: "focus", key: "card",   caption: "事件卡片带 — X-0001 库外信号进入 AI 推理队列" },
+    { from: 18.3, to: 29.3, type: "focus", key: "right",  caption: "右栏 — 核对 X-0001 推理依据 / 审批链路 / 审计" },
+    { from: 29.3, to: 31.3, type: "focus", key: "card",   caption: "事件卡片带 — E01 登船排队已升级为正式事件" },
+    { from: 31.3, to: 42.3, type: "focus", key: "right",  caption: "右栏 — E01 审批签署 / 端口触达 / 审计导出" },
+    { from: 42.3, to: 47.3, type: "fast" },
+    { from: 74.4, to: 76.4, type: "focus", key: "card",   caption: "事件卡片带 — E09 台风航变 L3 预警进入处置" },
+    { from: 76.4, to: 89.4, type: "focus", key: "right",  caption: "右栏 — E09 长链推演 / 更强信号 / L4 升级依据" },
+    { from: 89.4, to: 91.4, type: "focus", key: "card",   caption: "事件卡片带 — E-L4 已由 AI 自动升级，船长待命" },
+    { from: 91.4, to: 107.6, type: "focus", key: "right", caption: "右栏 — L4 方案确认 / 船长签署 / 五端口审计" }
+  ];
+  function cinemaHide() {
+    var mask = document.getElementById("cinemaMask"); if (mask) mask.style.display = "none";
+    var t = document.getElementById("cinemaTitle"); if (t) t.style.display = "none";
+    var c = document.getElementById("cinemaCaption"); if (c) { c.style.display = "none"; c.textContent = ""; }
+    var ff = document.getElementById("fastForwardIcon"); if (ff) ff.style.display = "none";
+  }
+  function cinemaFullDim() {
+    var mask = document.getElementById("cinemaMask"); if (!mask) return;
+    mask.style.display = "block";
+    var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+    var p = mask.children;
+    p[0].style.cssText = "top:0px;left:0px;width:" + vw + "px;height:" + vh + "px;";
+    for (var i = 1; i < p.length; i++) p[i].style.cssText = "top:0;left:0;width:0;height:0;";
+    var t = document.getElementById("cinemaTitle"); if (t) t.style.display = "block";
+    var c = document.getElementById("cinemaCaption"); if (c) c.style.display = "none";
+  }
+  function cinemaFast() {
+    var mask = document.getElementById("cinemaMask"); if (mask) mask.style.display = "none";
+    var t = document.getElementById("cinemaTitle"); if (t) t.style.display = "none";
+    var c = document.getElementById("cinemaCaption"); if (c) { c.style.display = "none"; c.textContent = ""; }
+    var ff = document.getElementById("fastForwardIcon"); if (ff) ff.style.display = "block";
+  }
+  function cinemaFocus(key, caption) {
+    var sec = CINEMA_SECTIONS[key]; if (!sec) { cinemaHide(); return; }
+    var el = sec.el(); if (!el) { cinemaHide(); return; }
+    var mask = document.getElementById("cinemaMask"); if (!mask) return;
+    var rect = el.getBoundingClientRect();
+    var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+    var top = Math.max(0, rect.top), left = Math.max(0, rect.left);
+    var bottom = Math.min(vh, rect.bottom), right = Math.min(vw, rect.right);
+    var panes = mask.children;
+    function set(i, t, l, w, h) {
+      panes[i].style.cssText = "top:" + Math.max(0, t) + "px;left:" + Math.max(0, l) + "px;width:" + Math.max(0, w) + "px;height:" + Math.max(0, h) + "px;";
+    }
+    set(0, 0, 0, vw, top);
+    set(1, bottom, 0, vw, vh - bottom);
+    set(2, top, 0, left, bottom - top);
+    set(3, top, right, vw - right, bottom - top);
+    mask.style.display = "block";
+    var t = document.getElementById("cinemaTitle"); if (t) t.style.display = "none";
+    var c = document.getElementById("cinemaCaption");
+    if (c) {
+      if (caption) { c.textContent = caption; c.style.display = "block"; }
+      else { c.style.display = "none"; c.textContent = ""; }
+    }
+  }
+  function updateCinema(real) {
+    var cur = null;
+    for (var i = 0; i < CINEMA_PLAN.length; i++) {
+      if (real >= CINEMA_PLAN[i].from && real < CINEMA_PLAN[i].to) { cur = CINEMA_PLAN[i]; break; }
+    }
+    if (!cur) { cinemaHide(); return; }
+    if (cur.type === "title") cinemaFullDim();
+    else if (cur.type === "fast") cinemaFast();
+    else cinemaFocus(cur.key, cur.caption || "");
+  }
+  function realFromSnap(s) {
+    if (s <= 120) return s / 120;
+    if (s <= 945) return 1 + (s - 120) / 20;
+    if (s <= 4920) return 42.25 + (s - 945) / 120;
+    if (s <= 5605) return 75.375 + (s - 4920) / 20;
+    return 109.625 + (s - 5605) / 120;
+  }
   // ---- 会话起点时钟（11:00）+ 半小时真实时刻刻度（grammar v5 §8.6） ----
   var VS = MOCK.meta.voyageStart || "11:00", vsParts = VS.split(":").map(Number), vsMin = vsParts[0] * 60 + (vsParts[1] || 0);
   function clock(t){ var m = vsMin + t / 60, h = Math.floor(m / 60) % 24, mm = Math.floor(m % 60); return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm; }
@@ -469,6 +637,23 @@
       return e.suspend.decidedAt <= SNAP && SNAP <= until;   // 实时挂起数：解决/升级后不再计入
     }).length;
     var alert = l4 > 0 && SNAP < 5820;   // L4 告警期 = E-L4 诞生(12:27)后约 8 分钟闪烁
+    // 韧性指标：简单实时规则，满分100，按当前处置负担扣分
+    var resW = { L1: 1, L2: 2, L3: 4, L4: 8 };
+    var resScore = 100;
+    MOCK.events.forEach(function (e) {
+      if (e.discover.at > SNAP) return;
+      var w = resW[e.level] || (e.outlib && e.outlib.isX ? 1 : 1);
+      var suspended = e.suspend && e.suspend.decidedAt != null && e.suspend.decidedAt <= SNAP;
+      var active = !suspended && SNAP < endOf(e);
+      if (active) resScore -= w;
+      else if (suspended) resScore -= Math.max(1, Math.floor(w / 2));
+    });
+    resScore = Math.max(0, Math.min(100, Math.round(resScore)));
+    var resChip = document.getElementById("resChip");
+    if (resChip) {
+      resChip.textContent = "韧性 " + resScore;
+      resChip.className = "chip" + (resScore >= 80 ? "" : resScore >= 60 ? " warn" : " danger");
+    }
     document.getElementById("kpis").innerHTML =
       '<div class="kpi' + (alert ? " warn pulse" : "") + '">L4 处置<b>' + l4 + "</b></div>" +
       '<div class="kpi">处置中<b>' + act + "</b></div>" +
@@ -1244,15 +1429,10 @@
   // ---------- 时钟 / 控制（时间轴实时生长） ----------
   var tlleg=document.querySelector(".tlleg");
   tlleg.innerHTML = tlleg.innerHTML + '<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center">' +
-    '<label style="color:var(--tlo);font-size:10px;display:inline-flex;align-items:center;gap:3px">时间 <input id="tlsnaprange" type="range" min="0" max="'+total+'" step="30" value="0" style="width:170px"></label>' +
+    '<label style="color:var(--tlo);font-size:10px;display:inline-flex;align-items:center;gap:3px">时间 <input id="tlsnaprange" type="range" min="0" max="'+total+'" step="30" value="0" style="width:200px"></label>' +
     '<button class="btn sm" id="tlplay">⏸ 暂停</button>' +
-    '<input id="tlspeed" type="range" min="1" max="120" value="20" style="width:90px">' +
-    '<button class="btn sm" id="tlsnap">+60s</button>' +
-    '<button class="btn sm" id="tldemo" title="按镜头计划自动点击（选中事件/展开附件/确认/切换审批流/审计）">🎬 自动演示</button>' +
     '<span id="tlsnaplbl" style="font-size:10px">快照…</span></span>';
-  document.getElementById("tlplay").onclick=function(){ playing=!playing; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
-  document.getElementById("tlspeed").addEventListener("input",function(){ spd=+this.value; });
-  document.getElementById("tlsnap").onclick=function(){ SNAP=(SNAP+60)%total; if(!playing) tick(); };
+  document.getElementById("tlplay").onclick=function(){ playing=!playing; if(playing) lastVideoTs=null; this.textContent=playing?"⏸ 暂停":"▶ 播放"; };
   // 可拖动时间条：拖到哪，时间轴/时钟/刻度/KPI/日志/模式 全部对齐
   document.getElementById("tlsnaprange").addEventListener("input", function(){
     SNAP = +this.value;
@@ -1260,7 +1440,15 @@
     var p = document.getElementById("tlplay"); if (p) p.textContent = "▶ 播放";
     resetBand(SNAP);          // 拖动/回退：按目标时刻确定性重建队列，任何时刻状态一致
     resetInfer();             // 推理窗同样按目标时刻重建
-    updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog(); renderCardBand(); renderInfer();
+    // 拖动后若继续播放，自动演示从当前时刻之后的动作继续
+    demoIdx = 0;
+    while (demoIdx < DEMO.length && DEMO[demoIdx].at < SNAP) demoIdx++;
+    demoTab = null;
+    videoReal = realFromSnap(SNAP);   // 与进度条/播放节奏重新对齐
+    lastVideoTs = null;
+    cinemaHide();                     // 拖动查看时不显示聚光/字幕，避免遮挡
+    var bl = document.querySelector(".brand-logo"); if (bl) bl.classList.remove("flash");
+    updateSnapLbl(); drawTimeline(); renderKPIs(); renderLog(); renderCardBand(); renderInfer(); renderExecSup();
   });
   function updateSnapLbl(){
     var el=document.getElementById("tlsnaplbl"); if(el) el.textContent="快照 "+clock(SNAP);
@@ -1273,14 +1461,29 @@
     Array.from(document.querySelectorAll("#modes button")).forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-m")===modes[idx]); });
   }
   function tick(){
-    SNAP=(SNAP+spd*0.1)%total;
+    var now = performance.now();
+    if (lastVideoTs == null) videoReal += 0.1; else videoReal += Math.max(0, Math.min(0.5, (now - lastVideoTs) / 1000));
+    lastVideoTs = now;
+    if (VIDEO_ON) {
+      if (SNAP >= VIDEO_END) {
+        playing = false; var p = document.getElementById("tlplay"); if (p) p.textContent = "▶ 播放"; cinemaHide();
+        var bl = document.querySelector(".brand-logo"); if (bl) { bl.classList.remove("flash"); void bl.offsetWidth; bl.classList.add("flash"); }
+        return;
+      }
+      spd = videoSpdFor(SNAP);
+      var next = SNAP + spd * 0.1;
+      SNAP = next > VIDEO_END ? VIDEO_END : next;
+    } else {
+      SNAP = (SNAP + spd * 0.1) % total;
+    }
     var ch=false; MOCK.events.forEach(function(e){ var b=e.state; SC.autoTick(e,SNAP,MOCK); if(e.state!==b) ch=true; }); if(ch) version++;
     drawTimeline(); updateSnapLbl(); renderKPIs(); renderLog(); renderCardBand(); renderInfer(); renderExecSup();
     if(version>lastUI){ lastUI=version; renderRight(); }
     demoStep();
+    updateCinema(videoReal);
   }
   // ---------- 自动演示（导演层）：按镜头计划自动点击，拍摄/演示用 ----------
-  var DEMO_ON = false, demoIdx = 0, demoTab = null;
+  var DEMO_ON = true, demoIdx = 0, demoTab = null;   // 默认自动演示，不需要按钮
   function demoReset() { demoIdx = 0; demoTab = null; }
   var DEMO = [
     // E01 主镜头（船长视角：跳过值班审核过程，执行段开始瞬间直接看到已审核状态）
@@ -1311,16 +1514,10 @@
       try { d.run(); } catch (err) { console.error("demo-step:", err && err.message); }
     }
   }
-  document.getElementById("tldemo").onclick = function () {
-    DEMO_ON = !DEMO_ON; demoIdx = 0; demoTab = null;
-    this.textContent = DEMO_ON ? "🎬 演示中…" : "🎬 自动演示";
-    this.classList.toggle("on", DEMO_ON);
-  };
-  // 拍摄辅助：?demo=1 自动开启演示（放在 DEMO 定义后，确保变量就绪）
-  if (/[?&]demo=1/.test(location.search)) { DEMO_ON = true; demoIdx = 0; var _db = document.getElementById("tldemo"); if (_db) { _db.textContent = "🎬 演示中…"; _db.classList.add("on"); } }
   setInterval(function(){ if(playing) tick(); },100);
   var version=1, lastUI=0;
   fit(); setMode("alongside"); updateSnapLbl(); renderAll();
+  updateCinema(0);   // 首帧即显示片头标题
 
 </script>
 

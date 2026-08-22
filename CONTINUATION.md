@@ -1,5 +1,26 @@
 # 续接文件 / Continuation（新对话启动手册）
 
+## 🚨 当前 A3 文档 HTML 路线（2026-08-22 置顶）
+
+> **新对话第一件事：继续在 `design/b-port-shore-and-itinerary/a3-document-web.html` 基础上改 HTML，不要再走 SVG/PDF 转换路线。**
+
+1. **当前基础文件**：
+   - `design/b-port-shore-and-itinerary/a3-document-web.html`
+   - 与 `a3-document-v4.html` 内容完全一致（SHA 相同）
+2. **文字已锁定**：
+   - 以 `design/b-port-shore-and-itinerary/a3-product-copy-v2.md` 为内容源
+   - 全量文字已放入 HTML，字符数与 final 版一致
+3. **当前状态**：
+   - HTML 路线是唯一继续方向
+   - SVG 扁平化尝试已停止（PDF转SVG再拆组会损坏内容）
+4. **下一步**：
+   - 继续优化 `a3-document-web.html` 的每一页排版：分区、层次、间距、字体
+   - 不要因为排版改动减少文字
+5. **提交提醒**：
+   - 每次改完后小步 commit，最后 push 到 GitHub
+
+---
+
 > 用途：**新对话/新设备读本文件后：①先汇报现状 → ②主动提醒用户审核最近新产出并回顾最近讨论 → ③按指引推进下一步（审批策略=never，不逐项等批准，主动推进；仅在重大方向性分歧处才需用户拍板）。**
 > 状态：2026-08-22 更新——**规则修订落库（挂起=琥珀点闭合 / 再检=仅日志 / 衍生=新事件 parentTrace / 航变风险=本系统AI推理产物）+ 事件清单表 v0.3 出炉（22 条）+ 引擎补齐（suspend/recheck/oplog + 修 2 bug）；下一步=把 22 条落进 mock-data.js → 导演层录制视频（假实时，不做现场交互）**
 

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ClarSyn A3 产品介绍书 · v3 高密度排版</title>
+<style>
+  :root{
+    --bg:#F6F7F9; --paper:#FFFFFF; --ink:#1A2233; --sub:#3F4756;
+    --line:#D8DCE3; --blue:#3B7DD8; --amber:#D98A1F; --green:#237A4C; --red:#C93A3A;
+    --soft-blue:#EAF1FC; --soft-amber:#FDF3E4; --soft-green:#E8F4ED;
+    --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#E2E4E9;font-family:"Inter","Segoe UI","Microsoft YaHei",sans-serif;padding:36px;color:var(--ink)}
+  .page{
+    width:1600px;height:1132px;background:var(--bg);margin:0 auto 60px;position:relative;
+    overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.18);display:flex;flex-direction:column;
+  }
+  .ph{display:flex;align-items:center;justify-content:space-between;padding:28px 70px 0;flex:none}
+  .pf{display:flex;align-items:center;justify-content:space-between;padding:16px 70px;border-top:1px solid var(--line);font-size:14px;color:var(--sub);flex:none;font-family:var(--mono)}
+  .pb{flex:1;min-height:0;padding:20px 70px 28px;display:flex;position:relative;gap:36px}
+  .brand{height:34px;width:auto}
+  .kicker{font-family:var(--mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+  h1{font-family:"Inter","Segoe UI","Microsoft YaHei",sans-serif;font-size:84px;line-height:1.08;font-weight:800;letter-spacing:-.01em}
+  h2{font-family:"Inter","Segoe UI","Microsoft YaHei",sans-serif;font-size:56px;line-height:1.15;font-weight:800;letter-spacing:-.01em;margin-bottom:20px}
+  h3{font-size:28px;font-weight:700;margin-bottom:12px}
+  .lead{font-size:28px;line-height:1.65;color:var(--sub);margin-bottom:22px}
+  .body-text{font-size:24px;line-height:1.7;color:var(--sub)}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px 28px;box-shadow:0 4px 16px rgba(0,0,0,.05)}
+  .tag{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:4px 12px;border-radius:999px;background:#EDEEF2;color:var(--sub)}
+  .tag.blue{background:var(--soft-blue);color:var(--blue)}
+  .tag.amber{background:var(--soft-amber);color:var(--amber)}
+  .tag.green{background:var(--soft-green);color:var(--green)}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:var(--soft-blue);color:var(--blue);font-weight:700;font-family:var(--mono);font-size:16px;flex:none}
+  .row{display:flex;gap:16px;align-items:flex-start}
+  .divider{height:2px;background:var(--line);margin:18px 0}
+  .ui-mini{background:#10141B;border-radius:14px;padding:20px;color:#E6EBF2;font-size:17px;line-height:1.55;border:1px solid rgba(255,255,255,.08)}
+  .ui-mini .bar{display:flex;gap:10px;margin-bottom:14px}
+  .ui-mini .tag{background:rgba(255,255,255,.14);color:#E6EBF2;border-radius:8px;padding:3px 10px;font-size:13px}
+  .ui-mini .r{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.12);padding:10px 0}
+  .table{width:100%;border-collapse:collapse;background:var(--paper);border-radius:12px;overflow:hidden;font-size:19px}
+  .table th{background:#EFF1F5;text-align:left;padding:14px 16px;font-weight:700;border-bottom:1.5px solid var(--line)}
+  .table td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55}
+  .metric{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center}
+  .metric .v{font-size:42px;font-weight:800;color:var(--blue);font-family:"Inter","Segoe UI","Microsoft YaHei",sans-serif}
+  .metric .l{font-size:14px;color:var(--sub);margin-top:8px}
+  .quote{background:var(--paper);border-left:6px solid var(--amber);border-radius:12px;padding:18px 22px;font-size:22px;font-weight:600;line-height:1.55}
+  .svc{width:100%;height:auto}
+</style>
+</head>
+<body>
+
+<!-- 01 封面 -->
+<div class="page" style="background:linear-gradient(135deg,#F6F7F9 0%,#EAF1FC 100%);">
+  <div class="pb" style="align-items:center;gap:60px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Product Proposal · A3</div>
+      <img class="brand" style="height:100px;margin-bottom:40px;" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn">
+      <h1>邮轮港岸协同决策层</h1>
+      <div style="font-size:40px;line-height:1.4;margin:24px 0 12px;font-weight:700;">基于多 Agent 协同的邮轮靠港接驳动态调度系统</div>
+      <div style="font-family:var(--mono);font-size:20px;color:var(--sub);letter-spacing:.02em;">Multi-Agent Collaborative Dynamic Scheduling System for Cruise Berthing &amp; Shore Connection</div>
+      <div class="quote" style="margin-top:40px;max-width:900px;border-color:var(--blue);font-size:34px;">把船↔岸交界的混乱，变成分钟级清晰决策。</div>
+      <div style="margin-top:36px;font-size:18px;color:var(--sub);">ClarSyn · 2026 · 竞赛方案</div>
+    </div>
+    <div style="flex:0.8;display:flex;justify-content:flex-end;">
+      <div style="background:#10141B;border-radius:20px;padding:30px;width:620px;color:#E6EBF2;box-shadow:0 20px 50px rgba(0,0,0,.25);">
+        <div style="font-size:22px;font-weight:700;margin-bottom:16px;">船长端 · 航次 VN-0420</div>
+        <div style="border-top:1px solid rgba(255,255,255,.12);padding:14px 0;display:flex;justify-content:space-between;"><span>12:22</span><span>E09 台风航变 L3</span></div>
+        <div style="border-top:1px solid rgba(255,255,255,.12);padding:14px 0;display:flex;justify-content:space-between;"><span>12:27</span><span>E-L4 自动升级</span></div>
+        <div style="border-top:1px solid rgba(255,255,255,.12);padding:14px 0;display:flex;justify-content:space-between;"><span>12:33</span><span>船长确认 · 审计完成</span></div>
+        <div style="margin-top:16px;color:#8B95A5;font-size:18px;">多源信号：港口窗口 / 侧风 / 赔付风险</div>
+      </div>
+    </div>
+  </div>
+  <div class="pf"><span>ClarSyn</span><span>01 / 20</span></div>
+</div>
+
+<!-- 02 阅读导览 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">阅读导览</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">02 / 20</span></div>
+  <div class="pb" style="gap:50px;">
+    <div style="flex:1.2;">
+      <div class="kicker">Contents</div>
+      <h2>20 页，讲清一个 AI 产品：价值、控制、验证。</h2>
+      <p class="lead">本方案按“为什么做 → 做成什么 → AI 如何控制 → 如何验证 → 如何落地”的完整产品逻辑展开，而不是按技术模块罗列。评审可以根据自己的关注点选择阅读路径，但完整阅读能更清楚看到 ClarSyn 如何把“价值主张”和“工程护栏”结合成一套可落地的系统。</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px;font-size:22px;line-height:1.6;">
+        <div>01 封面</div><div>02 阅读导览</div><div>03 一页看懂</div><div>04 问题定义</div>
+        <div>05 价值场景</div><div>06 用户与边界</div><div>07 系统架构</div><div>08 多 Agent</div>
+        <div>09 审计</div><div>10 治理</div><div>11 可信</div><div>12 开放域</div>
+        <div>13 长链路</div><div>14 推理附件</div><div>15 技术选型</div><div>16 验证</div>
+        <div>17 指标</div><div>18 落地</div><div>19 差异化</div><div>20 致谢</div>
+      </div>
+    </div>
+    <div style="flex:0.8;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card" style="border-left:8px solid var(--blue);"><div class="tag blue">管理者</div><p class="body-text" style="margin-top:12px;font-size:26px;">03 → 05 → 07 → 16 → 17：快速理解产品价值与验证成果。</p></div>
+      <div class="card" style="border-left:8px solid var(--amber);"><div class="tag amber">技术评审</div><p class="body-text" style="margin-top:12px;font-size:26px;">07 → 08 → 09 → 12 → 13 → 14 → 15：深入 AI 架构、控制与技术选型。</p></div>
+      <div class="card" style="border-left:8px solid var(--green);"><div class="tag green">产品评审</div><p class="body-text" style="margin-top:12px;font-size:26px;">04 → 05 → 06 → 08 → 10 → 11：看问题、价值与 AI 控制体系。</p></div>
+    </div>
+  </div>
+  <div class="pf"><span>阅读导览</span><span>ClarSyn · 02 / 20</span></div>
+</div>
+
+<!-- 03 一页看懂 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">一页看懂</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">03 / 20</span></div>
+  <div class="pb" style="gap:44px;">
+    <div style="flex:1.2;">
+      <div class="kicker">Executive Summary</div>
+      <h2>ClarSyn：邮轮港岸协同决策层。</h2>
+      <p class="lead">邮轮公司在登离船、港口接驳、航变响应三个场景中长期依赖人工拼图。信息分散在船司、OTA、港口、客服、天气等多个系统中，关键决策靠人现场汇总，导致响应慢、口径不一、难以追溯。</p>
+      <p class="body-text">ClarSyn 的价值不是“帮人写通知”，而是构建一套从感知、预测、预案到审批、审计的完整决策链路。它让系统承担“信息搜集、影响判断、预案准备”等高强度认知工作，让人专注于审批和最终决策。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;">
+        <div class="card"><div class="row"><div class="num">1</div><div><div style="font-weight:700;font-size:28px;">快速调用多源 API</div><p class="body-text" style="font-size:24px;margin-top:6px;">气象、船期、港口、客服信号统一汇聚，避免人工搬移信息。</p></div></div></div>
+        <div class="card"><div class="row"><div class="num">2</div><div><div style="font-weight:700;font-size:28px;">发现弱信号</div><p class="body-text" style="font-size:24px;margin-top:6px;">在事件升级前识别可疑组合，提前给出预测与预警。</p></div></div></div>
+        <div class="card"><div class="row"><div class="num">3</div><div><div style="font-weight:700;font-size:28px;">影响推演与预案</div><p class="body-text" style="font-size:24px;margin-top:6px;">基于事件分类、影响人数、资源缺口生成可审批候选方案。</p></div></div></div>
+        <div class="card"><div class="row"><div class="num">4</div><div><div style="font-weight:700;font-size:28px;">全链路审计</div><p class="body-text" style="font-size:24px;margin-top:6px;">每个判断都附带证据、置信度、审批记录与执行回执。</p></div></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;">
+        <div class="metric"><div class="v">20–45<span style="font-size:28px;">min</span></div><div class="l">人工拼图</div></div>
+        <div class="metric"><div class="v">≤3<span style="font-size:28px;">min</span></div><div class="l">感知→建议→审批</div></div>
+        <div class="metric"><div class="v">62</div><div class="l">事件案例</div></div>
+        <div class="metric"><div class="v">L1-L4</div><div class="l">分级审批</div></div>
+      </div>
+    </div>
+    <div style="flex:0.8;display:flex;align-items:center;">
+      <div style="width:100%;">
+        <div class="card">
+          <div class="kicker" style="margin-bottom:18px;">End-to-End Loop</div>
+          <div class="row" style="margin-bottom:14px;"><div class="num">1</div><div style="font-size:28px;font-weight:600;">感知：多源信号接入</div></div>
+          <div class="row" style="margin-bottom:14px;"><div class="num">2</div><div style="font-size:28px;font-weight:600;">预测：弱信号与影响推演</div></div>
+          <div class="row" style="margin-bottom:14px;"><div class="num">3</div><div style="font-size:28px;font-weight:600;">预案：方案组合与附件</div></div>
+          <div class="row" style="margin-bottom:14px;"><div class="num">4</div><div style="font-size:28px;font-weight:600;">审批：L1–L4 权限路由</div></div>
+          <div class="row"><div class="num">5</div><div style="font-size:28px;font-weight:600;">触达与审计</div></div>
+        </div>
+        <div class="quote" style="margin-top:18px;font-size:28px;">不是帮人写话术，而是快速调用信息、发现弱信号、生成预案。</div>
+      </div>
+    </div>
+  </div>
+  <div class="pf"><span>一页看懂</span><span>ClarSyn · 03 / 20</span></div>
+</div>
+
+
+<!-- 04 问题定义 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag amber">问题定义</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">04 / 20</span></div>
+  <div class="pb" style="flex-direction:column;">
+    <div class="kicker">Problem Definition</div>
+    <h2>三处断裂：登离船、港口接驳、航变。</h2>
+    <p class="lead">邮轮乘客在“船↔岸”交界处体验断裂最明显，而这些问题不是单一部门能解决的。它们共同指向一个核心：关键运营信息分散，决策层缺乏统一、实时、可预测的态势。</p>
+    <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <div class="card" style="border-top:8px solid var(--blue);background:linear-gradient(180deg,#FFFFFF,#F4F8FE);">
+        <div class="tag blue">场景一</div>
+        <h3 style="margin-top:14px;">登离船动态不可见</h3>
+        <p class="body-text" style="font-size:26px;">登船日同一时段集中到达，排队长度不可见；离船日靠广播/纸质通知分层下船，乘客不知道自己的准确时间窗。根据证据线 A，从停锚到码头约 1 小时，分层下船再等近 3 小时。现有方式不是没有流程，而是流程依赖人工广播和纸质通知，无法根据港口实际状态动态调整。</p>
+      </div>
+      <div class="card" style="border-top:8px solid var(--amber);background:linear-gradient(180deg,#FFFFFF,#FEFAF3);">
+        <div class="tag amber">场景二</div>
+        <h3 style="margin-top:14px;">港口接驳信息静态</h3>
+        <p class="body-text" style="font-size:26px;">官方接驳信息以静态 PDF 为主，乘客不知道出租车、网约车、短驳分别要等多久。宝山区政府连续两年承认交通秩序问题，出租车拒载/宰客现象多次被报道。这说明问题不是单一公司能解决的，而是需要船方在信息层面向乘客提供更透明的接驳建议。</p>
+      </div>
+      <div class="card" style="border-top:8px solid var(--red);background:linear-gradient(180deg,#FFFFFF,#FDF5F5);">
+        <div class="tag" style="background:#FCEBEB;color:var(--red);">场景三</div>
+        <h3 style="margin-top:14px;">航变响应靠人工拼图</h3>
+        <p class="body-text" style="font-size:26px;">事件发生后，通知链存在多层衰减；口径不一致，乘客在信息真空中产生不信任。2026 台风“白海豚”事件导致数百人拒下船。航变场景的难点不仅在于通知，更在于事件发生后需要快速判断影响范围、资源缺口、条款依据和替代方案，而这些都是跨系统信息整合问题。</p>
+      </div>
+    </div>
+    <div class="quote" style="margin-top:20px;border-color:var(--red);font-size:30px;">结论：现有系统是“人工拼图”，不是“决策系统”。ClarSyn 的目标是把决策准备从小时级压缩到分钟级，并让每一次判断都有依据、有审批、有留痕。</div>
+  </div>
+  <div class="pf"><span>问题定义</span><span>ClarSyn · 04 / 20</span></div>
+</div>
+
+<!-- 05 价值场景 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">价值场景</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">05 / 20</span></div>
+  <div class="pb" style="flex-direction:column;">
+    <div class="kicker">Value Scenarios</div>
+    <h2>三个场景，都从“人肉拼图”变成“分钟级决策”。</h2>
+    <p class="lead">每个场景都回答同样的问题：现状是什么、ClarSyn 改变了什么、对企业意味着什么。</p>
+    <div style="flex:1;display:flex;">
+      <table class="table">
+        <thead><tr><th style="width:15%;">场景</th><th style="width:27%;">现状</th><th style="width:35%;">ClarSyn 后</th><th>提升 / ROI</th></tr></thead>
+        <tbody>
+          <tr><td><b>登离船调度</b></td><td>固定批次、广播/纸质通知、排队不可见；船员和乘客都无法提前感知整体压力。</td><td>接入船期、泊位、乘客清单和可获得的码头状态，生成动态时间窗；当码头状态变化时自动调整批次并定向触达。</td><td>决策准备时间从小时级到分钟级；减少现场聚集与等待。</td></tr>
+          <tr><td><b>港口接驳</b></td><td>静态 PDF、人工引导、乘客不知道等多久；现场引导压力大。</td><td>把港口静态资料与船期、离船批次结合，生成可执行接驳建议；无法获得实时数据时退回静态指引。</td><td>减少滞留不确定性，降低投诉与纠纷。</td></tr>
+          <tr><td><b>航变响应</b></td><td>事件后人工逐批沟通，预测与预案几乎空白；客服和船员在信息不完整下承担解释压力。</td><td><span class="tag amber">弱信号预测</span> 快速调用气象/船期/港口/客服 API，提前生成影响预测与应变预案，再进入 L1–L4 审批。</td><td>从“事后解释”变为“事前预测 + 预案准备 + 快速决策”。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="quote" style="margin-top:18px;font-size:28px;">ROI 口径：相对量级 + 显式假设，不做虚假货币化，数字待船司真实数据校准。</div>
+  </div>
+  <div class="pf"><span>价值场景</span><span>ClarSyn · 05 / 20</span></div>
+</div>
+
+<!-- 06 用户与边界 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag green">用户与边界</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">06 / 20</span></div>
+  <div class="pb" style="gap:44px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Users & Boundary</div>
+      <h2>给谁用？管什么？不管什么？</h2>
+      <p class="lead">ClarSyn 是 B 端决策增强层，服务于邮轮公司内部运营角色，不替代港口与口岸系统。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="card"><div class="row"><div class="num">船</div><div><div style="font-weight:700;font-size:28px;">船长</div><p class="body-text" style="font-size:24px;">需要基于多源信息的拍板依据，而非等待人工汇总。</p></div></div></div>
+        <div class="card"><div class="row"><div class="num">经</div><div><div style="font-weight:700;font-size:28px;">运营经理</div><p class="body-text" style="font-size:24px;">需要分钟级态势与预案选项。</p></div></div></div>
+        <div class="card"><div class="row"><div class="num">值</div><div><div style="font-weight:700;font-size:28px;">值班/客服</div><p class="body-text" style="font-size:24px;">需要统一事实与条款依据。</p></div></div></div>
+        <div class="card"><div class="row"><div class="num">法</div><div><div style="font-weight:700;font-size:28px;">法务</div><p class="body-text" style="font-size:24px;">需要可审计的决策链路。</p></div></div></div>
+      </div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card" style="background:linear-gradient(180deg,#FFFFFF,#EFF8F3);border-left:8px solid var(--green);"><div class="tag green">管</div><p class="body-text" style="margin-top:12px;font-size:26px;">船方触达渠道、船司内部调度、可合法获取的气象/港口/船期数据。</p></div>
+      <div class="card" style="background:linear-gradient(180deg,#FFFFFF,#FDF5F5);border-left:8px solid var(--red);"><div class="tag" style="background:#FCEBEB;color:var(--red);">不管</div><p class="body-text" style="margin-top:12px;font-size:26px;">不指挥海关 / 边检 / 港调 / 交管；不替代港口或口岸系统。</p></div>
+      <div class="card"><div class="tag">数据可用性</div><p class="body-text" style="margin-top:12px;font-size:26px;">按“可用 / 待接入 / 不可得”分层管理，不假装拥有不存在的数据。</p></div>
+    </div>
+  </div>
+  <div class="pf"><span>用户与边界</span><span>ClarSyn · 06 / 20</span></div>
+</div>
+
+
+<!-- 07 系统架构 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">系统架构</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">07 / 20</span></div>
+  <div class="pb" style="gap:44px;">
+    <div style="flex:1.1;display:flex;flex-direction:column;justify-content:center;">
+      <div class="kicker">System Architecture</div>
+      <h2>感知 → 决策 → 触达，分层清晰。</h2>
+      <p class="lead">系统以船载边缘为核心，确保实时闭环不依赖卫星；云端只承担异步增强。</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:var(--soft-blue);border-radius:16px;padding:26px 30px;"><div style="font-weight:700;font-size:30px;">感知层</div><div style="color:var(--sub);font-size:24px;margin-top:8px;">气象 / 船期 / 港口 / 客服 / 现场感知等多源数据接入与标准化</div></div>
+        <div style="text-align:center;color:var(--blue);font-size:30px;">↓</div>
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px 30px;"><div style="font-weight:700;font-size:30px;">决策层</div><div style="color:var(--sub);font-size:24px;margin-top:8px;">登离船调度 · 港口接驳 · 航变响应 · 运营调度台</div></div>
+        <div style="text-align:center;color:var(--amber);font-size:30px;">↓</div>
+        <div style="background:var(--soft-amber);border-radius:16px;padding:26px 30px;"><div style="font-weight:700;font-size:30px;">触达层</div><div style="color:var(--sub);font-size:24px;margin-top:8px;">乘客 App · 船载屏 · 广播 · 船员端</div></div>
+      </div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card"><div class="tag blue">部署形态</div><div style="margin-top:14px;font-size:28px;line-height:2;"><b>船载边缘</b>：实时闭环<br><b>云端</b>：异步增强<br><b>卫星</b>：仅异步同步</div></div>
+      <div class="quote" style="font-size:26px;">关键原则：能规则不用 ML；能用小模型不用大模型；能离线不用云端。</div>
+      <div class="card"><div class="tag">语义</div><p class="body-text" style="margin-top:10px;font-size:25px;">决策层内部分为确定性计算与 AI 判断，两者通过事件接口解耦。</p></div>
+    </div>
+  </div>
+  <div class="pf"><span>系统架构</span><span>ClarSyn · 07 / 20</span></div>
+</div>
+
+<!-- 08 多 Agent -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">多 Agent 架构</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">08 / 20</span></div>
+  <div class="pb" style="gap:40px;">
+    <div style="flex:1.2;">
+      <div class="kicker">Multi-Agent Architecture</div>
+      <h2>不是多个 Agent 贴纸，而是有分工、有通信、有回路的决策架构。</h2>
+      <p class="lead">每个 Agent 模块职责单一，输入输出独立，可回滚、可审计；通过顺序主链路 + 异常旁路 + 审计回流形成闭环。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">1</div><div style="font-size:24px;font-weight:600;">多源事件接入</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">2</div><div style="font-size:24px;font-weight:600;">事件分类与严重度</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">3</div><div style="font-size:24px;font-weight:600;">库外异常识别</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">4</div><div style="font-size:24px;font-weight:600;">确定性计算内核</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">5</div><div style="font-size:24px;font-weight:600;">知识检索 RAG</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">6</div><div style="font-size:24px;font-weight:600;">方案组合与推演</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">7</div><div style="font-size:24px;font-weight:600;">推理附件生成</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">8</div><div style="font-size:24px;font-weight:600;">证据与置信度检查</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">9</div><div style="font-size:24px;font-weight:600;">权限路由与审批门</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">10</div><div style="font-size:24px;font-weight:600;">执行触达</div></div></div>
+        <div class="card" style="padding:16px 18px;"><div class="row"><div class="num">11</div><div style="font-size:24px;font-weight:600;">审计与事故记忆</div></div></div>
+      </div>
+    </div>
+    <div style="flex:0.8;display:flex;align-items:center;justify-content:center;">
+      <svg class="svc" viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8B95A5"/></marker></defs>
+        <g font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="15" text-anchor="middle">
+          <rect x="150" y="30" width="220" height="64" rx="10" fill="#fff" stroke="#E3E6EB"/><text x="260" y="58" font-weight="700">Observe</text><text x="260" y="78" fill="#5B6472">多源信号接入</text>
+          <rect x="150" y="140" width="220" height="64" rx="10" fill="#fff" stroke="#E3E6EB"/><text x="260" y="168" font-weight="700">Orient</text><text x="260" y="188" fill="#5B6472">分类 / 异常 / 态势</text>
+          <rect x="150" y="250" width="220" height="64" rx="10" fill="#fff" stroke="#E3E6EB"/><text x="260" y="278" font-weight="700">Decide</text><text x="260" y="298" fill="#5B6472">推演 / 预案 / 附件</text>
+          <rect x="150" y="360" width="220" height="64" rx="10" fill="#fff" stroke="#E3E6EB"/><text x="260" y="388" font-weight="700">Act</text><text x="260" y="408" fill="#5B6472">审批 / 触达</text>
+          <rect x="150" y="470" width="220" height="64" rx="10" fill="#EAF1FC" stroke="#3B7DD8"/><text x="260" y="498" font-weight="700">Learn</text><text x="260" y="518" fill="#5B6472">审计回写</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="pf"><span>多 Agent 架构</span><span>ClarSyn · 08 / 20</span></div>
+</div>
+
+<!-- 09 审计 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag green">审计与追溯</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">09 / 20</span></div>
+  <div class="pb" style="gap:40px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Audit & Traceability</div>
+      <h2>每个判断都能回答：依据了什么、谁批准的、执行了什么。</h2>
+      <p class="lead">审计不是事后补充，而是每个 AI 判断的默认交付物：结论 + 置信度 + 证据链 + 审批记录。</p>
+      <div class="card"><div class="tag blue">trace_id 追溯链</div><div style="font-size:30px;line-height:2;margin-top:14px;">事件 → 建议/推理附件 → 审批签署 → 端口执行日志 → 审计包</div></div>
+      <div class="card" style="margin-top:16px;"><div class="tag">机制</div><ul style="font-size:26px;line-height:1.8;color:var(--sub);padding-left:22px;margin-top:12px;"><li>append-only + 哈希链防篡改</li><li>四档签署：L1 自动 / L2 电子确认 / L3 电子签署 / L4 紧急后补签</li><li>审计包一键导出 PDF，可打印</li><li>人工接管也保留最小登记，不绕过审计</li><li>审计结果回流事故模式记忆库</li></ul></div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card"><div class="tag amber">审计包内容</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;"><div class="row"><div class="num">1</div><div style="font-size:24px;">多源数据引用</div></div><div class="row"><div class="num">2</div><div style="font-size:24px;">推理附件</div></div><div class="row"><div class="num">3</div><div style="font-size:24px;">审批签署</div></div><div class="row"><div class="num">4</div><div style="font-size:24px;">执行回执</div></div></div></div>
+      <div class="quote" style="font-size:26px;">价值：让船长、法务和外部审计都能回答“为什么这么做”。</div>
+    </div>
+  </div>
+  <div class="pf"><span>审计与追溯</span><span>ClarSyn · 09 / 20</span></div>
+</div>
+
+<!-- 10 事件治理 -->
+<div class="page">
+
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag amber">事件治理</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">10 / 20</span></div>
+  <div class="pb" style="gap:40px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Event Governance</div>
+      <h2>AI 建议，人审批；权力始终在人手上。</h2>
+      <p class="lead">系统按事件等级 L1–L4 设置不同权限：轻事件自动分发，重事件必须人工审批，超时自动升级，任意节点可转人工接管。</p>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);border-left:8px solid var(--green);border-radius:14px;padding:20px 24px;"><div class="num" style="background:var(--soft-green);color:var(--green);">L1</div><div style="font-size:28px;font-weight:600;">自动分发基层，监控处理结果</div></div>
+        <div style="display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);border-left:8px solid var(--blue);border-radius:14px;padding:20px 24px;"><div class="num">L2</div><div style="font-size:28px;font-weight:600;">值班/客服确认后执行</div></div>
+        <div style="display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);border-left:8px solid var(--amber);border-radius:14px;padding:20px 24px;"><div class="num" style="background:var(--soft-amber);color:var(--amber);">L3</div><div style="font-size:28px;font-weight:600;">经理 / 法务审批后执行</div></div>
+        <div style="display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);border-left:8px solid var(--red);border-radius:14px;padding:20px 24px;"><div class="num" style="background:#FCEBEB;color:var(--red);">L4</div><div style="font-size:28px;font-weight:600;">船长 / 最高层决策</div></div>
+      </div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card"><div class="tag blue">超时升级</div><p class="body-text" style="margin-top:10px;font-size:26px;">每个等级设置处理时限，超时自动升级，防止事件在等待中失控。</p></div>
+      <div class="card"><div class="tag amber">人工接管</div><p class="body-text" style="margin-top:10px;font-size:26px;">任意节点可转人工接管，系统转观察 + 记录 + 建议，执行移交现有系统。</p></div>
+      <div class="card"><div class="tag">投放审核矩阵</div><p class="body-text" style="margin-top:10px;font-size:26px;">公共可见端口必须人工确认；统一口径 / 赔偿类必须 L3/L4。</p></div>
+    </div>
+  </div>
+  <div class="pf"><span>事件治理</span><span>ClarSyn · 10 / 20</span></div>
+</div>
+
+<!-- 11 可信护栏 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">可信护栏</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">11 / 20</span></div>
+  <div class="pb" style="gap:44px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Trust & Safety</div>
+      <h2>幻觉不可根除，但我们把错误成本降到最低。</h2>
+      <p class="lead">ClarSyn 不承诺模型不会错，而是让每条 AI 输出都能回答：依据了什么、置信度多少、谁复核。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card" style="border-top:6px solid var(--blue);"><div class="num">1</div><div style="font-weight:700;font-size:28px;margin:10px 0 6px;">多源事实锚</div><p class="body-text" style="font-size:24px;">条款、策略、数据必须可回溯；引用原文编号。</p></div>
+        <div class="card" style="border-top:6px solid var(--amber);"><div class="num">2</div><div style="font-weight:700;font-size:28px;margin:10px 0 6px;">结构化约束</div><p class="body-text" style="font-size:24px;">JSON Schema / 模板槽位，缩窄输出空间。</p></div>
+        <div class="card" style="border-top:6px solid var(--green);"><div class="num">3</div><div style="font-weight:700;font-size:28px;margin:10px 0 6px;">置信度 + 人工</div><p class="body-text" style="font-size:24px;">低信度、证据不足、规则冲突时强制转人工。</p></div>
+      </div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card"><div class="tag amber">降级机制</div><div style="display:flex;gap:10px;margin-top:14px;"><span class="tag">T0</span><span class="tag">T1</span><span class="tag">T2</span><span class="tag">T3</span></div><p class="body-text" style="margin-top:12px;font-size:25px;">熔断 / 回退 / 快照 / 人工接管。AI 不可用时回退到规则模板和本地缓存。</p></div>
+      <div class="quote" style="font-size:27px;">AI 的错误成本，从“一次错误执行”降级为“一次多余知会、一次更早的人工介入”。</div>
+    </div>
+  </div>
+  <div class="pf"><span>可信护栏</span><span>ClarSyn · 11 / 20</span></div>
+</div>
+
+<!-- 12 开放域异常 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">开放域异常</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">12 / 20</span></div>
+  <div class="pb" style="gap:44px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Open-Domain Anomaly</div>
+      <h2>看见规则系统看不见的“库外异常”。</h2>
+      <p class="lead">规则系统只能识别已录入的事件；ClarSyn 通过开放域异常识别，能够发现“单独看正常、组合起来可疑”的弱信号。</p>
+      <div class="card" style="background:linear-gradient(180deg,#FFFFFF,#F4F8FE);"><div class="tag blue">案例：X-0001</div><p class="body-text" style="margin-top:12px;font-size:27px;">楼层滞留偏离历史、密度异常抬升 → AI 生成提醒卡 → 值班李工核实 → 升级为正式事件 E01，并回写事件分类库。</p></div>
+      <div class="quote" style="margin-top:18px;font-size:27px;">为什么规则做不到：新事件不在规则表里，规则系统“看不见”。</div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card"><div class="tag amber">技术栈</div><p class="body-text" style="margin-top:10px;font-size:26px;">无监督异常检测 + 向量检索相似度 + LLM 语义判断 + 规则复核。</p></div>
+      <div class="ui-mini">
+        <div class="bar"><span class="tag">X-0001</span><span class="tag">库外</span><span class="tag">提醒</span></div>
+        <div class="r"><span>信号 1</span><span>偏离 1.8σ</span></div>
+        <div class="r"><span>信号 2</span><span>密度 0.72</span></div>
+        <div class="r"><span>置信度</span><span>0.86 → 建议值班核实</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pf"><span>开放域异常</span><span>ClarSyn · 12 / 20</span></div>
+</div>
+
+<!-- 13 长链路推演 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag amber">长链路推演</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">13 / 20</span></div>
+  <div class="pb" style="gap:44px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Long-Chain Reasoning</div>
+      <h2>推演没写过的组合，把 20–45 分钟拼图压成分钟级局势。</h2>
+      <p class="lead">ClarSyn 不是等事件发生后解释，而是在弱信号出现时提前推演影响，并准备预案。</p>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="row"><div class="num">1</div><div style="font-size:27px;">港口靠泊窗口取消</div></div>
+        <div class="row"><div class="num">2</div><div style="font-size:27px;">侧风 34kn</div></div>
+        <div class="row"><div class="num">3</div><div style="font-size:27px;">AI 赔付风险升高</div></div>
+        <div class="row"><div class="num">4</div><div style="font-size:27px;">弱信号叠加 → AI 判据自动升级 L4</div></div>
+        <div class="row"><div class="num">5</div><div style="font-size:27px;">影响推演与预案重排</div></div>
+      </div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+      <div class="card"><div class="tag blue">技术栈</div><p class="body-text" style="margin-top:10px;font-size:26px;">多 Agent / Workflow 串联（事件 → 影响 → 资源 → 方案）+ 本地小/中模型 + RAG。</p></div>
+      <div class="ui-mini">
+        <div class="bar"><span class="tag">E09</span><span class="tag">L3</span><span class="tag">航变</span></div>
+        <div class="r"><span>港口窗口</span><span>取消</span></div>
+        <div class="r"><span>侧风</span><span>34kn</span></div>
+        <div class="r"><span>赔付风险</span><span>high → 自动升级 L4</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pf"><span>长链路推演</span><span>ClarSyn · 13 / 20</span></div>
+</div>
+
+<!-- 14 推理附件 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">推理附件</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">14 / 20</span></div>
+  <div class="pb" style="gap:44px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Explainability</div>
+      <h2>每个 AI 判断都自带理由。</h2>
+      <p class="lead">推理附件不是附加品，而是判断的交付物：结论 + 置信度 + 证据链 + 替代方案，覆盖分类、影响、方案、审批、触达、审计全链路。</p>
+      <div class="card"><div class="tag amber">案例：E-L4 船长决策卡</div><p class="body-text" style="margin-top:10px;font-size:27px;">展开推理附件 → 查看依据与置信度 → 进入审批流 → 生成审计包。</p></div>
+      <div class="card" style="margin-top:16px;"><div class="tag">技术栈</div><p class="body-text" style="margin-top:10px;font-size:26px;">LLM 摘要 + 确定性校验 + RAG 引用编号 + trace_id。</p></div>
+    </div>
+    <div style="flex:0.9;display:flex;align-items:center;justify-content:center;">
+      <div class="ui-mini" style="max-width:540px;">
+        <div class="bar"><span class="tag">E-L4</span><span class="tag">推理附件</span></div>
+        <div class="r"><span>结论</span><span>建议确认执行方案</span></div>
+        <div class="r"><span>置信度</span><span>0.88</span></div>
+        <div class="r"><span>关键证据</span><span>侧风 / 港口窗口 / 赔付风险</span></div>
+        <div class="r"><span>替代方案</span><span>B：等待窗口</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pf"><span>推理附件</span><span>ClarSyn · 14 / 20</span></div>
+</div>
+
+
+<!-- 15 技术选型 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag green">技术选型</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">15 / 20</span></div>
+  <div class="pb" style="flex-direction:column;">
+    <div class="kicker">Tech Selection</div>
+    <h2>每个 AI 环节都回答：用什么、部署在哪、为什么。</h2>
+    <p class="lead">选型原则：能规则不用 ML；能用小模型不用大模型；能离线不用云端。云端永不进入 3 分钟实时闭环。</p>
+    <div style="flex:1;display:flex;">
+      <table class="table">
+        <thead><tr><th>环节</th><th>技术形态</th><th>模型 / 算法</th><th>部署</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td>事件分类</td><td>有监督 / 少样本 + 规则复核</td><td>轻量分类模型</td><td>本地</td><td>实时、低延迟、可离线</td></tr>
+          <tr><td>库外异常</td><td>无监督异常检测 + 向量检索</td><td>特征模型 + embedding</td><td>本地</td><td>覆盖未见过组合</td></tr>
+          <tr><td>长链路推演</td><td>多 Agent / Workflow</td><td>本地 7B–14B 量化</td><td>船载边缘</td><td>实时闭环、可回滚</td></tr>
+          <tr><td>条款/策略检索</td><td>RAG + reranker</td><td>本地 embedding + 规则匹配</td><td>本地</td><td>确定性优先、引用可溯</td></tr>
+          <tr><td>话术生成</td><td>LLM 生成 + 模板约束</td><td>0.5B–8B 小模型</td><td>船载边缘</td><td>离线、短文本</td></tr>
+          <tr><td>长文档解析</td><td>云端大模型</td><td>云端 API</td><td>云端异步</td><td>非实时、批量处理</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;">
+      <div class="card"><div class="tag">上下文窗口</div><p class="body-text" style="margin-top:8px;font-size:25px;">实时链路各环节都是短输入，4K–8K 足够；只有长文档解析需要长上下文。</p></div>
+      <div class="card"><div class="tag">多模态边界</div><p class="body-text" style="margin-top:8px;font-size:25px;">MVP 以结构化数据 + 文本信号为主，摄像头只作为外部计数接口。</p></div>
+    </div>
+  </div>
+  <div class="pf"><span>技术选型</span><span>ClarSyn · 15 / 20</span></div>
+</div>
+
+<!-- 16 应用验证 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag blue">应用验证</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">16 / 20</span></div>
+  <div class="pb" style="flex-direction:column;">
+    <div class="kicker">Validation</div>
+    <h2>用高保真原型与案例数据，展示系统如何真实运作。</h2>
+    <p class="lead">62 条事件案例覆盖登离船、港口接驳、航变、库外异常。关键剧情包括 X-0001 库外发现 → E01 升级，以及 E09 台风航变弱信号 → L4 预案 → 审批 → 审计。</p>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+      <div class="ui-mini"><div class="bar"><span class="tag">时间轴</span><span class="tag">L1-L4</span></div><div class="r"><span>11:00</span><span>系泊</span></div><div class="r"><span>12:22</span><span>E09 航变 L3</span></div><div class="r"><span>12:27</span><span>E-L4 自动升级</span></div><div class="r"><span>12:33</span><span>审计完成</span></div></div>
+      <div class="ui-mini"><div class="bar"><span class="tag">AI 推理监视</span></div><div class="r"><span>X-0001</span><span>库外信号</span></div><div class="r"><span>E09</span><span>弱信号叠加</span></div><div class="r"><span>E-L4</span><span>置信度 0.88</span></div></div>
+      <div class="ui-mini"><div class="bar"><span class="tag">事件卡片带</span></div><div class="r"><span>L4</span><span>E-L4 船长待命</span></div><div class="r"><span>L3</span><span>E09 审批中</span></div><div class="r"><span>L2</span><span>E01 执行</span></div></div>
+      <div class="ui-mini"><div class="bar"><span class="tag">审批与审计</span></div><div class="r"><span>审批人</span><span>船长</span></div><div class="r"><span>签署</span><span>电子签署</span></div><div class="r"><span>审计包</span><span>PDF 可导出</span></div></div>
+    </div>
+  </div>
+  <div class="pf"><span>应用验证</span><span>ClarSyn · 16 / 20</span></div>
+</div>
+
+<!-- 17 量化指标 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag green">量化指标</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">17 / 20</span></div>
+  <div class="pb" style="flex-direction:column;">
+    <div class="kicker">Metrics & ROI</div>
+    <h2>目标区间 + 显式假设，不假装实测。</h2>
+    <p class="lead">所有指标为目标区间，待原型/仿真标定；ROI 用相对量级 + 显式假设，帮助船司用真实数据校准。</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <div class="metric"><div class="v">≥90%</div><div class="l">事件分类准确率</div></div>
+      <div class="metric"><div class="v">≥85%</div><div class="l">RAG Top-5 命中</div></div>
+      <div class="metric"><div class="v">≤3min</div><div class="l">感知→建议→审批</div></div>
+      <div class="metric"><div class="v">≤2min</div><div class="l">触达任务</div></div>
+    </div>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;">
+      <div class="card" style="background:linear-gradient(180deg,#FFFFFF,#F4F8FE);"><div class="tag blue">航变响应</div><p class="body-text" style="margin-top:12px;font-size:27px;">从“事后逐批解释”变为“事前弱信号预测 + 预案准备”；客服高峰人力小时数下降（量级待标定）。</p></div>
+      <div class="card" style="background:linear-gradient(180deg,#FFFFFF,#FEF8EF);"><div class="tag amber">决策准备</div><p class="body-text" style="margin-top:12px;font-size:27px;">从 20–45 分钟压缩到分钟级，让船长和运营经理更早、更准、更敢决策。</p></div>
+    </div>
+  </div>
+  <div class="pf"><span>量化指标</span><span>ClarSyn · 17 / 20</span></div>
+</div>
+
+<!-- 18 落地路径 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag green">落地路径</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">18 / 20</span></div>
+  <div class="pb" style="gap:48px;">
+    <div style="flex:1.1;">
+      <div class="kicker">Feasibility & Roadmap</div>
+      <h2>能造出来，也能一步步落地。</h2>
+      <p class="lead">系统以船载边缘为核心，不依赖卫星实时链路；外部数据按可用性分层，不假设不存在的数据。</p>
+      <div class="card"><div class="tag blue">可行性</div><ul style="font-size:26px;line-height:1.9;color:var(--sub);padding-left:22px;margin-top:12px;"><li>船载边缘节点 + 本地小模型</li><li>高保真原型已完成，核心逻辑可运行</li><li>Web 端、船长端、运营端已具备演示基础</li></ul></div>
+    </div>
+    <div style="flex:0.9;display:flex;flex-direction:column;gap:16px;justify-content:center;">
+      <div class="row"><div class="num" style="background:var(--soft-green);color:var(--green);">P0</div><div style="font-size:30px;font-weight:600;">原型验证（当前）</div></div>
+      <div class="row"><div class="num">P1</div><div style="font-size:30px;font-weight:600;">单港试点</div></div>
+      <div class="row"><div class="num">P2</div><div style="font-size:30px;font-weight:600;">多港复制</div></div>
+      <div class="row"><div class="num">P3</div><div style="font-size:30px;font-weight:600;">生态化</div></div>
+    </div>
+  </div>
+  <div class="pf"><span>落地路径</span><span>ClarSyn · 18 / 20</span></div>
+</div>
+
+
+<!-- 19 差异化与风险 -->
+<div class="page">
+  <div class="ph"><img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn"><span class="tag amber">差异化与风险</span><span style="font-family:var(--mono);color:var(--sub);font-size:18px;">19 / 20</span></div>
+  <div class="pb" style="flex-direction:column;">
+    <div class="kicker">Differentiation</div>
+    <h2>为什么是 ClarSyn，而不是旧系统、聊天 AI 或导航系统？</h2>
+    <p class="lead">核心差异不在界面，而在 AI 的能力边界：开放域异常、长链路推演、可解释性。</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+      <div class="card" style="border-top:8px solid var(--blue);"><div class="tag blue">vs 传统规则</div><p class="body-text" style="margin-top:12px;font-size:26px;">规则系统看不见库外、推演不了新组合、解释不了为什么。这三块是 ClarSyn 的 AI 高地。</p></div>
+      <div class="card" style="border-top:8px solid var(--amber);"><div class="tag amber">vs 聊天 AI</div><p class="body-text" style="margin-top:12px;font-size:26px;">不是帮人写话术，而是快速调用 API、发现弱信号、生成预案，并通过审批与审计闭环。</p></div>
+      <div class="card" style="border-top:8px solid var(--green);"><div class="tag green">vs 排队系统</div><p class="body-text" style="margin-top:12px;font-size:26px;">做船岸协同决策层，不是单点排队；价值在跨系统整合与航变响应。</p></div>
+    </div>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;">
+      <div class="card"><div class="tag">为什么是现在</div><p class="body-text" style="margin-top:10px;font-size:27px;">2026 航变/港口接驳是官方与媒体双确认的持续痛点；气象 API、本地小模型等条件已经成熟。</p></div>
+      <div class="card"><div class="tag">风险与对策</div><p class="body-text" style="margin-top:10px;font-size:27px;">数据不可得 → 分层管理；模型幻觉 → 多层兜底；组织边界 → 不越权；离线 → T0–T3 降级。</p></div>
+    </div>
+  </div>
+  <div class="pf"><span>差异化与风险</span><span>ClarSyn · 19 / 20</span></div>
+</div>
+
+<!-- 20 致谢 -->
+<div class="page" style="background:linear-gradient(135deg,#F6F7F9 0%,#EAF1FC 100%);">
+  <div class="pb" style="flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+    <img class="brand" style="height:100px;margin-bottom:40px;" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn">
+    <h2 style="max-width:1300px;">ClarSyn 不是替代人，而是让每一次船岸决策更清晰、更可追溯。</h2>
+    <p class="lead" style="max-width:1100px;font-size:32px;margin-top:24px;">感谢评审时间。我们希望传递的不只是一个界面，而是一套产品逻辑：快速调用信息、发现弱信号、提前预测、生成预案、人审批、全审计。</p>
+  </div>
+  <div class="pf"><span>致谢</span><span>ClarSyn · 20 / 20</span></div>
+</div>
+
+</body>
+</html>
