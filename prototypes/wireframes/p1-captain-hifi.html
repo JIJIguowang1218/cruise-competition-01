@@ -165,14 +165,12 @@
   .rsn.open{display:block}
   .rsn p{color:var(--th);margin:4px 0}
   .static-inline{font-size:11px;color:var(--tlo)}
-  /* 点击波纹（触屏质感：中心亮点 + 扩散光圈 + 光晕） */
+  /* 点击波纹（简约：细圆环 + 极淡填充，无发光） */
   .ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%) scale(0);
-    background:radial-gradient(circle,rgba(255,255,255,.55) 0%,rgba(255,255,255,.12) 38%,rgba(255,255,255,0) 70%);
-    box-shadow:0 0 18px rgba(120,200,255,.55),inset 0 0 12px rgba(255,255,255,.25);
-    animation:rip .62s cubic-bezier(.2,.6,.35,1) forwards}
-  .ripple::after{content:"";position:absolute;inset:22%;border-radius:50%;border:2px solid rgba(255,255,255,.75);
-    box-shadow:0 0 8px rgba(255,255,255,.6)}
-  @keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.95}60%{opacity:.55}
+    background:radial-gradient(circle,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 55%);
+    animation:rip .55s cubic-bezier(.2,.6,.35,1) forwards}
+  .ripple::after{content:"";position:absolute;inset:18%;border-radius:50%;border:1.5px solid rgba(255,255,255,.5)}
+  @keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.8}60%{opacity:.4}
     100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
   /* 页面内轻提示条（替代原生 alert，不阻断演示） */
   .toastbar{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-24px);z-index:1000;
@@ -1020,7 +1018,7 @@
     var r = el.getBoundingClientRect(), h = host.getBoundingClientRect();
     var s = PAGE_SCALE || 1;
     var cx = (r.left + r.width / 2 - h.left) / s, cy = (r.top + r.height / 2 - h.top) / s;
-    var d = (Math.max(r.width, r.height) * 2.4 + 30) / s;
+    var d = (Math.max(r.width, r.height) * 0.6 + 8) / s;
     var rip = document.createElement("i");
     rip.className = "ripple";
     rip.style.left = cx + "px"; rip.style.top = cy + "px";
