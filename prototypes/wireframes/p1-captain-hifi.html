@@ -111,12 +111,12 @@
   .es-r1 .no{color:var(--th);font-weight:700}
   .es-r1 .nm{color:var(--tlo);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .es-r1 .tag{margin-left:auto;flex:none;font-size:9px;color:var(--tlo);border:1px solid var(--line1);border-radius:4px;padding:0 4px}
-  .es-batches{display:flex;gap:4px;margin-top:3px;font-size:9px}
-  .es-bat{flex:1;text-align:center;border-radius:3px;padding:1px 0;background:var(--bg3);color:var(--tlo);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .es-r2{display:flex;align-items:center;gap:6px;margin-top:2px}
+  .es-bats{display:inline-flex;gap:3px;flex:none}
+  .es-bat{font-size:8px;border-radius:3px;padding:0 4px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
   .es-bat.done{background:rgba(81,184,115,.2);color:#9fe6bc}
-  .es-bat.cur{background:var(--exec);color:#04121a;font-weight:700;animation:esblink 1.2s ease 2}
-  @keyframes esblink{0%,100%{opacity:1}50%{opacity:.5}}
-  .es-ports{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap}
+  .es-bat.cur{background:var(--exec);color:#04121a;font-weight:700}
+  .es-ports{display:inline-flex;gap:3px;flex-wrap:wrap;min-width:0}
   .es-p{font-size:8px;border-radius:3px;padding:0 4px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
   .es-p.ok{background:rgba(81,184,115,.16);color:#9fe6bc}
   .es-p.wait{background:rgba(240,164,63,.16);color:#f6c98a}
@@ -860,42 +860,48 @@
         active.push(e);
       }
     });
-    // L2 拥挤：只留最新 2 条（按 exec.from 排序，溢出的进落幕）
+    // L2 拥挤：只留最新 4 条（升密度；登船高峰约 6 个 L2 同时执行）
     var l2 = active.filter(function (e) { return e.level === "L2"; }).sort(function (a, b) { return b.exec.from - a.exec.from; });
     var keep = new Set(active.filter(function (e) { return e.level !== "L2"; }).map(function (e) { return e.eventNo; }));
-    l2.slice(0, 2).forEach(function (e) { keep.add(e.eventNo); });
+    l2.slice(0, 4).forEach(function (e) { keep.add(e.eventNo); });
     active = active.filter(function (e) { return keep.has(e.eventNo); });
     // 排序：L4 置顶 → L3 → L2（同等级按执行开始）
     var LVO = { L4: 0, L3: 1, L2: 2 };
     active.sort(function (a, b) { return (LVO[a.level] - LVO[b.level]) || ((a.exec && a.exec.from || 0) - (b.exec && b.exec.from || 0)); });
+    // 每 tick 计算签名：活跃集合 + 各事件执行态/批次态/端口态 → 不变则只更新时间，不重建 DOM（消除闪烁）
     var LBLV = { L4: "⚑L4", L3: "L3", L2: "L2" };
-    var prevNo = body.dataset.act || "";
-    var rows = active.map(function (e) {
-      var st = execState(e);
-      var batchHtml = "";
-      if (e.level === "L4" && e.plan && e.plan.batches) {
-        var bats = e.plan.batches.map(function (b, i) {
-          var bs = batchState(e, i);
-          return '<span class="es-bat ' + (bs === "done" ? "done" : bs === "cur" ? "cur" : "") + '">' + (bs === "done" ? "✓" : bs === "cur" ? "●" : "◻") + " 批次" + (i + 1) + "</span>";
+    function rowSig(e) {
+      var bs = e.level === "L4" && e.plan ? e.plan.batches.map(function (_, i) { return batchState(e, i); }).join("") : "";
+      var ps = (e.ports || []).map(function (p) { return portState(p); }).join("");
+      return e.eventNo + "|" + execState(e) + "|" + bs + "|" + ps;
+    }
+    var sig = active.map(rowSig).join(";") + "#" + doneList.slice(0, 6).map(function (e) { return e.eventNo; }).join(",");
+    if (body.dataset.sig !== sig) {
+      var rows = active.map(function (e) {
+        var st = execState(e);
+        var batPort = "";
+        if (e.level === "L4" && e.plan && e.plan.batches) {
+          var bats = e.plan.batches.map(function (b, i) {
+            var bs2 = batchState(e, i);
+            return '<span class="es-bat ' + (bs2 === "done" ? "done" : bs2 === "cur" ? "cur" : "") + '">' + (bs2 === "done" ? "✓" : bs2 === "cur" ? "●" : "") + "批" + (i + 1) + "</span>";
+          }).join("");
+          batPort = '<span class="es-bats">' + bats + "</span>";
+        }
+        var portsHtml = (e.ports || []).map(function (p) {
+          var ps = portState(p);
+          return '<span class="es-p ' + (ps === "ok" ? "ok" : ps === "wait" ? "wait" : "") + '" title="' + (p.content || p.portCode) + '">' + p.portCode + (ps === "ok" ? "✓" : "◐") + "</span>";
         }).join("");
-        batchHtml = '<div class="es-batches">' + bats + "</div>";
-      }
-      var portsHtml = (e.ports || []).map(function (p) {
-        var ps = portState(p);
-        return '<span class="es-p ' + (ps === "ok" ? "ok" : ps === "wait" ? "wait" : "") + '" title="' + (p.content || p.portCode) + '">' + p.portCode + (ps === "ok" ? "✓" : "◐") + "</span>";
+        return '<div class="es-row ' + ("lv" + e.level.toLowerCase()) + '" data-no="' + e.eventNo + '">' +
+          '<div class="es-r1"><span class="no">' + e.eventNo + '</span><span class="nm">' + e.name + '</span><span class="tag">' + LBLV[e.level] + "</span></div>" +
+          '<div class="es-r2">' + batPort + (portsHtml ? '<span class="es-ports">' + portsHtml + "</span>" : "") + "</div>" +
+          "</div>";
       }).join("");
-      var tag = st === "run" ? "执行中" : st === "wait" ? "待执行" : "";
-      return '<div class="es-row ' + ("lv" + e.level.toLowerCase()) + '" data-no="' + e.eventNo + '">' +
-        '<div class="es-r1"><span class="no">' + e.eventNo + '</span><span class="nm">' + e.name + '</span><span class="tag">' + LBLV[e.level] + "</span></div>" +
-        batchHtml +
-        (portsHtml ? '<div class="es-ports">' + portsHtml + "</div>" : "") +
-        "</div>";
-    }).join("");
-    body.innerHTML = rows || '<div style="font-size:9px;color:var(--tlo);padding:4px 2px">（当前无需要监督的执行）</div>';
-    body.dataset.act = active.map(function (e) { return e.eventNo; }).join(",");
-    // 已落幕：最近 6 个（L2+ 且已结束）
-    var doneItems = doneList.slice(0, 6).map(function (e) { return "<i>✓</i>" + e.eventNo; }).join(" ");
-    doneEl.innerHTML = doneItems ? doneItems : "—";
+      body.innerHTML = rows || '<div style="font-size:9px;color:var(--tlo);padding:4px 2px">（当前无需要监督的执行）</div>';
+      body.dataset.sig = sig;
+    }
+    // 已落幕：最近 8 个（L2+ 且已结束）
+    var doneItems = doneList.slice(0, 8).map(function (e) { return "<i>✓</i>" + e.eventNo; }).join(" ");
+    if (doneEl.innerHTML !== doneItems) doneEl.innerHTML = doneItems || "—";
     if (cnt) cnt.textContent = active.length + " 项";
     if (clk) clk.textContent = clock(SNAP);
   }
