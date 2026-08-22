@@ -1004,6 +1004,7 @@
     var b = e.target.closest("[data-act]"); if (!b) return;
     var ev = get(sel), act = b.getAttribute("data-act");
     if (act === "escalate") { SC.doEscalate(ev, (ev.escalate && ev.escalate.to) || "L3", MOCK, SNAP); }
+    else if (act === "confirm") { ev.approval = ev.approval || {}; ev.approval.outcome = "confirm"; ev.approval.decidedAt = SNAP; if (!ev.handoffs) ev.handoffs = []; ev.handoffs.push({ at: SNAP, from: ev.currentRole || "CAPT", to: "EXEC", kind: "normal" }); ev.exec = { from: SNAP, to: (ev.exec && ev.exec.to) || null, port: (ev.exec && ev.exec.port) || "CRW", status: "running" }; ev.state = "执行中"; if (ev.machine) { ev.machine.current = "执行中"; } toast("船长已确认执行方案 → 下达执行"); }
     else { var r = SC.applyAction(ev, act, SNAP); if (!r.ok) { alert("非法状态转移：" + act); return; } }
     renderAll();
   });
