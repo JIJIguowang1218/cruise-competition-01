@@ -387,9 +387,13 @@
   var ROLE_ACT = {"CAPT":["L4"], "MGR":["L2","L3"], "LEGAL":["L3"], "DUTY":["L1","L2"]};
   function visibleActs(ev){ var allow=(ev.machine?ev.machine.allow:[]); if(ev.outlib&&ev.outlib.isX){ return (["DUTY","MGR"].indexOf(role)>=0)?allow:[]; } return (ROLE_ACT[role]||[]).indexOf(ev.level)>=0?allow:[]; }
   // 演示语义：审批人由数据预置（已审批/已签署），不提供"确认"类交互按钮；执行段由 renderRight 的 inExec 分支显示处置人员框
+  // 例外：L4（船长主剧情高潮）——船长拍板是镜头动作，提供确认/接管按钮
   function actsAt(ev){
     var allow = visibleActs(ev);
     if (ev.outlib && ev.outlib.isX) return allow;
+    if (ev.level === "L4" && role === "CAPT" && SNAP >= (ev.approval && ev.approval.waitStart || ev.discover.at) && SNAP < (ev.exec && ev.exec.from != null ? ev.exec.from : SNAP)) {
+      return ["confirm", "takeover"];
+    }
     var a = ev.approval || {};
     // 数据已预置审批结果（decidedAt 非空）→ 无确认/拒绝按钮（审批已完成，仅展示签署信息）
     if (a.decidedAt != null) return [];
@@ -903,11 +907,14 @@
         ({ DUTY: "值班", MGR: "运营经理", LEGAL: "法务", CAPT: "船长", SENSE: "感知", CRW: "现场", ENG: "工程", EXEC: "执行端" }[c.role] || c.role) +
         (c.signed ? '<small>✓已审批</small>' : '<small>' + clock(c.at) + '</small>') + "</div>";
     }).join("");
+    // 审批人：取审批链中的决策角色（CAPT>MGR>DUTY），跳过知情节点（LEGAL/informed）
+    var approverRole = "";
+    (e.chain || []).forEach(function (c) { if (!approverRole && ["CAPT", "MGR", "DUTY"].indexOf(c.role) >= 0) approverRole = c.role; });
     var signRows = [
       ["事件", e.eventNo + " " + e.name],
       ["处置等级", e.level === "X" ? "库外/未分类（异常提醒 · 只路由不审批）" : e.level + "（" + (e.level === "L1" ? "自动 · 事后审计" : e.level === "L2" ? "值班级 · 值班点击确认" : e.level === "L3" ? "审批级 · 经理/法务电子签署" : "最高级 · 船长直接触发，事后补签") + "）"],
       ["依据条款", (e.clauses || []).map(function (c) { return c.id + " " + c.snippet; }).join("；") || "—"],
-      ["审批人", (e.chain && e.chain.length) ? ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[e.chain[e.chain.length - 1].role] || e.chain[e.chain.length - 1].role : "—"],
+      ["审批人", approverRole ? ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[approverRole] : "—"],
       ["审批时间", approve.decidedAt != null ? clock(approve.decidedAt) : "待审批"],
       ["trace", tid]
     ].map(function (r) { return '<div class="srow"><span>' + r[0] + "</span><b>" + r[1] + "</b></div>"; }).join("");
@@ -1104,7 +1111,13 @@
     { at: 830, run: function () { demoTab = "flow"; tapFxSel('#tabs button[data-tab="flow"]'); renderRight(); } },                  // 执行段中点审批流（已审批/已签署）
     { at: 900, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } },                  // 审批流停留后点端口·审计
     { at: 940, run: function () { tapFxSel('#tab-audit button'); toast("导出审计包 PDF"); } },                  // 审计页点导出审计包 PDF（§4.13.2 可打印性）
-    { at: 980, run: function () { tapFxSel('.oplog .ctl button[data-f="all"]'); toast("日志已复制（append-only · 哈希链）"); } }                  // 收尾：操作台日志复制（可选）
+    { at: 980, run: function () { tapFxSel('.oplog .ctl button[data-f="all"]'); toast("日志已复制（append-only · 哈希链）"); } },                  // 收尾：操作台日志复制（可选）
+    // ===== L4 主镜头（主剧情高潮：船长拍板，12:27–12:32） =====
+    { at: 5240, run: function () { demoTab = null; sel = "E-L4-0001"; tapFxSel('#cardband [data-no="E-L4-0001"]'); renderAll(); } },   // 点 L4 卡（L4 告警脉冲 + 决策卡）
+    { at: 5270, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 展开 L4 推理附件（7 段长链）
+    { at: 5315, run: function () { tapFxSel('#tab-card [data-act="confirm"]'); var e = get("E-L4-0001"); if (e) { var r = SC.applyAction(e, "confirm", SNAP); if (r.ok) { demoTab = null; renderAll(); } } } },  // 船长点确认 → 下达执行
+    { at: 5450, run: function () { demoTab = "flow"; tapFxSel('#tabs button[data-tab="flow"]'); renderRight(); } },                  // 执行段中点审批流（船长签署 + 法务知情）
+    { at: 5600, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } }                   // 审批流停留后点端口·审计（五端口）
   ];
   function demoStep() {
     if (!DEMO_ON || !playing) return;
