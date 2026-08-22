@@ -1004,9 +1004,8 @@
     var b = e.target.closest("[data-act]"); if (!b) return;
     var ev = get(sel), act = b.getAttribute("data-act");
     if (act === "escalate") { SC.doEscalate(ev, (ev.escalate && ev.escalate.to) || "L3", MOCK, SNAP); }
-    else if (act === "confirm") { ev.approval = ev.approval || {}; ev.approval.outcome = "confirm"; ev.approval.decidedAt = SNAP; if (!ev.handoffs) ev.handoffs = []; ev.handoffs.push({ at: SNAP, from: ev.currentRole || "CAPT", to: "EXEC", kind: "normal" }); ev.exec = { from: SNAP, to: (ev.exec && ev.exec.to) || null, port: (ev.exec && ev.exec.port) || "CRW", status: "running" }; ev.state = "执行中"; if (ev.machine) { ev.machine.current = "执行中"; } toast("船长已确认执行方案 → 下达执行"); }
-    else { var r = SC.applyAction(ev, act, SNAP); if (!r.ok) { alert("非法状态转移：" + act); return; } }
-    renderAll();
+    else if (act === "confirm") { doConfirm(ev); return; }
+    else { var r = SC.applyAction(ev, act, SNAP); if (!r.ok) { alert("非法状态转移：" + act); return; } renderAll(); }
   });
   document.getElementById("tabs").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return; tapFx(b); switchTab(b.getAttribute("data-tab"));
@@ -1052,6 +1051,21 @@
   function setRole(n, c) { var m = { "船长": "CAPT", "运营经理": "MGR", "法务": "LEGAL", "值班": "DUTY" }; role = m[n] || "CAPT"; document.getElementById("uth").innerHTML = n + '<small style="display:block;font-weight:400;color:var(--tlo);font-size:10px">登录用户 · ' + role + '</small>'; document.getElementById("avT").textContent = c; document.getElementById("dd").classList.remove("open"); renderAll(); }
   document.addEventListener("click", function () { document.getElementById("dd").classList.remove("open"); });
   function toggleRsn() { var r = document.getElementById("rsn"); if (r) r.style.display = r.style.display === "none" ? "" : "none"; }
+  // 确认执行方案（L4 船长拍板）：手动点击与 DEMO 自动点击共用；不走 machine.allow 校验（E-L4 数据 allow 不含 confirm）
+  function doConfirm(ev) {
+    var t = SNAP;
+    ev.approval = ev.approval || {};
+    ev.approval.outcome = "confirm";
+    ev.approval.decidedAt = t;
+    if (!ev.handoffs) ev.handoffs = [];
+    var hasExec = ev.handoffs.some(function (h) { return h.to === "EXEC"; });
+    if (!hasExec) ev.handoffs.push({ at: t, from: ev.currentRole || "CAPT", to: "EXEC", kind: "normal" });
+    ev.exec = { from: t, to: (ev.exec && ev.exec.to) || null, port: (ev.exec && ev.exec.port) || "CRW", status: "running" };
+    ev.state = "执行中";
+    if (ev.machine) { ev.machine.current = "执行中"; ev.machine.allow = ["recover", "suspend"]; }
+    toast("船长已确认执行方案 → 下达执行");
+    renderAll();
+  }
   // ---------- 点击波纹（触屏质感特效：点击处扩散光圈，让观众看清点了哪里） ----------
   // 坐标换算：getBoundingClientRect 返回屏幕像素；挂在 .main（stage 缩放坐标系内）需 ÷PAGE_SCALE 得 CSS 像素
   function tapFx(el) {
@@ -1154,7 +1168,7 @@
     // ===== L4 主镜头（主剧情高潮：船长确认执行方案，12:27–12:33） =====
     { at: 5240, run: function () { demoTab = null; sel = "E-L4-0001"; tapFxSel('#cardband [data-no="E-L4-0001"]'); renderAll(); } },   // 点 L4 卡（L4 告警脉冲 + 决策页含调整方案详情）
     { at: 5270, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 船长先展开 L4 推理附件（7 段长链）
-    { at: 5315, run: function () { tapFxSel('#tab-card [data-act="confirm"]'); var e = get("E-L4-0001"); if (e) { var r = SC.applyAction(e, "confirm", SNAP); if (r.ok) { demoTab = null; renderAll(); } } } },  // 船长点确认方案（刚好进入执行节点 5330）
+    { at: 5315, run: function () { tapFxSel('#tab-card [data-act="confirm"]'); var e = get("E-L4-0001"); if (e) { doConfirm(e); demoTab = null; } } },  // 船长点确认方案（doConfirm 直接生效，进执行段）
     { at: 5450, run: function () { demoTab = "flow"; tapFxSel('#tabs button[data-tab="flow"]'); renderRight(); } },                  // 执行段中点审批流（船长签署 + 法务知情）
     { at: 5600, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } }                   // 审批流停留后点端口·审计（五端口）
   ];
