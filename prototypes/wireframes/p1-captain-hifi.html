@@ -364,7 +364,7 @@
 <script src="../mock/cot-text.js"></script>
 <script>
   var MOCK = window.MOCK, SC = window.SimCore;
-  var total = MOCK.session.total, SNAP = 520, playing = true, spd = 20, W = 900; // 滑动窗口10min，事件矩形短
+  var total = MOCK.session.total, SNAP = 0, playing = true, spd = 20, W = 900; // 起始 11:00，滑动窗口10min
   // ---- 会话起点时钟（11:00）+ 半小时真实时刻刻度（grammar v5 §8.6） ----
   var VS = MOCK.meta.voyageStart || "11:00", vsParts = VS.split(":").map(Number), vsMin = vsParts[0] * 60 + (vsParts[1] || 0);
   function clock(t){ var m = vsMin + t / 60, h = Math.floor(m / 60) % 24, mm = Math.floor(m % 60); return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm; }
@@ -883,6 +883,7 @@
     } else {
       var acts = actsAt(e).map(function (a) { return '<button data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
       var idleTxt = isDone(e) ? '已终结，无动作' : '只读监控（'+role+' 无权处置 '+e.level+'）';
+      if (SNAP < e.discover.at) idleTxt = "未发生（事件尚未出现）";
       if (e.outlib && e.outlib.isX && e.upgrade && e.upgrade.at != null && SNAP >= e.upgrade.at) idleTxt = "已升级 → 移交 " + (function(){ for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) return c.eventNo + " 处置"; } return "正式事件处置"; })();
       actsHtml = '<div class="act">' + (acts || '<span class="lbl">' + idleTxt + '</span>') + "</div>";
     }
@@ -1042,7 +1043,7 @@
   // ---------- 时钟 / 控制（时间轴实时生长） ----------
   var tlleg=document.querySelector(".tlleg");
   tlleg.innerHTML = tlleg.innerHTML + '<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center">' +
-    '<label style="color:var(--tlo);font-size:10px;display:inline-flex;align-items:center;gap:3px">时间 <input id="tlsnaprange" type="range" min="0" max="'+total+'" step="30" value="520" style="width:170px"></label>' +
+    '<label style="color:var(--tlo);font-size:10px;display:inline-flex;align-items:center;gap:3px">时间 <input id="tlsnaprange" type="range" min="0" max="'+total+'" step="30" value="0" style="width:170px"></label>' +
     '<button class="btn sm" id="tlplay">⏸ 暂停</button>' +
     '<input id="tlspeed" type="range" min="1" max="120" value="20" style="width:90px">' +
     '<button class="btn sm" id="tlsnap">+60s</button>' +
