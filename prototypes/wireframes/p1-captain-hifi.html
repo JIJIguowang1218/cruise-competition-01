@@ -374,16 +374,13 @@
   var role = "CAPT";
   var ROLE_ACT = {"CAPT":["L4"], "MGR":["L2","L3"], "LEGAL":["L3"], "DUTY":["L1","L2"]};
   function visibleActs(ev){ var allow=(ev.machine?ev.machine.allow:[]); if(ev.outlib&&ev.outlib.isX){ return (["DUTY","MGR"].indexOf(role)>=0)?allow:[]; } return (ROLE_ACT[role]||[]).indexOf(ev.level)>=0?allow:[]; }
-  // 按时刻给动作权限：待审批期 → 确认/拒绝/接管；执行期由 renderRight 的 inExec 分支接管显示
+  // 演示语义：审批人由数据预置（已审批/已签署），不提供"确认"类交互按钮；执行段由 renderRight 的 inExec 分支显示处置人员框
   function actsAt(ev){
     var allow = visibleActs(ev);
     if (ev.outlib && ev.outlib.isX) return allow;
     var a = ev.approval || {};
-    var execStart = ev.exec && ev.exec.from != null ? ev.exec.from : (a.decidedAt != null ? a.decidedAt : null);
-    // 待审批期：waitStart ≤ SNAP < 执行起点（数据预置 decidedAt 也视为"已由脚本定案"，交互窗口在 waitStart~execStart 之间）
-    if (a.waitStart != null && SNAP >= a.waitStart && (execStart == null || SNAP < execStart)) {
-      return allow.length ? allow : ["confirm", "refuse", "takeover"];
-    }
+    // 数据已预置审批结果（decidedAt 非空）→ 无确认/拒绝按钮（审批已完成，仅展示签署信息）
+    if (a.decidedAt != null) return [];
     return allow;
   }
   var sel = "";   // 初始未选中：决策卡区空，点击事件卡片后填充
@@ -852,8 +849,14 @@
         '<div class="act"><button class="btn" data-act="takeover" title="本镜头不点，仅展示人工接管入口">转人工接管</button></div>';
     } else {
       var acts = actsAt(e).map(function (a) { return '<button data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
-      var idleTxt = isDone(e) ? '已终结，无动作' : '只读监控（'+role+' 无权处置 '+e.level+'）';
-      if (SNAP < e.discover.at) idleTxt = "未发生（事件尚未出现）";
+      var idleTxt = '只读监控（'+role+' 无权处置 '+e.level+'）';
+      var st = stateAt(e);
+      if (st === "未发生") idleTxt = "未发生（事件尚未出现）";
+      else if (st === "待审批") {
+        var apprName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[e.currentRole] || e.currentRole || "值班";
+        idleTxt = "待审批 · 审批人 " + apprName;
+      }
+      else if (st === "已恢复" || st === "已挂起") idleTxt = st + "，无处置动作";
       if (e.outlib && e.outlib.isX && e.upgrade && e.upgrade.at != null && SNAP >= e.upgrade.at) idleTxt = "已升级 → 移交 " + (function(){ for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) return c.eventNo + " 处置"; } return "正式事件处置"; })();
       actsHtml = '<div class="act">' + (acts || '<span class="lbl">' + idleTxt + '</span>') + "</div>";
     }
@@ -861,7 +864,7 @@
       '<div class="banner ' + (e.level === "L4" ? "err" : "ok") + '" id="l4ban">' + (e.level === "L4" ? "⚑ " : "✓ ") + e.name +
       '<span style="flex:1"></span></div>' +
       '<div class="mcard"><div class="lbl">决策卡 · ' + e.eventNo + " · " + e.level + '</div><b>' + stateAt(e) + "</b><div class=static-inline>" + e.summary + " · 置信度 " + e.confidence + '</div></div>' +
-      '<div class="mcard"><div class="lbl">处置动作（决策卡）</div>' + actsHtml + "</div>" +
+      '<div class="mcard"><div class="lbl">处置动作</div>' + actsHtml + "</div>" +
       '<div class="mcard"><div class="lbl">推理附件</div><button class="btn sm" onclick="toggleRsn()">展开推理附件 ▾</button>' +
       '<div id="rsn" style="display:none;margin-top:6px">' + (e.reasoning.sections || []).map(function (x) { return "<p>" + x + "</p>"; }).join("") +
       (e.reasoning.pipeline ? "<p style='margin-top:6px'><b>推理流水（模拟 AI 推理后台）</b></p>" + e.reasoning.pipeline.map(function (x) { return "<p>• " + x.step + "：" + x.detail + "</p>"; }).join("") : "") + "</div></div>";
@@ -934,7 +937,7 @@
   // ---------- 交互（事件委托，避免丢点击） ----------
   document.getElementById("cardband").addEventListener("click", function (e) {
     var no = e.target.closest("[data-no]");
-    if (no) { sel = no.getAttribute("data-no"); renderAll(); return; }
+    if (no) { sel = no.getAttribute("data-no"); demoTab = null; renderAll(); return; }
     var db = e.target.closest("[data-donebar]");
     if (db) {
       var cnt = db.querySelector(".cnt"); 
@@ -1052,13 +1055,12 @@
   var DEMO_ON = false, demoIdx = 0, demoTab = null;
   function demoReset() { demoIdx = 0; demoTab = null; }
   var DEMO = [
-    // E01 主镜头（X-0001 升级 → E01 全流程）
-    { at: 466, run: function () { demoTab = null; sel = "X-0001"; renderAll(); } },                       // 升级绿竖线后点 X 卡
+    // E01 主镜头（无确认步骤：审批人是数据预置的，执行段自动显示处置人员框）
+    { at: 466, run: function () { demoTab = null; sel = "X-0001"; renderAll(); } },                       // 升级绿竖线后点 X 卡看决策卡
     { at: 520, run: function () { var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 稍等展开推理附件
-    { at: 620, run: function () { demoTab = null; sel = "E01-0001"; renderAll(); } },                     // 点 E01 卡（待审批期）
-    { at: 660, run: function () { var e = get("E01-0001"); if (e) { var r = SC.applyAction(e, "confirm", SNAP); if (r.ok) renderAll(); } } },  // 到执行段前点确认
-    { at: 760, run: function () { demoTab = "flow"; renderRight(); } },                  // 执行段中点审批流
-    { at: 860, run: function () { demoTab = "audit"; renderRight(); } }                  // 执行段中点端口·审计
+    { at: 640, run: function () { demoTab = null; sel = "E01-0001"; renderAll(); } },                     // 执行段前点 E01 卡（展示决策卡）
+    { at: 760, run: function () { demoTab = "flow"; renderRight(); } },                  // 执行段中点审批流（已审批/已签署）
+    { at: 860, run: function () { demoTab = "audit"; renderRight(); } }                  // 审批流停留后点端口·审计
   ];
   function demoStep() {
     if (!DEMO_ON || !playing) return;
