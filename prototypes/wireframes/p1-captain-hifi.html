@@ -400,7 +400,8 @@
       var a = ev.approval || {};
       if (a.decidedAt != null && SNAP >= a.decidedAt && SNAP < ev.upgrade.at) return ["confirmUp"];
     }
-    if (ev.level === "L4" && role === "CAPT" && SNAP >= (ev.approval && ev.approval.waitStart || ev.discover.at) && SNAP < (ev.exec && ev.exec.from != null ? ev.exec.from : SNAP)) {
+    if (role === "CAPT" && ev.level === "L4" && SNAP >= ev.discover.at && !(ev.exec && ev.exec.from != null && SNAP >= ev.exec.from)) {
+      // 船长确认 L4 方案：从 E-L4 诞生到确认前始终可确认（展开附件后点确认按钮）
       return ["confirm", "takeover"];
     }
     var a = ev.approval || {};
@@ -872,8 +873,10 @@
     // 决策卡：执行段中不显示"确认"类动作，改为处置人员框 + 人工接管入口（接管按钮本镜头不点，仅展示）
     var actsHtml = "";
     if (inExec) {
-      var holder = (e.chain && e.chain.length && e.chain[e.chain.length - 1].role) || e.currentRole || "DUTY";
-      var holderName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长", ENG: "工程 · 张工" })[holder] || holder;
+      var holder = "";
+      (e.chain || []).forEach(function (c) { if (!holder && ["CAPT", "MGR", "DUTY", "CRW"].indexOf(c.role) >= 0) holder = c.role; });
+      if (!holder) holder = e.currentRole || "DUTY";
+      var holderName = ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长", ENG: "工程 · 张工", CRW: "现场船员" })[holder] || holder;
       actsHtml = '<div class="holder"><div class="lbl">处置人员（当前执行端）</div>' +
         '<div class="static-inline">' + holderName + ' · ' + holder + ' · ' + clock(e.exec.from) + ' 起执行' +
         (e.ports && e.ports.length ? ' · 已投放 ' + e.ports.map(function (p) { return p.portCode; }).join('/') : '') + '</div></div>' +
@@ -881,6 +884,8 @@
     } else {
       var acts = actsAt(e).map(function (a) { return '<button data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
       var idleTxt = '只读监控（'+role+' 无权处置 '+e.level+'）';
+      if (e.level === "L4" && role === "CAPT" && SNAP >= e.discover.at) idleTxt = "待船长确认（展开推理附件后点确认）";
+      else if (e.level === "L3" && role === "CAPT" && e.upgrade && e.upgrade.to === "L4" && e.upgrade.at != null && SNAP >= (e.approval && e.approval.decidedAt || 0) && SNAP < e.upgrade.at) idleTxt = "待船长确认升级（展开推理附件后点确认）";
       var st = stateAt(e);
       if (st === "未发生") idleTxt = "未发生（事件尚未出现）";
       else if (st === "待审批") {
