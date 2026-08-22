@@ -3633,6 +3633,25 @@
         {portCode: "MGMT", status: "已同步(知情)", at: 5570, role: "LEGAL", content: "赔付/安抚口径同步法务 LEGAL（知情端口）"},
         {portCode: "OTA", status: "已同步(知情)", at: 5630, content: "客服安抚口径同步 OTA（知情端口）"}
       ],
+      // 调整方案详情（船长决策页展示，船上相关：下船时机/分组批次/船上通道；接驳衔接不在本页）
+      plan: {
+        timing: [
+          {label: "批次间隔离", detail: "相邻批次间隔 ≥ 8 分钟，避免通道叠加"},
+          {label: "靠岸即开始", detail: "靠泊完成（12:45）后立即启动第 1 批，13:00 前清空全船"},
+          {label: "末批预留", detail: "行动不便/重点乘客安排最后批次，专属引导"}
+        ],
+        batches: [
+          {label: "第 1 批", detail: "8–10 层 房型 A/B（400 人）· 集合点：主剧场"},
+          {label: "第 2 批", detail: "5–7 层 房型 C/D（480 人）· 集合点：中庭"},
+          {label: "第 3 批", detail: "1–4 层 房型 E/F + 行动不便（520 人）· 集合点：船尾甲板"}
+        ],
+        onboard: [
+          {label: "垂直动线", detail: "分批使用 2 部主电梯 + 1 部后梯，禁止混批乘梯"},
+          {label: "通道分流", detail: "主廊道单向放行，按批次交替启用左右舷通道"},
+          {label: "无障碍保障", detail: "轮椅优先通道全程开放，专人护送（§R8-020）"},
+          {label: "秩序广播", detail: "PA 按批次播报集合指引，每批一播、错峰不叠加"}
+        ]
+      },
       machine: {
         current: "执行中",
         allow: ["recover", "suspend"]
