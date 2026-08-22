@@ -311,47 +311,9 @@
           <button data-tab="audit">端口·审计</button>
         </div>
         <div class="rbody" id="apwrap">
-                    <div class="tabpane" id="tab-card">
-            <div class="mcard">
-              <div class="lbl">当前审批对象 · L4</div>
-              <b>L4 全船应急指令</b>
-              <div class="static-inline">角色 船长 · 状态 待审批（升级自 L3）</div>
-              <div class="cdbar"><i></i></div>
-              <div class="act">
-                <button class="btn primary" onclick="toast('已确认/下达执行')">确认</button>
-                <button class="btn danger" onclick="toast('已拒绝(需原因)')">拒绝</button>
-                <button class="btn" onclick="toast('转人工接管')">转人工接管</button>
-              </div>
-            </div>
-            <div class="mcard">
-              <div class="lbl">决策卡 · 建议</div>
-              <b>推迟离泊 2h → 锚地 C</b> <button class="btn sm" onclick="copyTrace()">复制 trace</button>
-              <div class="static-inline">信号依据 · 置信度 0.84 · 条款 §R8-014</div>
-              <button class="btn sm" style="margin-top:6px" onclick="toggleRsn()">展开推理附件 ▾</button>
-            </div>
-            <div class="rsn" id="rsn">
-              <p><b>推理全文（示例）</b></p>
-              <p>3. 事件分类：命中 E09（台风靠离泊调整），匹配 0.91→标准管线。</p>
-              <p>4. 长链路推演+弱信号：台风 6h 进安全窗口→照常离泊将入 30kn 侧风区→叠加滞留客流→建议提前/推迟。A18 已抄送值班。</p>
-              <p>7. 方案比对（为何不用 B）：B=仅推迟不建口径→信息不一致风险高→否决。</p>
-              <button class="btn sm" onclick="copyRsn()">复制全文</button>
-            </div>
-          </div>
-          <div class="tabpane" id="tab-flow" style="display:none">
-            <div class="mcard">
-              <div class="lbl">审批流 · 值班→经理→法务→船长</div>
-              <div class="steps"><div class="step done">值班</div><div class="step done">经理</div><div class="step done">法务</div><div class="step cur">船长 L4</div></div>
-              <div class="static-inline" style="margin-top:6px">超时自动升级→更高层；接管=最小登记+循环提醒（§4.12）</div>
-            </div>
-          </div>
-          <div class="tabpane" id="tab-audit" style="display:none">
-            <div class="mcard">
-              <div class="lbl">端口 / 审计</div>
-              <div class="static-inline">乘客App 已送达(回执) · 船载屏 已显示 · 广播 待播报</div>
-              <div class="static-inline" style="margin-top:4px">trace: 07FA-3B2C · append-only · 哈希链</div>
-              <button class="btn sm" style="margin-top:8px" onclick="toast('导出审计包 PDF')">导出审计包 PDF</button>
-            </div>
-          </div>
+          <div class="tabpane" id="tab-card"><div class="mcard" id="tab-card-empty"><div class="lbl">决策卡</div><div class="static-inline" style="color:var(--tlo)">点击左侧事件卡片查看决策卡</div></div></div>
+          <div class="tabpane" id="tab-flow" style="display:none"></div>
+          <div class="tabpane" id="tab-audit" style="display:none"></div>
         </div>
       </div>
     </div>
@@ -424,7 +386,7 @@
     }
     return allow;
   }
-  var sel = MOCK.events[0].eventNo;
+  var sel = "";   // 初始未选中：决策卡区空，点击事件卡片后填充
   // 拍摄辅助：?sel=事件号&snap=秒&role=角色 可精确定位镜头（也可用于自动化验证）
   (function () {
     try {
@@ -869,6 +831,14 @@
   }
   function renderRight() {
     var e = get(sel);
+    if (!e) {   // 未选中事件：右栏三个 tab 显示占位
+      document.getElementById("tab-card").innerHTML = '<div class="mcard"><div class="lbl">决策卡</div><div class="static-inline" style="color:var(--tlo)">点击左侧事件卡片查看决策卡</div></div>';
+      document.getElementById("tab-flow").innerHTML = "";
+      document.getElementById("tab-audit").innerHTML = "";
+      document.getElementById("tabs").style.display = "";
+      switchTab(demoTab || "card");
+      return;
+    }
     var tid = SC.traceId(e);
     var inExec = e.exec && e.exec.from != null && SNAP >= e.exec.from && SNAP <= (e.exec.to || SNAP);
     // 决策卡：执行段中不显示"确认"类动作，改为处置人员框 + 人工接管入口（接管按钮本镜头不点，仅展示）
