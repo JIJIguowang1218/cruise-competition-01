@@ -174,6 +174,11 @@
     box-shadow:0 0 8px rgba(255,255,255,.6)}
   @keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.95}60%{opacity:.55}
     100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+  /* 页面内轻提示条（替代原生 alert，不阻断演示） */
+  .toastbar{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-24px);z-index:1000;
+    background:rgba(10,18,26,.92);border:1px solid var(--exec);color:#e8fff3;font-size:12px;padding:8px 16px;
+    border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.5);opacity:0;transition:transform .25s ease,opacity .25s ease;pointer-events:none}
+  .toastbar.show{transform:translateX(-50%) translateY(0);opacity:1}
   .holder{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
   .srow{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 0;border-bottom:1px dashed var(--line1)}
   .srow span{color:var(--tlo);white-space:nowrap}
@@ -874,7 +879,7 @@
     }
     document.getElementById("tab-card").innerHTML =
       '<div class="banner ' + (e.level === "L4" ? "err" : "ok") + '" id="l4ban">' + (e.level === "L4" ? "⚑ " : "✓ ") + e.name +
-      '<span style="flex:1"></span></div>' +
+      '<span style="flex:1"></span><button class="btn sm" onclick="copyTrace()">复制 trace</button></div>' +
       '<div class="mcard"><div class="lbl">决策卡 · ' + e.eventNo + " · " + e.level + '</div><b>' + stateAt(e) + "</b><div class=static-inline>" + e.summary + " · 置信度 " + e.confidence + '</div></div>' +
       '<div class="mcard"><div class="lbl">处置动作</div>' + actsHtml + "</div>" +
       '<div class="mcard"><div class="lbl">推理附件</div><button class="btn sm" onclick="toggleRsn()">展开推理附件 ▾</button>' +
@@ -967,8 +972,10 @@
     var b = e.target.closest("button"); if (!b) return; tapFx(b); switchTab(b.getAttribute("data-tab"));
   });
   // ---------- 主题 / 模式 / 头像 / 缩放 ----------
+  var PAGE_SCALE = 1;   // stage 等比缩放因子（波纹定位用：屏幕坐标 ÷ scale = CSS 坐标）
   function fit() {
     var s = Math.min((innerWidth - 16) / 1520, (innerHeight - 24) / 940); s = Math.max(0.35, Math.min(1.4, s));
+    PAGE_SCALE = s;
     var st = document.getElementById("stage"); st.style.transform = "scale(" + s + ")";
     st.style.marginTop = Math.max(8, (innerHeight - 940 * s) / 2) + "px";
     fitReserve();
@@ -1006,12 +1013,14 @@
   document.addEventListener("click", function () { document.getElementById("dd").classList.remove("open"); });
   function toggleRsn() { var r = document.getElementById("rsn"); if (r) r.style.display = r.style.display === "none" ? "" : "none"; }
   // ---------- 点击波纹（触屏质感特效：点击处扩散光圈，让观众看清点了哪里） ----------
+  // 坐标换算：getBoundingClientRect 返回屏幕像素；挂在 .main（stage 缩放坐标系内）需 ÷PAGE_SCALE 得 CSS 像素
   function tapFx(el) {
     if (!el) return;
     var host = document.querySelector(".main") || document.body;
     var r = el.getBoundingClientRect(), h = host.getBoundingClientRect();
-    var cx = r.left + r.width / 2 - h.left, cy = r.top + r.height / 2 - h.top;
-    var d = Math.max(r.width, r.height) * 2.4 + 30;
+    var s = PAGE_SCALE || 1;
+    var cx = (r.left + r.width / 2 - h.left) / s, cy = (r.top + r.height / 2 - h.top) / s;
+    var d = (Math.max(r.width, r.height) * 2.4 + 30) / s;
     var rip = document.createElement("i");
     rip.className = "ripple";
     rip.style.left = cx + "px"; rip.style.top = cy + "px";
@@ -1020,7 +1029,13 @@
     setTimeout(function () { if (rip.parentNode) rip.parentNode.removeChild(rip); }, 700);
   }
   function tapFxSel(sel) { var el = document.querySelector(sel); if (el) tapFx(el); }
-  function toast(m) { alert("操作登记：" + m); }
+  function toast(m) {   // 页面内轻提示（不弹原生 alert，避免阻断演示）
+    var t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toastbar"; document.body.appendChild(t); }
+    t.textContent = "✓ " + m;
+    t.classList.remove("show"); void t.offsetWidth; t.classList.add("show");
+    clearTimeout(t._tm); t._tm = setTimeout(function () { t.classList.remove("show"); }, 1600);
+  }
   function copyLog() { toast("日志已复制（append-only · 哈希链）"); }
   function copyTrace() { toast("trace 已复制（可扫码/检索）"); }
   function copyRsn() { toast("推理全文已复制"); }
@@ -1087,8 +1102,11 @@
     { at: 540, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 点展开推理附件（X）
     { at: 726, run: function () { demoTab = null; sel = "E01-0001"; tapFxSel('#cardband [data-no="E01-0001"]'); renderAll(); } },                     // 执行段开始瞬间点 E01 卡（直接显示已审核/执行中）
     { at: 760, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 点展开推理附件（E01）
+    { at: 795, run: function () { tapFxSel('#l4ban button'); toast("trace 已复制（可扫码/检索）"); } },                  // 点复制 trace（哈希链可追溯）
     { at: 830, run: function () { demoTab = "flow"; tapFxSel('#tabs button[data-tab="flow"]'); renderRight(); } },                  // 执行段中点审批流（已审批/已签署）
-    { at: 900, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } }                  // 审批流停留后点端口·审计
+    { at: 900, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } },                  // 审批流停留后点端口·审计
+    { at: 940, run: function () { tapFxSel('#tab-audit button'); toast("导出审计包 PDF"); } },                  // 审计页点导出审计包 PDF（§4.13.2 可打印性）
+    { at: 980, run: function () { tapFxSel('.oplog .ctl button[data-f="all"]'); toast("日志已复制（append-only · 哈希链）"); } }                  // 收尾：操作台日志复制（可选）
   ];
   function demoStep() {
     if (!DEMO_ON || !playing) return;
