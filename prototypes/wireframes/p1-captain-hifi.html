@@ -442,7 +442,10 @@
         log(r.at, ev.eventNo + " 再检 " + (i + 1) + "/" + ev.recheck.reads.length + "：" + t, "操作");
       });
       if (ev.recoverAt != null) log(ev.recoverAt, ev.eventNo + " 恢复，事件闭合", "事件");
-      if (ev.upgrade && ev.upgrade.at != null) log(ev.upgrade.at, ev.eventNo + " 升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化" : "超时") + "，关系A升级线）", "事件");
+      if (ev.upgrade && ev.upgrade.at != null) {
+        log(ev.upgrade.at, ev.eventNo + " 升级建议 → 值班·李工核实确认 → 升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化" : "超时") + "，关系A升级线）", "事件");
+        if (ev.outlib && ev.outlib.isX) log(ev.upgrade.at, ev.eventNo + " 已回写事件分类库（闭环学习）", "操作");
+      }
       if (ev.parentTrace) log(ev.discover.at, ev.eventNo + " 衍生自 " + ((ev.discover.signals && ev.discover.signals[0].from) || "上游") + "（parentTrace=" + ev.parentTrace + "）", "事件");
     });
     lines.sort(function (a, b) { return a.at - b.at; });
@@ -857,7 +860,7 @@
         idleTxt = "待审批 · 审批人 " + apprName;
       }
       else if (st === "已恢复" || st === "已挂起") idleTxt = st + "，无处置动作";
-      if (e.outlib && e.outlib.isX && e.upgrade && e.upgrade.at != null && SNAP >= e.upgrade.at) idleTxt = "已升级 → 移交 " + (function(){ for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) return c.eventNo + " 处置"; } return "正式事件处置"; })();
+      if (e.outlib && e.outlib.isX && e.upgrade && e.upgrade.at != null && SNAP >= e.upgrade.at) idleTxt = "已升级 → 值班·李工核实升级 → 移交 " + (function(){ for (var i = 0; i < MOCK.events.length; i++) { var c = MOCK.events[i]; if (c.parentTrace === SC.traceId(e) || (c.discover && c.discover.signals && c.discover.signals.some(function (s) { return s.from === e.eventNo; }))) return c.eventNo + " 处置"; } return "正式事件处置"; })();
       actsHtml = '<div class="act">' + (acts || '<span class="lbl">' + idleTxt + '</span>') + "</div>";
     }
     document.getElementById("tab-card").innerHTML =
@@ -1055,12 +1058,12 @@
   var DEMO_ON = false, demoIdx = 0, demoTab = null;
   function demoReset() { demoIdx = 0; demoTab = null; }
   var DEMO = [
-    // E01 主镜头（无确认步骤：审批人是数据预置的，执行段自动显示处置人员框）
-    { at: 466, run: function () { demoTab = null; sel = "X-0001"; renderAll(); } },                       // 升级绿竖线后点 X 卡看决策卡
-    { at: 520, run: function () { var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 稍等展开推理附件
-    { at: 640, run: function () { demoTab = null; sel = "E01-0001"; renderAll(); } },                     // 执行段前点 E01 卡（展示决策卡）
-    { at: 760, run: function () { demoTab = "flow"; renderRight(); } },                  // 执行段中点审批流（已审批/已签署）
-    { at: 860, run: function () { demoTab = "audit"; renderRight(); } }                  // 审批流停留后点端口·审计
+    // E01 主镜头（船长视角：跳过值班审核过程，执行段开始瞬间直接看到已审核状态）
+    { at: 466, run: function () { demoTab = null; sel = "X-0001"; renderAll(); } },                       // 升级绿竖线后点 X 卡看决策卡（值班核实升级信息）
+    { at: 540, run: function () { var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 稍等展开推理附件
+    { at: 726, run: function () { demoTab = null; sel = "E01-0001"; renderAll(); } },                     // 执行段开始瞬间点 E01 卡（直接显示已审核/执行中）
+    { at: 800, run: function () { demoTab = "flow"; renderRight(); } },                  // 执行段中稍停后点审批流（已审批/已签署）
+    { at: 880, run: function () { demoTab = "audit"; renderRight(); } }                  // 审批流停留后点端口·审计
   ];
   function demoStep() {
     if (!DEMO_ON || !playing) return;
