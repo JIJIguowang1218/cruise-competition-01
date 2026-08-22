@@ -3494,6 +3494,12 @@
       ],
       approval: { waitStart: 4926, dueAt: 8526, outcome: "confirm", decidedAt: 5160 },
       exec: { from: 5160, to: 5220, port: "MGMT", status: "running" },
+      // 执行段更强信号（5160–5220，升级 L4 的判据来源：等级升级=AI 判据自动触发，无需人确认升级）
+      execSignals: [
+        { src: "vis/port", at: 5180, val: { note: "港口正式回执：靠泊窗口取消，无法按原窗口靠泊" } },
+        { src: "weather/api", at: 5190, val: { wind: 34, note: "侧风持续恶化 32→34kn，超操作限值 30kn" } },
+        { src: "ai-risk", at: 5205, val: { confidence: "met", note: "AI 重新评估：赔付/安抚风险升至 high，达到 L4 安全判据" } }
+      ],
       holding: null,
       peakMark: false,
       recoverAt: null,
@@ -3507,7 +3513,7 @@
       summary: "经理审批确认 → 长链推演（台风×靠泊窗口×离船批次×接驳耦合）判'需整体下船安全再排' → 升级(L4·物理)",
       confidence: 0.92,
       reasoning: {
-        sections: ["分类 E09 匹配 0.92；discover 为系统 AI 风险推理产物（信度达标）", "长链推演：照常靠泊入 32kn 侧风 → 叠加接驳滞留 + 离船批次弱信号 → 靠泊中断风险 > 方案代价", "判定：需整体下船安全再排（不是局部延迟）→ 升级 L4（物理原因），关系A升级线", "升级点 4620s 与 E-L4-0001.discover 4620s 同 x，数据预置完整（不依赖运行时 doEscalate）"],
+        sections: ["分类 E09 匹配 0.92；discover 为系统 AI 风险推理产物（信度达标）", "长链推演：照常靠泊入 32kn 侧风 → 叠加接驳滞留 + 离船批次弱信号 → 靠泊中断风险 > 方案代价", "经理审批执行（5160s）后，执行段 5160–5220 收到更强信号：港口回执靠泊窗口取消、侧风 32→34kn 超限、AI 赔付风险升 high——达到 L4 安全判据", "升级 L4（物理原因）：等级升级=AI 判据自动触发，无需人确认升级；呈船长处置（关系A升级线），升级点与 E-L4-0001.discover 同 x"],
         pipeline: [
           {step: "signal 采集", detail: "weather/api + vis/port + ota/shuttle + 库外 X-0002 弱信号"},
           {step: "信度分解", detail: "多源一致 0.86→0.92，超过 0.85 阈值（信度达标）"},

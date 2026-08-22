@@ -391,15 +391,10 @@
   var ROLE_ACT = {"CAPT":["L4"], "MGR":["L2","L3"], "LEGAL":["L3"], "DUTY":["L1","L2"]};
   function visibleActs(ev){ var allow=(ev.machine?ev.machine.allow:[]); if(ev.outlib&&ev.outlib.isX){ return (["DUTY","MGR"].indexOf(role)>=0)?allow:[]; } return (ROLE_ACT[role]||[]).indexOf(ev.level)>=0?allow:[]; }
   // 演示语义：审批人由数据预置（已审批/已签署），不提供"确认"类交互按钮；执行段由 renderRight 的 inExec 分支显示处置人员框
-  // 例外：L4（船长主剧情高潮）——船长拍板是镜头动作，提供确认/接管按钮
+  // 例外：L4（船长主剧情高潮）——船长拍板是镜头动作，提供"确认当前执行方案"按钮；升级本身是 AI 判据自动触发，不需要人确认
   function actsAt(ev){
     var allow = visibleActs(ev);
     if (ev.outlib && ev.outlib.isX) return allow;
-    // 升级确认：E09（L3→L4）在经理审批后、升级前，船长专属"确认升级 L4"（升级是船长职权，不受 ROLE_ACT 分级限制）
-    if (role === "CAPT" && ev.level === "L3" && ev.upgrade && ev.upgrade.to === "L4" && ev.upgrade.at != null && !confirmedUp[ev.eventNo]) {
-      var a = ev.approval || {};
-      if (a.decidedAt != null && SNAP >= a.decidedAt && SNAP < ev.upgrade.at) return ["confirmUp"];
-    }
     if (role === "CAPT" && ev.level === "L4" && SNAP >= ev.discover.at && !(ev.exec && ev.exec.from != null && SNAP >= ev.exec.from)) {
       // 船长确认 L4 方案：从 E-L4 诞生到确认前始终可确认（展开附件后点确认按钮）
       return ["confirm", "takeover"];
@@ -409,7 +404,6 @@
     if (a.decidedAt != null) return [];
     return allow;
   }
-  var confirmedUp = {};   // 已确认升级的事件（点击 confirmUp 后记录，按钮不再显示）
   var sel = "";   // 初始未选中：决策卡区空，点击事件卡片后填充
   // 拍摄辅助：?sel=事件号&snap=秒&role=角色 可精确定位镜头（也可用于自动化验证）
   (function () {
@@ -421,7 +415,7 @@
     } catch (err) { console.error("param-init:", err && err.message); }
   })();
   var CX = { detect: "#f0a43f", exec: "#51b873", approve: "#e8b64c", holding: "#7fb98a", abn: "#e5484d", handoff: "#51b873", upgrade: "#e5484d", recover: "#2f9e63" };
-  var LBL = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", ignore: "忽略", archive: "存档观察", escalate: "升级为正式", confirmUp: "确认升级 L4" };
+  var LBL = { confirm: "确认→执行", refuse: "拒绝", takeover: "转人工接管", recover: "标记恢复", ignore: "忽略", archive: "存档观察", escalate: "升级为正式" };
 
   function get(no) { for (var i = 0; i < MOCK.events.length; i++) if (MOCK.events[i].eventNo === no) return MOCK.events[i]; }
   function fmt(t) { if (t == null) return "-"; var s = Math.floor(t % 60); var m = Math.floor(t / 60); return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
@@ -470,8 +464,13 @@
       });
       if (ev.recoverAt != null) log(ev.recoverAt, ev.eventNo + " 恢复，事件闭合", "事件");
       if (ev.upgrade && ev.upgrade.at != null) {
-        log(ev.upgrade.at, ev.eventNo + " 升级建议 → 值班·李工核实确认 → 升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化" : "超时") + "，关系A升级线）", "事件");
-        if (ev.outlib && ev.outlib.isX) log(ev.upgrade.at, ev.eventNo + " 已回写事件分类库（闭环学习）", "操作");
+        if (ev.outlib && ev.outlib.isX) {
+          log(ev.upgrade.at, ev.eventNo + " 库外信号升级 → 值班·李工核实确认 → 升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化" : "超时") + "，关系A升级线）", "事件");
+          log(ev.upgrade.at, ev.eventNo + " 已回写事件分类库（闭环学习）", "操作");
+        } else {
+          // 等级升级（L3→L4）：执行中检测到更强信号（港口回执/气象持续恶化等）→ AI 判据达标自动升级，无需人确认升级
+          log(ev.upgrade.at, ev.eventNo + " 执行中检测更强信号 → AI 判据达标，自动升级为 " + ev.upgrade.to + "（" + (ev.upgrade.reason === "physical" ? "物理劣化：侧风持续超操作限值" : "超时") + "，呈船长处置，关系A升级线）", "事件");
+        }
       }
       if (ev.parentTrace) log(ev.discover.at, ev.eventNo + " 衍生自 " + ((ev.discover.signals && ev.discover.signals[0].from) || "上游") + "（parentTrace=" + ev.parentTrace + "）", "事件");
     });
@@ -571,7 +570,11 @@
     if (e.recoverAt != null && t >= e.recoverAt) return "已恢复";
     if (e.exec && e.exec.from != null && t >= e.exec.from) return "执行中";
     if (e.approval && e.approval.waitStart != null && t >= e.approval.waitStart) return "待审批";
-    if (t >= e.discover.at) return "发现";
+    if (t >= e.discover.at) {
+      // 升级来源的事件：状态显示"事件升级（自 X）"而非"发现"（E-L4 由 E09 升级而来，X 类升级同理）
+      var fromUp = e.discover && e.discover.signals && e.discover.signals.some(function (s) { return s.src === "escalate" || s.src === "x-upgrade" || (s.from != null); });
+      return fromUp ? "事件升级（自 " + ((e.discover.signals && e.discover.signals.filter(function (s) { return s.from != null; })[0] || {}).from || "上游") + "）" : "发现";
+    }
     return "未发生";
   }
   function cardHtml(e, active) {
@@ -869,7 +872,7 @@
     var tid = SC.traceId(e);
     // 升级确认窗口优先：E09（L3→L4）船长确认升级（decidedAt ≤ SNAP < upgrade.at）优先于执行段显示
     var upActs = actsAt(e);
-    var inUpWin = upActs.indexOf("confirmUp") >= 0;
+    var inUpWin = false;
     var inExec = e.exec && e.exec.from != null && SNAP >= e.exec.from && SNAP <= (e.exec.to || SNAP) && !inUpWin;
     // 决策卡：执行段中不显示"确认"类动作，改为处置人员框 + 人工接管入口（接管按钮本镜头不点，仅展示）
     var actsHtml = "";
@@ -883,10 +886,9 @@
         (e.ports && e.ports.length ? ' · 已投放 ' + e.ports.map(function (p) { return p.portCode; }).join('/') : '') + '</div></div>' +
         '<div class="act"><button class="btn" data-act="takeover" title="本镜头不点，仅展示人工接管入口">转人工接管</button></div>';
     } else {
-      var acts = actsAt(e).map(function (a) { var cls = (a === "confirm" || a === "confirmUp") ? "btn primary" : "btn"; return '<button class="' + cls + '" data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
+      var acts = actsAt(e).map(function (a) { var cls = (a === "confirm") ? "btn primary" : "btn"; return '<button class="' + cls + '" data-act="' + a + '">' + (LBL[a] || a) + "</button>"; }).join("");
       var idleTxt = '只读监控（'+role+' 无权处置 '+e.level+'）';
-      if (e.level === "L4" && role === "CAPT" && SNAP >= e.discover.at) idleTxt = "待船长确认（展开推理附件后点确认）";
-      else if (e.level === "L3" && role === "CAPT" && e.upgrade && e.upgrade.to === "L4" && e.upgrade.at != null && SNAP >= (e.approval && e.approval.decidedAt || 0) && SNAP < e.upgrade.at) idleTxt = "待船长确认升级（展开推理附件后点确认）";
+      if (e.level === "L4" && role === "CAPT" && SNAP >= e.discover.at) idleTxt = "待船长确认执行方案（展开推理附件后点确认）";
       var st = stateAt(e);
       if (st === "未发生") idleTxt = "未发生（事件尚未出现）";
       else if (st === "待审批") {
@@ -927,21 +929,19 @@
     if (e.exec && e.exec.from != null) chainSteps.push({ label: "执行", role: (e.exec.port || "CRW"), at: e.exec.from, done: SNAP >= e.exec.from });
     // L3→L4 升级：经理审批并执行后，请求船长审批升级（船长确认是升级 L4 的门槛，放在执行段之后）
     if (e.upgrade && e.upgrade.to === "L4" && e.level === "L3") {
-      chainSteps.push({
-        label: confirmedUp[e.eventNo] ? "船长已确认升级" : "请求船长审批升级", role: "CAPT", at: e.upgrade.at,
-        done: !!confirmedUp[e.eventNo] || (e.upgrade.at != null && SNAP >= e.upgrade.at)
-      });
+      // 升级 = AI 判据自动触发（执行中检测到更强信号达到 L4 安全判据），不需要人确认；L4 处置归船长
+      chainSteps.push({ label: "自动升级 L4", role: "CAPT", at: e.upgrade.at, done: e.upgrade.at != null && SNAP >= e.upgrade.at, auto: true });
     }
     var steps = chainSteps.map(function (c) {
       return '<div class="step' + (c.done ? " done" : " cur") + '">' +
         ({ DUTY: "值班", MGR: "运营经理", LEGAL: "法务", CAPT: "船长", SENSE: "感知", CRW: "现场", ENG: "工程", EXEC: "执行端" }[c.role] || c.role) +
-        (c.signed ? '<small>✓已审批</small>' : '<small>' + clock(c.at) + '</small>') + "</div>";
+        (c.signed ? '<small>✓已审批</small>' : c.auto ? '<small>自动升级</small>' : '<small>' + clock(c.at) + '</small>') + "</div>";
     }).join("");
-    // 审批人：L3 有 CAPT 待审批（升级场景）→ 经理已批、请求船长；L4 → 船长；其余取决策角色
+    // 审批人：L3 升级场景 → 经理已批（执行中更强信号→自动升级L4）；L4 → 船长；其余取决策角色
     var approverRole = "";
     (e.chain || []).forEach(function (c) { if (!approverRole && ["CAPT", "MGR", "DUTY"].indexOf(c.role) >= 0) approverRole = c.role; });
     var approverTxt = "—";
-    if (e.level === "L3" && e.upgrade && e.upgrade.to === "L4") approverTxt = "经理 · 王主管（已批，请求船长审批升级 L4）";
+    if (e.level === "L3" && e.upgrade && e.upgrade.to === "L4") approverTxt = "经理 · 王主管（已批；执行中检测更强信号 → 自动升级 L4，呈船长处置）";
     else if (e.level === "L4") approverTxt = "船长 · 郑船长";
     else approverTxt = approverRole ? ({ DUTY: "值班 · 李工", MGR: "运营经理 · 王主管", LEGAL: "法务 · 陈律", CAPT: "船长 · 郑船长" })[approverRole] : "—";
     var signRows = [
@@ -1004,8 +1004,6 @@
     var b = e.target.closest("[data-act]"); if (!b) return;
     var ev = get(sel), act = b.getAttribute("data-act");
     if (act === "escalate") { SC.doEscalate(ev, (ev.escalate && ev.escalate.to) || "L3", MOCK, SNAP); }
-    else if (act === "confirmUp") {   // 船长确认升级 L4：升级线出现（数据预置 upgrade.at），切到 L4 视角
-      confirmedUp[ev.eventNo] = 1; ev.currentRole = "CAPT"; toast("船长已确认升级 L4 → E-L4 诞生"); renderAll(); }
     else { var r = SC.applyAction(ev, act, SNAP); if (!r.ok) { alert("非法状态转移：" + act); return; } }
     renderAll();
   });
@@ -1148,11 +1146,11 @@
     { at: 900, run: function () { demoTab = "audit"; tapFxSel('#tabs button[data-tab="audit"]'); renderRight(); } },                  // 审批流停留后点端口·审计
     { at: 940, run: function () { tapFxSel('#tab-audit button'); toast("导出审计包 PDF"); } },                  // 审计页点导出审计包 PDF（§4.13.2 可打印性）
     { at: 980, run: function () { tapFxSel('.oplog .ctl button[data-f="all"]'); toast("日志已复制（append-only · 哈希链）"); } },                  // 收尾：操作台日志复制（可选）
-    // ===== E09 主镜头（L3 预警 → 船长确认升级 L4，4920–5220） =====
+    // ===== E09 主镜头（L3 预警 → 执行中更强信号 → 自动升级 L4，4920–5220） =====
     { at: 4940, run: function () { demoTab = null; sel = "E09-0001"; tapFxSel('#cardband [data-no="E09-0001"]'); renderAll(); } },   // 点 E09 卡（L3 长链推演）
-    { at: 5175, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 经理审批后展开 E09 推理附件（长链推演/升级依据）
-    { at: 5200, run: function () { tapFxSel('#tab-card [data-act="confirmUp"]'); toast("船长已确认升级 L4 → E-L4 诞生"); } },   // 船长点确认升级 L4（升级线出现）
-    // ===== L4 主镜头（主剧情高潮：船长拍板，12:27–12:33） =====
+    { at: 5175, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 经理审批后展开 E09 推理附件（长链推演/执行段更强信号依据）
+    { at: 5210, run: function () { toast("执行段收到更强信号（港口靠泊窗口取消·侧风 34kn）→ AI 判据达标自动升级 L4"); } },   // 升级前提示（无需人确认升级）
+    // ===== L4 主镜头（主剧情高潮：船长确认执行方案，12:27–12:33） =====
     { at: 5240, run: function () { demoTab = null; sel = "E-L4-0001"; tapFxSel('#cardband [data-no="E-L4-0001"]'); renderAll(); } },   // 点 L4 卡（L4 告警脉冲 + 决策页含调整方案详情）
     { at: 5270, run: function () { tapFxSel('#tab-card button[onclick="toggleRsn()"]'); var r = document.getElementById("rsn"); if (r) r.style.display = ""; } },  // 船长先展开 L4 推理附件（7 段长链）
     { at: 5315, run: function () { tapFxSel('#tab-card [data-act="confirm"]'); var e = get("E-L4-0001"); if (e) { var r = SC.applyAction(e, "confirm", SNAP); if (r.ok) { demoTab = null; renderAll(); } } } },  // 船长点确认方案（刚好进入执行节点 5330）
