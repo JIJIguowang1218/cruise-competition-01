@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="840" viewBox="0 0 1280 840">
+<title>ClarSyn Service Blueprint</title>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">邮轮靠港接驳服务蓝图</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442">CLARSYN · SERVICE BLUEPRINT · PM VIEW</text>
+<line x1="60" y1="124" x2="1220" y2="124" stroke="#E4E0D8" stroke-width="2"/>
+<text x="60" y="200" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#1F1E1D">用户旅程</text>
+<text x="60" y="222" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">CUSTOMER JOURNEY</text>
+<rect x="230" y="170" width="180" height="70" rx="12" fill="#FAF9F7" stroke="#E4E0D8"/>
+<text x="320" y="200" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">邮轮到港</text>
+<text x="320" y="220" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">关注靠泊与通知</text>
+<rect x="430" y="170" width="180" height="70" rx="12" fill="#FAF9F7" stroke="#E4E0D8"/>
+<text x="520" y="200" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">下船</text>
+<text x="520" y="220" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">行李与动线</text>
+<rect x="630" y="170" width="180" height="70" rx="12" fill="#FAF9F7" stroke="#E4E0D8"/>
+<text x="720" y="200" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">排队/检票</text>
+<text x="720" y="220" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">确认接驳批次</text>
+<rect x="830" y="170" width="180" height="70" rx="12" fill="#FAF9F7" stroke="#E4E0D8"/>
+<text x="920" y="200" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">上客/接驳</text>
+<text x="920" y="220" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">车辆与司机</text>
+<rect x="1030" y="170" width="180" height="70" rx="12" fill="#FAF9F7" stroke="#E4E0D8"/>
+<text x="1120" y="200" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">抵达目的地</text>
+<text x="1120" y="220" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">行程继续</text>
+<line x1="410" y1="205" x2="425" y2="205" stroke="#8A857F" stroke-width="2"/>
+<line x1="610" y1="205" x2="625" y2="205" stroke="#8A857F" stroke-width="2"/>
+<line x1="810" y1="205" x2="825" y2="205" stroke="#8A857F" stroke-width="2"/>
+<line x1="1010" y1="205" x2="1025" y2="205" stroke="#8A857F" stroke-width="2"/>
+<text x="60" y="330" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#1F1E1D">前台触点</text>
+<text x="60" y="352" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">FRONTSTAGE</text>
+<rect x="230" y="300" width="180" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="320" y="330" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">港口广播</text>
+<text x="320" y="350" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">下船通知</text>
+<rect x="430" y="300" width="180" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="520" y="330" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">电子屏</text>
+<text x="520" y="350" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">排队指引</text>
+<rect x="630" y="300" width="180" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="720" y="330" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">Agent 推荐</text>
+<text x="720" y="350" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">最优批次/动线</text>
+<rect x="830" y="300" width="180" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="920" y="330" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">车辆到站信息</text>
+<text x="920" y="350" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">实时同步</text>
+<rect x="1030" y="300" width="180" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1120" y="330" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">扫码确认</text>
+<text x="1120" y="350" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">完成接驳</text>
+<text x="60" y="460" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#1F1E1D">后台支撑</text>
+<text x="60" y="482" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">BACKSTAGE</text>
+<rect x="230" y="430" width="180" height="70" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="320" y="460" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">泊位分配</text>
+<text x="320" y="480" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">船期/泊位约束</text>
+<rect x="430" y="430" width="180" height="70" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="520" y="460" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">客流预测</text>
+<text x="520" y="480" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">批次人数</text>
+<rect x="630" y="430" width="180" height="70" rx="12" fill="#FFFFFF" stroke="#C96442" stroke-width="2"/>
+<text x="720" y="460" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="800" fill="#C96442">多 Agent 调度</text>
+<text x="720" y="480" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">ClarSyn 核心</text>
+<rect x="830" y="430" width="180" height="70" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="920" y="460" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">车辆派遣</text>
+<text x="920" y="480" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">路径/司机/载客</text>
+<rect x="1030" y="430" width="180" height="70" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="1120" y="460" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#1F1E1D">消息同步</text>
+<text x="1120" y="480" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">各端一致</text>
+<text x="60" y="590" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#1F1E1D">AI 支撑层</text>
+<text x="60" y="612" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">AI / DATA</text>
+<rect x="230" y="560" width="980" height="90" rx="12" fill="#F7F3EE" stroke="#E4E0D8"/>
+<text x="320" y="596" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">统一事件模型</text>
+<text x="520" y="596" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">规则引擎</text>
+<text x="720" y="596" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">实时态势图</text>
+<text x="920" y="596" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">数据回流</text>
+<text x="1120" y="596" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">评估与优化</text>
+<text x="60" y="720" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">产品经理视角：前台触点改善体验，后台决策提升效率，AI 支撑层让“动态调整”成为可能。</text>
+</svg>

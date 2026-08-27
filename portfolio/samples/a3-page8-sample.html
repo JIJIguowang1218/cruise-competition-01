@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ClarSyn A3 第8页 · 多Agent架构</title>
+<style>
+  :root{
+    --bg:#F4F5F7; --paper:#FFFFFF; --ink:#1A2233; --sub:#4A5468;
+    --blue:#3B7DD8; --amber:#D98A1F; --green:#237A4C; --red:#C93A3A;
+    --soft-blue:#EAF1FC; --soft-amber:#FDF3E4; --soft-green:#E8F4ED;
+    --shadow-sm:0 4px 16px rgba(31,42,68,.06);
+    --shadow-md:0 12px 32px rgba(31,42,68,.10);
+    --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#E3E5EA;font-family:"Inter","Segoe UI","Microsoft YaHei",sans-serif;padding:32px;color:var(--ink)}
+  .page{width:1600px;height:1132px;background:var(--bg);margin:0 auto;position:relative;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.22);display:flex;flex-direction:column}
+  .ph{display:flex;align-items:center;justify-content:space-between;padding:28px 64px 18px;flex:none;position:relative}
+  .ph::after{content:"";position:absolute;left:64px;right:64px;bottom:0;height:2px;background:#D8DCE3}
+  .pf{display:flex;align-items:center;justify-content:space-between;padding:16px 64px;font-size:13px;color:var(--sub);flex:none;font-family:var(--mono);position:relative}
+  .pf::before{content:"";position:absolute;left:64px;right:64px;top:0;height:2px;background:#D8DCE3}
+  .pb{flex:1;min-height:0;padding:16px 64px 28px;display:flex;gap:36px;overflow:hidden}
+  .brand{height:32px;width:auto}
+  .left{flex:1.25;min-width:0;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+  .right{flex:0.75;min-width:0;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+  h2{font-size:38px;line-height:1.15;font-weight:800;letter-spacing:-.01em;margin-bottom:8px}
+  .lead{font-size:18px;line-height:1.65;color:var(--sub);margin-bottom:4px}
+  .card{background:var(--paper);border-radius:18px;padding:22px 24px;box-shadow:var(--shadow-sm)}
+  .card h3{font-size:18px;font-weight:800;margin-bottom:10px}
+  .body-text{font-size:16px;line-height:1.7;color:var(--sub)}
+  .ic{width:22px;height:22px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .icon-badge{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;background:var(--soft-blue);color:var(--blue);flex:none}
+  .module-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .module{background:#F8F9FC;border-radius:14px;padding:14px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(31,42,68,.04)}
+  .module .num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9px;background:var(--paper);color:var(--blue);font-family:var(--mono);font-weight:700;font-size:13px;box-shadow:0 2px 6px rgba(31,42,68,.06);flex:none}
+  .module .info b{display:block;font-size:15px;font-weight:700;margin-bottom:3px}
+  .module .info span{font-size:13px;color:var(--sub);line-height:1.5}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:#EEF0F4;color:var(--sub)}
+  .tag.blue{background:var(--soft-blue);color:var(--blue)}
+  .loop-step{display:flex;gap:10px;align-items:center;padding:7px 0;font-size:15px}
+  .loop-step .dot{width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:var(--soft-blue);color:var(--blue);font-family:var(--mono)}
+  .quote{background:linear-gradient(135deg,#FFFFFF,#F7F9FF);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow-sm);font-size:16px;font-weight:600;line-height:1.6}
+  .svc{width:100%;max-width:540px;height:auto;filter:drop-shadow(0 10px 20px rgba(31,42,68,.08))}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="ph">
+    <img class="brand" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn">
+    <span class="tag blue">系统设计 · 多 Agent 架构</span>
+    <span style="font-family:var(--mono);color:var(--sub);font-size:13px;">08 / 20</span>
+  </div>
+
+  <div class="pb">
+    <div class="left">
+      <div>
+        <div class="kicker">Multi-Agent Architecture</div>
+        <h2>不是多个 Agent 贴纸，而是有分工、有通信、有回路的决策架构。</h2>
+        <p class="lead">ClarSyn 的多 Agent 架构不是“同一个 LLM 调五次”，而是把航变响应拆成 11 个职责单一的模块，每个模块有独立输入、输出、状态和回滚边界，再通过结构化接口串成完整决策链路。</p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div class="icon-badge"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l9 18H3z"/><path d="M12 10v5"/><path d="M12 18h.01"/></svg></div>
+          <div>
+            <h3>为什么需要多 Agent，而不是一个大模型</h3>
+            <p class="body-text">邮轮航变响应涉及气象、船期、港口、客服、条款、资源等多个领域。如果让一个大模型从头到尾自由发挥，很难保证每一步都引用正确数据、计算正确影响、并且在审批前留下可审计证据。多 Agent 的价值不是“看起来智能”，而是把复杂链路拆成可验证、可回滚、可审计的环节：每个模块只做一件事，但必须把这件事做完整。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+          <div class="icon-badge"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></div>
+          <h3 style="margin:0;">11 个核心模块</h3>
+        </div>
+        <div class="module-grid">
+          <div class="module"><div class="num">1</div><div class="info"><b>多源事件接入</b><span>统一气象、船期、港口、客服信号，输出标准化事件对象。</span></div></div>
+          <div class="module"><div class="num">2</div><div class="info"><b>事件分类与严重度</b><span>判断事件类型、等级与影响范围，决定后续路由。</span></div></div>
+          <div class="module"><div class="num">3</div><div class="info"><b>库外异常识别</b><span>发现未收录的弱信号组合，生成提醒卡，只提醒不执行。</span></div></div>
+          <div class="module"><div class="num">4</div><div class="info"><b>确定性计算内核</b><span>排队、时间窗、影响人数、资源缺口全部用确定算法，不交给 LLM。</span></div></div>
+          <div class="module"><div class="num">5</div><div class="info"><b>知识检索 RAG</b><span>检索策略、条款、事故模式，返回可引用原文。</span></div></div>
+          <div class="module"><div class="num">6</div><div class="info"><b>方案组合与推演</b><span>按事件→影响→资源→方案顺序，组合可审批候选方案。</span></div></div>
+          <div class="module"><div class="num">7</div><div class="info"><b>推理附件生成</b><span>为每个判断生成结论、置信度、证据链与替代方案。</span></div></div>
+          <div class="module"><div class="num">8</div><div class="info"><b>证据与置信度检查</b><span>低信度、证据不足、规则冲突时强制转人工。</span></div></div>
+          <div class="module"><div class="num">9</div><div class="info"><b>权限路由与审批门</b><span>按 L1–L4 路由，所有写操作必须过审批门。</span></div></div>
+          <div class="module"><div class="num">10</div><div class="info"><b>执行触达</b><span>按投放审核矩阵核准级别，输出到各触达渠道。</span></div></div>
+          <div class="module"><div class="num">11</div><div class="info"><b>审计与事故记忆</b><span>append-only 记录并回写事故模式记忆库。</span></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+          <div class="icon-badge"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></div>
+          <h3 style="margin:0;">模块之间如何通信与编排</h3>
+        </div>
+        <p class="body-text">模块之间通过结构化事件对象通信，而不是自由文本。每个模块只读取自己需要的字段，输出固定 Schema。主链路是顺序执行：接入 → 分类 → 计算 → 检索 → 推演 → 附件 → 检查 → 审批 → 触达 → 审计。库外异常走旁路，直接生成提醒卡并按 L1–L4 路由；超时未审批会回流到审批门；审计结果会回流到知识检索，形成“事故模式记忆”。这种设计保证每个环节都能单独回滚、单独测试、单独审计。</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <svg class="svc" viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8B95A5"/></marker></defs>
+        <g font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="13" text-anchor="middle">
+          <rect x="150" y="28" width="220" height="62" rx="14" fill="#fff"/><text x="260" y="54" font-weight="700">Observe</text><text x="260" y="72" fill="#5B6472">多源信号接入</text>
+          <rect x="150" y="135" width="220" height="62" rx="14" fill="#fff"/><text x="260" y="161" font-weight="700">Orient</text><text x="260" y="179" fill="#5B6472">分类 / 异常 / 态势</text>
+          <rect x="150" y="242" width="220" height="62" rx="14" fill="#fff"/><text x="260" y="268" font-weight="700">Decide</text><text x="260" y="286" fill="#5B6472">推演 / 预案 / 附件</text>
+          <rect x="150" y="349" width="220" height="62" rx="14" fill="#fff"/><text x="260" y="375" font-weight="700">Act</text><text x="260" y="393" fill="#5B6472">审批 / 触达</text>
+          <rect x="150" y="456" width="220" height="62" rx="14" fill="#EAF1FC"/><text x="260" y="482" font-weight="700">Learn</text><text x="260" y="500" fill="#5B6472">审计回写记忆库</text>
+        </g>
+        <g stroke="#8B95A5" stroke-width="2" fill="none" marker-end="url(#ar8)">
+          <path d="M260,90 L260,135"/><path d="M260,197 L260,242"/><path d="M260,304 L260,349"/><path d="M260,411 L260,456"/>
+          <path d="M370,487 L420,487 L420,59 L370,59" stroke-dasharray="5 4" stroke="#3B7DD8"/>
+        </g>
+      </svg>
+
+      <div class="card" style="box-shadow:var(--shadow-md);">
+        <div class="tag blue">Agent Loop</div>
+        <div style="margin-top:10px;">
+          <div class="loop-step"><div class="dot">O</div><div><b>Observe</b>：接入气象、船期、港口、客服信号。</div></div>
+          <div class="loop-step"><div class="dot">O</div><div><b>Orient</b>：分类、异常识别、态势整合。</div></div>
+          <div class="loop-step"><div class="dot">D</div><div><b>Decide</b>：影响推演、预案组合、推理附件。</div></div>
+          <div class="loop-step"><div class="dot">A</div><div><b>Act</b>：审批、触达。</div></div>
+          <div class="loop-step"><div class="dot">L</div><div><b>Learn</b>：审计回写事故模式记忆库，持续优化。</div></div>
+        </div>
+      </div>
+
+      <div class="quote">每个模块输入输出独立，可回滚、可审计；不是“一个 Agent 干所有事”。</div>
+    </div>
+  </div>
+
+  <div class="pf"><span>系统设计 · 多 Agent 架构</span><span>ClarSyn · 08 / 20</span></div>
+</div>
+</body>
+</html>

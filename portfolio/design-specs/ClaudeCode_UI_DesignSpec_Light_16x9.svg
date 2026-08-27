@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<rect width="1920" height="1080" fill="#FAF9F7"/>
+<text x="90" y="80" font-family="Inter, Segoe UI, sans-serif" font-size="52" font-weight="800" fill="#1F1E1D">Claude Code 桌面端 · UI 设计规范</text>
+<text x="90" y="122" font-family="JetBrains Mono, monospace" font-size="18" fill="#C96442" letter-spacing="2">CLAUDE CODE DESKTOP UI SPEC · LIGHT · 16:9</text>
+<line x1="90" y1="144" x2="1830" y2="144" stroke="#E4E0D8" stroke-width="2"/>
+<text x="90" y="210" font-family="Inter, Segoe UI, sans-serif" font-size="30" font-weight="800" fill="#1F1E1D">色彩规范</text>
+<rect x="90" y="240" width="160" height="100" rx="16" fill="#FAF9F7" stroke="#E4E0D8"/>
+<text x="108" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#1F1E1D">BG</text>
+<text x="108" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#6F6A63">#FAF9F7</text>
+<rect x="270" y="240" width="160" height="100" rx="16" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="288" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#1F1E1D">PANEL</text>
+<text x="288" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#6F6A63">#FFFFFF</text>
+<rect x="450" y="240" width="160" height="100" rx="16" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="468" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#1F1E1D">SURFACE</text>
+<text x="468" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#6F6A63">#F0EEE8</text>
+<rect x="630" y="240" width="160" height="100" rx="16" fill="#1F1E1D"/>
+<text x="648" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#FAF9F7">TEXT</text>
+<text x="648" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#C7C2BB">#1F1E1D</text>
+<rect x="810" y="240" width="160" height="100" rx="16" fill="#6F6A63"/>
+<text x="828" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#FFFFFF">MUTED</text>
+<text x="828" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#E5E2DD">#6F6A63</text>
+<rect x="990" y="240" width="160" height="100" rx="16" fill="#C96442"/>
+<text x="1008" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#FFFFFF">ACCENT</text>
+<text x="1008" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#F3DCD3">#C96442</text>
+<rect x="1170" y="240" width="160" height="100" rx="16" fill="#D97757"/>
+<text x="1188" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#FFFFFF">ACCENT2</text>
+<text x="1188" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#F6E4DB">#D97757</text>
+<rect x="1350" y="240" width="160" height="100" rx="16" fill="#E4E0D8"/>
+<text x="1368" y="278" font-family="JetBrains Mono, monospace" font-size="16" fill="#1F1E1D">BORDER</text>
+<text x="1368" y="310" font-family="JetBrains Mono, monospace" font-size="15" fill="#6F6A63">#E4E0D8</text>
+<text x="90" y="430" font-family="Inter, Segoe UI, sans-serif" font-size="30" font-weight="800" fill="#1F1E1D">状态标识</text>
+<circle cx="140" cy="490" r="18" fill="#D97757"/>
+<text x="180" y="500" font-family="Inter, Segoe UI, sans-serif" font-size="22" fill="#1F1E1D">运行中 / Working</text>
+<circle cx="140" cy="550" r="18" fill="#2F9E63"/>
+<text x="180" y="560" font-family="Inter, Segoe UI, sans-serif" font-size="22" fill="#1F1E1D">成功 / Success</text>
+<circle cx="140" cy="610" r="18" fill="#E5484D"/>
+<text x="180" y="620" font-family="Inter, Segoe UI, sans-serif" font-size="22" fill="#1F1E1D">错误 / Error</text>
+<circle cx="140" cy="670" r="18" fill="#8A857F"/>
+<text x="180" y="680" font-family="Inter, Segoe UI, sans-serif" font-size="22" fill="#1F1E1D">等待 / Idle</text>
+<text x="670" y="430" font-family="Inter, Segoe UI, sans-serif" font-size="30" font-weight="800" fill="#1F1E1D">字体规范</text>
+<text x="670" y="490" font-family="JetBrains Mono, monospace" font-size="18" fill="#C96442">UI / SANS</text>
+<text x="670" y="530" font-family="Inter, Segoe UI, sans-serif" font-size="32" fill="#1F1E1D">Inter · Segoe UI · 系统 UI</text>
+<text x="670" y="590" font-family="JetBrains Mono, monospace" font-size="18" fill="#C96442">CODE / MONO</text>
+<text x="670" y="630" font-family="JetBrains Mono, monospace" font-size="28" fill="#1F1E1D">JetBrains Mono · SF Mono</text>
+<text x="1240" y="430" font-family="Inter, Segoe UI, sans-serif" font-size="30" font-weight="800" fill="#1F1E1D">卡片设计</text>
+<rect x="1240" y="460" width="480" height="180" rx="18" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1270" y="510" font-family="Inter, Segoe UI, sans-serif" font-size="22" font-weight="700" fill="#1F1E1D">工具调用卡片</text>
+<text x="1270" y="548" font-family="JetBrains Mono, monospace" font-size="16" fill="#6F6A63">read_file</text>
+<line x1="1270" y1="568" x2="1690" y2="568" stroke="#E4E0D8" stroke-width="2"/>
+<text x="1270" y="598" font-family="Inter, Segoe UI, sans-serif" font-size="17" fill="#1F1E1D">白底 · 细边框 · 圆角 18px</text>
+<text x="1270" y="626" font-family="Inter, Segoe UI, sans-serif" font-size="17" fill="#6F6A63">工具名使用等宽字体</text>
+<text x="90" y="820" font-family="Inter, Segoe UI, sans-serif" font-size="30" font-weight="800" fill="#1F1E1D">模式 / 标签</text>
+<rect x="90" y="850" width="170" height="58" rx="999" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="175" y="888" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="20" fill="#1F1E1D">Plan</text>
+<rect x="280" y="850" width="170" height="58" rx="999" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="365" y="888" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="20" fill="#1F1E1D">Edit</text>
+<rect x="470" y="850" width="170" height="58" rx="999" fill="#C96442"/>
+<text x="555" y="888" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="20" fill="#FFFFFF">Use</text>
+<rect x="660" y="850" width="170" height="58" rx="999" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="745" y="888" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="20" fill="#1F1E1D">New</text>
+<text x="1020" y="820" font-family="Inter, Segoe UI, sans-serif" font-size="30" font-weight="800" fill="#1F1E1D">输入区</text>
+<rect x="1020" y="850" width="700" height="80" rx="16" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1050" y="902" font-family="Inter, Segoe UI, sans-serif" font-size="20" fill="#8A857F">Ask Claude to do something...</text>
+<rect x="1610" y="862" width="90" height="56" rx="12" fill="#C96442"/>
+<text x="1655" y="902" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">↵</text>
+<line x1="90" y1="1020" x2="1830" y2="1020" stroke="#E4E0D8" stroke-width="2"/>
+<text x="90" y="1054" font-family="JetBrains Mono, monospace" font-size="16" fill="#6F6A63">Claude Code Desktop</text>
+<text x="1830" y="1054" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="16" fill="#6F6A63">UI SPEC / LIGHT / 16:9 / FLAT</text>
+</svg>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ClarSyn A3 版式预览</title>
+<style>
+  :root{
+    --bg:#F7F8FA;
+    --paper:#FFFFFF;
+    --ink:#1A2233;
+    --sub:#5B6472;
+    --line:#E3E6EB;
+    --blue:#4C8DFF;
+    --amber:#F0A43F;
+    --green:#2F9E63;
+    --red:#E5484D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#E9EBF0;font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;padding:24px}
+  .page{
+    width:1120px;height:792px;background:var(--bg);margin:0 auto 48px;position:relative;
+    overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.14);display:flex;flex-direction:column;
+    color:var(--ink);
+  }
+  .page-header{display:flex;align-items:center;justify-content:space-between;padding:20px 40px 0;flex:none}
+  .brand-logo{height:26px;width:auto}
+  .header-tag{font-size:12px;color:var(--sub);letter-spacing:.5px}
+  .page-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 40px;border-top:1px solid var(--line);font-size:10px;color:var(--sub);flex:none}
+  .page-body{flex:1;min-height:0;padding:12px 40px 20px;display:flex;gap:32px;position:relative}
+  .col-left{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .col-right{flex:1;min-width:0;display:flex;align-items:center;justify-content:center}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px}
+  h1{font-size:38px;line-height:1.2;font-weight:800;letter-spacing:.5px;margin-bottom:16px}
+  h2{font-size:28px;line-height:1.25;font-weight:800;margin-bottom:14px}
+  .lead{font-size:16px;line-height:1.7;color:var(--sub);margin-bottom:18px}
+  .tagline{font-size:20px;font-weight:700;color:var(--ink);margin-top:8px;margin-bottom:20px}
+  .meta{font-size:12px;color:var(--sub)}
+  .screenshot{border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);overflow:hidden;background:#10141B;max-width:100%}
+  .screenshot img{display:block;width:100%;height:auto}
+  .value-list{list-style:none;margin-top:8px}
+  .value-list li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.5}
+  .value-list li b{color:var(--blue);flex:none}
+  .module-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;font-size:12px}
+  .module{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .module b{color:var(--ink)}
+  .loop-svg{width:100%;max-width:520px;height:auto}
+  .accent-blue{color:var(--blue)}
+  .accent-amber{color:var(--amber)}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+  .divider{height:1px;background:var(--line);margin:16px 0}
+  .caption{font-size:11px;color:var(--sub);margin-top:8px}
+</style>
+</head>
+<body>
+
+<!-- ============ 第 1 页：封面 ============ -->
+<div class="page" style="background:linear-gradient(135deg,#F7F8FA 0%,#EEF3FC 100%);">
+  <div class="page-body" style="gap:0;">
+    <div class="col-left" style="padding-right:20px;">
+      <div class="eyebrow">Product Proposal · A3</div>
+      <img class="brand-logo" style="height:52px;margin-bottom:24px;" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn">
+      <h1 style="font-size:52px;">邮轮港岸协同决策层</h1>
+      <div class="lead" style="font-size:18px;">
+        基于多 Agent 协同的邮轮靠港接驳动态调度系统<br>
+        <span style="color:var(--sub);font-size:14px;">Multi-Agent Collaborative Dynamic Scheduling System for Cruise Berthing &amp; Shore Connection</span>
+      </div>
+      <div class="tagline" style="font-size:24px;color:var(--ink);">把船↔岸交界的混乱，变成分钟级清晰决策。</div>
+      <div class="meta">ClarSyn · 2026</div>
+    </div>
+    <div class="col-right" style="align-items:flex-end;padding-left:10px;">
+      <div class="screenshot" style="max-width:440px;">
+        <img src="../../assets/review-shots/hifi-62events-v3.png" alt="高保真界面">
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>ClarSyn</span>
+    <span>01 / 20</span>
+  </div>
+</div>
+
+<!-- ============ 第 8 页：多 Agent 架构与 Agent Loop ============ -->
+<div class="page">
+  <div class="page-header">
+    <img class="brand-logo" src="../../assets/brand/clarsyn-title-light.svg" alt="ClarSyn">
+    <span class="header-tag">系统设计 · 多 Agent 架构</span>
+    <span class="header-tag">08 / 20</span>
+  </div>
+  <div class="page-body">
+    <div class="col-left">
+      <div class="eyebrow">Multi-Agent Architecture</div>
+      <h2>不是多个 Agent 贴纸，<br>而是有分工、有通信、有回路的决策架构。</h2>
+      <div class="lead">
+        ClarSyn 将航变响应拆成职责单一的 Agent 模块：接入、分类、异常识别、推演、预案、证据、审批、触达、审计。每个模块输入输出独立，可回滚、可审计。
+      </div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:8px;">核心模块</div>
+        <div class="module-grid">
+          <div class="module"><b>1</b> 多源事件接入</div>
+          <div class="module"><b>2</b> 事件分类与严重度</div>
+          <div class="module"><b>3</b> 库外异常识别</div>
+          <div class="module"><b>4</b> 确定性计算内核</div>
+          <div class="module"><b>5</b> 知识检索 RAG</div>
+          <div class="module"><b>6</b> 方案组合与推演</div>
+          <div class="module"><b>7</b> 推理附件生成</div>
+          <div class="module"><b>8</b> 证据与置信度检查</div>
+          <div class="module"><b>9</b> 权限路由与审批门</div>
+          <div class="module"><b>10</b> 执行触达</div>
+          <div class="module"><b>11</b> 审计与事故模式记忆</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-right">
+      <svg class="loop-svg" viewBox="0 0 460 520" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#8B95A5"/>
+          </marker>
+        </defs>
+        <!-- nodes -->
+        <g font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="12" text-anchor="middle">
+          <rect x="130" y="30" width="200" height="54" rx="8" fill="#ffffff" stroke="#E3E6EB"/>
+          <text x="230" y="52" fill="#1A2233" font-weight="700">Observe</text>
+          <text x="230" y="70" fill="#5B6472">多源信号接入</text>
+
+          <rect x="130" y="135" width="200" height="54" rx="8" fill="#ffffff" stroke="#E3E6EB"/>
+          <text x="230" y="157" fill="#1A2233" font-weight="700">Orient</text>
+          <text x="230" y="175" fill="#5B6472">分类 / 异常识别 / 态势</text>
+
+          <rect x="130" y="240" width="200" height="54" rx="8" fill="#ffffff" stroke="#E3E6EB"/>
+          <text x="230" y="262" fill="#1A2233" font-weight="700">Decide</text>
+          <text x="230" y="280" fill="#5B6472">推演 / 预案 / 推理附件</text>
+
+          <rect x="130" y="345" width="200" height="54" rx="8" fill="#ffffff" stroke="#E3E6EB"/>
+          <text x="230" y="367" fill="#1A2233" font-weight="700">Act</text>
+          <text x="230" y="385" fill="#5B6472">审批 / 触达</text>
+
+          <rect x="130" y="450" width="200" height="54" rx="8" fill="#EEF4FF" stroke="#4C8DFF"/>
+          <text x="230" y="472" fill="#1A2233" font-weight="700">Learn</text>
+          <text x="230" y="490" fill="#5B6472">审计回写记忆库</text>
+        </g>
+        <!-- arrows -->
+        <g stroke="#8B95A5" stroke-width="2" fill="none" marker-end="url(#arrow)">
+          <path d="M230,84 L230,135"/>
+          <path d="M230,189 L230,240"/>
+          <path d="M230,294 L230,345"/>
+          <path d="M230,399 L230,450"/>
+          <path d="M330,477 L380,477 L380,57 L330,57" stroke-dasharray="5 4" stroke="#4C8DFF"/>
+        </g>
+        <text x="390" y="45" font-size="10" fill="#4C8DFF" text-anchor="start">回流优化</text>
+      </svg>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>系统设计 · 多 Agent 架构</span>
+    <span>ClarSyn · 08 / 20</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1132" viewBox="0 0 1600 1132">
+<rect width="1600" height="1132" fill="#F4F5F7"/>
+<text x="88" y="60" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="36" font-weight="800" fill="#1A2233">ClarSyn A3 设计规范总览</text>
+<text x="88" y="94" font-family="JetBrains Mono, monospace" font-size="14" fill="#3B7DD8" letter-spacing="2">DESIGN SPECIFICATION</text>
+<line x1="88" y1="112" x2="1512" y2="112" stroke="#D8DCE3" stroke-width="2"/>
+<text x="88" y="160" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="22" font-weight="800" fill="#1A2233">色彩规范</text>
+<rect x="88" y="180" width="120" height="70" rx="12" fill="#F4F5F7" stroke="#D8DCE3"/>
+<text x="98" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#1A2233">BG</text>
+<text x="98" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">#F4F5F7</text>
+<rect x="224" y="180" width="120" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="234" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#1A2233">PAPER</text>
+<text x="234" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">#FFFFFF</text>
+<rect x="360" y="180" width="120" height="70" rx="12" fill="#1A2233"/>
+<text x="370" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFFFFF">INK</text>
+<text x="370" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#C7CDD8">#1A2233</text>
+<rect x="496" y="180" width="120" height="70" rx="12" fill="#4A5468"/>
+<text x="506" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFFFFF">SUB</text>
+<text x="506" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#D6DBE3">#4A5468</text>
+<rect x="632" y="180" width="120" height="70" rx="12" fill="#3B7DD8"/>
+<text x="642" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFFFFF">BLUE</text>
+<text x="642" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#DCE9FA">#3B7DD8</text>
+<rect x="768" y="180" width="120" height="70" rx="12" fill="#D98A1F"/>
+<text x="778" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFFFFF">AMBER</text>
+<text x="778" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#FBEAD3">#D98A1F</text>
+<rect x="904" y="180" width="120" height="70" rx="12" fill="#237A4C"/>
+<text x="914" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFFFFF">GREEN</text>
+<text x="914" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#D4E9DE">#237A4C</text>
+<rect x="1040" y="180" width="120" height="70" rx="12" fill="#C93A3A"/>
+<text x="1050" y="210" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFFFFF">RED</text>
+<text x="1050" y="230" font-family="JetBrains Mono, monospace" font-size="12" fill="#F6DADA">#C93A3A</text>
+<rect x="88" y="276" width="120" height="56" rx="10" fill="#EAF1FC"/>
+<text x="98" y="302" font-family="JetBrains Mono, monospace" font-size="11" fill="#3B7DD8">SOFT BLUE</text>
+<text x="98" y="318" font-family="JetBrains Mono, monospace" font-size="11" fill="#3B7DD8">#EAF1FC</text>
+<rect x="224" y="276" width="120" height="56" rx="10" fill="#FDF3E4"/>
+<text x="234" y="302" font-family="JetBrains Mono, monospace" font-size="11" fill="#D98A1F">SOFT AMBER</text>
+<text x="234" y="318" font-family="JetBrains Mono, monospace" font-size="11" fill="#D98A1F">#FDF3E4</text>
+<rect x="360" y="276" width="120" height="56" rx="10" fill="#E8F4ED"/>
+<text x="370" y="302" font-family="JetBrains Mono, monospace" font-size="11" fill="#237A4C">SOFT GREEN</text>
+<text x="370" y="318" font-family="JetBrains Mono, monospace" font-size="11" fill="#237A4C">#E8F4ED</text>
+<rect x="496" y="276" width="120" height="56" rx="10" fill="#10141B"/>
+<text x="506" y="302" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">UI DARK</text>
+<text x="506" y="318" font-family="JetBrains Mono, monospace" font-size="11" fill="#8B95A5">#10141B</text>
+<text x="88" y="390" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="22" font-weight="800" fill="#1A2233">字体规范</text>
+<text x="88" y="430" font-family="JetBrains Mono, monospace" font-size="12" fill="#3B7DD8">DISPLAY · H2</text>
+<text x="88" y="462" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="38" font-weight="800" fill="#1A2233">38px · 页面大标题</text>
+<text x="88" y="502" font-family="JetBrains Mono, monospace" font-size="12" fill="#3B7DD8">H3</text>
+<text x="88" y="530" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" font-weight="800" fill="#1A2233">18px · 卡片标题</text>
+<text x="88" y="566" font-family="JetBrains Mono, monospace" font-size="12" fill="#3B7DD8">LEAD</text>
+<text x="88" y="594" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" fill="#4A5468">18px · 导语正文</text>
+<text x="88" y="630" font-family="JetBrains Mono, monospace" font-size="12" fill="#3B7DD8">BODY</text>
+<text x="88" y="658" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="16" fill="#3F4756">16px · 正文描述</text>
+<text x="760" y="390" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="22" font-weight="800" fill="#1A2233">布局规范</text>
+<rect x="760" y="410" width="330" height="220" rx="16" fill="#FFFFFF"/>
+<line x1="820" y1="422" x2="1030" y2="422" stroke="#D8DCE3" stroke-width="2"/>
+<text x="820" y="444" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">页面 1600 × 1132</text>
+<text x="820" y="472" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">内容边距：64px</text>
+<text x="820" y="498" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">页眉/页脚分割线：2px</text>
+<text x="820" y="524" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">左栏 / 右栏 = 1.2 / 0.8</text>
+<text x="820" y="550" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">卡片圆角：18px</text>
+<text x="820" y="576" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">卡片内边距：22×24px</text>
+<text x="820" y="602" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">模块圆角：14px</text>
+<text x="820" y="628" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">标签圆角：999px</text>
+<text x="88" y="730" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="22" font-weight="800" fill="#1A2233">组件规范</text>
+<rect x="88" y="750" width="300" height="120" rx="16" fill="#FFFFFF"/>
+<text x="112" y="782" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="800" fill="#1A2233">卡片 Card</text>
+<text x="112" y="810" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">白底 / 18px 圆角 / 淡阴影</text>
+<text x="112" y="834" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">padding 22×24</text>
+<rect x="416" y="750" width="300" height="120" rx="14" fill="#F8F9FC"/>
+<text x="440" y="782" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="800" fill="#1A2233">模块 Module</text>
+<text x="440" y="810" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">浅灰底 / 14px 圆角 / 编号徽标</text>
+<text x="440" y="834" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">编号 28×28 / 圆角 9</text>
+<rect x="744" y="750" width="300" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="768" y="782" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="800" fill="#1A2233">引用 Quote</text>
+<text x="768" y="810" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">渐变浅底 / 16px 圆角 / 强调字</text>
+<text x="768" y="834" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">用于结论与关键金句</text>
+<rect x="1072" y="750" width="300" height="120" rx="16" fill="#FFFFFF"/>
+<text x="1096" y="782" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="800" fill="#1A2233">指标 Metric</text>
+<text x="1096" y="810" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">数字 36px / 标签 13px</text>
+<text x="1096" y="834" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">居中展示</text>
+<rect x="88" y="890" width="300" height="94" rx="12" fill="#10141B"/>
+<text x="112" y="922" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">UI Mini 深色组件</text>
+<text x="112" y="950" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#8B95A5">用于界面缩影 / 状态示例</text>
+<rect x="416" y="890" width="300" height="94" rx="16" fill="#FFFFFF"/>
+<text x="440" y="922" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="800" fill="#1A2233">表格 Table</text>
+<text x="440" y="950" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">表头浅灰 / 行分隔细线</text>
+<rect x="744" y="890" width="300" height="94" rx="16" fill="#EAF1FC"/>
+<text x="768" y="922" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="800" fill="#3B7DD8">标签 Tag</text>
+<text x="768" y="950" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#3B7DD8">圆角胶囊 / 大写等宽字</text>
+<line x1="88" y1="1042" x2="1512" y2="1042" stroke="#D8DCE3" stroke-width="2"/>
+<text x="88" y="1070" font-family="JetBrains Mono, monospace" font-size="13" fill="#4A5468">ClarSyn</text>
+<text x="1512" y="1070" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" fill="#4A5468">DESIGN SPEC / 01</text>
+</svg>
