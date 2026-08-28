@@ -34,6 +34,7 @@
 - AI 产品经理 SVG 图集：`svg-pm-diagrams/README.md`
 - ClarSyn AI PM 讲解策略：`planning/clarsyn-ai-pm-presentation-strategy.md`
 - 作品集正文页重新规划 v2：`planning/ai-pm-portfolio-body-plan-v2.md`
+- 作品集正文内容主档（逐页写入中）：`planning/ai-pm-portfolio-page-content.md`
 
 ---
 
