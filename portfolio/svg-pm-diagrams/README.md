@@ -11,6 +11,7 @@
 | `service-blueprint.svg` | 服务蓝图：用户旅程 / 前台触点 / 后台支撑 / AI 数据层 |
 | `multi-agent-collaboration.svg` | 多 Agent 协同关系图：中枢、Agent、共享情境、外部资源 |
 | `decision-flow.svg` | 动态调度决策流程：触发 → 研判 → 推荐 → 人工复核 → 执行回流 |
+| `research-process-flow.svg` | 总体研究流程：宏观行业 → 证据收集 → AI 匹配 → 产品定义 → 验证迭代 |
 
 ## 使用建议
 

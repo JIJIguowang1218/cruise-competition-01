@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+<title>ClarSyn 总体研究流程</title>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">ClarSyn 总体研究流程</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442" letter-spacing="1">DESK RESEARCH · EVIDENCE TRIANGULATION · AI MAPPING · PRODUCT CONVERGENCE</text>
+<line x1="60" y1="122" x2="1220" y2="122" stroke="#E4E0D8" stroke-width="2"/>
+<rect x="60" y="180" width="208" height="230" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<rect x="60" y="180" width="208" height="6" rx="3" fill="#C96442"/>
+<text x="164" y="216" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="17" font-weight="800" fill="#1F1E1D">宏观行业研究</text>
+<text x="164" y="248" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">邮轮市场 · 参考船型</text>
+<text x="164" y="270" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">媒体报道 · 官方答复</text>
+<text x="164" y="298" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">行业利益链认知</text>
+<text x="164" y="330" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C96442">OUT 01</text>
+<text x="164" y="352" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#1F1E1D">重点场景判断</text>
+<rect x="296" y="180" width="208" height="230" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<rect x="296" y="180" width="208" height="6" rx="3" fill="#C96442"/>
+<text x="400" y="216" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="17" font-weight="800" fill="#1F1E1D">痛点证据收集</text>
+<text x="400" y="248" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">公开资料 · 用户 UGC</text>
+<text x="400" y="270" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">媒体调查 · 政府答复</text>
+<text x="400" y="298" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">多源交叉验证</text>
+<text x="400" y="330" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C96442">OUT 02</text>
+<text x="400" y="352" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#1F1E1D">痛点清单 + 证据等级</text>
+<rect x="532" y="180" width="208" height="230" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<rect x="532" y="180" width="208" height="6" rx="3" fill="#D97757"/>
+<text x="636" y="216" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="17" font-weight="800" fill="#1F1E1D">AI 能力匹配</text>
+<text x="636" y="248" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">Hackathon 高分案例</text>
+<text x="636" y="270" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">竞品方案 · 技术可行性</text>
+<text x="636" y="298" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">规则与 AI 边界</text>
+<text x="636" y="330" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#D97757">OUT 03</text>
+<text x="636" y="352" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#1F1E1D">AI 优势模式 + 边界</text>
+<rect x="768" y="180" width="208" height="230" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<rect x="768" y="180" width="208" height="6" rx="3" fill="#D97757"/>
+<text x="872" y="216" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="17" font-weight="800" fill="#1F1E1D">产品定义收敛</text>
+<text x="872" y="248" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">用户/采购者 · 系统边界</text>
+<text x="872" y="270" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">接口现实 · PRD · AI 架构</text>
+<text x="872" y="298" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">事件治理框架</text>
+<text x="872" y="330" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#D97757">OUT 04</text>
+<text x="872" y="352" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#1F1E1D">产品方案 + 治理框架</text>
+<rect x="1004" y="180" width="208" height="230" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<rect x="1004" y="180" width="208" height="6" rx="3" fill="#2F9E63"/>
+<text x="1108" y="216" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="17" font-weight="800" fill="#1F1E1D">验证迭代</text>
+<text x="1108" y="248" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">高保真原型 · 62 条事件</text>
+<text x="1108" y="270" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">指标假设 · 评测口径</text>
+<text x="1108" y="298" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">演示链路 · 审计闭环</text>
+<text x="1108" y="330" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#2F9E63">OUT 05</text>
+<text x="1108" y="352" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#1F1E1D">试点路径 + 迭代反馈</text>
+<path d="M268 295 L284 295 L284 289 L300 295 L284 301 L284 295 L268 295 Z" fill="#6F6A63"/>
+<path d="M504 295 L520 295 L520 289 L536 295 L520 301 L520 295 L504 295 Z" fill="#6F6A63"/>
+<path d="M740 295 L756 295 L756 289 L772 295 L756 301 L756 295 L740 295 Z" fill="#6F6A63"/>
+<path d="M976 295 L992 295 L992 289 L1008 295 L992 301 L992 295 L976 295 Z" fill="#6F6A63"/>
+<text x="640" y="486" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#C96442" letter-spacing="2">METHODS</text>
+<text x="640" y="516" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" fill="#1F1E1D">桌面研究 · 多源交叉验证 · 案例挖掘 · 产品三角验证</text>
+<text x="640" y="552" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#6F6A63">研究逻辑：先理解行业，再由证据定义问题，再匹配 AI 能力，最后收敛成产品和验证方案</text>
+<rect x="360" y="600" width="560" height="80" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="640" y="636" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#1F1E1D">层层收敛，不是线性的“先有方案再找问题”</text>
+<text x="640" y="662" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">每个阶段都反向修正上一阶段的假设</text>
+</svg>
