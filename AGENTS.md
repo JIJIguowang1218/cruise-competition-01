@@ -124,6 +124,7 @@ cruise-competition-01/
 
 4. 用户级技能（竞品分析、机会树、范围裁剪、前端设计、简历、求职叙事）全局可用，C 端 demo 与求职时调用；
 5. 工程纪律（brainstorming、writing-plans、TDD、systematic-debugging、requesting-code-review）由 agent 内部执行，不要求用户参与。
+6. **GitHub 推送纪律（2026-08-29 生效）**：没有用户直接明确指示“push / 推到 GitHub / 执行 git push”时，不得自动执行 `git push`；本地 commit 不受此限制，但推送动作必须等用户指令。
 
 ### 工具安全与卡死管理约定（2026-08-17 起生效）
 

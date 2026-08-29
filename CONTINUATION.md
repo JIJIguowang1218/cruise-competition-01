@@ -5,10 +5,12 @@
 > 2. 主动提醒用户审核“最近待审核文件”；
 > 3. 复述当前工作状态与最近讨论结论；
 > 4. 按用户指示继续推进，不要擅自跳到旧任务。
+>
+> 🚨 **Push 规则（2026-08-29 生效）**：未经用户直接明确指示，不得自动 `git push` 到 GitHub；只有用户说“push / 推到 GitHub / 执行 git push”时才执行。
 
 ---
 
-## 🚨 当前主线（2026-08-28 更新）
+## 🚨 当前主线（2026-08-29 更新）
 
 当前工作重心：**AI 产品经理作品集正文内容规划**。
 
@@ -19,14 +21,18 @@
 
 ---
 
-## ✅ 最新状态速记
+## ✅ 最新状态速记（2026-08-29）
 
 - 已重新规划作品集正文页：`portfolio/planning/ai-pm-portfolio-body-plan-v2.md`（用户已审核）
-- 已建立页面正文主档：`portfolio/planning/ai-pm-portfolio-page-content.md`
-  - 已写入：P1 产品定位、P2 宏观设计背景、P4 问题证据与调研流程、P5 业务理解、P6 AI 机会判断
-  - 第 3 页不单独成页，利益链与信息流已并入第 5 页
+- 正在逐页填充正文主档：`portfolio/planning/ai-pm-portfolio-page-content.md`
+  - 当前页面：P1 产品定位、P2 宏观设计背景、P3 研究流程、P4 多源调研、P5 痛点分析与需求、P6 业务理解、P7 AI 机会判断
+  - P4 多源调研：只列事实与来源，不做结论；含官方资料、媒体报道、用户评论、基线估算
+  - P5 痛点分析与需求：已改为综合判断式总结，不再堆具体数据；不预设技术、不提前写 AI；优先级基于严重度、可介入性、现有手段覆盖不足
+  - 已新增痛点分层图：`portfolio/svg-pm-diagrams/pain-point-layers.svg`（体验层 / 运营层 / 判断层）
+  - 已新增研究流程九段图：`portfolio/svg-pm-diagrams/research-process-flow.svg`
 - 用户要求继续逐页讨论，后续内容慢慢补充
-- 最近一次 git push：`33ae9c8`
+- 最近一次 git push：`4aa0b8c`
+- ⚠️ 本地存在未推送改动，等待用户明确指示后再 push
 
 ---
 
@@ -43,7 +49,8 @@
 5. `portfolio/research/github-flowchart-resources.md`
    - 流程图 / 复杂关系图资源调研
 6. `portfolio/svg-pm-diagrams/`
-   - AI PM SVG 图集（4 张）
+   - AI PM SVG 图集（当前 6 张，含研究流程、痛点分层图）
+   - 重点新图：`research-process-flow.svg`、`pain-point-layers.svg`
 7. `portfolio/design-specs/clarsyn-card-library-light.html`
    - Claude Light 卡片样式库
 8. `assets/brand/clarsyn-logo-claude-light.svg` + `assets/brand/clarsyn-logo-claude-light-preview.svg`
