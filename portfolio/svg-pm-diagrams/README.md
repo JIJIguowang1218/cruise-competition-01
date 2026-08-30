@@ -12,7 +12,10 @@
 | `multi-agent-collaboration.svg` | 多 Agent 协同关系图：中枢、Agent、共享情境、外部资源 |
 | `decision-flow.svg` | 动态调度决策流程：触发 → 研判 → 推荐 → 人工复核 → 执行回流 |
 | `research-process-flow.svg` | 总体研究流程（九段）：行业研究 → 问题定义 → 用户调研 → 证据收集 → 业务梳理 → 目标确认 → AI 匹配 → 方案细化 → 验证迭代 |
-| `pain-point-layers.svg` | 痛点分层图：体验层 / 运营层 / 判断层 |
+| `pain-point-layers.svg` | 痛点分层图：体验层 / 流程协同层 / 决策治理层 |
+| `business-ecosystem-context.svg` | 业务理解系统上下文图：输入来源（上游数据源） / 输出对象（下游系统） / 外部边界 / 联动系统 |
+| `ai-value-judgment.svg` | AI 场景价值判断图：机会定位矩阵 + 三高地 + 判断链 |
+| `ai-scenario-value.svg` | AI 场景价值案例图：三个真实案例的“过去 → ClarSyn → 价值”对比 |
 
 ## 使用建议
 

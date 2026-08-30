@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<title>ClarSyn 在船司运营生态中的位置（详细版）</title>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">ClarSyn 在船司运营生态中的位置</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442" letter-spacing="1">SYSTEM CONTEXT · C4 LEVEL 1 · BUSINESS VIEW</text>
+<line x1="60" y1="122" x2="1540" y2="122" stroke="#E4E0D8" stroke-width="2"/>
+<rect x="60" y="145" width="1480" height="70" rx="12" fill="#FAF9F7" stroke="#8A857F" stroke-dasharray="6 4"/>
+<text x="800" y="176" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="800" fill="#6F6A63">外部不可控层：港口 / 海关 / 边检 / 港调 / 交管 / OTA</text>
+<text x="800" y="198" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">只做信息交换，不接收 ClarSyn 指挥</text>
+<rect x="60" y="240" width="1480" height="720" rx="16" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="80" y="285" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#C96442">输入来源（上游数据源）</text>
+<rect x="80" y="300" width="400" height="80" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="280" y="332" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">船期与泊位数据</text>
+<text x="280" y="358" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">船期计划 / 泊位状态 / 到离港</text>
+<rect x="80" y="394" width="400" height="80" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="280" y="426" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">气象与外部环境</text>
+<text x="280" y="452" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">台风路径 / 天气预警 / 港口公告</text>
+<rect x="80" y="488" width="400" height="80" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="280" y="520" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">乘客与业务数据</text>
+<text x="280" y="546" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">乘客清单 / 舱房 / 预订·POS / 岸上游</text>
+<rect x="80" y="582" width="400" height="80" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="280" y="614" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">运营与客服信号</text>
+<text x="280" y="640" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">客服工单 / 咨询投诉 / 现场感知 / 排队状态</text>
+<rect x="80" y="676" width="400" height="80" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="280" y="708" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">知识与规则库</text>
+<text x="280" y="734" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">条款 / 合同 / 法规 / 判例 / 事故记忆</text>
+<rect x="540" y="380" width="520" height="280" rx="20" fill="#FFFFFF" stroke="#C96442" stroke-width="2"/>
+<text x="800" y="430" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="800" fill="#C96442">ClarSyn 决策层</text>
+<text x="800" y="462" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#6F6A63">事件识别 · 风险预测 · 影响推演 · 方案组合</text>
+<text x="800" y="488" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#6F6A63">推理理由 · 审批路由 · 审计留痕</text>
+<text x="800" y="526" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#C96442">READ + DECIDE + OUTPUT</text>
+<text x="800" y="560" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">不替代客服 / 法务 / 港口系统</text>
+<text x="800" y="586" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">船司权责内的决策增强层</text>
+<text x="1520" y="285" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#2F9E63">输出对象（下游系统）</text>
+<rect x="1120" y="300" width="400" height="80" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1320" y="332" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">决策与指挥端</text>
+<text x="1320" y="358" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">船长端 / 运营调度台 / 船员执行端</text>
+<rect x="1120" y="394" width="400" height="80" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1320" y="426" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">客服协同系统</text>
+<text x="1320" y="452" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">统一口径 / 条款依据 / 问答辅助</text>
+<rect x="1120" y="488" width="400" height="80" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1320" y="520" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">法务与赔偿系统</text>
+<text x="1320" y="546" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">事件事实 / 审计材料 / 签署记录</text>
+<rect x="1120" y="582" width="400" height="80" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1320" y="614" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">乘客触达系统</text>
+<text x="1320" y="640" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">乘客 App / 船载屏 / 广播 / 短信</text>
+<rect x="1120" y="676" width="400" height="80" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1320" y="708" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">审计与回溯系统</text>
+<text x="1320" y="734" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">审计包 / append-only 日志 / 导出 PDF</text>
+<line x1="480" y1="340" x2="534" y2="420" stroke="#C96442" stroke-width="2"/>
+<path d="M534 412 L530 426 L544 420 Z" fill="#C96442"/>
+<line x1="480" y1="434" x2="534" y2="460" stroke="#C96442" stroke-width="2"/>
+<path d="M534 452 L530 466 L544 460 Z" fill="#C96442"/>
+<line x1="480" y1="528" x2="534" y2="520" stroke="#C96442" stroke-width="2"/>
+<path d="M534 512 L530 526 L544 520 Z" fill="#C96442"/>
+<line x1="480" y1="622" x2="534" y2="580" stroke="#C96442" stroke-width="2"/>
+<path d="M534 572 L530 586 L544 580 Z" fill="#C96442"/>
+<line x1="480" y1="716" x2="534" y2="640" stroke="#C96442" stroke-width="2"/>
+<path d="M534 632 L530 646 L544 640 Z" fill="#C96442"/>
+<line x1="1060" y1="420" x2="1114" y2="340" stroke="#2F9E63" stroke-width="2"/>
+<path d="M1114 332 L1110 346 L1124 340 Z" fill="#2F9E63"/>
+<line x1="1060" y1="460" x2="1114" y2="434" stroke="#2F9E63" stroke-width="2"/>
+<path d="M1114 426 L1110 440 L1124 434 Z" fill="#2F9E63"/>
+<line x1="1060" y1="520" x2="1114" y2="528" stroke="#2F9E63" stroke-width="2"/>
+<path d="M1114 520 L1110 534 L1124 528 Z" fill="#2F9E63"/>
+<line x1="1060" y1="580" x2="1114" y2="622" stroke="#2F9E63" stroke-width="2"/>
+<path d="M1114 614 L1110 628 L1124 622 Z" fill="#2F9E63"/>
+<line x1="1060" y1="640" x2="1114" y2="716" stroke="#2F9E63" stroke-width="2"/>
+<path d="M1114 708 L1110 722 L1124 716 Z" fill="#2F9E63"/>
+<text x="490" y="310" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C96442">读入</text>
+<text x="1080" y="310" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#2F9E63">输出</text>
+<text x="800" y="850" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">边界：只做船司权责内的决策增强，不指挥外部机构，不替代客服 / 法务 / 港口系统</text>
+<text x="800" y="880" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">内部模块与 Agent 分工不在此图展开，留给系统架构与多 Agent 页面</text>
+</svg>

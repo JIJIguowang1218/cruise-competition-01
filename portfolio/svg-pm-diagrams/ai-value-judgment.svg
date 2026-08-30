@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1060" viewBox="0 0 1600 1060">
+<title>ClarSyn AI 场景价值判断</title>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">AI 场景价值判断</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442" letter-spacing="1">AI VALUE JUDGMENT · NOT "CAN WE USE AI" · WHERE AI CREATES IRREPLACEABLE VALUE</text>
+<line x1="60" y1="122" x2="1540" y2="122" stroke="#E4E0D8" stroke-width="2"/>
+<text x="300" y="170" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">AI 机会定位矩阵</text>
+<rect x="300" y="210" width="800" height="600" rx="8" fill="#FAF9F7" stroke="#E4E0D8"/>
+<rect x="300" y="510" width="800" height="300" rx="0" fill="#FBE9E3" opacity="0.9"/>
+<rect x="300" y="210" width="800" height="300" rx="0" fill="#F0EEE8"/>
+<rect x="1100" y="510" width="0" height="0" rx="0" fill="#FFFFFF"/>
+<line x1="700" y1="210" x2="700" y2="810" stroke="#E4E0D8" stroke-width="2"/>
+<line x1="300" y1="510" x2="1100" y2="510" stroke="#E4E0D8" stroke-width="2"/>
+<text x="315" y="235" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#6F6A63">规则/自动化优先</text>
+<text x="315" y="260" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">低价值 · 高覆盖</text>
+<text x="795" y="235" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#6F6A63">确定性系统优先</text>
+<text x="795" y="260" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">高价值 · 高覆盖</text>
+<text x="315" y="535" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#6F6A63">暂不投入</text>
+<text x="315" y="560" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">低价值 · 低覆盖</text>
+<text x="800" y="535" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#C96442">AI 机会区</text>
+<text x="800" y="565" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">高业务价值 × 低规则覆盖</text>
+<text x="300" y="850" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">低 ← 业务价值 / 问题严重度 → 高</text>
+<text x="700" y="850" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">高 ← 规则/人工覆盖度</text>
+<text x="220" y="720" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">高规则覆盖</text>
+<text x="220" y="320" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">低规则覆盖</text>
+<text x="220" y="830" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">覆盖度</text>
+<rect x="720" y="585" width="360" height="56" rx="10" fill="#FFFFFF" stroke="#C96442"/>
+<text x="900" y="608" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#C96442">开放域异常发现 · 看见没见过的</text>
+<text x="900" y="630" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">库外信号提醒，只提醒不执行</text>
+<rect x="720" y="655" width="360" height="56" rx="10" fill="#FFFFFF" stroke="#C96442"/>
+<text x="900" y="678" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#C96442">长链路推演 + 弱信号整合 · 推演没写过的</text>
+<text x="900" y="700" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">影响预测与预案准备</text>
+<rect x="720" y="725" width="360" height="56" rx="10" fill="#FFFFFF" stroke="#C96442"/>
+<text x="900" y="748" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#C96442">推理附件 / 可解释性 · 解释说不清的</text>
+<text x="900" y="770" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">每个判断带理由、置信度、证据</text>
+<rect x="1180" y="210" width="360" height="600" rx="16" fill="#FFFFFF" stroke="#E4E0D8"/>
+<text x="1200" y="250" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#1F1E1D">AI 场景价值判断链</text>
+<text x="1200" y="276" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">五个问题，少一个都不能称为 AI 机会</text>
+<circle cx="1225" cy="320" r="16" fill="#C96442"/>
+<text x="1225" y="326" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+<text x="1255" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">需求是否真实且有证据？</text>
+<text x="1255" y="338" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">来自调研事实，不来自功能想象</text>
+<line x1="1225" y1="336" x2="1225" y2="360" stroke="#E4E0D8" stroke-width="2"/>
+<circle cx="1225" cy="380" r="16" fill="#C96442"/>
+<text x="1225" y="386" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+<text x="1255" y="376" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">是否有可接入信号 / 数据？</text>
+<text x="1255" y="398" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">没有数据就不能假装可计算</text>
+<line x1="1225" y1="396" x2="1225" y2="420" stroke="#E4E0D8" stroke-width="2"/>
+<circle cx="1225" cy="440" r="16" fill="#D97757"/>
+<text x="1225" y="446" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
+<text x="1255" y="436" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">规则 / 人工是否已覆盖？</text>
+<text x="1255" y="458" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">能规则就不用 AI，这是价值判断的一部分</text>
+<line x1="1225" y1="456" x2="1225" y2="480" stroke="#E4E0D8" stroke-width="2"/>
+<circle cx="1225" cy="500" r="16" fill="#D97757"/>
+<text x="1225" y="506" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">4</text>
+<text x="1255" y="496" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">AI 增量是否可解释、可控？</text>
+<text x="1255" y="518" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">高后果场景必须能说清理由</text>
+<line x1="1225" y1="516" x2="1225" y2="540" stroke="#E4E0D8" stroke-width="2"/>
+<circle cx="1225" cy="560" r="16" fill="#2F9E63"/>
+<text x="1225" y="566" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">5</text>
+<text x="1255" y="556" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">价值能否被评测验证？</text>
+<text x="1255" y="578" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">目标区间 + 假设 + 试点路径</text>
+<rect x="300" y="900" width="1240" height="90" rx="16" fill="#F0EEE8" stroke="#E4E0D8"/>
+<text x="800" y="940" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">AI 机会 = 高业务价值 × 低规则覆盖 × 可解释可控 × 可评测验证</text>
+<text x="800" y="970" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#6F6A63">我们不是用 AI 给规则引擎化妆，而是把系统立在规则引擎到不了的三块地上</text>
+</svg>
