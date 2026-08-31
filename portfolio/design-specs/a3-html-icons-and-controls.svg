@@ -1,0 +1,355 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2800" viewBox="0 0 1600 2800">
+<rect width="1600" height="2800" fill="#F4F5F7"/>
+<text x="80" y="80" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="36" font-weight="800" fill="#1A2233">ClarSyn A3 HTML · 图标 · 标识 · 状态栏 · 控件</text>
+<text x="80" y="114" font-family="JetBrains Mono, monospace" font-size="14" fill="#3B7DD8" letter-spacing="1">A3 WEB FINAL · ICONS / LOGOS / STATUS / CONTROLS</text>
+<line x1="80" y1="132" x2="1520" y2="132" stroke="#D8DCE3" stroke-width="2"/>
+<text x="80" y="178" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">标识 ClarSyn Brand</text>
+<svg x="80" y="200" width="240" height="70" viewBox="0 0 240 70"><title>ClarSyn</title>
+<rect x="6" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="16" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="16" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="22" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="28" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="34" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="40" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="40" width="5" height="5" fill="#4c8dff"/>
+<rect x="6" y="46" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="46" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="46" width="5" height="5" fill="#4c8dff"/>
+<text x="38" y="52" textLength="82" lengthAdjust="spacingAndGlyphs" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#7A8494" style="shape-rendering:auto">lar</text>
+<rect x="134" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="16" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="22" width="5" height="5" fill="#f0a43f"/>
+<rect x="134" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="34" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="40" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="134" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="46" width="5" height="5" fill="#f0a43f"/>
+<text x="166" y="52" textLength="60" lengthAdjust="spacingAndGlyphs" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#7A8494" style="shape-rendering:auto">yn</text></svg>
+<text x="340" y="240" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">HTML 页眉使用 · clarsyn-title-light.svg</text>
+<svg x="80" y="290" width="240" height="70" viewBox="0 0 240 70"><title>ClarSyn</title>
+<rect x="6" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="10" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="16" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="16" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="22" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="28" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="34" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="40" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="40" width="5" height="5" fill="#4c8dff"/>
+<rect x="6" y="46" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="46" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="46" width="5" height="5" fill="#4c8dff"/>
+<text x="38" y="52" textLength="82" lengthAdjust="spacingAndGlyphs" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#e6ebf2" style="shape-rendering:auto">lar</text>
+<rect x="134" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="10" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="16" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="22" width="5" height="5" fill="#f0a43f"/>
+<rect x="134" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="28" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="34" width="5" height="5" fill="#f0a43f"/>
+<rect x="152" y="40" width="5" height="5" fill="#f0a43f"/>
+<rect x="128" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="134" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="140" y="46" width="5" height="5" fill="#f0a43f"/>
+<rect x="146" y="46" width="5" height="5" fill="#f0a43f"/>
+<text x="166" y="52" textLength="60" lengthAdjust="spacingAndGlyphs" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#e6ebf2" style="shape-rendering:auto">yn</text></svg>
+<text x="340" y="330" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">深色场景标识 · clarsyn-title-preview.svg</text>
+<svg x="600" y="200" width="30" height="42" viewBox="0 0 30 42"><rect x="6" y="0" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="0" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="0" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="6" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="6" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="12" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="18" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="24" width="5" height="5" fill="#4c8dff"/>
+<rect x="0" y="30" width="5" height="5" fill="#4c8dff"/>
+<rect x="24" y="30" width="5" height="5" fill="#4c8dff"/>
+<rect x="6" y="36" width="5" height="5" fill="#4c8dff"/>
+<rect x="12" y="36" width="5" height="5" fill="#4c8dff"/>
+<rect x="18" y="36" width="5" height="5" fill="#4c8dff"/></svg>
+<text x="650" y="230" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">C 标</text>
+<svg x="600" y="270" width="30" height="42" viewBox="0 0 30 42"><rect x="6" y="0" width="5" height="5" fill="#f0a43f"/>
+<rect x="12" y="0" width="5" height="5" fill="#f0a43f"/>
+<rect x="18" y="0" width="5" height="5" fill="#f0a43f"/>
+<rect x="24" y="0" width="5" height="5" fill="#f0a43f"/>
+<rect x="0" y="6" width="5" height="5" fill="#f0a43f"/>
+<rect x="0" y="12" width="5" height="5" fill="#f0a43f"/>
+<rect x="6" y="18" width="5" height="5" fill="#f0a43f"/>
+<rect x="12" y="18" width="5" height="5" fill="#f0a43f"/>
+<rect x="18" y="18" width="5" height="5" fill="#f0a43f"/>
+<rect x="24" y="24" width="5" height="5" fill="#f0a43f"/>
+<rect x="24" y="30" width="5" height="5" fill="#f0a43f"/>
+<rect x="0" y="36" width="5" height="5" fill="#f0a43f"/>
+<rect x="6" y="36" width="5" height="5" fill="#f0a43f"/>
+<rect x="12" y="36" width="5" height="5" fill="#f0a43f"/>
+<rect x="18" y="36" width="5" height="5" fill="#f0a43f"/></svg>
+<text x="650" y="300" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">S 标</text>
+<text x="80" y="390" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">HTML 内嵌图标 Icons（icon-badge 默认蓝底）</text>
+<rect x="80" y="420" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="100" y="442" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="112" y="454" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M4 20 L8 14 M8 20 L12 12 M12 20 L16 8 M16 20 L20 4" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="190" y="468" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">快速调用多源 API</text>
+<text x="190" y="490" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="420" y="420" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="440" y="442" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="452" y="454" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M12 3l9 18H3zM12 10v5M12 18h.01" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="530" y="468" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">发现弱信号</text>
+<text x="530" y="490" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="760" y="420" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="780" y="442" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="792" y="454" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M4 4h16v16H4zM8 9h8M8 13h5" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="870" y="468" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">影响推演与预案</text>
+<text x="870" y="490" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="1100" y="420" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="1120" y="442" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="1132" y="454" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M12 3v18M5 7l14 10M19 7L5 17" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="1210" y="468" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">全链路审计</text>
+<text x="1210" y="490" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="80" y="560" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="100" y="582" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="112" y="594" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="190" y="608" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">船长 / 多源事实锚</text>
+<text x="190" y="630" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="420" y="560" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="440" y="582" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="452" y="594" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M3 17h18M5 17V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="530" y="608" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">运营经理</text>
+<text x="530" y="630" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="760" y="560" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="780" y="582" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="792" y="594" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M12 9a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="870" y="608" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">值班 / 客服</text>
+<text x="870" y="630" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="1100" y="560" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="1120" y="582" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="1132" y="594" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="1210" y="608" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">法务</text>
+<text x="1210" y="630" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="80" y="700" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="100" y="722" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="112" y="734" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M4 4h16v16H4zM8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="190" y="748" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">11 个核心模块</text>
+<text x="190" y="770" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="420" y="700" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="440" y="722" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="452" y="734" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="530" y="748" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">模块通信 / 刷新</text>
+<text x="530" y="770" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="760" y="700" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="780" y="722" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="792" y="734" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M12 3l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V7z" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="870" y="748" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">多源事实锚</text>
+<text x="870" y="770" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<rect x="1100" y="700" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="1120" y="722" width="76" height="76" rx="20" fill="#EAF1FC"/>
+<svg x="1132" y="734" width="36" height="36" viewBox="0 0 24 24" overflow="visible">
+<path d="M4 6h16v12H4zM8 9h8M8 13h5" fill="none" stroke="#3B7DD8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="1210" y="748" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">结构化约束</text>
+<text x="1210" y="770" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">icon-badge · 38×38</text>
+<text x="80" y="930" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">彩色图标按钮 / 状态徽标 Icon Buttons</text>
+<rect x="80" y="960" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="100" y="985" width="72" height="72" rx="20" fill="#E8F4ED"/>
+<text x="136" y="1032" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#237A4C">L1</text>
+<text x="190" y="1012" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">L1 自动</text>
+<text x="190" y="1034" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#E8F4ED / #237A4C</text>
+<rect x="420" y="960" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="440" y="985" width="72" height="72" rx="20" fill="#EAF1FC"/>
+<text x="476" y="1032" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#3B7DD8">L2</text>
+<text x="530" y="1012" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">L2 确认</text>
+<text x="530" y="1034" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#EAF1FC / #3B7DD8</text>
+<rect x="760" y="960" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="780" y="985" width="72" height="72" rx="20" fill="#FDF3E4"/>
+<text x="816" y="1032" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#D98A1F">L3</text>
+<text x="870" y="1012" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">L3 审批</text>
+<text x="870" y="1034" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#FDF3E4 / #D98A1F</text>
+<rect x="1100" y="960" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="1120" y="985" width="72" height="72" rx="20" fill="#FCEBEB"/>
+<text x="1156" y="1032" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#C93A3A">L4</text>
+<text x="1210" y="1012" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">L4 船长</text>
+<text x="1210" y="1034" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#FCEBEB / #C93A3A</text>
+<rect x="80" y="1110" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="100" y="1135" width="72" height="72" rx="20" fill="#E8F4ED"/>
+<text x="136" y="1182" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#237A4C">P0</text>
+<text x="190" y="1162" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">P0 原型</text>
+<text x="190" y="1184" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#E8F4ED / #237A4C</text>
+<rect x="420" y="1110" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="440" y="1135" width="72" height="72" rx="20" fill="#EAF1FC"/>
+<text x="476" y="1182" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#3B7DD8">P1</text>
+<text x="530" y="1162" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">P1 试点</text>
+<text x="530" y="1184" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#EAF1FC / #3B7DD8</text>
+<rect x="760" y="1110" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="780" y="1135" width="72" height="72" rx="20" fill="#EAF1FC"/>
+<text x="816" y="1182" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#3B7DD8">1</text>
+<text x="870" y="1162" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">步骤</text>
+<text x="870" y="1184" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#EAF1FC / #3B7DD8</text>
+<rect x="1100" y="1110" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="1120" y="1135" width="72" height="72" rx="20" fill="#EAF1FC"/>
+<text x="1156" y="1182" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#3B7DD8">2</text>
+<text x="1210" y="1162" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">步骤</text>
+<text x="1210" y="1184" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#EAF1FC / #3B7DD8</text>
+<rect x="80" y="1260" width="320" height="130" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="100" y="1285" width="72" height="72" rx="20" fill="#EAF1FC"/>
+<text x="136" y="1332" text-anchor="middle" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#3B7DD8">3</text>
+<text x="190" y="1312" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">步骤</text>
+<text x="190" y="1334" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="11" fill="#4A5468">#EAF1FC / #3B7DD8</text>
+<text x="80" y="1370" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">彩色标签 Tags / 状态胶囊</text>
+<rect x="80" y="1400" width="140" height="44" rx="22" fill="#EEF0F4"/>
+<text x="150" y="1428" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#4A5468">默认</text>
+<rect x="250" y="1400" width="140" height="44" rx="22" fill="#EAF1FC"/>
+<text x="320" y="1428" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#3B7DD8">BLUE</text>
+<rect x="420" y="1400" width="140" height="44" rx="22" fill="#FDF3E4"/>
+<text x="490" y="1428" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#D98A1F">AMBER</text>
+<rect x="590" y="1400" width="140" height="44" rx="22" fill="#E8F4ED"/>
+<text x="660" y="1428" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#237A4C">GREEN</text>
+<rect x="760" y="1400" width="140" height="44" rx="22" fill="#FCEBEB"/>
+<text x="830" y="1428" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#C93A3A">RED</text>
+<text x="80" y="1510" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">深色状态栏 / 状态卡 Status Cards（ui-mini）</text>
+<rect x="80" y="1540" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="104" y="1574" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">船长端 · 航次 VN-0420</text>
+<line x1="80" y1="1598" x2="780" y2="1598" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1622" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">12:22</text>
+<text x="756" y="1622" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E09 台风航变 L3</text>
+<line x1="80" y1="1636" x2="780" y2="1636" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1660" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">12:27</text>
+<text x="756" y="1660" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E-L4 自动升级</text>
+<line x1="80" y1="1674" x2="780" y2="1674" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1698" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">12:33</text>
+<text x="756" y="1698" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">船长确认 · 审计完成</text>
+<rect x="900" y="1540" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="924" y="1574" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">X-0001 提醒卡</text>
+<rect x="924" y="1582" width="90" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="969.0" y="1598" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">X-0001</text>
+<rect x="1022" y="1582" width="42" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="1043.0" y="1598" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">库外</text>
+<rect x="1072" y="1582" width="42" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="1093.0" y="1598" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">提醒</text>
+<line x1="900" y1="1640" x2="1600" y2="1640" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="1664" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">信号 1</text>
+<text x="1576" y="1664" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">偏离 1.8σ</text>
+<line x1="900" y1="1678" x2="1600" y2="1678" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="1702" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">信号 2</text>
+<text x="1576" y="1702" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">密度 0.72</text>
+<line x1="900" y1="1716" x2="1600" y2="1716" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="1740" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">置信度</text>
+<text x="1576" y="1740" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">0.86 → 建议值班核实</text>
+<rect x="80" y="1790" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="104" y="1824" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">E09 弱信号卡</text>
+<rect x="104" y="1832" width="54" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="131.0" y="1848" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">E09</text>
+<rect x="166" y="1832" width="42" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="187.0" y="1848" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">L3</text>
+<rect x="216" y="1832" width="42" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="237.0" y="1848" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">航变</text>
+<line x1="80" y1="1890" x2="780" y2="1890" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1914" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">港口窗口</text>
+<text x="756" y="1914" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">取消</text>
+<line x1="80" y1="1928" x2="780" y2="1928" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1952" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">侧风</text>
+<text x="756" y="1952" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">34kn</text>
+<line x1="80" y1="1966" x2="780" y2="1966" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1990" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">赔付风险</text>
+<text x="756" y="1990" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">high → 自动升级 L4</text>
+<rect x="900" y="1790" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="924" y="1824" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">E-L4 推理附件</text>
+<rect x="924" y="1832" width="66" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="957.0" y="1848" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">E-L4</text>
+<rect x="998" y="1832" width="66" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="1031.0" y="1848" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">推理附件</text>
+<line x1="900" y1="1890" x2="1600" y2="1890" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="1914" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">结论</text>
+<text x="1576" y="1914" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">建议确认执行方案</text>
+<line x1="900" y1="1928" x2="1600" y2="1928" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="1952" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">置信度</text>
+<text x="1576" y="1952" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">0.88</text>
+<line x1="900" y1="1966" x2="1600" y2="1966" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="1990" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">关键证据</text>
+<text x="1576" y="1990" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">侧风 / 港口窗口 / 赔付风险</text>
+<rect x="80" y="2040" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="104" y="2074" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">验证 · 时间轴</text>
+<rect x="104" y="2082" width="54" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="131.0" y="2098" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">时间轴</text>
+<rect x="166" y="2082" width="78" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="205.0" y="2098" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">L1-L4</text>
+<line x1="80" y1="2140" x2="780" y2="2140" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="2164" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">11:00</text>
+<text x="756" y="2164" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">系泊</text>
+<line x1="80" y1="2178" x2="780" y2="2178" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="2202" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">12:22</text>
+<text x="756" y="2202" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E09 航变 L3</text>
+<line x1="80" y1="2216" x2="780" y2="2216" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="2240" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">12:27</text>
+<text x="756" y="2240" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E-L4 自动升级</text>
+<line x1="80" y1="2254" x2="780" y2="2254" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="2278" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">12:33</text>
+<text x="756" y="2278" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">审计完成</text>
+<rect x="900" y="2040" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="924" y="2074" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">验证 · AI 推理监视</text>
+<line x1="900" y1="2098" x2="1600" y2="2098" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="2122" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">X-0001</text>
+<text x="1576" y="2122" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">库外信号</text>
+<line x1="900" y1="2136" x2="1600" y2="2136" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="2160" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E09</text>
+<text x="1576" y="2160" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">弱信号叠加</text>
+<line x1="900" y1="2174" x2="1600" y2="2174" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="2198" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E-L4</text>
+<text x="1576" y="2198" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">置信度 0.88</text>
+<rect x="80" y="2290" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="104" y="2324" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">验证 · 事件卡片带</text>
+<line x1="80" y1="2348" x2="780" y2="2348" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="2372" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">L4</text>
+<text x="756" y="2372" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E-L4 船长待命</text>
+<line x1="80" y1="2386" x2="780" y2="2386" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="2410" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">L3</text>
+<text x="756" y="2410" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E09 审批中</text>
+<line x1="80" y1="2424" x2="780" y2="2424" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="2448" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">L2</text>
+<text x="756" y="2448" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E01 执行</text>
+<rect x="900" y="2290" width="700" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="924" y="2324" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">验证 · 审批与审计</text>
+<line x1="900" y1="2348" x2="1600" y2="2348" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="2372" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">审批人</text>
+<text x="1576" y="2372" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">船长</text>
+<line x1="900" y1="2386" x2="1600" y2="2386" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="2410" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">签署</text>
+<text x="1576" y="2410" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">电子签署</text>
+<line x1="900" y1="2424" x2="1600" y2="2424" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="924" y="2448" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">审计包</text>
+<text x="1576" y="2448" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">PDF 可导出</text>
+</svg>

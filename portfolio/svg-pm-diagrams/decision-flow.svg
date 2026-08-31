@@ -1,51 +1,51 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="960" viewBox="0 0 1280 960">
 <title>ClarSyn Dynamic Scheduling Decision Flow</title>
-<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">动态调度决策流程</text>
-<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442">CLARSYN · DECISION FLOW · PM VIEW</text>
-<line x1="60" y1="124" x2="1220" y2="124" stroke="#E4E0D8" stroke-width="2"/>
-<rect x="460" y="150" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="640" y="180" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">触发事件</text>
-<text x="640" y="202" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">ETA 变化 / 客流高峰 / 车辆异常 / 临时需求</text>
-<line x1="640" y1="220" x2="640" y2="260" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M632 260 L640 248 L648 260 Z" fill="#6F6A63"/>
-<rect x="460" y="262" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="640" y="292" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">数据汇聚与校验</text>
-<text x="640" y="314" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">统一事件模型 · 实时状态</text>
-<line x1="640" y1="332" x2="640" y2="372" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M632 372 L640 360 L648 372 Z" fill="#6F6A63"/>
-<rect x="460" y="374" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="640" y="404" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">多 Agent 协同研判</text>
-<text x="640" y="426" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">港口/船舶/运力/游客互相交换约束</text>
-<line x1="640" y1="444" x2="640" y2="484" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M632 484 L640 472 L648 484 Z" fill="#6F6A63"/>
-<rect x="460" y="486" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="640" y="516" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">生成候选方案</text>
-<text x="640" y="538" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">3 套方案 · 不同权衡</text>
-<line x1="640" y1="556" x2="640" y2="596" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M632 596 L640 584 L648 596 Z" fill="#6F6A63"/>
-<rect x="460" y="598" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="640" y="628" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">约束评估与推荐</text>
-<text x="640" y="650" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">准点率 / 成本 / 体验 / 风险</text>
-<line x1="640" y1="668" x2="640" y2="718" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M632 718 L640 706 L648 718 Z" fill="#6F6A63"/>
-<path d="M640 720 L820 790 L640 860 L460 790 Z" fill="#FAF9F7" stroke="#C96442" stroke-width="2"/>
-<text x="640" y="790" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="800" fill="#C96442">需要人工复核？</text>
-<line x1="640" y1="860" x2="640" y2="920" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M632 920 L640 908 L648 920 Z" fill="#6F6A63"/>
-<rect x="460" y="922" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#2F9E63" stroke-width="2"/>
-<text x="640" y="952" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="800" fill="#2F9E63">执行并同步</text>
-<text x="640" y="974" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">各端确认 · 状态回写</text>
-<line x1="820" y1="790" x2="960" y2="790" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M960 782 L960 798 L972 790 Z" fill="#6F6A63"/>
-<rect x="972" y="740" width="220" height="100" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
-<text x="1082" y="776" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">人工复核</text>
-<text x="1082" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">确认 / 修改 / 驳回</text>
-<line x1="1082" y1="840" x2="1082" y2="900" stroke="#E4E0D8" stroke-width="2"/>
-<path d="M1082 900 L1082 908 L1090 920 L1074 920 Z" fill="#6F6A63"/>
-<line x1="1082" y1="920" x2="820" y2="920" stroke="#E4E0D8" stroke-width="2"/>
-<line x1="820" y1="912" x2="820" y2="928" stroke="#E4E0D8" stroke-width="2"/>
-<rect x="820" y="922" width="160" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="900" y="952" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">退回重排</text>
-<text x="900" y="974" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">补充约束</text>
-<text x="60" y="880" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#6F6A63">PM 视角：AI 永远给出可理解的理由；边界/冲突/高风险时交给人工，执行结果回流为下一次决策经验。</text>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1A2233">动态调度决策流程</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#3B7DD8">CLARSYN · DECISION FLOW · PM VIEW</text>
+<line x1="60" y1="124" x2="1220" y2="124" stroke="#D8DCE3" stroke-width="2"/>
+<rect x="460" y="150" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="640" y="180" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">触发事件</text>
+<text x="640" y="202" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">ETA 变化 / 客流高峰 / 车辆异常 / 临时需求</text>
+<line x1="640" y1="220" x2="640" y2="260" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M632 260 L640 248 L648 260 Z" fill="#4A5468"/>
+<rect x="460" y="262" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="640" y="292" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">数据汇聚与校验</text>
+<text x="640" y="314" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">统一事件模型 · 实时状态</text>
+<line x1="640" y1="332" x2="640" y2="372" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M632 372 L640 360 L648 372 Z" fill="#4A5468"/>
+<rect x="460" y="374" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="640" y="404" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">多 Agent 协同研判</text>
+<text x="640" y="426" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">港口/船舶/运力/游客互相交换约束</text>
+<line x1="640" y1="444" x2="640" y2="484" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M632 484 L640 472 L648 484 Z" fill="#4A5468"/>
+<rect x="460" y="486" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="640" y="516" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">生成候选方案</text>
+<text x="640" y="538" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">3 套方案 · 不同权衡</text>
+<line x1="640" y1="556" x2="640" y2="596" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M632 596 L640 584 L648 596 Z" fill="#4A5468"/>
+<rect x="460" y="598" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="640" y="628" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">约束评估与推荐</text>
+<text x="640" y="650" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">准点率 / 成本 / 体验 / 风险</text>
+<line x1="640" y1="668" x2="640" y2="718" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M632 718 L640 706 L648 718 Z" fill="#4A5468"/>
+<path d="M640 720 L820 790 L640 860 L460 790 Z" fill="#F4F5F7" stroke="#3B7DD8" stroke-width="2"/>
+<text x="640" y="790" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="800" fill="#3B7DD8">需要人工复核？</text>
+<line x1="640" y1="860" x2="640" y2="920" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M632 920 L640 908 L648 920 Z" fill="#4A5468"/>
+<rect x="460" y="922" width="360" height="70" rx="12" fill="#FFFFFF" stroke="#237A4C" stroke-width="2"/>
+<text x="640" y="952" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="800" fill="#237A4C">执行并同步</text>
+<text x="640" y="974" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">各端确认 · 状态回写</text>
+<line x1="820" y1="790" x2="960" y2="790" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M960 782 L960 798 L972 790 Z" fill="#4A5468"/>
+<rect x="972" y="740" width="220" height="100" rx="12" fill="#EEF0F4" stroke="#D8DCE3"/>
+<text x="1082" y="776" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1A2233">人工复核</text>
+<text x="1082" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">确认 / 修改 / 驳回</text>
+<line x1="1082" y1="840" x2="1082" y2="900" stroke="#D8DCE3" stroke-width="2"/>
+<path d="M1082 900 L1082 908 L1090 920 L1074 920 Z" fill="#4A5468"/>
+<line x1="1082" y1="920" x2="820" y2="920" stroke="#D8DCE3" stroke-width="2"/>
+<line x1="820" y1="912" x2="820" y2="928" stroke="#D8DCE3" stroke-width="2"/>
+<rect x="820" y="922" width="160" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="900" y="952" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1A2233">退回重排</text>
+<text x="900" y="974" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#4A5468">补充约束</text>
+<text x="60" y="880" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#4A5468">PM 视角：AI 永远给出可理解的理由；边界/冲突/高风险时交给人工，执行结果回流为下一次决策经验。</text>
 </svg>

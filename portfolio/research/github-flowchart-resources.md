@@ -44,7 +44,7 @@
 - 多 Agent 协同关系图 / 事件网络：优先 **AntV G6** 或 **Cytoscape.js**，适合复杂节点与边关系；
 - 需要可交互的调度流程编辑器：优先 **React Flow (xyflow)** 或 **LogicFlow**；
 - 快速手绘风格示意：**Excalidraw** 可用来画早期方案草稿；
-- 如果最终要插入 A3 HTML，建议仍按现有扁平 SVG 规范输出，保持与 Claude Light 设计规范一致。
+- 如果最终要插入 A3 HTML，建议按 `portfolio/a3-document/a3-document-web.html` 的统一配色与规范输出，保持扁平无编组 SVG；背景使用 `portfolio/svg-pm-diagrams/clarsyn-content-background.svg`。
 
 > 备注：星标数与当前 GitHub 实时数据接近；具体取舍还要结合是否要离线、打印清晰度、交互复杂度、开发成本来定。
 

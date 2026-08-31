@@ -1,47 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="880" viewBox="0 0 1280 880">
 <title>ClarSyn Multi-Agent Collaboration</title>
-<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">多 Agent 协同关系图</text>
-<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442">CLARSYN · AGENT COLLABORATION · PM VIEW</text>
-<line x1="60" y1="124" x2="1220" y2="124" stroke="#E4E0D8" stroke-width="2"/>
-<rect x="480" y="180" width="320" height="90" rx="16" fill="#FFFFFF" stroke="#C96442" stroke-width="2"/>
-<text x="640" y="218" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="22" font-weight="800" fill="#C96442">ClarSyn 调度中枢</text>
-<text x="640" y="246" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">统一事件模型 · 共享上下文</text>
-<line x1="520" y1="270" x2="380" y2="360" stroke="#E4E0D8" stroke-width="2"/>
-<line x1="600" y1="270" x2="600" y2="360" stroke="#E4E0D8" stroke-width="2"/>
-<line x1="680" y1="270" x2="760" y2="360" stroke="#E4E0D8" stroke-width="2"/>
-<line x1="760" y1="270" x2="900" y2="360" stroke="#E4E0D8" stroke-width="2"/>
-<line x1="640" y1="270" x2="640" y2="500" stroke="#E4E0D8" stroke-width="2"/>
-<rect x="240" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="350" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">港口调度 Agent</text>
-<text x="350" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">泊位 · 岸桥 · 通道</text>
-<rect x="490" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="600" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">船舶协同 Agent</text>
-<text x="600" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">ETA · 批次 · 船期</text>
-<rect x="740" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="850" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">接驳运力 Agent</text>
-<text x="850" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">车辆 · 路径 · 排队</text>
-<rect x="950" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="1060" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1F1E1D">游客服务 Agent</text>
-<text x="1060" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">动线 · 特殊需求</text>
-<circle cx="640" cy="520" r="12" fill="#D97757"/>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1A2233">多 Agent 协同关系图</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#3B7DD8">CLARSYN · AGENT COLLABORATION · PM VIEW</text>
+<line x1="60" y1="124" x2="1220" y2="124" stroke="#D8DCE3" stroke-width="2"/>
+<rect x="480" y="180" width="320" height="90" rx="16" fill="#FFFFFF" stroke="#3B7DD8" stroke-width="2"/>
+<text x="640" y="218" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="22" font-weight="800" fill="#3B7DD8">ClarSyn 调度中枢</text>
+<text x="640" y="246" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">统一事件模型 · 共享上下文</text>
+<line x1="520" y1="270" x2="380" y2="360" stroke="#D8DCE3" stroke-width="2"/>
+<line x1="600" y1="270" x2="600" y2="360" stroke="#D8DCE3" stroke-width="2"/>
+<line x1="680" y1="270" x2="760" y2="360" stroke="#D8DCE3" stroke-width="2"/>
+<line x1="760" y1="270" x2="900" y2="360" stroke="#D8DCE3" stroke-width="2"/>
+<line x1="640" y1="270" x2="640" y2="500" stroke="#D8DCE3" stroke-width="2"/>
+<rect x="240" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="350" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">港口调度 Agent</text>
+<text x="350" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">泊位 · 岸桥 · 通道</text>
+<rect x="490" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="600" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">船舶协同 Agent</text>
+<text x="600" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">ETA · 批次 · 船期</text>
+<rect x="740" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="850" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">接驳运力 Agent</text>
+<text x="850" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">车辆 · 路径 · 排队</text>
+<rect x="950" y="360" width="220" height="90" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="1060" y="396" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#1A2233">游客服务 Agent</text>
+<text x="1060" y="422" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">动线 · 特殊需求</text>
+<circle cx="640" cy="520" r="12" fill="#D98A1F"/>
 <text x="640" y="524" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#FFFFFF">AI</text>
-<line x1="640" y1="532" x2="640" y2="590" stroke="#E4E0D8" stroke-width="2"/>
-<rect x="460" y="590" width="360" height="80" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
-<text x="640" y="626" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#1F1E1D">共享情境层</text>
-<text x="640" y="650" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#6F6A63">事件状态 / 约束 / 决策记录 / 待确认项</text>
-<line x1="640" y1="670" x2="640" y2="730" stroke="#E4E0D8" stroke-width="2"/>
-<text x="60" y="760" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#1F1E1D">资源与外部系统</text>
-<rect x="120" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="220" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">泊位</text>
-<text x="220" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">船期管理系统</text>
-<rect x="350" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="450" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">巴士/司机</text>
-<text x="450" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">车辆管理系统</text>
-<rect x="580" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="680" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">游客端</text>
-<text x="680" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">App/push/扫码</text>
-<rect x="810" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="910" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1F1E1D">港口大屏</text>
-<text x="910" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#6F6A63">现场提示/广播</text>
-<text x="1040" y="770" width="200" height="70" rx="0" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">通过 API/事件订阅与外部系统同步</text>
+<line x1="640" y1="532" x2="640" y2="590" stroke="#D8DCE3" stroke-width="2"/>
+<rect x="460" y="590" width="360" height="80" rx="12" fill="#EEF0F4" stroke="#D8DCE3"/>
+<text x="640" y="626" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#1A2233">共享情境层</text>
+<text x="640" y="650" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#4A5468">事件状态 / 约束 / 决策记录 / 待确认项</text>
+<line x1="640" y1="670" x2="640" y2="730" stroke="#D8DCE3" stroke-width="2"/>
+<text x="60" y="760" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="800" fill="#1A2233">资源与外部系统</text>
+<rect x="120" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="220" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1A2233">泊位</text>
+<text x="220" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#4A5468">船期管理系统</text>
+<rect x="350" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="450" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1A2233">巴士/司机</text>
+<text x="450" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#4A5468">车辆管理系统</text>
+<rect x="580" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="680" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1A2233">游客端</text>
+<text x="680" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#4A5468">App/push/扫码</text>
+<rect x="810" y="770" width="200" height="70" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="910" y="800" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#1A2233">港口大屏</text>
+<text x="910" y="820" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#4A5468">现场提示/广播</text>
+<text x="1040" y="770" width="200" height="70" rx="0" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">通过 API/事件订阅与外部系统同步</text>
 </svg>

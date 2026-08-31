@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1400" viewBox="0 0 1600 1400">
+<defs>
+<filter id="shadow-sm" x="-30%" y="-30%" width="160%" height="160%">
+<feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#1F2A44" flood-opacity="0.06"/>
+</filter>
+<filter id="shadow-md" x="-30%" y="-30%" width="160%" height="160%">
+<feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1F2A44" flood-opacity="0.10"/>
+</filter>
+<filter id="shadow-module" x="-30%" y="-30%" width="160%" height="160%">
+<feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1F2A44" flood-opacity="0.04"/>
+</filter>
+<linearGradient id="quoteGradient" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#FFFFFF"/>
+<stop offset="100%" stop-color="#F7F9FF"/>
+</linearGradient>
+</defs>
+<rect width="1600" height="1400" fill="#F4F5F7"/>
+<text x="80" y="80" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="36" font-weight="800" fill="#1A2233">ClarSyn A3 HTML · 卡片与组件样式</text>
+<text x="80" y="114" font-family="JetBrains Mono, monospace" font-size="14" fill="#3B7DD8" letter-spacing="1">A3 WEB FINAL · CARD STYLE SHEET</text>
+<line x1="80" y1="132" x2="1520" y2="132" stroke="#D8DCE3" stroke-width="2"/>
+<text x="80" y="178" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">基础卡片</text>
+<rect x="80" y="200" width="430" height="230" rx="18" fill="#FFFFFF" filter="url(#shadow-sm)"/>
+<text x="104" y="238" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" font-weight="800" fill="#1A2233">标准卡片 Card</text>
+<text x="104" y="266" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">背景 #FFFFFF · 圆角 18px</text>
+<text x="104" y="290" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">投影 shadow-sm</text>
+<text x="104" y="314" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">0 6px 18px rgba(31,42,68,.06)</text>
+<text x="104" y="356" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" fill="#1A2233">正文示例：用于页面主内容、观点卡片、场景卡。</text>
+<rect x="550" y="200" width="430" height="230" rx="18" fill="#FFFFFF" filter="url(#shadow-md)"/>
+<text x="574" y="238" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" font-weight="800" fill="#1A2233">强调卡片 Card Strong</text>
+<text x="574" y="266" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">背景 #FFFFFF · 圆角 18px</text>
+<text x="574" y="290" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">投影 shadow-md</text>
+<text x="574" y="314" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">0 14px 36px rgba(31,42,68,.10)</text>
+<text x="574" y="356" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" fill="#1A2233">用于导读推荐、审计包等高优先级卡片。</text>
+<rect x="1020" y="200" width="460" height="230" rx="14" fill="#F8F9FC" filter="url(#shadow-module)"/>
+<text x="1044" y="238" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" font-weight="800" fill="#1A2233">模块 Module</text>
+<text x="1044" y="266" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">背景 #F8F9FC · 圆角 14px</text>
+<text x="1044" y="290" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">投影 0 2px 8px rgba(31,42,68,.04)</text>
+<rect x="1044" y="308" width="28" height="28" rx="9" fill="#FFFFFF"/>
+<text x="1058" y="328" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#3B7DD8">1</text>
+<text x="1084" y="318" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">模块标题</text>
+<text x="1084" y="340" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="12" fill="#4A5468">模块说明文字，用于系统中 11 个核心模块展示。</text>
+<text x="80" y="488" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">特殊卡片</text>
+<rect x="80" y="510" width="430" height="190" rx="16" fill="url(#quoteGradient)" filter="url(#shadow-sm)"/>
+<text x="104" y="552" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" font-weight="800" fill="#1A2233">引用 Quote</text>
+<text x="104" y="582" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">渐变底 #FFFFFF → #F7F9FF</text>
+<text x="104" y="606" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">圆角 16px · shadow-sm</text>
+<text x="104" y="650" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="16" font-weight="600" fill="#1A2233">“把船↔岸交界的混乱，变成分钟级清晰决策。”</text>
+<rect x="550" y="510" width="430" height="190" rx="16" fill="#FFFFFF" filter="url(#shadow-sm)"/>
+<text x="574" y="552" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" font-weight="800" fill="#1A2233">指标 Metric</text>
+<text x="574" y="590" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">圆角 16px · shadow-sm</text>
+<text x="574" y="622" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="36" font-weight="800" fill="#3B7DD8">20–45 min</text>
+<text x="574" y="656" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">人工拼图</text>
+<rect x="1020" y="510" width="460" height="190" rx="16" fill="#F8F9FC" filter="url(#shadow-module)"/>
+<text x="1044" y="552" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="18" font-weight="800" fill="#1A2233">分区块 Section Block</text>
+<text x="1044" y="582" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">背景 #F8F9FC · 圆角 16px</text>
+<text x="1044" y="606" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" fill="#4A5468">投影 0 2px 8px rgba(31,42,68,.04)</text>
+<text x="1044" y="648" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" fill="#1A2233">用于页内分区/区块标题。</text>
+<text x="80" y="768" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">表格 Table</text>
+<rect x="80" y="790" width="980" height="260" rx="14" fill="#FFFFFF" filter="url(#shadow-sm)"/>
+<rect x="80" y="790" width="980" height="48" rx="14" fill="#EEF0F4"/>
+<text x="104" y="822" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">场景</text>
+<text x="400" y="822" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">过去 / 传统</text>
+<text x="700" y="822" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="14" font-weight="700" fill="#1A2233">ClarSyn 后</text>
+<line x1="80" y1="838" x2="1060" y2="838" stroke="#D8DCE3" stroke-width="1"/>
+<text x="104" y="872" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#1A2233">登离船调度</text>
+<text x="400" y="872" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">固定批次、广播/纸质通知、排队不可见</text>
+<text x="700" y="872" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">动态时间窗 + 自动调整批次</text>
+<line x1="80" y1="890" x2="1060" y2="890" stroke="#EDEFF2" stroke-width="1"/>
+<text x="104" y="922" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#1A2233">航变响应</text>
+<text x="400" y="922" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">人工逐批沟通，预测与预案几乎空白</text>
+<text x="700" y="922" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">弱信号预测 + 影响推演 + 审批</text>
+<line x1="80" y1="940" x2="1060" y2="940" stroke="#EDEFF2" stroke-width="1"/>
+<text x="104" y="972" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#1A2233">港口接驳</text>
+<text x="400" y="972" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">静态 PDF 信息、乘客缺乏实时建议</text>
+<text x="700" y="972" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#4A5468">实时接驳建议 + 跨渠道一致触达</text>
+<line x1="80" y1="1000" x2="1060" y2="1000" stroke="#EDEFF2" stroke-width="1"/>
+<text x="1040" y="1010" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="12" fill="#4A5468">表头 #EEF0F4 / 行分隔 #EDEFF2 / 圆角 14px</text>
+<text x="1120" y="768" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">标签 Tag</text>
+<rect x="1120" y="790" width="130" height="40" rx="20" fill="#EEF0F4"/>
+<text x="1185" y="815" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">默认</text>
+<rect x="1120" y="850" width="130" height="40" rx="20" fill="#EAF1FC"/>
+<text x="1185" y="875" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#3B7DD8">BLUE</text>
+<rect x="1120" y="910" width="130" height="40" rx="20" fill="#FDF3E4"/>
+<text x="1185" y="935" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#D98A1F">AMBER</text>
+<rect x="1120" y="970" width="130" height="40" rx="20" fill="#E8F4ED"/>
+<text x="1185" y="995" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#237A4C">GREEN</text>
+<rect x="1120" y="1030" width="130" height="40" rx="20" fill="#FCEBEB"/>
+<text x="1185" y="1055" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#C93A3A">RED</text>
+<text x="80" y="1118" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="800" fill="#1A2233">深色状态组件 UI Mini</text>
+<rect x="80" y="1140" width="430" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="104" y="1180" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#E6EBF2">船长端 · 航次 VN-0420</text>
+<line x1="80" y1="1210" x2="510" y2="1210" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1238" font-family="JetBrains Mono, monospace" font-size="13" fill="#E6EBF2">12:22</text>
+<text x="486" y="1238" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E09 台风航变 L3</text>
+<line x1="80" y1="1258" x2="510" y2="1258" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1286" font-family="JetBrains Mono, monospace" font-size="13" fill="#E6EBF2">12:27</text>
+<text x="486" y="1286" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E-L4 自动升级</text>
+<line x1="80" y1="1306" x2="510" y2="1306" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="104" y="1334" font-family="JetBrains Mono, monospace" font-size="13" fill="#E6EBF2">12:33</text>
+<text x="486" y="1334" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">船长确认 · 审计完成</text>
+<rect x="560" y="1140" width="430" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="584" y="1172" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">X-0001 提醒卡</text>
+<rect x="584" y="1184" width="66" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="617" y="1201" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">X-0001</text>
+<rect x="658" y="1184" width="50" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="683" y="1201" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">库外</text>
+<rect x="716" y="1184" width="50" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="741" y="1201" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">提醒</text>
+<line x1="560" y1="1226" x2="990" y2="1226" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="584" y="1254" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">信号 1</text>
+<text x="966" y="1254" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" fill="#E6EBF2">偏离 1.8σ</text>
+<line x1="560" y1="1274" x2="990" y2="1274" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="584" y="1302" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">信号 2</text>
+<text x="966" y="1302" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" fill="#E6EBF2">密度 0.72</text>
+<line x1="560" y1="1322" x2="990" y2="1322" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="584" y="1350" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">置信度</text>
+<text x="966" y="1350" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" fill="#E6EBF2">0.86 → 建议值班核实</text>
+<rect x="1040" y="1140" width="430" height="220" rx="14" fill="#10141B" stroke="rgba(255,255,255,0.07)"/>
+<text x="1064" y="1172" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">E-L4 推理附件</text>
+<rect x="1064" y="1184" width="50" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="1089" y="1201" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">E-L4</text>
+<rect x="1122" y="1184" width="80" height="24" rx="6" fill="rgba(255,255,255,0.14)"/>
+<text x="1162" y="1201" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#E6EBF2">推理附件</text>
+<line x1="1040" y1="1226" x2="1470" y2="1226" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="1064" y="1254" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">结论</text>
+<text x="1446" y="1254" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">建议确认执行方案</text>
+<line x1="1040" y1="1274" x2="1470" y2="1274" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="1064" y="1302" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">置信度</text>
+<text x="1446" y="1302" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" fill="#E6EBF2">0.88</text>
+<line x1="1040" y1="1322" x2="1470" y2="1322" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+<text x="1064" y="1350" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">关键证据</text>
+<text x="1446" y="1350" text-anchor="end" font-family="Inter, Segoe UI, Microsoft YaHei, sans-serif" font-size="13" fill="#E6EBF2">侧风 / 港口窗口 / 赔付风险</text>
+</svg>

@@ -1,7 +1,17 @@
 # ClarSyn · AI 产品经理视角 SVG 图集
 
 > 这些 SVG 使用扁平元素（rect/text/line/circle/path）绘制，方便直接拖入 Figma 微调。
-> 配色沿用 Claude Code 浅色规范：`#FAF9F7`、`#FFFFFF`、`#1F1E1D`、`#6F6A63`、`#C96442`、`#D97757`、`#E4E0D8`、`#2F9E63`。
+> 配色与规范以 **ClarSyn A3 终版 HTML**（`portfolio/a3-document/a3-document-web.html`）为准：
+> `#F4F5F7` 页面背景、`#FFFFFF` 纸面、`#1A2233` 正文、`#4A5468` 次级文字、
+> `#3B7DD8` 主强调蓝、`#D98A1F` 副强调琥珀、`#237A4C` 成功绿、`#C93A3A` 警示红、
+> `#EAF1FC` 浅蓝底、`#FDF3E4` 浅琥珀底、`#E8F4ED` 浅绿底、`#D8DCE3` 分隔线。
+> 相关规范文件：`portfolio/design-specs/ClarSyn_A3_DesignSpec.svg`、`portfolio/design-specs/a3-design-spec.md`。
+
+## 背景文件
+
+- `clarsyn-content-background.svg`：A3 页面尺寸 1600 × 1132，**内容页背景纯色 `#F4F5F7`**，与 `a3-document-web.html` 第 2 页及之后普通内容页一致。
+- 封面/致谢页的渐变 `#F4F5F7 → #EAF1FC` 属于特殊页效果；本次作品集业务图使用**普通内容页背景**。
+- 各业务图 SVG **不内嵌背景**，透明底；需要成品时先放入背景文件，再叠放对应图形 SVG。
 
 ## 文件
 
@@ -20,5 +30,6 @@
 ## 使用建议
 
 - 在 Figma 中拖入后取消 `shape-rendering` 的要求即可正常编辑；
-- 如需深色背景版本，把白底/浅色块替换为 Claude 深色面板色即可；
+- 所有业务图保持扁平、无 `<g>` 编组，便于后续微调；
+- 当前作品集以 A3 HTML 的商业浅色方案为准；
 - 文案可根据 A3 页面结构调整，SVG text 在 Figma 中仍是可编辑文本。

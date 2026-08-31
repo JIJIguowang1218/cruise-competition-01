@@ -1,50 +1,50 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
 <title>ClarSyn AI PM Narrative Flow</title>
-<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">AI 产品经理叙事主线</text>
-<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442">CLARSYN · PRODUCT NARRATIVE</text>
-<line x1="60" y1="124" x2="1220" y2="124" stroke="#E4E0D8" stroke-width="2"/>
-<rect x="60" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<rect x="60" y="210" width="200" height="6" rx="3" fill="#C96442"/>
-<text x="80" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">01 · PAIN</text>
-<text x="80" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">痛点</text>
-<text x="80" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">邮轮集中靠港时，泊位、车辆、游客多方信息割裂，人工调度靠电话和表格。</text>
-<text x="80" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1F1E1D">响应慢 / 冲突多 / 体验差</text>
-<rect x="284" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<rect x="284" y="210" width="200" height="6" rx="3" fill="#C96442"/>
-<text x="304" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">02 · USER</text>
-<text x="304" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">用户与场景</text>
-<text x="304" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">港口调度员、船方、车队、游客服务台，围绕同一靠港事件协同。</text>
-<text x="304" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1F1E1D">角色多 / 目标不同</text>
-<rect x="508" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<rect x="508" y="210" width="200" height="6" rx="3" fill="#D97757"/>
-<text x="528" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">03 · OPPORTUNITY</text>
-<text x="528" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">AI 机会</text>
-<text x="528" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">多 Agent 可以把分散约束变成可解释的协同决策，而不是替代人。</text>
-<text x="528" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1F1E1D">可解释 / 可干预</text>
-<rect x="732" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<rect x="732" y="210" width="200" height="6" rx="3" fill="#D97757"/>
-<text x="752" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">04 · SOLUTION</text>
-<text x="752" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">ClarSyn 方案</text>
-<text x="752" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">多 Agent 协同动态调度：感知、研判、推荐、执行、同步一体化。</text>
-<text x="752" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1F1E1D">动态调度 / 全局同步</text>
-<rect x="956" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#E4E0D8"/>
-<rect x="956" y="210" width="200" height="6" rx="3" fill="#2F9E63"/>
-<text x="976" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">05 · VALUE</text>
-<text x="976" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">价值与指标</text>
-<text x="976" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">减少接驳等待、提升泊位周转、降低冲突告警、改善游客体验。</text>
-<text x="976" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1F1E1D">效率 / 体验 / 安全</text>
-<path d="M260 305 L274 305 L274 299 L288 305 L274 311 L274 305 L260 305 Z" fill="#6F6A63"/>
-<path d="M484 305 L498 305 L498 299 L512 305 L498 311 L498 305 L484 305 Z" fill="#6F6A63"/>
-<path d="M708 305 L722 305 L722 299 L736 305 L722 311 L722 305 L708 305 Z" fill="#6F6A63"/>
-<path d="M932 305 L946 305 L946 299 L960 305 L946 311 L946 305 L932 305 Z" fill="#6F6A63"/>
-<rect x="160" y="480" width="240" height="100" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
-<text x="180" y="520" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">PRODUCT METRIC</text>
-<text x="180" y="552" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="800" fill="#1F1E1D">接驳等待 -38%</text>
-<rect x="520" y="480" width="240" height="100" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
-<text x="540" y="520" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">COLLABORATION</text>
-<text x="540" y="552" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="800" fill="#1F1E1D">冲突告警 -45%</text>
-<rect x="880" y="480" width="240" height="100" rx="12" fill="#F0EEE8" stroke="#E4E0D8"/>
-<text x="900" y="520" font-family="JetBrains Mono, monospace" font-size="12" fill="#6F6A63">SHORE EXPERIENCE</text>
-<text x="900" y="552" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="800" fill="#1F1E1D">游客满意度 +16%</text>
-<text x="60" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#6F6A63">叙事逻辑：不是“我们做了个 AI 系统”，而是“一个高频痛点 → 多方角色 → 可解释 AI 方案 → 可度量业务价值”。</text>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1A2233">AI 产品经理叙事主线</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#3B7DD8">CLARSYN · PRODUCT NARRATIVE</text>
+<line x1="60" y1="124" x2="1220" y2="124" stroke="#D8DCE3" stroke-width="2"/>
+<rect x="60" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="60" y="210" width="200" height="6" rx="3" fill="#3B7DD8"/>
+<text x="80" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">01 · PAIN</text>
+<text x="80" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1A2233">痛点</text>
+<text x="80" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">邮轮集中靠港时，泊位、车辆、游客多方信息割裂，人工调度靠电话和表格。</text>
+<text x="80" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1A2233">响应慢 / 冲突多 / 体验差</text>
+<rect x="284" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="284" y="210" width="200" height="6" rx="3" fill="#3B7DD8"/>
+<text x="304" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">02 · USER</text>
+<text x="304" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1A2233">用户与场景</text>
+<text x="304" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">港口调度员、船方、车队、游客服务台，围绕同一靠港事件协同。</text>
+<text x="304" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1A2233">角色多 / 目标不同</text>
+<rect x="508" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="508" y="210" width="200" height="6" rx="3" fill="#D98A1F"/>
+<text x="528" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">03 · OPPORTUNITY</text>
+<text x="528" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1A2233">AI 机会</text>
+<text x="528" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">多 Agent 可以把分散约束变成可解释的协同决策，而不是替代人。</text>
+<text x="528" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1A2233">可解释 / 可干预</text>
+<rect x="732" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="732" y="210" width="200" height="6" rx="3" fill="#D98A1F"/>
+<text x="752" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">04 · SOLUTION</text>
+<text x="752" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1A2233">ClarSyn 方案</text>
+<text x="752" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">多 Agent 协同动态调度：感知、研判、推荐、执行、同步一体化。</text>
+<text x="752" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1A2233">动态调度 / 全局同步</text>
+<rect x="956" y="210" width="200" height="190" rx="12" fill="#FFFFFF" stroke="#D8DCE3"/>
+<rect x="956" y="210" width="200" height="6" rx="3" fill="#237A4C"/>
+<text x="976" y="250" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">05 · VALUE</text>
+<text x="976" y="286" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1A2233">价值与指标</text>
+<text x="976" y="316" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">减少接驳等待、提升泊位周转、降低冲突告警、改善游客体验。</text>
+<text x="976" y="364" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#1A2233">效率 / 体验 / 安全</text>
+<path d="M260 305 L274 305 L274 299 L288 305 L274 311 L274 305 L260 305 Z" fill="#4A5468"/>
+<path d="M484 305 L498 305 L498 299 L512 305 L498 311 L498 305 L484 305 Z" fill="#4A5468"/>
+<path d="M708 305 L722 305 L722 299 L736 305 L722 311 L722 305 L708 305 Z" fill="#4A5468"/>
+<path d="M932 305 L946 305 L946 299 L960 305 L946 311 L946 305 L932 305 Z" fill="#4A5468"/>
+<rect x="160" y="480" width="240" height="100" rx="12" fill="#EEF0F4" stroke="#D8DCE3"/>
+<text x="180" y="520" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">PRODUCT METRIC</text>
+<text x="180" y="552" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="800" fill="#1A2233">接驳等待 -38%</text>
+<rect x="520" y="480" width="240" height="100" rx="12" fill="#EEF0F4" stroke="#D8DCE3"/>
+<text x="540" y="520" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">COLLABORATION</text>
+<text x="540" y="552" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="800" fill="#1A2233">冲突告警 -45%</text>
+<rect x="880" y="480" width="240" height="100" rx="12" fill="#EEF0F4" stroke="#D8DCE3"/>
+<text x="900" y="520" font-family="JetBrains Mono, monospace" font-size="12" fill="#4A5468">SHORE EXPERIENCE</text>
+<text x="900" y="552" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="800" fill="#1A2233">游客满意度 +16%</text>
+<text x="60" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#4A5468">叙事逻辑：不是“我们做了个 AI 系统”，而是“一个高频痛点 → 多方角色 → 可解释 AI 方案 → 可度量业务价值”。</text>
 </svg>

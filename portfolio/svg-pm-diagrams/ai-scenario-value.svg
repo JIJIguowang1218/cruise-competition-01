@@ -1,48 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1060" viewBox="0 0 1600 1060">
 <title>ClarSyn AI 场景价值判断：过去 → ClarSyn → 价值</title>
-<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1F1E1D">AI 场景价值判断：从具体案例看价值</text>
-<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#C96442" letter-spacing="1">CASE-BASED VALUE JUDGMENT · BEFORE → CLARSYN → VALUE</text>
-<line x1="60" y1="122" x2="1540" y2="122" stroke="#E4E0D8" stroke-width="2"/>
-<text x="80" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#6F6A63">场景</text>
-<text x="330" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#6F6A63">过去 / 传统</text>
-<text x="800" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#C96442">ClarSyn</text>
-<text x="1300" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#2F9E63">价值</text>
-<rect x="60" y="180" width="1480" height="180" rx="16" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="80" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#1F1E1D">X-0001</text>
-<text x="80" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">开放域异常发现</text>
-<text x="330" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">规则系统只能看到已收录事件</text>
-<text x="330" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">楼层滞留、密度异常等库外信号</text>
-<text x="330" y="272" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">只能等待现场人员偶然发现</text>
-<text x="800" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#C96442">自动识别异常苗头</text>
-<text x="800" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">生成提醒卡，路由值班人员确认</text>
-<text x="800" y="272" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">只提醒，不执行</text>
-<text x="1300" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#2F9E63">从“不知道”</text>
-<text x="1300" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#2F9E63">变为“提前关注”</text>
-<text x="1300" y="272" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">避免苗头升级成秩序问题</text>
-<rect x="60" y="400" width="1480" height="180" rx="16" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="80" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#1F1E1D">E09</text>
-<text x="80" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">台风航变</text>
-<text x="330" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">人工跨系统核对船期/气象/港口/乘客</text>
-<text x="330" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">决策准备约需 20–45 分钟</text>
-<text x="330" y="492" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">港口窗口取消、侧风、赔付风险等弱信号易漏</text>
-<text x="800" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#C96442">自动整合弱信号组合</text>
-<text x="800" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">生成影响推演与候选预案</text>
-<text x="800" y="492" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">进入 L4 审批</text>
-<text x="1300" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#2F9E63">决策准备</text>
-<text x="1300" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#2F9E63">从小时级压缩到分钟级</text>
-<text x="1300" y="492" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">船长在决策窗口内看到选项</text>
-<rect x="60" y="620" width="1480" height="180" rx="16" fill="#FFFFFF" stroke="#E4E0D8"/>
-<text x="80" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#1F1E1D">E-L4</text>
-<text x="80" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">推理附件 / 可解释性</text>
-<text x="330" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">决策高度依赖个人经验</text>
-<text x="330" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">难快速回答“为什么选 A 不选 B”</text>
-<text x="330" y="712" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">事后审计缺少完整依据</text>
-<text x="800" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#C96442">每个判断附带证据、置信度、替代方案</text>
-<text x="800" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1F1E1D">审批、审计、追责都能找到依据</text>
-<text x="1300" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#2F9E63">降低误判</text>
-<text x="1300" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#2F9E63">减少纠纷</text>
-<text x="1300" y="712" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#6F6A63">可追溯</text>
-<rect x="60" y="850" width="1480" height="100" rx="16" fill="#F0EEE8" stroke="#E4E0D8"/>
-<text x="800" y="892" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1F1E1D">AI 价值不是概念，而是每个具体场景都能回答：过去多慢、多险、多难解释</text>
-<text x="800" y="924" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#6F6A63">现在能更快、更早、更清楚</text>
+<text x="60" y="70" font-family="Inter, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="#1A2233">AI 场景价值判断：从具体案例看价值</text>
+<text x="60" y="104" font-family="JetBrains Mono, monospace" font-size="14" fill="#3B7DD8" letter-spacing="1">CASE-BASED VALUE JUDGMENT · BEFORE → CLARSYN → VALUE</text>
+<line x1="60" y1="122" x2="1540" y2="122" stroke="#D8DCE3" stroke-width="2"/>
+<text x="80" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#4A5468">场景</text>
+<text x="330" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#4A5468">过去 / 传统</text>
+<text x="800" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#3B7DD8">ClarSyn</text>
+<text x="1300" y="160" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="800" fill="#237A4C">价值</text>
+<rect x="60" y="180" width="1480" height="180" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="80" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#1A2233">X-0001</text>
+<text x="80" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">库外信号 → 事件升级分支</text>
+<text x="330" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">现代感知可发现密度、滞留等信号</text>
+<text x="330" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">旧流程不判断“是否值得升级”</text>
+<text x="330" y="272" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">低置信度复合信号易被淹没</text>
+<text x="800" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#3B7DD8">接入并综合判断信号组合</text>
+<text x="800" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">提醒卡 → 值班确认 → 升级正式事件</text>
+<text x="800" y="272" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">只提醒，不执行 · 进入 L1–L4</text>
+<text x="1300" y="220" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#237A4C">从“感知到但未治理”</text>
+<text x="1300" y="246" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#237A4C">变为“可治理的事件”</text>
+<text x="1300" y="272" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">苗头进入事件治理流程</text>
+<rect x="60" y="400" width="1480" height="180" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="80" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#1A2233">E09</text>
+<text x="80" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">台风航变</text>
+<text x="330" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">人工跨系统核对船期/气象/港口/乘客</text>
+<text x="330" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">决策准备约需 20–45 分钟</text>
+<text x="330" y="492" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">弱信号组合 + 多约束连锁影响易漏</text>
+<text x="800" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#3B7DD8">自动整合弱信号组合</text>
+<text x="800" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">生成影响推演与候选预案</text>
+<text x="800" y="492" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">多步推演 · 多约束联动 · L4 审批</text>
+<text x="1300" y="440" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#237A4C">决策准备</text>
+<text x="1300" y="466" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#237A4C">从小时级压缩到分钟级</text>
+<text x="1300" y="492" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">覆盖下船批次/接驳/时间窗/船员任务</text>
+<rect x="60" y="620" width="1480" height="180" rx="16" fill="#FFFFFF" stroke="#D8DCE3"/>
+<text x="80" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#1A2233">E-L4</text>
+<text x="80" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">推理附件 · 信任与审计支撑</text>
+<text x="330" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">决策高度依赖个人经验</text>
+<text x="330" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">难快速回答“为什么选 A 不选 B”</text>
+<text x="330" y="712" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">事后审计缺少完整依据</text>
+<text x="800" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#3B7DD8">每个判断附带结论、置信度、证据、替代方案</text>
+<text x="800" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#1A2233">审批、审计、追责都有依据</text>
+<text x="1300" y="660" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#237A4C">支撑层</text>
+<text x="1300" y="686" font-family="Inter, Segoe UI, sans-serif" font-size="16" font-weight="800" fill="#237A4C">让价值可落地</text>
+<text x="1300" y="712" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#4A5468">可审批 · 可审计</text>
+<rect x="60" y="850" width="1480" height="100" rx="16" fill="#EEF0F4" stroke="#D8DCE3"/>
+<text x="800" y="892" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#1A2233">AI 价值不是概念，而是每个具体场景都能回答：过去多慢、多险、多难解释</text>
+<text x="800" y="924" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#4A5468">现在能更快、更早、更清楚</text>
 </svg>
