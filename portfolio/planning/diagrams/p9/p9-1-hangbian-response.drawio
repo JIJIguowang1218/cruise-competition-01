@@ -1,0 +1,54 @@
+<mxfile host="app.diagrams.net" modified="2026-09-01T00:00:00.000Z" agent="python" version="24.0.0" type="device">
+  <diagram id="p9-1-hangbian" name="P9-1 台风航变响应">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="lane10" value="输入信号" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8F9FC;strokeColor=#D8DCE3;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#4A5468;" vertex="1" parent="1"><mxGeometry x="0" y="80" width="260" height="1120" as="geometry"/></mxCell>
+        <mxCell id="lane11" value="ClarSyn 系统" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EEF0F4;strokeColor=#D8DCE3;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#4A5468;" vertex="1" parent="1"><mxGeometry x="260" y="80" width="460" height="1120" as="geometry"/></mxCell>
+        <mxCell id="lane12" value="决策人" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FDF3E4;strokeColor=#D8DCE3;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#4A5468;" vertex="1" parent="1"><mxGeometry x="720" y="80" width="260" height="1120" as="geometry"/></mxCell>
+        <mxCell id="lane13" value="协同/执行" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F4ED;strokeColor=#D8DCE3;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#4A5468;" vertex="1" parent="1"><mxGeometry x="980" y="80" width="320" height="1120" as="geometry"/></mxCell>
+        <mxCell id="lane14" value="乘客/下游" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF1FC;strokeColor=#D8DCE3;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#4A5468;" vertex="1" parent="1"><mxGeometry x="1300" y="80" width="300" height="1120" as="geometry"/></mxCell>
+        <mxCell id="node100" value="台风/港口窗口
+侧风/客服异常信号" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="30" y="180" width="200" height="80" as="geometry"/></mxCell>
+        <mxCell id="node101" value="多源信号接入
+与标准化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="300" y="160" width="380" height="70" as="geometry"/></mxCell>
+        <mxCell id="node102" value="弱信号整合 + 风险判断
+[AI介入]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FC;strokeColor=#D8DCE3;fontColor=#3B7DD8;fontSize=13;verticalAlign=middle;strokeColor=#3B7DD8;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="300" width="380" height="80" as="geometry"/></mxCell>
+        <mxCell id="node103" value="影响推演：批次/接驳/时间窗
+船员任务/安全风险 [AI介入]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FC;strokeColor=#D8DCE3;fontColor=#3B7DD8;fontSize=13;verticalAlign=middle;strokeColor=#3B7DD8;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="450" width="380" height="90" as="geometry"/></mxCell>
+        <mxCell id="node104" value="候选方案 + 推理附件
+[AI介入]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF1FC;strokeColor=#D8DCE3;fontColor=#3B7DD8;fontSize=13;verticalAlign=middle;strokeColor=#3B7DD8;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="610" width="380" height="80" as="geometry"/></mxCell>
+        <mxCell id="node105" value="生成预警与船长决策卡" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="300" y="760" width="380" height="80" as="geometry"/></mxCell>
+        <mxCell id="node106" value="同步客服/法务/船员/乘客" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="300" y="920" width="380" height="80" as="geometry"/></mxCell>
+        <mxCell id="node107" value="船长 L4 审批
+[人工控制]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCEBEB;strokeColor=#D8DCE3;fontColor=#C93A3A;fontSize=13;verticalAlign=middle;strokeColor=#C93A3A;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="750" y="300" width="230" height="80" as="geometry"/></mxCell>
+        <mxCell id="node108" value="安全确认 / 方案调整
+[人工控制]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCEBEB;strokeColor=#D8DCE3;fontColor=#C93A3A;fontSize=13;verticalAlign=middle;strokeColor=#C93A3A;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="750" y="460" width="230" height="80" as="geometry"/></mxCell>
+        <mxCell id="node109" value="客服/法务：统一口径
+赔偿预案" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1010" y="760" width="260" height="80" as="geometry"/></mxCell>
+        <mxCell id="node110" value="船员执行：下船批次/接驳
+安全方案" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1010" y="920" width="260" height="80" as="geometry"/></mxCell>
+        <mxCell id="node111" value="乘客 App / 广播
+屏 / 短信" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1330" y="760" width="250" height="80" as="geometry"/></mxCell>
+        <mxCell id="node112" value="引导 / 反馈" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D8DCE3;fontColor=#1A2233;fontSize=13;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1330" y="920" width="250" height="80" as="geometry"/></mxCell>
+        <mxCell id="node113" value="审计回写 / 事故记忆" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F4ED;strokeColor=#D8DCE3;fontColor=#237A4C;fontSize=13;verticalAlign=middle;strokeColor=#237A4C;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="1070" width="380" height="70" as="geometry"/></mxCell>
+        <mxCell id="edge200" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node100" target="node101"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge201" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node101" target="node102"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge202" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node102" target="node103"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge203" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node103" target="node104"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge204" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node104" target="node105"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge205" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" value="预警" edge="1" parent="1" source="node105" target="node107"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge206" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" value="确认" edge="1" parent="1" source="node107" target="node108"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge207" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" value="批准" edge="1" parent="1" source="node108" target="node106"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge208" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node106" target="node109"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge209" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node106" target="node110"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge210" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8B95A5;" edge="1" parent="1" source="node106" target="node111"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge211" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D98A1F;dashed=1;" value="回写" edge="1" parent="1" source="node109" target="node113"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge212" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D98A1F;dashed=1;" value="回写" edge="1" parent="1" source="node110" target="node113"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge213" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D98A1F;dashed=1;" value="反馈" edge="1" parent="1" source="node112" target="node113"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge214" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D98A1F;dashed=1;" value="学习" edge="1" parent="1" source="node113" target="node101"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
