@@ -42,7 +42,7 @@
 - ✅ 已分析外部 AI 工业应用参考并写入：`portfolio/research/ai-production-deck-insights.md`
 - ✅ 第 7 页新文件已放到桌面：`C:/Users/LHM/Desktop/ClarSyn-第7页-AI机会判断-文案与构图.md`
 - 下一站：按新边界重绘 P9-1 台风航变场景：外部航变决定作为输入，ClarSyn 只做登离船/接驳/时间窗/船员任务等影响链推演
-- 最近一次 git push：`57cab39`
+- 最近一次 git push：`c18df00`
 - 本地工作区已同步（`recordings/` 除外）
 
 ---
