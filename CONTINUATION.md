@@ -10,22 +10,48 @@
 
 ---
 
-## 🚨 当前主线（2026-09-03 更新）
+## 🚨 当前主线（2026-09-04 更新）
 
-当前工作重心：**AI 产品经理作品集正文内容规划**，其中 P9-1 台风航变场景正在重新定位。
+当前工作重心：**AI 产品经理作品集正文内容规划**，其中 P9-1 台风航变场景已完成重定位 + L4 判据拍板。
 
 - 所有新文件统一写到 `portfolio/`，不要写入 `design/`
 - 后续工作参考 `research/ai-pm-tutorials/REPORT.md`（GitHub AI PM 教程调研）
 - 正在一页页讨论并填充 `portfolio/planning/ai-pm-portfolio-page-content.md`
 - 旧目录 `design/` 仍是历史资料，可阅读，但不作为当前产出目标
 - **P9-1 场景边界已重新讨论：ClarSyn 不做航变预警/航变决定，只做航变后的登离船与人员调度影响链**
-- **P9-1 L4 适用性讨论中：倾向默认 L2/L3 + 船长知会 + L4 升级；需网络检索邮轮运营人员结构佐证**
+- ✅ **P9-1 L4 判据已拍板（2026-09-04）：L4 = "船长决策区"**——判据是决策权归属（安全不可逆/群体必达/法定对外/不可逆高后果），常规下船/接驳调度走 **L2/L3 + 船长知会/抄送（不阻塞）**；超时双路径（常规默认执行+审计 / 涉风险升级 L4）。已落到 `event-governance-framework.md` §4.2.4，并**按优先级修改了 20+ 个文件**（见下方"本次会话改动记录"）
+
+---
+
+## 🗂 本次会话改动记录（版本记录表模块 · 2026-09-04）
+
+> 本次修改基于船长权限边界证据（ISM Code §5.2 / 邮轮酒店线文献 / 巨轮 CMC 论文），按"基础需求 → 架构/库设计 → 原型 → 作品集"优先级推进；每个被改文件均自带版本记录表。
+
+| # | 优先级 | 文件 | 本次改动要点 |
+|---|---|---|---|
+| 1 | 母文档 | `design/b-port-shore-and-itinerary/event-governance-framework.md` | L4 重定义"船长决策区"（§4.2.4 判据+反向测试+超时双路径）、E09 起点改为"接收外部已成立航变决定"、船长知会/抄送通道、§4.11.5 调和 |
+| 2 | 需求母档 | `design/b-port-shore-and-itinerary/prd.md`（→v0.13） | 航变边界、L4/船长知会、M4/R9/§7 角色/B4/B10/§10 |
+| 3 | 架构/接口 | `interface-map-and-ai-components.md`（→v0.2）、`ai-architecture-and-value.md`（→v0.7） | 决策端口/流水线[7]、天气源定位、AI 边界 |
+| 4 | 演示 | `demo-terminal-and-interactions.md`（→v0.2）、`demo-script-b5-options.md`（→v0.2） | 第一幕起点=已成立决定、审批链+船长知会 |
+| 5 | 原型 | `EVENT-ROSTER-v0.5.md`（→v0.6）、`v0.3`（标弃用）、`ui-complete/design.md`（→v0.2） | E09→E-L4 主剧情按判据重定位 |
+| 6 | 作品集正文 | `ai-pm-portfolio-page-content.md`（→v0.3）、`ai-pm-portfolio-body-plan-v3.md`（→v3.1） | P9-1 重定位、P7/P6/P13/P15 同步 |
+| 7 | 作品集文案/规划 | `clarsyn-ai-pm-presentation-strategy.md`（→v0.2）、`copy/a3-product-copy*.md`（design+portfolio ×2，→v0.4/v0.3）、`a3-page-architecture-table.md`、`a3-product-doc-plan.md`（design+portfolio） | "预测/预警"措辞统一为"接收决定+影响推演" |
+| 8 | 研究补遗 | `research/round2/batch2/06-safety-regulation.md` | 补 ISM §5.2 船长权限证据 |
+| 9 | 证据归档 | `research/round2/source-archive/06-master-authority-and-shipboard-org.md`、`portfolio/research/p9-1-l4-approval-authority-evidence.md`（新增） | 证据原始档 + L4 决策应用档 |
+| 10 | 机制总谱 | `design/b-port-shore-and-itinerary/mechanism-registry.md`（新增 v0.1→v0.2） | C0–C5 主轴 × G1–G4 全局 × S1–S8 轴段的机制母文档（两级谱 + 逐机制解析 + 轴图标注规则 + 作品集页索引） |
+| 11 | 规划升级 v4 | `portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（新增 v4.0；v3 存档） | 事件脊柱版四幕结构；同步 page-content 指针（→v0.5）、registry §10 索引（→v0.2） |
+
+**下一步待办**：
+1. **进入第 III 幕讨论**（按 v4 §5：III-1 决定前的参谋 → III-9 机制总谱收束；先定章模板与信息层级，再逐章填充）；
+2. `EVENT-ROSTER` 的 `mock-data.js` 同步 v0.6 语义（E09/E-L4 命名与触发）；
+3. 用户审阅：`mechanism-registry.md`（机制编号与解析）、`body-plan-v4.md`（四幕骨架）、`event-governance-framework.md` §4.2.5–4.2.7/§4.14–4.15；
+4. 第 III 幕内容成熟后进入第 IV 幕；页面内容按幕落进 `ai-pm-portfolio-page-content.md`（按新页号重排章节标题）。
 
 ---
 
 ## ✅ 最新状态速记（2026-09-03）
 
-- 已重新规划作品集正文页：`portfolio/planning/ai-pm-portfolio-body-plan-v3.md`（用户已认可总体方向；v2 为旧版保留）
+- 已重新规划作品集正文页：**v4 事件脊柱版** `portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（用户 2026-09-04 认可骨架：P9-1 单事件为脊柱 + 先业务后技术四幕 + 阅读导览；不受比赛页数限制）；v3 已存档（P8 构图等内容映射见 v4 §9）
 - 正在逐页填充正文主档：`portfolio/planning/ai-pm-portfolio-page-content.md`
   - 当前页面：P1 产品定位、P2 宏观设计背景、P3 研究流程、P4 多源调研、P5 痛点分析与需求、P6 业务理解、P7 AI 机会判断、P8 产品方案总览/系统组成（草稿）
   - P4 多源调研：只列事实与来源，不做结论
@@ -42,7 +68,9 @@
 - ✅ 已 OCR 提取桌面 `2121` 图片文本：`portfolio/ocr-extracted/2121/`
 - ✅ 已分析外部 AI 工业应用参考并写入：`portfolio/research/ai-production-deck-insights.md`
 - ✅ 第 7 页新文件已放到桌面：`C:/Users/LHM/Desktop/ClarSyn-第7页-AI机会判断-文案与构图.md`
-- 下一站：先完成“邮轮运营人员结构 / 船长审批边界 / 下船调度归属”网络检索任务，再按“默认 L2/L3 + 船长知会 + L4 升级”重绘 P9-1
+- ✅ 网络检索任务已完成（2026-09-04）：通用搜索引擎仍不可用，改用**学术 API（OpenAlex/Crossref/arXiv）+ IMO 官网**通道取证据；证据原始档 `research/round2/source-archive/06-master-authority-and-shipboard-org.md`，决策应用档 `portfolio/research/p9-1-l4-approval-authority-evidence.md`
+- ✅ **L4 判据已拍板并落地**（船长决策区 §4.2.4）；20+ 文件已按优先级修改（见上方”本次会话改动记录”；全带版本记录表）
+- 下一站：① P9-1 泳道图重绘（drawio + SVG）；② `EVENT-ROSTER` 的 `mock-data.js` 同步 v0.6 语义；③ 作品集 A3 SVG/HTML 同步；④ 用户审阅本次改动
 - 最近一次 git push：`f4d6e12`
 - 本地工作区已同步（`recordings/` 除外）
 
@@ -52,8 +80,9 @@
 
 1. `portfolio/planning/ai-pm-portfolio-page-content.md`
    - **重点审核 P7/P8/P9 内容**：P7 AI价值判断、P8 产品方案总览、P9 台风航变泳道图画法
-2. `portfolio/planning/ai-pm-portfolio-body-plan-v3.md`
-   - **重点审核 P8 岸基/船基协同结构、P9 泳道图画法**
+2. `portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（**当前规划主文档**）
+   - **重点审核：四幕结构与第 III 幕机制展开的章节骨架**（v3 已存档）
+   - 机制编号统一引用 `design/b-port-shore-and-itinerary/mechanism-registry.md`
 3. `C:/Users/LHM/Desktop/ClarSyn-第7页-AI机会判断-文案与构图.md`
    - 用户桌面上的第 7 页文案与构图文件，供 AI 绘图/排版使用
 4. `portfolio/research/ai-production-deck-insights.md`
@@ -202,7 +231,8 @@
 ## 🗂 当前关键文件索引
 
 - 正文内容主档：`portfolio/planning/ai-pm-portfolio-page-content.md`
-- 正文页规划 v3（当前）：`portfolio/planning/ai-pm-portfolio-body-plan-v3.md`
+- 正文页规划 v4（当前·事件脊柱版）：`portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（v3 存档）
+- 机制总谱（机制编号母文档）：`design/b-port-shore-and-itinerary/mechanism-registry.md`
 - AI PM 讲解策略：`portfolio/planning/clarsyn-ai-pm-presentation-strategy.md`
 - AI PM 教程调研：`research/ai-pm-tutorials/REPORT.md`
 - 作品集总览：`portfolio/README.md`
