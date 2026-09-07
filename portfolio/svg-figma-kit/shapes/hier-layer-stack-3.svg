@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="238" viewBox="0 0 760 238" fill="none">
+  <!-- hier-layer-stack-3 · 3 层横向分层条 -->
+  <rect x="0" y="0" width="760" height="74" rx="4" fill="#2E3A46"/>
+  <text x="24.0" y="37.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="start" dominant-baseline="central">层 1</text>
+  <text x="736.0" y="37.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="end" dominant-baseline="central">说明文字</text>
+  <rect x="0" y="82" width="760" height="74" rx="4" fill="#6B7C8C"/>
+  <text x="24.0" y="119.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="start" dominant-baseline="central">层 2</text>
+  <text x="736.0" y="119.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="end" dominant-baseline="central">说明文字</text>
+  <rect x="0" y="164" width="760" height="74" rx="4" fill="#BCC7D1"/>
+  <text x="24.0" y="201.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="start" dominant-baseline="central">层 3</text>
+  <text x="736.0" y="201.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="end" dominant-baseline="central">说明文字</text>
+</svg>

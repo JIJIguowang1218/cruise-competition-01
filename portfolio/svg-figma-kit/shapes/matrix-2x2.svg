@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="520" viewBox="0 0 520 520" fill="none">
+  <!-- matrix-2x2 · 2×2 矩阵 -->
+  <rect x="56.0" y="0.0" width="229.5" height="229.5" fill="#6B7C8C"/>
+  <text x="170.8" y="114.8" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">1-1</text>
+  <rect x="290.5" y="0.0" width="229.5" height="229.5" fill="#2E3A46"/>
+  <text x="405.2" y="114.8" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">1-2</text>
+  <rect x="56.0" y="234.5" width="229.5" height="229.5" fill="#DCE3E9"/>
+  <text x="170.8" y="349.2" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">2-1</text>
+  <rect x="290.5" y="234.5" width="229.5" height="229.5" fill="#6B7C8C"/>
+  <text x="405.2" y="349.2" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">2-2</text>
+  <path d="M42,464 V0 M42,464 H520" stroke="#5A6672" stroke-width="2"/>
+  <text x="0" y="232.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#26313B" text-anchor="middle" transform="rotate(-90 0 232.0)" dominant-baseline="hanging">纵轴</text>
+  <text x="260.0" y="504.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">横轴</text>
+</svg>

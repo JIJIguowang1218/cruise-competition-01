@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="300" viewBox="0 0 700 300" fill="none">
+  <!-- rel-bridge-gap · 断点/差距桥接图 -->
+  <rect x="0" y="150" width="240" height="110" fill="#4A5A6A"/>
+  <rect x="460" y="150" width="240" height="110" fill="#4A5A6A"/>
+  <text x="120.0" y="205.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">现状</text>
+  <text x="580.0" y="205.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">目标</text>
+  <path d="M240,150 H460" stroke="#2E3A46" stroke-width="3" stroke-dasharray="10 7"/>
+  <path d="M240,168 V260 M460,168 V260" stroke="#C8D0D8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="272" y="86" width="156" height="48" rx="24" fill="#2E3A46"/>
+  <text x="350.0" y="110.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">断点 / GAP</text>
+</svg>

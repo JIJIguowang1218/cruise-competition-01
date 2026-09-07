@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="560" viewBox="0 0 560 560" fill="none">
+  <!-- hier-iceberg · 冰山图（表象 / 机制 / 深层） -->
+  <path d="M280,20 L470,200 H90 Z" fill="#4A5A6A"/>
+  <path d="M90,200 H470 L530,540 H30 Z" fill="#BCC7D1"/>
+  <path d="M0,200 H560" stroke="#5A6672" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="280.0" y="130.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">可见层</text>
+  <text x="280.0" y="290.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">中间层</text>
+  <text x="280.0" y="470.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">最深层</text>
+  <text x="552.0" y="186.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#5A6672" text-anchor="end" dominant-baseline="central">水线</text>
+</svg>

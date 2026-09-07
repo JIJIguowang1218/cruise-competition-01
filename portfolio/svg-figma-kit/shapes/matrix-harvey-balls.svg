@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="436" height="96" viewBox="0 0 436 96" fill="none">
+  <!-- matrix-harvey-balls · Harvey Ball 五档（评估表用） -->
+  <circle cx="30" cy="34" r="30" fill="#FFFFFF" stroke="#2E3A46" stroke-width="2.5"/>
+  <text x="30.0" y="86.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">0%</text>
+  <circle cx="124" cy="34" r="30" fill="#FFFFFF" stroke="#2E3A46" stroke-width="2.5"/>
+  <path d="M124,34 L124,4 A30,30 0 0 1 154.00,34.00 Z" fill="#2E3A46"/>
+  <text x="124.0" y="86.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">25%</text>
+  <circle cx="218" cy="34" r="30" fill="#FFFFFF" stroke="#2E3A46" stroke-width="2.5"/>
+  <path d="M218,34 L218,4 A30,30 0 0 1 218.00,64.00 Z" fill="#2E3A46"/>
+  <text x="218.0" y="86.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">50%</text>
+  <circle cx="312" cy="34" r="30" fill="#FFFFFF" stroke="#2E3A46" stroke-width="2.5"/>
+  <path d="M312,34 L312,4 A30,30 0 1 1 282.00,34.00 Z" fill="#2E3A46"/>
+  <text x="312.0" y="86.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">75%</text>
+  <circle cx="406" cy="34" r="30" fill="#FFFFFF" stroke="#2E3A46" stroke-width="2.5"/>
+  <circle cx="406" cy="34" r="30" fill="#2E3A46"/>
+  <text x="406.0" y="86.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">100%</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="560" viewBox="0 0 560 560" fill="none">
+  <!-- rel-hub-spoke-5 · 中心辐射（1 + 5） -->
+  <path d="M280,280 L280.0,80.0" stroke="#C8D0D8" stroke-width="2"/>
+  <path d="M280,280 L470.2,218.2" stroke="#C8D0D8" stroke-width="2"/>
+  <path d="M280,280 L397.6,441.8" stroke="#C8D0D8" stroke-width="2"/>
+  <path d="M280,280 L162.4,441.8" stroke="#C8D0D8" stroke-width="2"/>
+  <path d="M280,280 L89.8,218.2" stroke="#C8D0D8" stroke-width="2"/>
+  <circle cx="280.0" cy="80.0" r="54" fill="#93A2B0"/>
+  <text x="280.0" y="80.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">节点1</text>
+  <circle cx="470.2" cy="218.2" r="54" fill="#93A2B0"/>
+  <text x="470.2" y="218.2" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">节点2</text>
+  <circle cx="397.6" cy="441.8" r="54" fill="#93A2B0"/>
+  <text x="397.6" y="441.8" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">节点3</text>
+  <circle cx="162.4" cy="441.8" r="54" fill="#93A2B0"/>
+  <text x="162.4" y="441.8" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">节点4</text>
+  <circle cx="89.8" cy="218.2" r="54" fill="#93A2B0"/>
+  <text x="89.8" y="218.2" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">节点5</text>
+  <circle cx="280" cy="280" r="82" fill="#2E3A46"/>
+  <text x="280.0" y="280.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">中心</text>
+</svg>

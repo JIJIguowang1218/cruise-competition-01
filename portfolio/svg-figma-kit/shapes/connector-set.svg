@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" fill="none">
+  <!-- connector-set · 连接件：箭头 / 虚线 / 弯头 / 回环 / 判断 / 闸门 / 状态点 -->
+  <path transform="translate(0,40)" d="M20,0 H180" stroke="#5A6672" stroke-width="2.5" fill="none"/>
+  <path d="M180,40 l-11,-6 v12 Z" fill="#5A6672"/>
+  <text x="210.0" y="48.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="400" fill="#26313B" text-anchor="start" dominant-baseline="central">实线箭头</text>
+  <path transform="translate(0,116)" d="M20,0 H180" stroke="#5A6672" stroke-width="2.5" fill="none" stroke-dasharray="8 6"/>
+  <path d="M180,116 l-11,-6 v12 Z" fill="#5A6672"/>
+  <text x="210.0" y="124.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="400" fill="#26313B" text-anchor="start" dominant-baseline="central">虚线箭头（回写）</text>
+  <path transform="translate(0,192)" d="M28,0 H172" stroke="#5A6672" stroke-width="2.5" fill="none"/>
+  <path d="M180,192 l-11,-6 v12 Z" fill="#5A6672"/>
+  <path d="M20,192 l11,-6 v12 Z" fill="#5A6672"/>
+  <text x="210.0" y="200.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="400" fill="#26313B" text-anchor="start" dominant-baseline="central">双向箭头</text>
+  <path transform="translate(0,268)" d="M20,0 H100 V40 H180" stroke="#5A6672" stroke-width="2.5" fill="none"/>
+  <path d="M180,308 l-11,-6 v12 Z" fill="#5A6672"/>
+  <text x="210.0" y="276.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="400" fill="#26313B" text-anchor="start" dominant-baseline="central">弯头连接</text>
+  <path transform="translate(0,344)" d="M20,0 H140 A24,24 0 1 1 140,40 H20" stroke="#5A6672" stroke-width="2.5" fill="none" stroke-dasharray="6 5"/>
+  <path d="M20,384 l11,-6 v12 Z" fill="#5A6672"/>
+  <text x="210.0" y="352.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="400" fill="#26313B" text-anchor="start" dominant-baseline="central">回环（复检）</text>
+  <path d="M470,60 l40,-26 l40,26 l-40,26 Z" fill="#FFFFFF" stroke="#2E3A46" stroke-width="2.5"/>
+  <text x="510.0" y="96.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">判断</text>
+  <rect x="474" y="146" width="72" height="34" rx="3" fill="#FFFFFF" stroke="#2E3A46" stroke-width="2.5"/>
+  <path d="M474,163 H546 M498,146 V180 M522,146 V180" stroke="#2E3A46" stroke-width="2"/>
+  <text x="510.0" y="196.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">闸门</text>
+  <circle cx="486" cy="256" r="15" fill="#BCC7D1"/>
+  <text x="486.0" y="288.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">自动</text>
+  <circle cx="534" cy="256" r="15" fill="#6B7C8C"/>
+  <text x="534.0" y="288.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">AI</text>
+  <circle cx="582" cy="256" r="15" fill="#2E3A46"/>
+  <text x="582.0" y="288.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="#26313B" text-anchor="middle" dominant-baseline="central">人工</text>
+</svg>

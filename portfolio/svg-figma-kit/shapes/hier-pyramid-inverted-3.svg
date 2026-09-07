@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="264" viewBox="0 0 620 264" fill="none">
+  <!-- hier-pyramid-inverted-3 · 3 层倒置金字塔 -->
+  <path d="M0.0,0 H620.0 L531.1,84 H88.9 Z" fill="#2E3A46"/>
+  <text x="310.0" y="42.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 1</text>
+  <path d="M88.9,90 H531.1 L442.3,174 H177.7 Z" fill="#6B7C8C"/>
+  <text x="310.0" y="132.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 2</text>
+  <path d="M177.7,180 H442.3 L353.4,264 H266.6 Z" fill="#BCC7D1"/>
+  <text x="310.0" y="222.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 3</text>
+</svg>

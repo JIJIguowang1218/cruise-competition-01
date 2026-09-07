@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 420 420" fill="none">
+  <!-- matrix-radar-4 · 4 维雷达（多方案同框对比） -->
+  <polygon points="210.0,50.0 370.0,210.0 210.0,370.0 50.0,210.0" fill="#DCE3E9" stroke="#C8D0D8" stroke-width="1.5"/>
+  <polygon points="210.0,103.3 316.7,210.0 210.0,316.7 103.3,210.0" fill="#FFFFFF" stroke="#C8D0D8" stroke-width="1.5"/>
+  <polygon points="210.0,156.7 263.3,210.0 210.0,263.3 156.7,210.0" fill="#FFFFFF" stroke="#C8D0D8" stroke-width="1.5"/>
+  <path d="M210,210 L210.0,50.0" stroke="#C8D0D8" stroke-width="1.5"/>
+  <path d="M210,210 L370.0,210.0" stroke="#C8D0D8" stroke-width="1.5"/>
+  <path d="M210,210 L210.0,370.0" stroke="#C8D0D8" stroke-width="1.5"/>
+  <path d="M210,210 L50.0,210.0" stroke="#C8D0D8" stroke-width="1.5"/>
+  <polygon points="210.0,74.0 298.0,210.0 210.0,322.0 106.0,210.0" fill="#4A5A6A" fill-opacity="0.55" stroke="#2E3A46" stroke-width="2.5"/>
+  <text x="210.0" y="24.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">运营</text>
+  <text x="396.0" y="210.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">经济</text>
+  <text x="210.0" y="396.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">风险</text>
+  <text x="24.0" y="210.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#26313B" text-anchor="middle" dominant-baseline="central">综合</text>
+</svg>

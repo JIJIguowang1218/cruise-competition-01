@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1164" height="150" viewBox="0 0 1164 150" fill="none">
+  <!-- container-kpi-5 · 5 联 KPI 数字块 -->
+  <rect x="0" y="0" width="220" height="150" rx="5" fill="#F4F6F8" stroke="#C8D0D8" stroke-width="1"/>
+  <rect x="0" y="0" width="5" height="150" rx="2.5" fill="#2E3A46"/>
+  <text x="24.0" y="34.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">指标 1</text>
+  <text x="24.0" y="78.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#26313B" text-anchor="start" dominant-baseline="central">00</text>
+  <text x="24.0" y="122.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">单位 / 口径说明</text>
+  <rect x="236" y="0" width="220" height="150" rx="5" fill="#F4F6F8" stroke="#C8D0D8" stroke-width="1"/>
+  <rect x="236" y="0" width="5" height="150" rx="2.5" fill="#2E3A46"/>
+  <text x="260.0" y="34.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">指标 2</text>
+  <text x="260.0" y="78.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#26313B" text-anchor="start" dominant-baseline="central">00</text>
+  <text x="260.0" y="122.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">单位 / 口径说明</text>
+  <rect x="472" y="0" width="220" height="150" rx="5" fill="#F4F6F8" stroke="#C8D0D8" stroke-width="1"/>
+  <rect x="472" y="0" width="5" height="150" rx="2.5" fill="#2E3A46"/>
+  <text x="496.0" y="34.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">指标 3</text>
+  <text x="496.0" y="78.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#26313B" text-anchor="start" dominant-baseline="central">00</text>
+  <text x="496.0" y="122.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">单位 / 口径说明</text>
+  <rect x="708" y="0" width="220" height="150" rx="5" fill="#F4F6F8" stroke="#C8D0D8" stroke-width="1"/>
+  <rect x="708" y="0" width="5" height="150" rx="2.5" fill="#2E3A46"/>
+  <text x="732.0" y="34.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">指标 4</text>
+  <text x="732.0" y="78.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#26313B" text-anchor="start" dominant-baseline="central">00</text>
+  <text x="732.0" y="122.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">单位 / 口径说明</text>
+  <rect x="944" y="0" width="220" height="150" rx="5" fill="#F4F6F8" stroke="#C8D0D8" stroke-width="1"/>
+  <rect x="944" y="0" width="5" height="150" rx="2.5" fill="#2E3A46"/>
+  <text x="968.0" y="34.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">指标 5</text>
+  <text x="968.0" y="78.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#26313B" text-anchor="start" dominant-baseline="central">00</text>
+  <text x="968.0" y="122.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#5A6672" text-anchor="start" dominant-baseline="central">单位 / 口径说明</text>
+</svg>

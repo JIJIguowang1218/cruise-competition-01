@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="64" viewBox="0 0 880 64" fill="none">
+  <!-- process-arrow-5 · 5 段箭头流程条 -->
+  <path d="M0,0 H146 L168,32.0 L146,64 H0 Z" fill="#2E3A46"/>
+  <text x="73.0" y="32.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">步骤 1</text>
+  <path d="M178,0 H324 L346,32.0 L324,64 H178 Z" fill="#4A5A6A"/>
+  <text x="251.0" y="32.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">步骤 2</text>
+  <path d="M356,0 H502 L524,32.0 L502,64 H356 Z" fill="#6B7C8C"/>
+  <text x="429.0" y="32.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">步骤 3</text>
+  <path d="M534,0 H680 L702,32.0 L680,64 H534 Z" fill="#93A2B0"/>
+  <text x="607.0" y="32.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">步骤 4</text>
+  <path d="M712,0 H858 L880,32.0 L858,64 H712 Z" fill="#BCC7D1"/>
+  <text x="785.0" y="32.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">步骤 5</text>
+</svg>

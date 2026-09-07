@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="264" viewBox="0 0 620 264" fill="none">
+  <!-- hier-funnel-3 · 3 级漏斗（收敛/筛选） -->
+  <path d="M0.0,0 H620.0 L545.6,80 H74.4 Z" fill="#2E3A46"/>
+  <text x="310.0" y="40.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 1</text>
+  <path d="M74.4,92 H545.6 L471.2,172 H148.8 Z" fill="#6B7C8C"/>
+  <text x="310.0" y="132.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 2</text>
+  <path d="M148.8,184 H471.2 L396.8,264 H223.2 Z" fill="#BCC7D1"/>
+  <text x="310.0" y="224.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 3</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="198" viewBox="0 0 1024 198" fill="none">
+  <!-- process-snake-9 · 9 环节蛇形流程（5/行） -->
+  <rect x="0" y="0" width="168" height="72" rx="4" fill="#2E3A46"/>
+  <text x="84.0" y="36.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 1</text>
+  <path d="M174,36.0 H208" stroke="#5A6672" stroke-width="2"/>
+  <path d="M208,36.0 l-9,-5 v10 Z" fill="#5A6672"/>
+  <rect x="214" y="0" width="168" height="72" rx="4" fill="#2E3A46"/>
+  <text x="298.0" y="36.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 2</text>
+  <path d="M388,36.0 H422" stroke="#5A6672" stroke-width="2"/>
+  <path d="M422,36.0 l-9,-5 v10 Z" fill="#5A6672"/>
+  <rect x="428" y="0" width="168" height="72" rx="4" fill="#4A5A6A"/>
+  <text x="512.0" y="36.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 3</text>
+  <path d="M602,36.0 H636" stroke="#5A6672" stroke-width="2"/>
+  <path d="M636,36.0 l-9,-5 v10 Z" fill="#5A6672"/>
+  <rect x="642" y="0" width="168" height="72" rx="4" fill="#6B7C8C"/>
+  <text x="726.0" y="36.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 4</text>
+  <path d="M816,36.0 H850" stroke="#5A6672" stroke-width="2"/>
+  <path d="M850,36.0 l-9,-5 v10 Z" fill="#5A6672"/>
+  <rect x="856" y="0" width="168" height="72" rx="4" fill="#6B7C8C"/>
+  <text x="940.0" y="36.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 5</text>
+  <path d="M940.0,78 V114" stroke="#5A6672" stroke-width="2"/>
+  <path d="M940.0,120 l-5,-9 h10 Z" fill="#5A6672"/>
+  <rect x="856" y="126" width="168" height="72" rx="4" fill="#6B7C8C"/>
+  <text x="940.0" y="162.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 6</text>
+  <path d="M850,162.0 H816" stroke="#5A6672" stroke-width="2"/>
+  <path d="M816,162.0 l9,-5 v10 Z" fill="#5A6672"/>
+  <rect x="642" y="126" width="168" height="72" rx="4" fill="#93A2B0"/>
+  <text x="726.0" y="162.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 7</text>
+  <path d="M636,162.0 H602" stroke="#5A6672" stroke-width="2"/>
+  <path d="M602,162.0 l9,-5 v10 Z" fill="#5A6672"/>
+  <rect x="428" y="126" width="168" height="72" rx="4" fill="#BCC7D1"/>
+  <text x="512.0" y="162.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 8</text>
+  <path d="M422,162.0 H388" stroke="#5A6672" stroke-width="2"/>
+  <path d="M388,162.0 l9,-5 v10 Z" fill="#5A6672"/>
+  <rect x="214" y="126" width="168" height="72" rx="4" fill="#BCC7D1"/>
+  <text x="298.0" y="162.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">环节 9</text>
+</svg>

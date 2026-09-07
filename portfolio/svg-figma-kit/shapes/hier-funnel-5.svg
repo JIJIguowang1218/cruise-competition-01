@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="448" viewBox="0 0 620 448" fill="none">
+  <!-- hier-funnel-5 · 5 级漏斗（收敛/筛选） -->
+  <path d="M0.0,0 H620.0 L575.4,80 H44.6 Z" fill="#2E3A46"/>
+  <text x="310.0" y="40.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 1</text>
+  <path d="M44.6,92 H575.4 L530.7,172 H89.3 Z" fill="#4A5A6A"/>
+  <text x="310.0" y="132.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 2</text>
+  <path d="M89.3,184 H530.7 L486.1,264 H133.9 Z" fill="#6B7C8C"/>
+  <text x="310.0" y="224.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 3</text>
+  <path d="M133.9,276 H486.1 L441.4,356 H178.6 Z" fill="#93A2B0"/>
+  <text x="310.0" y="316.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 4</text>
+  <path d="M178.6,368 H441.4 L396.8,448 H223.2 Z" fill="#BCC7D1"/>
+  <text x="310.0" y="408.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">收敛 5</text>
+</svg>

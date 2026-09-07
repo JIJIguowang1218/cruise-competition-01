@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="444" viewBox="0 0 620 444" fill="none">
+  <!-- hier-pyramid-inverted-5 · 5 层倒置金字塔 -->
+  <path d="M0.0,0 H620.0 L566.7,84 H53.3 Z" fill="#2E3A46"/>
+  <text x="310.0" y="42.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 1</text>
+  <path d="M53.3,90 H566.7 L513.4,174 H106.6 Z" fill="#4A5A6A"/>
+  <text x="310.0" y="132.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 2</text>
+  <path d="M106.6,180 H513.4 L460.0,264 H160.0 Z" fill="#6B7C8C"/>
+  <text x="310.0" y="222.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 3</text>
+  <path d="M160.0,270 H460.0 L406.7,354 H213.3 Z" fill="#93A2B0"/>
+  <text x="310.0" y="312.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 4</text>
+  <path d="M213.3,360 H406.7 L353.4,444 H266.6 Z" fill="#BCC7D1"/>
+  <text x="310.0" y="402.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">层 5</text>
+</svg>

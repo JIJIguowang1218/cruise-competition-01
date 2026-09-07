@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="624" height="288" viewBox="0 0 624 288" fill="none">
+  <!-- process-stairs-4 · 4 级递进阶梯 -->
+  <rect x="0" y="228" width="150" height="60" rx="3" fill="#2E3A46"/>
+  <text x="75.0" y="254.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">L1</text>
+  <rect x="158" y="176" width="150" height="112" rx="3" fill="#4A5A6A"/>
+  <text x="233.0" y="202.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">L2</text>
+  <rect x="316" y="124" width="150" height="164" rx="3" fill="#93A2B0"/>
+  <text x="391.0" y="150.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">L3</text>
+  <rect x="474" y="72" width="150" height="216" rx="3" fill="#BCC7D1"/>
+  <text x="549.0" y="98.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">L4</text>
+</svg>
