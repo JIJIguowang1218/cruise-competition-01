@@ -13,6 +13,7 @@
 
 | 版本 | 修改内容 |
 |---|---|
+| v1.2 | 2026-09-08 全部页面（第 1–9 页 + P9-1/2/3 场景 + 第 III 幕 12 页）标题下补"英文标题（完整）"一行：拼写展开缩略（HITL → Human-in-the-Loop、& → and）、补齐中文主副题对应的完整英文表述；第 III 幕原括号内缩写版英文标题**全部保留**，注明"缩写沿用"，供页内小标题与图注继续使用。 |
 | v1.1 | 2026-09-07 III-4a–III-9 共 9 页补齐"机制拆解与绘图参考"（对应 C3.1–C3.3 / C3.5–C3.8 + C5.6 / C4.1–C4.5 / C5.1–C5.5 / G1 / G2+G3 / 全谱收束），六段模板与 v1.0 一致，行文收敛；页面初稿不动。 |
 | v1.0 | 2026-09-07 III-1/2/3 依机制总谱（`mechanism-registry.md` §2–§4）与事件治理框架（§4.15/§4.11/§4.8.2）各补充"机制拆解与绘图参考"：机制定位（编号/阶段/上下游交接）、组成部件表（子机制编号对照）、环节流程拆解（输入→处理→产物→去向）、图上信息层级、绘图要素清单、AI PM 术语中英对照；v0.9 正文书面稿保持不动，拆解块单独标注为绘图工作稿。 |
 | v0.9 | 2026-09-04 第 III 幕前 3 页重写为正式书面稿：①全部语言书面化、专业化（去口语化）；②删除构图建议与跨页/下一步提示，每页自行完成页面任务（导语 + 核心表述 + 机制逻辑 + 边界说明）；③III-3 升级为"受约束的方案生成与量化执行"——补动作实例化与量级求解逻辑（语义组合 → 分域执行模型求解 → 任务包封装），对应机制谱 C2.5。 |
@@ -44,6 +45,7 @@
 ---
 
 ## 第 1 页：产品定位与价值主张
+> 英文标题（完整）：Product Positioning and Value Proposition
 
 ### 页面目标
 
@@ -76,6 +78,7 @@
 
 ---
 ## 第 2 页：宏观设计背景
+> 英文标题（完整）：Macro Design Context (Industry Landscape and Stakeholder Chain)
 
 ### 页面目标
 
@@ -118,6 +121,7 @@
 ---
 
 ## 第 3 页：研究流程
+> 英文标题（完整）：Research Process and Methodology (Nine-Stage Convergence Chain)
 
 ### 页面目标
 
@@ -183,6 +187,7 @@ ClarSyn 的研究路径不是“先有方案再找问题”，而是多源证据
 ---
 
 ## 第 4 页：多源调研
+> 英文标题（完整）：Multi-Source Field Research (Facts and Sources)
 
 ### 页面目标
 
@@ -249,6 +254,7 @@ ClarSyn 的研究路径不是“先有方案再找问题”，而是多源证据
 ---
 
 ## 第 5 页：痛点分析与需求
+> 英文标题（完整）：Pain-Point Analysis and Requirements Definition (Three-Layer Diagnosis)
 
 ### 页面目标
 
@@ -344,6 +350,7 @@ ClarSyn 的研究路径不是“先有方案再找问题”，而是多源证据
 - 呈现：总结列表 + 分层图 + 说明文字，不画“痛点→功能”映射线
 
 ## 第 6 页：业务理解
+> 英文标题（完整）：Business Understanding and System Boundaries (Ecosystem Context Diagram)
 
 ### 页面目标
 
@@ -430,6 +437,7 @@ ClarSyn 不是接管港口、海关、客服、法务的超级平台，而是在
 4. 页面不展示我们系统内部模块，内部架构留给后续页
 
 ## 第 7 页：AI 机会判断
+> 英文标题（完整）：AI Opportunity Assessment (Value Identification Through Four Breakpoints)
 
 ### 页面目标
 
@@ -555,6 +563,7 @@ ClarSyn 的 AI 不是去替代人盯每个环节，而是补在这些断点中�
 
 
 ## 第 8 页：产品方案总览 / 系统组成
+> 英文标题（完整）：Solution Overview and System Composition (Processing Pipeline, Core Engines, Port Boundaries)
 
 ### 页面目标
 
@@ -635,6 +644,7 @@ ClarSyn 可以理解为：
 
 
 ## 第 9 页：核心业务场景流程（泳道图）
+> 英文标题（完整）：Core Business Scenario Workflows (Swimlane Diagrams)
 
 ### 页面目标
 
@@ -647,6 +657,7 @@ ClarSyn 可以理解为：
 - P9-3 库外信号升级（X-0001）
 
 ### P9-1 航变后的登离船与接驳调度响应 · 泳道画法
+> 英文标题（完整）：Post-Itinerary-Change Disembarkation and Shore Connection Dispatch (Swimlane Design)
 
 > 边界（2026-09-04）：ClarSyn 不做航变预警/航变决定——气象/海事只发预警和提醒，行程调整由船公司（岸基）自主决定，船长拥有安全否决/最终确认权；**起点 = "外部航变决定已成立"**，ClarSyn 接收决定 + 本船状态，推演登离船/接驳/时间窗/船员任务/安全与乘客服务方案。
 
@@ -779,6 +790,7 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 ---
 
 ## 第 III 幕 · 机制展开（初稿 2026-09-04 · 待逐页讨论定稿）
+> 英文标题（完整）：Act III — Mechanism Exposition (Governance and Control Mechanisms)
 
 > 阅读约定：每一页 = 一个主题（页数随内容密度而定，不受章数限制）。文本克制、信息可视化为主；本稿给出"标题 / 一句话 / 图上要传达的要素 / 关键点 / 边界"，构图由后续讨论产出。机制编号见 `design/b-port-shore-and-itinerary/mechanism-registry.md`。
 > 层级纪律：本幕只用业务/治理语言（角色、规则、责任、状态、边界），不出现技术词。
@@ -786,6 +798,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 > 目录：III-1 AI 决策支持与责任边界 ｜ III-2 事件判定与库外识别 ｜ III-3 受约束的方案生成 ｜ III-4a 分级授权体系 ｜ III-4b 人审闭环与修订回路 ｜ III-4c 异常升级机制 ｜ III-5a 信息分层触达 ｜ III-5b 认知负荷控制 ｜ III-6 运行监测与状态恢复 ｜ III-7 人工接管机制 ｜ III-8 可解释性与信任机制 ｜ III-9 AI 治理总览。
 
 ### III-1 AI 决策支持与责任边界（Decision Support & HITL）〔内容稿〕
+> 英文标题（完整）：AI Decision Support and Human-in-the-Loop Accountability Boundaries
+> 缩写沿用：Decision Support & HITL
 
 - **导语**：高利害决策遵循责任与权限一致原则：决策主体对结果负责，系统仅提供决策支持。
 - **核心表述（本页主文）**：
@@ -867,6 +881,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 显式假设与诚实量化（Explicit Assumptions & Honest Quantification）
 
 ### III-2 事件判定与库外识别（Event Framing & Out-of-Knowledge Detection）〔内容稿〕
+> 英文标题（完整）：Event Framing and Out-of-Knowledge Detection
+> 缩写沿用：Event Framing & OOK Detection
 
 - **导语**：事件是治理单元的最小业务边界，事件化机制回答"什么值得进入治理管道"。
 - **核心表述（本页主文）**：
@@ -947,6 +963,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 人机协同闭环（Human Feedback Loop）：处置结果回写知识库
 
 ### III-3 受约束的方案生成（Constrained Planning & Quantified Execution）〔内容稿〕
+> 英文标题（完整）：Constrained Planning and Quantified Execution
+> 缩写沿用：Constrained Planning & Quantified Execution
 
 - **导语**：方案生成遵循两重纪律：方案来源受约束，量级来源可复现。
 - **核心表述（本页主文）**：
@@ -1038,6 +1056,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 推理附件（Reasoning Attachments，G3）
 
 ### III-4a 分级授权体系（Levels of Automation）〔初稿〕
+> 英文标题（完整）：Levels of Automation (Authority Delegation and Captain's Decision Zone)
+> 缩写沿用：Levels of Automation
 
 - **标题**：分级授权与船长决策区——按决策责任分级，不按影响大小分级
 - **一句话**：审批等级不按"影响大不大"划分，而按"这个决定谁有责任拍板"划分；船长的最高权限只在安全与法定事项。
@@ -1101,6 +1121,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 知会非审批（Inform ≠ Approve）
 
 ### III-4b 人审闭环与修订回路（Human Review Loop）〔初稿〕
+> 英文标题（完整）：Human Review Loop and Revision Cycle (Single Approval Principle)
+> 缩写沿用：Human Review Loop
 
 - **标题**：人审闭环与修订回路——一次审批、受控修订、超时兜底
 - **一句话**：方案由决策层审批一次；不通过时按"三形态"修订重审；超时按双路径收口——不让流程死锁，也不让风险无声。
@@ -1165,6 +1187,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 兜底执行（Fallback Execution）与事后补签（Post-hoc Countersign）
 
 ### III-4c 异常升级机制（Escalation Path）〔初稿〕
+> 英文标题（完整）：Escalation Mechanism (Control Transfer Pathways)
+> 缩写沿用：Escalation Path
 
 - **标题**：异常升级机制——审批超时与状态恶化两条上坡路，收口于更高决策层
 - **一句话**：事件等级上升只有两个触发：批不下来拖超时了（审批侧），或情况真的恶化了（状态侧）；两条路最终都指向同一出口——更高一级的人/船长决策区。
@@ -1224,6 +1248,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 派生事件（Derivative Event）
 
 ### III-5a 信息分层触达（Graded Information Delivery）〔初稿〕
+> 英文标题（完整）：Graded Information Delivery (Three-Level Delivery Granularity)
+> 缩写沿用：Graded Information Delivery
 
 - **标题**：信息分层触达——方案级 / 任务包级 / 现场提示级，各层只收所需
 - **一句话**：同一份方案，给决策层看全貌、给组织层看任务包、给现场只看一句提示；谁需要什么就给什么。
@@ -1288,6 +1314,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 投放审核矩阵（Publication Review Matrix）：可见性 × 可撤回性 × 后果
 
 ### III-5b 认知负荷控制（Cognitive Load Management）〔初稿〕
+> 英文标题（完整）：Cognitive Load Management (AI Hand Boundary)
+> 缩写沿用：Cognitive Load Management
 
 - **标题**：认知负荷控制——引入 AI 不为加重负担：系统信息止于 +1
 - **一句话**：引入 AI 的初衷是更快更准，不是让每个环节接收更多信息；末端人员的信息量不增反减。
@@ -1356,6 +1384,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 包状态回传（Packet-status Feedback）与只增日志池（Append-only Feedback Pool）
 
 ### III-6 运行监测与状态恢复（Observability & Recovery）〔初稿〕
+> 英文标题（完整）：Operational Monitoring and State Recovery
+> 缩写沿用：Observability & Recovery
 
 - **标题**：运行监测与状态恢复——挂起 ≠ 静默：按依赖源分层复检
 - **一句话**：事件处理完或被挂起后，系统按"该事件依赖什么"来盯：自证型看自己的端口，外部型看外部信息源的可读性——挂起不是终点，是转入受监控。
@@ -1422,6 +1452,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 周期复检（Periodic Recheck）与循环提醒升级（Escalating Reminders）
 
 ### III-7 人工接管机制（Human Override）〔初稿〕
+> 英文标题（完整）：Human Override Mechanism (Copilot + Dashcam Mode)
+> 缩写沿用：Human Override
 
 - **标题**：人工接管与可控性兜底——任意节点可接管，系统退居观察 / 记录 / 建议
 - **一句话**：任何节点人都可以一键接管，把执行交回船司现有系统；系统不消失，而是变成"副驾驶 + 行车记录仪"。
@@ -1486,6 +1518,8 @@ L2 包状态 / L1 最小登记 + 端口感知 → 反馈池 → 接回监测/恢
 - 受监控人工模式（Monitored Manual Mode）
 
 ### III-8 可解释性与信任机制（Explainability & Trust）〔初稿〕
+> 英文标题（完整）：Explainability and Trust Mechanisms
+> 缩写沿用：Explainability & Trust
 
 - **标题**：可解释性与信任机制——血缘、审计与"每个判断自带理由"
 - **一句话**：系统让每一次判断、每一个动作都能回答：从哪来、谁批准的、变了什么、为什么这么建议。
@@ -1555,6 +1589,8 @@ E09 航变响应（主事件）
 - 坏例标记（Bad-case Labeling）
 
 ### III-9 AI 治理总览（Governance Overview）〔初稿〕
+> 英文标题（完整）：AI Governance Overview (Mechanism Registry Summary)
+> 缩写沿用：Governance Overview
 
 - **标题**：AI 治理总览——同一治理管道覆盖不同规模事件，机制非某事件特设
 - **一句话**：事件从输入到回写走完闭环：AI 负责判断与推演，人保留审批与接管，机制保证可解释、可控制、可升级。
