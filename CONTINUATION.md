@@ -10,9 +10,17 @@
 
 ---
 
-## 🚨 当前主线（2026-09-07 更新）
+## 🚨 当前主线（2026-09-12 更新）
 
-当前工作重心：**第 III 幕（机制展开）逐页绘图准备已完成**——正文主档 `ai-pm-portfolio-page-content.md` 已到 v1.1，12 页机制拆解与绘图参考全部就位，**下一步进入逐页绘制可视化图（SVG/drawio）**。
+当前工作重心：**第 III 幕已全部完成（含 III-9 AI 治理总览作品集页），竞赛限页版后续规划已出，待用户审核**。
+
+- 🔥 **新对话第一件事：提醒用户查看 `portfolio/planning/competition-compressed-page-plan.md`（竞赛压缩版页面规划 v1.0，2026-09-12 新建，尚未审核）**
+- 压缩方案要点（III-9 之后 11 页 → 6–7 页）：
+  - **IV 系统组织 = 1 页**：单中枢 hub-spoke，"不替换、不新增、不越级"，不列举模块（原 IV-1/2/3 合并）；
+  - **V 技术实现 = 4 页 + 1 可选页**（Agent 架构页数不限）：V-1 工程全景与选型 / V-2 Agent 编排与控制（主章）/ V-3 库外发现×幻觉兜底 / V-4 硬件部署 T0–T3 / V-5（可选）实时闭环时序预算；
+  - **VI 证明与落地 = 1 页**：五级验证阶梯（离线样例→仿真→高保真原型→单船单港试点→全船队）+ 诚实量化卡 + 前三风险 + 三句差异化；
+- 审核通过后的执行顺序：IV 单页内容稿 →（建议先补）导览+II-2 合成地图页 → V-1…V-4 → VI 单页；每页先写绘图工作稿、用户审口径后再开画；
+- 上一阶段：正文主档 `ai-pm-portfolio-page-content.md` 已到 **v1.3**，第 III 幕 12 页机制拆解与绘图参考全部就位，III-9 作品集页已完成。
 
 - 所有新文件统一写到 `portfolio/`，不要写入 `design/`
 - 后续工作参考 `research/ai-pm-tutorials/REPORT.md`（GitHub AI PM 教程调研）
@@ -24,7 +32,25 @@
 
 ---
 
-## 🗂 本次会话改动记录（2026-09-07 · 第 III 幕绘图准备）
+## 🗂 本次会话改动记录（2026-09-12 · 竞赛压缩版规划）
+
+> 背景：竞赛页数限制，用户要求①系统组织 1 页②Agent 架构不限页③证明落地 1 页。III-9 AI 治理总览作品集页已完成。
+
+| # | 文件 | 本次改动要点 |
+|---|---|---|
+| 1 | `portfolio/planning/competition-compressed-page-plan.md`（**新增 v1.0，待审核**） | III-9 之后 IV/V/VI 幕压缩重切：IV=1 页单中枢 hub-spoke（六引擎小字不展开、三态输入、三类输出端口复用 III-5a 通信栈口径、不碰红线区、6 工种 chip、T0–T3 角注）；V=4+1 页围绕 Agent 架构（工程全景选型 / 编排与三门控制 / 库外×幻觉深描 / 边缘部署 T0–T3 / 可选时序预算）；VI=1 页五级验证阶梯+诚实量化卡+风险 chip+差异化三句；含衔接事项（II-2 缺页建议与导览合成 1 页地图、v4 暂不改、工作法沿用）与审核后执行顺序 |
+| 2 | `CONTINUATION.md`（本文件） | 当前主线刷新为 2026-09-12；新增本改动表；审核清单首位加压缩版规划文件 |
+
+**下一步待办（按优先级）**：
+1. **用户审核** `portfolio/planning/competition-compressed-page-plan.md`（切页方案、各页版式与信息纪律）；
+2. 审核通过后写 IV 单页内容稿与绘图工作稿（落进 page-content 主档）；
+3. 补"阅读导览 + II-2"合成地图页（III 幕页眉回指目前缺落点）；
+4. 逐页推进 V-1～V-4、VI 单页；每页稿成先审口径再开画；
+5. `EVENT-ROSTER` 的 `mock-data.js` 同步 v0.6 语义（E09/E-L4 命名与触发）仍挂账。
+
+---
+
+## 🗂 上次会话改动记录（2026-09-07 · 第 III 幕绘图准备）
 
 > 目标：让第 III 幕 12 页可以直接开画。依据 `mechanism-registry.md`（C0–C5/G1–G4 编号解析）与 `event-governance-framework.md`（字段级规则），在正文主档每页追加"机制拆解与绘图参考"绘图工作稿，页面初稿不动。
 
@@ -95,9 +121,10 @@
 
 ## 🟥 新对话开始后请提醒用户审核以下最近文件（按优先级）
 
-1. `portfolio/planning/ai-pm-portfolio-page-content.md`（→v1.1）
-   - **重点审核第 III 幕 12 页的"机制拆解与绘图参考"（v1.0/v1.1 新增）**：III-1/2/3 对应 C0/C1/C2，III-4a–III-9 对应 C3/C4/C5/G1/G2+G3/全谱；逐页确认口径后即可开画
-   - 页面初稿（v0.9 书面稿）未动，无需重审
+0. **`portfolio/planning/competition-compressed-page-plan.md`（新增 v1.0，2026-09-12）——竞赛限页版 IV/V/VI 幕压缩规划，最高优先级待审；审核通过后即按其 §5 顺序开写 IV 单页**
+1. `portfolio/planning/ai-pm-portfolio-page-content.md`（→v1.3）
+   - 第 III 幕 12 页"机制拆解与绘图参考"已全部就位（III-1/2/3 对应 C0/C1/C2，III-4a–III-9 对应 C3/C4/C5/G1/G2+G3/全谱）；v1.2 全页完整英文标题、v1.3 船载通信栈专业化（III-5a/b、III-7）；III-9 作品集页已完成
+   - 后续内容不再写进 III 幕，按压缩版规划文件推进 IV/V/VI
 2. `portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（**当前规划主文档**）
    - **重点审核：四幕结构与第 III 幕机制展开的章节骨架**（v3 已存档）
    - 机制编号统一引用 `design/b-port-shore-and-itinerary/mechanism-registry.md`
@@ -249,7 +276,8 @@
 ## 🗂 当前关键文件索引
 
 - 正文内容主档：`portfolio/planning/ai-pm-portfolio-page-content.md`
-- 正文页规划 v4（当前·事件脊柱版）：`portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（v3 存档）
+- 正文页规划 v4（事件脊柱版）：`portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（v3 存档）
+- **竞赛压缩版规划（III-9 之后 IV/V/VI，2026-09-12，待审）**：`portfolio/planning/competition-compressed-page-plan.md`
 - 机制总谱（机制编号母文档）：`design/b-port-shore-and-itinerary/mechanism-registry.md`
 - AI PM 讲解策略：`portfolio/planning/clarsyn-ai-pm-presentation-strategy.md`
 - AI PM 教程调研：`research/ai-pm-tutorials/REPORT.md`
