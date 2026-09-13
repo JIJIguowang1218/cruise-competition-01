@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1600" width="900" height="1600">
+  <!-- ============ 背景 ============ -->
+  <rect id="bg" x="0" y="0" width="900" height="1600" fill="#FFFFFF"/>
+
+  <!-- ================================================================ -->
+  <!-- A 标题带 y35 h120 -->
+  <!-- ================================================================ -->
+  <rect x="31" y="37" width="838" height="122" rx="17" fill="#0C1320" opacity="0.05"/>
+  <rect x="32" y="43" width="836" height="120" rx="16" fill="#0C1320" opacity="0.04"/>
+  <rect id="block-a-header" x="32" y="35" width="836" height="120" rx="16" fill="#F1F3F6" stroke="#D8DDE5" stroke-width="1"/>
+  <rect id="brand-mark" x="56" y="62" width="12" height="12" rx="3" fill="#2563EB"/>
+  <text x="78" y="76" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="26" font-weight="700" fill="#141B27">ClarSyn</text>
+  <text x="182" y="76" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="18" font-weight="600" fill="#141B27">邮轮港岸协同决策系统</text>
+  <text x="56" y="101" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" letter-spacing="0.4" fill="#838C99">MULTI-AGENT COLLABORATIVE DYNAMIC SCHEDULING FOR CRUISE BERTHING &amp; SHORE CONNECTION</text>
+  <rect id="value-bar" x="56" y="115" width="3" height="22" rx="1.5" fill="#2563EB"/>
+  <text x="68" y="132" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="16" font-weight="600" fill="#141B27">把船↔岸交界的混乱，变成分钟级清晰决策。</text>
+  <rect id="tag-a1" x="560" y="114" width="96" height="24" rx="12" fill="#FFFFFF" stroke="#D2D8E0" stroke-width="1"/>
+  <text x="608" y="130" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" fill="#46505E">多 Agent 协同</text>
+  <rect id="tag-a2" x="666" y="114" width="84" height="24" rx="12" fill="#FFFFFF" stroke="#D2D8E0" stroke-width="1"/>
+  <text x="708" y="130" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" fill="#46505E">分钟级决策</text>
+  <rect id="tag-a3" x="760" y="114" width="84" height="24" rx="12" fill="#FFFFFF" stroke="#D2D8E0" stroke-width="1"/>
+  <text x="802" y="130" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" fill="#46505E">全链路审计</text>
+
+  <!-- ================================================================ -->
+  <!-- B 01 真问题 y167 h180 -->
+  <!-- ================================================================ -->
+  <rect x="31" y="169" width="838" height="182" rx="17" fill="#0C1320" opacity="0.05"/>
+  <rect x="32" y="175" width="836" height="180" rx="16" fill="#0C1320" opacity="0.04"/>
+  <rect id="block-b-problem" x="32" y="167" width="836" height="180" rx="16" fill="#F1F3F6" stroke="#D8DDE5" stroke-width="1"/>
+  <text x="56" y="197" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="13" font-weight="700" fill="#2563EB">01</text>
+  <text x="84" y="197" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="19" font-weight="600" fill="#141B27">真问题</text>
+  <text x="152" y="197" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" letter-spacing="1.5" fill="#A2AAB5">FIELD EVIDENCE</text>
+  <text x="844" y="197" text-anchor="end" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#79828E">来源：公开报道 · 官方答复 · 用户评论</text>
+
+  <!-- 数字卡 1（投影片在下） -->
+  <rect x="55" y="213" width="254" height="98" rx="13" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-stat-1" x="56" y="211" width="252" height="96" rx="12" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <rect id="card-stat-1-source" x="70" y="225" width="150" height="18" rx="9" fill="#E9ECF0"/>
+  <text x="145" y="238" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#333C49">携程差评 · 爱达地中海号</text>
+  <text x="70" y="272" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="26" font-weight="700" fill="#141B27">6–7 小时</text>
+  <text x="70" y="293" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#6A737F">离船日 8:00 离房 → 15:00 才下船</text>
+
+  <!-- 数字卡 2 -->
+  <rect x="323" y="213" width="254" height="98" rx="13" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-stat-2" x="324" y="211" width="252" height="96" rx="12" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <rect id="card-stat-2-source" x="338" y="225" width="176" height="18" rx="9" fill="#E9ECF0"/>
+  <text x="426" y="238" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#333C49">公开事件链推演 · 估算值</text>
+  <text x="338" y="272" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="26" font-weight="700" fill="#141B27">20–45 分钟</text>
+  <text x="338" y="293" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#6A737F">航变后跨系统人工核对的准备时间</text>
+
+  <!-- 数字卡 3 -->
+  <rect x="591" y="213" width="254" height="98" rx="13" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-stat-3" x="592" y="211" width="252" height="96" rx="12" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <rect id="card-stat-3-source" x="606" y="225" width="150" height="18" rx="9" fill="#E9ECF0"/>
+  <text x="681" y="238" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#333C49">携程差评 · 海洋光谱号</text>
+  <text x="606" y="272" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="26" font-weight="700" fill="#141B27">16h → 2h</text>
+  <text x="606" y="293" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#6A737F">船司提前 16h 通知，乘客前 2h 才收到</text>
+
+  <!-- 四断点 -->
+  <text x="56" y="335" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#79828E">四类断点</text>
+  <rect id="chip-bp-1" x="124" y="319" width="171" height="24" rx="12" fill="#E9ECF0"/>
+  <text x="209.5" y="335" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#2B3441">发现慢</text>
+  <rect id="chip-bp-2" x="307" y="319" width="171" height="24" rx="12" fill="#E9ECF0"/>
+  <text x="392.5" y="335" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#2B3441">影响不清</text>
+  <rect id="chip-bp-3" x="490" y="319" width="171" height="24" rx="12" fill="#E9ECF0"/>
+  <text x="575.5" y="335" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#2B3441">动作分散</text>
+  <rect id="chip-bp-4" x="673" y="319" width="171" height="24" rx="12" fill="#E9ECF0"/>
+  <text x="758.5" y="335" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#2B3441">结果没回写</text>
+
+  <!-- ================================================================ -->
+  <!-- C 02 一个系统 y359 h180 -->
+  <!-- ================================================================ -->
+  <rect x="31" y="361" width="838" height="182" rx="17" fill="#0C1320" opacity="0.05"/>
+  <rect x="32" y="367" width="836" height="180" rx="16" fill="#0C1320" opacity="0.04"/>
+  <rect id="block-c-system" x="32" y="359" width="836" height="180" rx="16" fill="#F1F3F6" stroke="#D8DDE5" stroke-width="1"/>
+  <text x="56" y="387" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="13" font-weight="700" fill="#2563EB">02</text>
+  <text x="84" y="387" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="19" font-weight="600" fill="#141B27">一个系统 · 不推倒重来</text>
+  <text x="302" y="387" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" letter-spacing="1.5" fill="#A2AAB5">SYSTEM POSITIONING</text>
+  <text x="844" y="387" text-anchor="end" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#79828E">决策增强层，不是超级平台</text>
+
+  <rect id="slot-hubspoke" x="56" y="403" width="788" height="84" rx="12" fill="#FFFFFF" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="450" y="438" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#626C79">hub-spoke 主图区</text>
+  <text x="450" y="458" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#8A939F">既有数据源（三态色点） → ClarSyn 单中枢 → 既有通信执行终端（UHF / PBX / PA / 公共屏 / PDA）</text>
+  <text x="450" y="476" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#A0A8B3">图件新画 · 本块不出现技术词</text>
+
+  <rect id="card-c-1" x="56" y="499" width="252" height="32" rx="8" fill="#E9ECF0"/>
+  <text x="182" y="519" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="12" fill="#2B3441">不替换船司既有系统</text>
+  <rect id="card-c-2" x="324" y="499" width="252" height="32" rx="8" fill="#E9ECF0"/>
+  <text x="450" y="519" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="12" fill="#2B3441">不给船员新增终端</text>
+  <rect id="card-c-3" x="592" y="499" width="252" height="32" rx="8" fill="#E9ECF0"/>
+  <text x="718" y="519" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="12" fill="#2B3441">不越级指挥 · AI 止于任务包</text>
+
+  <!-- ================================================================ -->
+  <!-- D 03 一条治理管道 y551 h195 -->
+  <!-- ================================================================ -->
+  <rect x="31" y="553" width="838" height="197" rx="17" fill="#0C1320" opacity="0.05"/>
+  <rect x="32" y="559" width="836" height="195" rx="16" fill="#0C1320" opacity="0.04"/>
+  <rect id="block-d-governance" x="32" y="551" width="836" height="195" rx="16" fill="#F1F3F6" stroke="#D8DDE5" stroke-width="1"/>
+  <text x="56" y="579" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="13" font-weight="700" fill="#2563EB">03</text>
+  <text x="84" y="579" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="19" font-weight="600" fill="#141B27">一条治理管道</text>
+  <text x="210" y="579" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" letter-spacing="1.5" fill="#A2AAB5">GOVERNANCE PIPELINE</text>
+  <text x="844" y="579" text-anchor="end" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" font-weight="600" fill="#2563EB">AI 建议，人审批，全程留痕</text>
+
+  <rect id="slot-spine" x="56" y="595" width="788" height="62" rx="12" fill="#FFFFFF" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="450" y="623" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#626C79">机制总谱横条：C0 前置参谋 → C1 识别 → C2 推演 → C3 审批 → C4 递送 → C5 监测</text>
+  <text x="450" y="643" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#A0A8B3">由 III-9 总谱页改造 · 仅强调三处：虚→实切换 / L4 船长决策区 / 升级线</text>
+
+  <rect id="slot-ladder" x="56" y="673" width="380" height="58" rx="12" fill="#FFFFFF" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="246" y="700" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" fill="#626C79">L1–L4 授权阶梯</text>
+  <text x="246" y="718" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#A0A8B3">L4 船长决策区画“区”不画“级”</text>
+  <rect id="slot-global" x="452" y="673" width="392" height="58" rx="12" fill="#FFFFFF" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="648" y="700" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" fill="#626C79">全局机制通栏</text>
+  <text x="648" y="718" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#A0A8B3">G1 人工接管 · G2 血缘审计 · G3 推理附件</text>
+
+  <!-- ================================================================ -->
+  <!-- E 04 界面实证 y758 h374 -->
+  <!-- ================================================================ -->
+  <rect x="31" y="760" width="838" height="376" rx="17" fill="#0C1320" opacity="0.05"/>
+  <rect x="32" y="766" width="836" height="374" rx="16" fill="#0C1320" opacity="0.04"/>
+  <rect id="block-e-ui" x="32" y="758" width="836" height="374" rx="16" fill="#F1F3F6" stroke="#D8DDE5" stroke-width="1"/>
+  <text x="56" y="786" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="13" font-weight="700" fill="#2563EB">04</text>
+  <text x="84" y="786" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="19" font-weight="600" fill="#141B27">界面实证 · 高保真原型</text>
+  <text x="286" y="786" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" letter-spacing="1.5" fill="#A2AAB5">WORKING PROTOTYPE</text>
+  <text x="844" y="786" text-anchor="end" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#79828E">深色区为 UI 截图位（建议 DPR=3 重截后替换）</text>
+
+  <!-- 主大屏（加重投影，全版视觉重心） -->
+  <rect x="54" y="806" width="474" height="268" rx="16" fill="#000000" opacity="0.16"/>
+  <rect x="56" y="813" width="470" height="264" rx="14" fill="#000000" opacity="0.10"/>
+  <rect id="slot-ui-main" x="56" y="802" width="470" height="264" rx="14" fill="#0E1520" stroke="#232C3A" stroke-width="1"/>
+  <text x="291" y="923" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#8493AA">主大屏截图位 · 16:9</text>
+  <text x="291" y="943" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10" fill="#8493AA">L1–L4 时间轴泳道 · 升级红线 · X 库外泳道</text>
+  <text x="291" y="962" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#69778C">源：hifi-stable-layout.png 下半部（避开“待设计”空白区）</text>
+
+  <!-- 特写卡 1（压屏，投影落在大屏上） -->
+  <rect x="509" y="797" width="332" height="126" rx="13" fill="#000000" opacity="0.14"/>
+  <rect id="card-ui-shot-1" x="510" y="794" width="330" height="124" rx="12" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <rect id="slot-ui-shot-1" x="524" y="808" width="302" height="64" rx="8" fill="#F6F7F9" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="675" y="845" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#7C8590">特写截图位</text>
+  <text x="524" y="893" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#141B27">决策卡 · 审批三按钮</text>
+  <text x="524" y="909" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#6A737F">确认→执行 / 拒绝 / 转人工接管 → 证明 HITL</text>
+
+  <!-- 特写卡 2（压屏） -->
+  <rect x="509" y="933" width="332" height="138" rx="13" fill="#000000" opacity="0.14"/>
+  <rect id="card-ui-shot-2" x="510" y="930" width="330" height="136" rx="12" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <rect id="slot-ui-shot-2" x="524" y="944" width="302" height="64" rx="8" fill="#F6F7F9" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="675" y="981" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#7C8590">特写截图位</text>
+  <text x="524" y="1029" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#141B27">X-0001 库外信号升级</text>
+  <text x="524" y="1045" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#6A737F">不在事件库内也能发现 · 置信度 0.86 · 只提醒不执行</text>
+
+  <!-- 底部三窄条 -->
+  <rect x="55" y="1080" width="254" height="40" rx="11" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-ui-strip-1" x="56" y="1078" width="252" height="38" rx="10" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <text x="182" y="1102" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#46505E">AI 推理监视 · 每步可回溯</text>
+  <rect x="323" y="1080" width="254" height="40" rx="11" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-ui-strip-2" x="324" y="1078" width="252" height="38" rx="10" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <text x="450" y="1102" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#46505E">E-L4 安全离船 · 船长决策区（可选）</text>
+  <rect x="591" y="1080" width="254" height="40" rx="11" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-ui-strip-3" x="592" y="1078" width="252" height="38" rx="10" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <text x="718" y="1102" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#46505E">62 类事件时间轴窄条</text>
+
+  <!-- ================================================================ -->
+  <!-- F 05 技术路径 y1144 h210 -->
+  <!-- ================================================================ -->
+  <rect x="31" y="1146" width="838" height="212" rx="17" fill="#0C1320" opacity="0.05"/>
+  <rect x="32" y="1152" width="836" height="210" rx="16" fill="#0C1320" opacity="0.04"/>
+  <rect id="block-f-tech" x="32" y="1144" width="836" height="210" rx="16" fill="#F1F3F6" stroke="#D8DDE5" stroke-width="1"/>
+  <text x="56" y="1172" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="13" font-weight="700" fill="#2563EB">05</text>
+  <text x="84" y="1172" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="19" font-weight="600" fill="#141B27">技术路径 · 多 Agent 架构</text>
+  <text x="322" y="1172" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" letter-spacing="1.5" fill="#A2AAB5">MULTI-AGENT ARCHITECTURE</text>
+  <text x="844" y="1172" text-anchor="end" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#79828E">本带为主要新制图</text>
+
+  <rect id="slot-pipeline" x="56" y="1188" width="788" height="56" rx="12" fill="#FFFFFF" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="450" y="1213" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11.5" font-weight="600" fill="#626C79">多 Agent 流水线：事件标准化 → 影响 → 资源 → 方案 → 话术</text>
+  <text x="450" y="1232" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#A0A8B3">节点间 JSON 契约 · 每步独立可回滚可审计</text>
+
+  <!-- 三道控制门 -->
+  <rect x="55" y="1260" width="254" height="54" rx="11" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-gate-1" x="56" y="1258" width="252" height="52" rx="10" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <text x="182" y="1282" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" font-weight="600" fill="#141B27">证据与置信度门</text>
+  <text x="182" y="1299" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9" fill="#6A737F">低信度强制转人工，不自动分发</text>
+  <rect x="323" y="1260" width="254" height="54" rx="11" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-gate-2" x="324" y="1258" width="252" height="52" rx="10" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <text x="450" y="1282" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" font-weight="600" fill="#141B27">审批门</text>
+  <text x="450" y="1299" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9" fill="#6A737F">模型没有执行工具，写操作必经人审</text>
+  <rect x="591" y="1260" width="254" height="54" rx="11" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-gate-3" x="592" y="1258" width="252" height="52" rx="10" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <text x="718" y="1282" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="11" font-weight="600" fill="#141B27">确定性校验门</text>
+  <text x="718" y="1299" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9" fill="#6A737F">引用真实 · 置信度有效 · 公式可复算</text>
+
+  <!-- 底部规则条 -->
+  <rect id="tag-f-1" x="56" y="1322" width="132" height="24" rx="12" fill="#E9ECF0"/>
+  <text x="122" y="1338" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#2B3441">能规则不 ML</text>
+  <rect id="tag-f-2" x="198" y="1322" width="176" height="24" rx="12" fill="#E9ECF0"/>
+  <text x="286" y="1338" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#2B3441">实时闭环只用本地模型</text>
+  <rect id="tag-f-3" x="384" y="1322" width="196" height="24" rx="12" fill="#E9ECF0"/>
+  <text x="482" y="1338" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#2B3441">云端不进 3 分钟实时闭环</text>
+  <rect id="tag-f-4" x="592" y="1322" width="252" height="24" rx="12" fill="#FFFFFF" stroke="#D2D8E0" stroke-width="1"/>
+  <text x="718" y="1338" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#46505E">船载边缘部署 · T0–T3 韧性降级</text>
+
+  <!-- ================================================================ -->
+  <!-- G 06 应用验证 y1366 h150 -->
+  <!-- ================================================================ -->
+  <rect x="31" y="1368" width="838" height="152" rx="17" fill="#0C1320" opacity="0.05"/>
+  <rect x="32" y="1374" width="836" height="150" rx="16" fill="#0C1320" opacity="0.04"/>
+  <rect id="block-g-validation" x="32" y="1366" width="836" height="150" rx="16" fill="#F1F3F6" stroke="#D8DDE5" stroke-width="1"/>
+  <text x="56" y="1394" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="13" font-weight="700" fill="#2563EB">06</text>
+  <text x="84" y="1394" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="19" font-weight="600" fill="#141B27">应用验证 · 从样例到船队</text>
+  <text x="304" y="1394" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" letter-spacing="1.5" fill="#A2AAB5">VALIDATION ROADMAP</text>
+  <text x="676" y="1394" text-anchor="end" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" fill="#79828E">已完成（实心）与计划（空心）视觉区分</text>
+
+  <rect id="slot-ladder-steps" x="56" y="1410" width="620" height="62" rx="12" fill="#FFFFFF" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="366" y="1437" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10.5" font-weight="600" fill="#626C79">① 62 事件集 → ② 仿真核 → ③ 高保真原型+演示视频 → ④ 单船单港试点 → ⑤ 全船队</text>
+  <text x="366" y="1456" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#A0A8B3">①②③ 实心＝已完成制品 · ④⑤ 空心＝计划</text>
+  <text x="56" y="1494" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10" fill="#79828E">诚实量化：分钟级为设计目标区间，真实值需单船单港试点标定</text>
+
+  <rect x="691" y="1412" width="134" height="94" rx="13" fill="#0C1320" opacity="0.06"/>
+  <rect id="card-qr" x="692" y="1410" width="132" height="92" rx="12" fill="#FFFFFF" stroke="#D6DBE3" stroke-width="1"/>
+  <rect id="slot-qr" x="726" y="1420" width="64" height="64" rx="6" fill="#F6F7F9" stroke="#B3BCC8" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="758" y="1457" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9" fill="#7C8590">QR</text>
+  <text x="758" y="1500" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="9.5" fill="#79828E">Demo / 2min 视频</text>
+
+  <!-- ================================================================ -->
+  <!-- H 收束带 y1528 -->
+  <!-- ================================================================ -->
+  <rect id="divider-h" x="32" y="1525" width="836" height="1" fill="#E0E4EA"/>
+  <text x="32" y="1553" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="13" font-weight="600" fill="#3D4654">看见没见过的 · 推演没写过的 · 解释说不清的</text>
+  <text x="868" y="1553" text-anchor="end" font-family="'PingFang SC','Microsoft YaHei','Segoe UI',Inter,sans-serif" font-size="10" fill="#8A939F">学校 · 队名 · 成员 · 指导教师</text>
+</svg>
