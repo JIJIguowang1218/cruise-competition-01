@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="-apple-system,'PingFang SC','Microsoft YaHei','Source Han Sans SC',sans-serif">
+  <!-- ============ PAGE 3 / 3 : 沙箱与安全边界 ============ -->
+  <rect id="bg" x="0" y="0" width="1600" height="900" fill="#FFFFFF"/>
+
+  <!-- header -->
+  <text x="1540" y="54" text-anchor="end" font-size="15" fill="#8A8F98" letter-spacing="3">03 / 03</text>
+  <text x="60" y="74" font-size="36" font-weight="700" fill="#111111">沙箱与安全边界：把错误限制在一张提醒卡内</text>
+  <text x="60" y="112" font-size="18" fill="#555555">模型不执行代码、不持写工具——沙箱是四层边界：任何单点出错，代价最多是一次多余的知会</text>
+  <line x1="60" y1="136" x2="1540" y2="136" stroke="#111111" stroke-width="2"/>
+
+  <!-- table shell -->
+  <rect id="table-shell" x="60" y="156" width="1480" height="524" fill="#FFFFFF" stroke="#111111" stroke-width="1.5"/>
+  <rect id="table-head" x="60" y="156" width="1480" height="52" fill="#111111"/>
+  <text x="80" y="190" font-size="18" font-weight="700" fill="#FFFFFF">防护层</text>
+  <text x="320" y="190" font-size="18" font-weight="700" fill="#FFFFFF">防什么</text>
+  <text x="700" y="190" font-size="18" font-weight="700" fill="#FFFFFF">产品规则（验收口径）</text>
+
+  <!-- row backgrounds -->
+  <rect id="row-1" x="60" y="208" width="1480" height="118" fill="#FFFFFF"/>
+  <rect id="row-2" x="60" y="326" width="1480" height="118" fill="#111111"/>
+  <rect id="row-3" x="60" y="444" width="1480" height="118" fill="#F4F5F7"/>
+  <rect id="row-4" x="60" y="562" width="1480" height="118" fill="#FFFFFF"/>
+
+  <!-- hairlines -->
+  <line x1="60" y1="208" x2="1540" y2="208" stroke="#D5D8DD"/>
+  <line x1="60" y1="326" x2="1540" y2="326" stroke="#111111" stroke-width="1.5"/>
+  <line x1="60" y1="444" x2="1540" y2="444" stroke="#111111" stroke-width="1.5"/>
+  <line x1="60" y1="562" x2="1540" y2="562" stroke="#D5D8DD"/>
+  <line x1="300" y1="208" x2="300" y2="680" stroke="#D5D8DD"/>
+  <line x1="680" y1="208" x2="680" y2="680" stroke="#D5D8DD"/>
+
+  <!-- row 1 -->
+  <text x="80" y="252" font-size="21" font-weight="700" fill="#111111">① 运行时隔离</text>
+  <text x="320" y="244" font-size="17" fill="#333333">防失控：</text>
+  <text x="320" y="270" font-size="17" fill="#333333">死循环、超时、资源耗尽</text>
+  <text x="700" y="252" font-size="17" fill="#333333">每个模块独立运行，预配 CPU / 内存 / 时延 / token 硬配额；</text>
+  <text x="700" y="280" font-size="17" fill="#333333">超时自动熔断 → 降级为建议并转人工，不占用实时闭环。</text>
+
+  <!-- row 2 (black emphasis) -->
+  <text x="80" y="360" font-size="21" font-weight="700" fill="#FFFFFF">② 工具权限隔离</text>
+  <rect x="80" y="378" width="58" height="26" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+  <text x="109" y="396" text-anchor="middle" font-size="14" fill="#FFFFFF">核心</text>
+  <text x="320" y="362" font-size="17" fill="#FFFFFF">防越权：</text>
+  <text x="320" y="388" font-size="17" fill="#FFFFFF">AI 直接操作系统</text>
+  <text x="700" y="356" font-size="17" font-weight="700" fill="#FFFFFF">工具三级：只读（受限凭据 ＋ 限流）｜ 写提案（仅结构化申请，不接触执行接口）｜</text>
+  <text x="700" y="382" font-size="17" font-weight="700" fill="#FFFFFF">高风险（对模型不可见：赔偿执行、航变决定、全量推送）。</text>
+  <text x="700" y="412" font-size="17" fill="#FFFFFF">写执行器是审批门之后的独立程序节点——拓扑保证，不靠提示词约束。</text>
+
+  <!-- row 3 -->
+  <text x="80" y="498" font-size="21" font-weight="700" fill="#111111">③ 数据与网络隔离</text>
+  <text x="320" y="490" font-size="17" fill="#333333">防泄露、</text>
+  <text x="320" y="516" font-size="17" fill="#333333">防提示注入</text>
+  <text x="700" y="478" font-size="17" fill="#333333">实时链路全在船载局域网内闭环；云端仅接岸基异步任务，乘客明细数据不出船；</text>
+  <text x="700" y="504" font-size="17" fill="#333333">记忆三层：事件工作记忆（到期清理）／ 事故模式库（人工审校入库）／ 坏例库（仅评测）；</text>
+  <text x="700" y="530" font-size="17" fill="#333333">客服原文、港口公告、乘客 UGC 一律当数据分析，其中的“指令”永不执行。</text>
+
+  <!-- row 4 -->
+  <text x="80" y="616" font-size="21" font-weight="700" fill="#111111">④ 发布隔离</text>
+  <text x="320" y="608" font-size="17" fill="#333333">防未经验证的</text>
+  <text x="320" y="634" font-size="17" fill="#333333">能力直接上线</text>
+  <text x="700" y="616" font-size="17" fill="#333333">新模型/新策略先跑影子模式（只记录建议、不参与决策）→ 过评测集（含坏例库）</text>
+  <text x="700" y="644" font-size="17" fill="#333333">→ 单船试点 → 全量；任一级不达标，可回退上一版本或纯模板。</text>
+
+  <!-- degradation band -->
+  <rect id="degrade-band" x="60" y="700" width="1480" height="104" fill="#F4F5F7" stroke="#111111" stroke-width="1.5"/>
+  <rect x="80" y="718" width="92" height="28" fill="#111111"/>
+  <text x="126" y="738" text-anchor="middle" font-size="15" fill="#FFFFFF">降级衔接</text>
+  <text x="190" y="740" font-size="16.5" fill="#111111">T1 外部网络断：用缓存条款库（事实锚仍在）　T2 本地 AI 断：退回人工模板，AI 动作降为建议</text>
+  <text x="190" y="770" font-size="16.5" fill="#111111">T3 断电断网：纸质 SOP ＋ 对讲，恢复后补录</text>
+  <rect x="1230" y="722" width="290" height="60" fill="#111111"/>
+  <text x="1375" y="748" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">审计在任何一级</text>
+  <text x="1375" y="770" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">都不降级</text>
+
+  <!-- closing quote -->
+  <rect x="60" y="826" width="6" height="46" fill="#111111"/>
+  <text x="84" y="856" font-size="21" font-weight="700" fill="#111111">沙箱不是为了让 AI 更聪明，而是把它的“爆炸半径”限制在一张提醒卡之内。</text>
+</svg>

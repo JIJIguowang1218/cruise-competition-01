@@ -10,11 +10,54 @@
 
 ---
 
-## 🚨 当前主线（2026-09-12 更新）
+## 🚨 当前主线（2026-09-15 更新）
 
-当前工作重心：**第 III 幕已全部完成（含 III-9 AI 治理总览作品集页），竞赛限页版后续规划已出，待用户审核**。
+当前工作重心：**V 幕技术选型——调研与选型文件 v0.8 已完成；三页汇报 SVG 已交付（第 2 页已按"技术架构而非业务架构"重画），等用户汇报反馈后落 V-1/V-2 作品集页**。
 
-- 🔥 **新对话第一件事：提醒用户查看 `portfolio/planning/competition-compressed-page-plan.md`（竞赛压缩版页面规划 v1.0，2026-09-12 新建，尚未审核）**
+- 🔥 **新对话第一件事：提醒用户汇报三页资产已就绪**（`portfolio/planning/` 下，1600×900、黑白、零编组、可直接拖 Figma 导出 2x PNG）：
+  - `tmp-report-page1-tech-selection.svg`（业务技术选型 8 行表＋三规则）
+  - `tmp-report-page2-agent-architecture.svg`（**已重画为技术架构分层图**：编排层/无状态 N1–N4 节点/推理三档+只读工具/出链三闸/写执行器/横切保障）
+  - `tmp-report-page3-sandbox.svg`（沙箱四层表，②工具权限反黑强调）
+  - 文字口述稿：`tmp-report-tech-3pages.md`（**注意：第 2 页文字稿还是旧的业务工位版，SVG 已改技术架构，如用户要用讲稿需同步**）
+- 2026-09-15 已完成：
+  - `design/b-port-shore-and-itinerary/ai-architecture-and-value.md` **v0.7 → v0.8**：新增 §3.10 行业模式对照与模式选型、§3.11 PM 控制项清单（6 已有+7 待拍板）、附录 A 框架尽调（**仅供技术说明书，不进 PPT/展板**）；模型选型表/四方案对比/硬件表按 2026-09-15 核验全面更新（思考模型下放 4B–9B、端侧 128K+、许可三档、Orin/Thor 已 GA/树莓派 HAT+2、8B 实测 19–22 t/s）
+  - 新建 `portfolio/research/agent-tech-selection-research-2026-09.md`（五代理一手来源综述：模式谱系/框架/PM 控制/模型/硬件）
+  - 9:16 竞赛展板：`poster-9x16-layout-plan.md` + `poster-9x16-template.svg` 已提交并推送（上一阶段，900×1600 扁平零编组黑白灰模板，内容待填）
+- 用户已拍板口径：① §3.3 总览表必须保留且上 PPT；② 模式/控制/框架三块补入文件但**不进展示**（框架名正文 0 次）；③ **强化学习不适用只进技术文档，不进作品集/PPT**，用户无法核验由我负责；④ §3.5 不单独占作品集页；⑤ 多 agent 措辞**暂不拍板**（[5] 有 4 个智能模块，可宽松称"多 agent 中最确定的固定拓扑型"）；⑥ 页数与构图后置，先纯内容讨论；⑦ 三页 SVG 要**技术架构视角**（非业务流程）、黑白、能用表格就用表格
+- ⚠️ **这些新文件均未 commit**（选型文件 v0.8、research 综述、三页 md/SVG、CONTINUATION）——按 push 规则等用户明确指示再提交/推送
+
+---
+
+## 📋 新对话必须提醒用户的全部在途事务（2026-09-15 盘点）
+
+**A. 等用户反馈/拍板（卡住下游的）**
+1. **三页汇报 SVG 的反馈**：用户拿去汇报后，哪页内容要加减；特别是 P3 沙箱四层组织方式是否认可；P2 已是技术架构视角
+2. **多 Agent 措辞**仍未拍板（"多 Agent 固定链" vs "多节点编排"）——用户要看完选型文件自己判断，不要替他决定
+3. **7 项 PM 产品决策**（选型文件 §3.11.2）：工具三级清单 / 记忆留存期（合规拍）/ 审批绑定动作摘要 / 超时升级时限表 / 分阶段 token·时延预算 / 验收指标集 / 不可信输入规则
+4. **V-1/V-2 页数**：用户要先看清内容再压页数，构图也后置
+
+**B. 内容生产队列（反馈后启动，顺序已与用户对齐）**
+5. V-1（工程全景选型）、V-2（Agent 编排主章）作品集页内容稿＋绘图工作稿——三页汇报稿是其素材
+6. `tmp-report-tech-3pages.md` 第 2 页口述稿与技术架构版 SVG 同步
+7. 挂账页面：阅读导览+II-2 合成地图页（III 幕回指缺落点）、IV 单中枢 hub-spoke 页、V-3 库外×幻觉、V-4 硬件 T0–T3、V-5（可选时序预算）、VI 五级验证阶梯单页
+8. **9:16 展板内容填充**：模板 `poster-9x16-template.svg` 与规划 `poster-9x16-layout-plan.md` 已推送，待按规划填 9 个 band（UI 截图需 DPR=3 重导出、p1-default.png 禁用、④⑤验证级空心处理）
+
+**C. 技术/演示挂账**
+9. `EVENT-ROSTER` 的 `mock-data.js` 同步 v0.6 语义（E09/E-L4 命名与触发）——多次挂账未做
+10. P9-1 台风航变泳道图 SVG/drawio 仍是旧口径（ClarSyn 只接收已成立航变决定），待重绘
+
+**D. 纪律提醒（每次都适用）**
+11. 未经明确指示不 `git push`；`recordings/` 永不提交；新产出写 `portfolio/`（design/ 仅在更新既有事实档时动，如本次 v0.8）
+12. 诚实量化：20–45 分钟标"推演估算"、分钟级只是设计目标、④⑤阶梯是计划；指标一律目标区间+假设
+13. 对外展示不出现框架名/模型候选名/RL 讨论/绝对指标承诺；PM 深度止于"提需求+定验收+答评委"
+
+---
+
+## 🚨 上一主线（2026-09-12）
+
+第 III 幕已全部完成（含 III-9 AI 治理总览作品集页），竞赛限页版后续规划已出：
+
+- 🔥 `portfolio/planning/competition-compressed-page-plan.md`（竞赛压缩版页面规划 v1.0，2026-09-12，尚未审核）
 - 压缩方案要点（III-9 之后 11 页 → 6–7 页）：
   - **IV 系统组织 = 1 页**：单中枢 hub-spoke，"不替换、不新增、不越级"，不列举模块（原 IV-1/2/3 合并）；
   - **V 技术实现 = 4 页 + 1 可选页**（Agent 架构页数不限）：V-1 工程全景与选型 / V-2 Agent 编排与控制（主章）/ V-3 库外发现×幻觉兜底 / V-4 硬件部署 T0–T3 / V-5（可选）实时闭环时序预算；
@@ -32,7 +75,23 @@
 
 ---
 
-## 🗂 本次会话改动记录（2026-09-12 · 竞赛压缩版规划）
+## 🗂 本次会话改动记录（2026-09-15 · 技术选型 v0.8 + 三页汇报稿）
+
+> 背景：V-1/V-2 作品集页讨论前，用户要求先做业务技术选型（什么业务用多 agent/RAG 等）与 agent 架构模式调研，并重查过时的模型选型。三份 GitHub 一手调研（模式谱系/框架现状/PM 控制项）+ 两份 2026-09 核验（开源模型/边缘硬件）。
+
+| # | 文件 | 本次改动要点 |
+|---|---|---|
+| 1 | `design/b-port-shore-and-itinerary/ai-architecture-and-value.md`（→ **v0.8**） | 新增 §3.10 行业模式对照（Anthropic 5 工作流+1 agent、[0.5]–[9] 逐段模式归属、不用 ReAct/Orchestrator-Workers/Evaluator-Optimizer/Reflexion/Swarm/agentic RAG/ToT 的理由）；§3.11 PM 控制项（已有 6 机制映射 + 7 项待拍板决策 + 沙箱/MCP 等术语应答模板）；附录 A 框架尽调 8 家（AutoGen 维护转 MAF、Swarm 被取代、Dify 许可限制；仅技术说明书用）；模型选型表重写（档位+候选名+许可红线+约束解码口径）；四方案对比延迟改实测区间（8B 在 Orin Nano Super 19–22 t/s 等，[5] 四节点链演示级 10–30s）；新增边缘硬件五档表（含 Thor 已 GA、初代 HAT+ 不支持 LLM 的修正）；上下文论证改"需求数 K/供给 128K+"；版本记录 v0.8 |
+| 2 | `portfolio/research/agent-tech-selection-research-2026-09.md`（**新建**） | 调研综述一手来源档：BEA 五模式、单 agent 六范式、拓扑与"8 大类不存在"考证、AAFB 18 课、框架快照、PM 28 项控制压缩、模型代际表（Qwen3.5/3.8、Gemma 4、Phi-4、GLM-5/Edge、DeepSeek V4 仅 API、MiniCPM5）、Qwen3-Embedding、硬件实测数字与全部来源 URL |
+| 3 | `portfolio/planning/tmp-report-tech-3pages.md`（**新建，临时**） | 汇报用三页内容稿：P1 业务技术选型总表（8 环节×技术形态）、P2 方案推演多 Agent 架构、P3 沙箱四层设计；非作品集定稿，待用户反馈。**注意 P2 文字稿仍是业务工位版，SVG 已改技术架构版，待同步** |
+| 4 | `tmp-report-page1-tech-selection.svg` / `tmp-report-page2-agent-architecture.svg` / `tmp-report-page3-sandbox.svg`（**新建，临时**） | 三页 1600×900 16:9 汇报 SVG，纯黑白灰、零编组、活文字、英文 id，可直接拖 Figma 导出 2x PNG。P1=8 行选型表+三规则卡+金句；**P2 经用户指正后重画为技术架构分层图**（编排层四组件 / N1–N4 无状态节点+共性约束条 / 推理三档+云端虚线+三个只读服务 / 出链三闸反黑 / 写执行器→执行端口 / 横切保障四块）；P3=四层沙箱表（②工具权限整行反黑）+T0–T3 降级条+审计不降级黑块。三文件均通过 XML 校验 |
+| 5 | `CONTINUATION.md`（本文件） | 当前主线刷新为 2026-09-15；新增本改动表与"全部在途事务"盘点 |
+
+**下一步待办**：① 用户汇报后对三页给反馈（P3 四层角度、P2 技术架构详略）；② 同步 P2 文字稿；③ 7 项 PM 产品决策待陆续拍板；④ V-1、V-2 作品集内容稿 + 绘图工作稿；⑤ 挂账：II-2 地图页、IV 单页、V-3/V-4、VI 单页、展板内容填充、EVENT-ROSTER mock-data v0.6、P9-1 泳道图重绘；⑥ 全部新文件待用户指示后再 commit/push。
+
+---
+
+## 🗂 上次会话改动记录（2026-09-12 · 竞赛压缩版规划）
 
 > 背景：竞赛页数限制，用户要求①系统组织 1 页②Agent 架构不限页③证明落地 1 页。III-9 AI 治理总览作品集页已完成。
 
@@ -121,7 +180,9 @@
 
 ## 🟥 新对话开始后请提醒用户审核以下最近文件（按优先级）
 
-0. **`portfolio/planning/competition-compressed-page-plan.md`（新增 v1.0，2026-09-12）——竞赛限页版 IV/V/VI 幕压缩规划，最高优先级待审；审核通过后即按其 §5 顺序开写 IV 单页**
+0. **三页汇报 SVG（2026-09-15，最高优先级）**：`portfolio/planning/tmp-report-page1-tech-selection.svg`、`tmp-report-page2-agent-architecture.svg`（技术架构版）、`tmp-report-page3-sandbox.svg`，配文字稿 `tmp-report-tech-3pages.md`——用户汇报后等反馈
+0b. **选型文件 v0.8**：`design/b-port-shore-and-itinerary/ai-architecture-and-value.md` §3.10 模式选型 / §3.11 PM 控制 / 附录 A 框架尽调 + 更新后的模型硬件表，及来源档 `portfolio/research/agent-tech-selection-research-2026-09.md`
+0c. **`portfolio/planning/competition-compressed-page-plan.md`（v1.0，2026-09-12）——竞赛限页版 IV/V/VI 幕压缩规划，仍待审；审核通过后按其 §5 顺序开写 IV 单页**
 1. `portfolio/planning/ai-pm-portfolio-page-content.md`（→v1.3）
    - 第 III 幕 12 页"机制拆解与绘图参考"已全部就位（III-1/2/3 对应 C0/C1/C2，III-4a–III-9 对应 C3/C4/C5/G1/G2+G3/全谱）；v1.2 全页完整英文标题、v1.3 船载通信栈专业化（III-5a/b、III-7）；III-9 作品集页已完成
    - 后续内容不再写进 III 幕，按压缩版规划文件推进 IV/V/VI
@@ -278,6 +339,9 @@
 - 正文内容主档：`portfolio/planning/ai-pm-portfolio-page-content.md`
 - 正文页规划 v4（事件脊柱版）：`portfolio/planning/ai-pm-portfolio-body-plan-v4.md`（v3 存档）
 - **竞赛压缩版规划（III-9 之后 IV/V/VI，2026-09-12，待审）**：`portfolio/planning/competition-compressed-page-plan.md`
+- **三页汇报临时稿（2026-09-15，选型/多 Agent/沙箱）**：`portfolio/planning/tmp-report-tech-3pages.md`
+- **技术选型调研综述（2026-09-15，一手来源）**：`portfolio/research/agent-tech-selection-research-2026-09.md`
+- 历史 AI 架构选型（**已 v0.8，2026-09-15**）：`design/b-port-shore-and-itinerary/ai-architecture-and-value.md`（§3.10 模式选型/§3.11 PM 控制/附录 A 框架尽调）
 - 机制总谱（机制编号母文档）：`design/b-port-shore-and-itinerary/mechanism-registry.md`
 - AI PM 讲解策略：`portfolio/planning/clarsyn-ai-pm-presentation-strategy.md`
 - AI PM 教程调研：`research/ai-pm-tutorials/REPORT.md`
