@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1 值班态势台 · 20:40 X 提醒 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局；颜色与字体全部取自 clarsyn-tokens.css，不得在此另起色值 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#06080B;font-family:var(--sans);color:var(--tx);font-weight:400}
+body{display:flex;align-items:center;justify-content:center}
+#board{width:1920px;height:1080px;transform-origin:center center;background:var(--bg0);
+       display:flex;flex-direction:column}
+
+/* 顶栏 */
+.topbar{height:58px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;
+        padding:0 24px;gap:20px}
+.logo{font-family:var(--mono);font-weight:600;font-size:17px;letter-spacing:.5px}
+.t-sub{font-size:12px;color:var(--tx-3);letter-spacing:2px;border-left:1px solid var(--line-2);padding-left:14px}
+.voyage{font-size:12px;color:var(--tx-2);line-height:1.5}
+.voyage b{color:var(--tx);font-weight:500}
+.sp{flex:1}
+.t0{font-size:12px;color:var(--ok)}
+.clock{text-align:right;line-height:1.2}
+.clock .t{font-family:var(--mono);font-size:23px;font-weight:500}
+.clock .l{font-size:10.5px;color:var(--tx-3)}
+.role{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx-2);
+      border:1px solid var(--line);border-radius:var(--r-s);padding:6px 11px}
+.role b{color:var(--tx);font-weight:500}
+.role .swap{color:var(--tx-3);border-left:1px solid var(--line);padding-left:9px;cursor:pointer}
+
+/* 栅格 */
+.main{flex:1;display:grid;grid-template-columns:392px 1fr 418px;gap:14px;padding:14px 18px 8px;min-height:0}
+.col{display:flex;flex-direction:column;gap:14px;min-height:0}
+.card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);min-height:0}
+.card-h{display:flex;align-items:center;gap:9px;padding:13px 16px 9px}
+.card-h h3{font-size:13px;font-weight:600}
+.card-h .en{font-family:var(--mono);font-size:9.5px;color:var(--tx-3);letter-spacing:1px;text-transform:uppercase}
+.card-h .right{margin-left:auto;font-size:10.5px;color:var(--tx-3)}
+.card-b{padding:2px 16px 14px}
+.mono{font-family:var(--mono)}
+
+/* 左列 队列 */
+.queue{flex:1;display:flex;flex-direction:column}
+.queue .card-b{flex:1;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.filters{display:flex;gap:6px;margin-bottom:4px}
+.filters .f{font-size:11px;color:var(--tx-3);border:1px solid var(--line);border-radius:20px;padding:3px 10px;cursor:pointer}
+.filters .f.on{color:var(--tx-2);border-color:var(--line-2)}
+.night{border:1px dashed var(--line-2);border-radius:var(--r-s);padding:9px 12px;
+       font-size:11.5px;color:var(--tx-3);display:flex;gap:8px;align-items:center}
+.q{border:1px solid var(--line);border-radius:var(--r-s);padding:10px 12px;opacity:.75}
+.q .r1{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.q .eid{font-family:var(--mono);font-size:10.5px;color:var(--tx-3)}
+.q .tt{font-family:var(--mono);font-size:10.5px;color:var(--tx-3);margin-left:auto}
+.q .nm{font-size:12.5px;color:var(--tx-2);line-height:1.4}
+.q .stt{font-size:10.5px;color:var(--ok);margin-top:4px}
+
+/* 中列 时钟轴 */
+.axis-card{flex:none}
+.axis{position:relative;height:112px;margin:6px 4px 0}
+.axis .rail{position:absolute;top:44px;left:0;right:0;height:32px;border:1px solid var(--line);border-radius:6px}
+.axis .win{position:absolute;top:44px;height:32px;border-radius:6px;background:var(--accent-dim);
+           border:1px solid rgba(76,141,255,.55)}
+.axis .buf{position:absolute;top:38px;height:44px;border-right:1px dashed var(--hatch-line)}
+.axis .tick{position:absolute;top:80px;font-family:var(--mono);font-size:10px;color:var(--tx-3);transform:translateX(-50%)}
+.axis .tick::before{content:"";display:block;width:1px;height:6px;background:var(--line-2);margin:0 auto 3px}
+.axis .eta{position:absolute;top:22px;transform:translateX(-50%);text-align:center}
+.axis .eta .bar{width:120px;height:3px;border-radius:2px;background:var(--bg3);margin:0 auto 4px;position:relative}
+.axis .eta .bar::after{content:"";position:absolute;left:50%;top:-2px;width:1px;height:7px;background:var(--warn)}
+.axis .eta .v{font-family:var(--mono);font-size:10.5px;color:var(--warn)}
+.axis .now{position:absolute;top:0;bottom:0;width:1px;background:var(--line-2)}
+.axis .now::after{content:"现在 20:40";position:absolute;top:0;left:6px;font-size:10px;color:var(--tx-2);white-space:nowrap}
+.axis-cap{display:flex;justify-content:space-between;margin-top:8px}
+.fn{font-size:10.5px;color:var(--tx-3);line-height:1.5}
+
+/* X 卡：中性虚线，无彩色 */
+.xcard{flex:1;display:flex;flex-direction:column;border:1.5px dashed var(--line-2)!important}
+.xhead{display:flex;align-items:center;gap:12px;padding:18px 22px 12px}
+.x-badge{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:1.5px;color:var(--tx);
+         border:1px solid var(--line-2);border-radius:var(--r-s);padding:5px 10px}
+.x-guess{font-size:11px;color:var(--tx-3);letter-spacing:1.5px}
+.x-trace{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--tx-3);
+         border:1px solid var(--line);border-radius:5px;padding:4px 9px}
+.x-title{font-size:20px;font-weight:600;padding:0 22px}
+.x-sub{padding:8px 22px 4px;font-size:12px;color:var(--tx-3);line-height:1.6}
+.sig-list{padding:8px 22px 0;display:flex;flex-direction:column;gap:8px}
+.sig{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line);
+     border-radius:var(--r-s);padding:11px 14px;background:var(--bg1)}
+.sig .n{width:22px;height:22px;flex:none;border-radius:5px;border:1px solid var(--line-2);
+        color:var(--tx-2);font-family:var(--mono);font-size:11px;display:flex;align-items:center;justify-content:center}
+.sig .body{flex:1;min-width:0}
+.sig .t{font-size:13px;font-weight:500;margin-bottom:4px}
+.sig .d{font-size:11.5px;color:var(--tx-2);line-height:1.55}
+.sig .metrics{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.sig .state{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx-3)}
+.xnote{font-size:10.5px;color:var(--tx-3);margin-top:10px;padding:0 22px}
+.xfoot{margin-top:auto;padding:14px 22px 16px;border-top:1px dashed var(--line-2);
+       display:flex;align-items:center;gap:22px}
+.conf{flex:1}
+.conf .lab{display:flex;justify-content:space-between;font-size:11px;color:var(--tx-3);margin-bottom:6px}
+.conf .lab b{font-family:var(--mono);color:var(--tx);font-weight:500;font-size:12.5px}
+.conf .track{position:relative;height:6px;border-radius:3px;background:var(--bg3)}
+.conf .fill{position:absolute;left:0;top:0;bottom:0;width:55%;border-radius:3px;background:var(--tx-2)}
+.conf .thr{position:absolute;top:-3px;bottom:-3px;left:80%;width:1px;background:var(--line-2)}
+.conf .thr::after{content:"立案关注阈 0.80";position:absolute;top:-18px;left:0;transform:translateX(-50%);
+                  font-size:9.5px;color:var(--tx-3);white-space:nowrap}
+.sigma{font-family:var(--mono);font-size:11px;color:var(--tx-3);text-align:center}
+.sigma b{display:block;font-size:19px;color:var(--tx);font-weight:500}
+.btn{font-size:13px;border-radius:var(--r-s);padding:10px 24px;cursor:pointer;font-family:var(--sans)}
+.btn.ghost{background:transparent;color:var(--tx-2);border:1px solid var(--line-2)}
+.btn.solid{background:var(--tx);color:var(--bg0);border:1px solid var(--tx);font-weight:500}
+
+/* 弱信号 */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.wchip{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:20px;
+       padding:6px 13px;font-size:11.5px;color:var(--tx-2)}
+.spark{display:flex;align-items:flex-end;gap:2px;height:13px}
+.spark i{width:3px;background:var(--tx-3);border-radius:1px}
+
+/* 右列 */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat{border:1px solid var(--line);border-radius:var(--r-s);padding:11px 13px}
+.stat .k{font-size:10.5px;color:var(--tx-3);display:flex;gap:6px;align-items:center}
+.stat .v{font-family:var(--mono);font-size:23px;font-weight:500;margin-top:4px}
+.stat .u{font-size:11px;color:var(--tx-3);font-family:var(--sans)}
+.stat .sub{font-size:10px;color:var(--tx-3);margin-top:2px;line-height:1.5}
+.lockrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;
+         border-top:1px dashed var(--line);padding-top:8px;font-size:10px;color:var(--tx-3);line-height:1.5}
+.lockrow a{color:var(--tx-2);text-decoration:none;border:1px solid var(--line-2);border-radius:4px;padding:2px 8px;font-size:10px}
+.kvline{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;color:var(--tx-2);
+        padding:5px 0;border-bottom:1px dashed var(--line)}
+.kvline:last-child{border-bottom:0}
+.kvline .k{color:var(--tx-3)}
+.assume{color:var(--warn)}
+.profile{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+.profile .cap{font-size:10.5px;color:var(--tx-3);margin-bottom:6px}
+.empty{border:1px dashed var(--line-2);border-radius:var(--r-s);padding:14px;text-align:center;
+       font-size:11.5px;color:var(--tx-3);line-height:1.6}
+.inform{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:var(--r-s);
+        padding:9px 11px;font-size:11.5px;color:var(--tx-2);line-height:1.5}
+.inform .tt{font-family:var(--mono);font-size:10px;color:var(--tx-3);margin-left:auto;white-space:nowrap}
+.inform b{color:var(--tx-2);font-weight:500}
+.big0{font-family:var(--mono);font-size:20px;font-weight:500}
+.mini-h{font-size:12px;font-weight:600;margin:2px 0 7px}
+
+/* 底栏 */
+.footer{flex:none;height:34px;border-top:1px solid var(--line);display:flex;align-items:center;
+        padding:0 22px;gap:18px;font-size:10.5px;color:var(--tx-3)}
+.footer .si{display:flex;align-items:center;gap:6px}
+.legend{display:flex;gap:14px}
+.legend span{display:flex;align-items:center;gap:5px}
+</style>
+</head>
+<body>
+<div id="board">
+
+  <header class="topbar">
+    <span class="logo">ClarSyn</span>
+    <span class="t-sub">宾客运营工作台</span>
+    <div class="voyage"><b>星澜号 MS XING LAN</b>（中国旗 · Vista 平台同型）｜航次 <b>HL-2609-05</b>｜次日挂靠 <b>福冈港 W-3</b></div>
+    <div class="sp"></div>
+    <div class="t0"><span class="d r" style="margin-right:6px"></span>T0 全功能</div>
+    <div class="clock"><div class="t">20:40:07</div><div class="l">船钟 · 当地时间 09-17</div></div>
+    <div class="role"><span><b>值班员</b> · 何舟</span><span class="swap">切换角色</span></div>
+  </header>
+
+  <main class="main">
+
+    <!-- 左列 -->
+    <div class="col">
+      <section class="card queue">
+        <div class="card-h"><h3>事件队列</h3><span class="en">Events</span>
+          <span class="right">按角色下发 · 只读/可操作分级</span></div>
+        <div class="card-b">
+          <div class="filters">
+            <span class="f on">全部</span><span class="f">L1/L2</span><span class="f">挂起</span>
+            <span class="f">区域</span><span class="f">我的权限</span>
+          </div>
+          <div class="night">☾ 夜间航行时段 · 队列无待办，系统持续监测中</div>
+          <div class="q">
+            <div class="r1"><span class="st">L1 自动留痕</span><span class="eid">E03-2031</span><span class="tt">19:50</span></div>
+            <div class="nm">10 层自助餐厅入口人流高峰</div>
+            <div class="stt">20:05 自行回落 · 已闭环（无需处置）</div>
+          </div>
+          <div class="q">
+            <div class="r1"><span class="st">L1 自动留痕</span><span class="eid">E21-2044</span><span class="tt">20:12</span></div>
+            <div class="nm">证件 / 次日靠泊问询聚合（自助渠道已分流）</div>
+            <div class="stt">已转自助答复 · 无升级</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 中列 -->
+    <div class="col">
+      <section class="card axis-card">
+        <div class="card-h"><h3>次日靠泊时钟轴 · 预判</h3><span class="en">Berth Timeline</span>
+          <span class="right">09-18 福冈港</span></div>
+        <div class="card-b">
+          <div class="axis">
+            <div class="now" style="left:0%"></div>
+            <div class="rail"></div>
+            <div class="win" style="left:21.4%;width:64.3%"></div>
+            <div class="buf" style="left:28.6%"></div>
+            <div class="eta" style="left:50%"><div class="bar"></div><div class="v">ETA 09:40 ±约100min ◐</div></div>
+            <span class="tick" style="left:21.4%">07:00</span>
+            <span class="tick" style="left:42.9%">10:00</span>
+            <span class="tick" style="left:64.3%">13:00</span>
+            <span class="tick" style="left:85.7%">16:00 离泊</span>
+          </div>
+          <div class="axis-cap">
+            <span class="fn">蓝带＝计划靠泊窗口 07:00–16:00（9h）；琥珀虚线＝参考有效缓冲 ≤ 8h <span class="src">参考值·非行业标准</span></span>
+            <span class="fn">阈值基于美国 3,238 个邮轮港日 AIS 观测（Frontiers in Marine Science, 2026），统计阈值</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card xcard">
+        <div class="xhead">
+          <span class="x-badge">X 库外组合</span>
+          <span class="x-guess">推测 · 仅提醒 · 不立案 · 不触发动作</span>
+          <span class="x-trace">tr-260917-2040</span>
+        </div>
+        <div class="x-title">接驳运力缺口 × 初版批次集合点冲突 × 到港时间漂移</div>
+        <div class="x-sub">下列弱信号的组合不在既有事件库内；系统仅作组合提示。弱信号阶段不满足立案条件，须等待外部正式信息证实。</div>
+        <div class="sig-list">
+          <div class="sig">
+            <span class="n">1</span>
+            <div class="body">
+              <div class="t">码头接驳运力缺口信号</div>
+              <div class="d">地接协作群 18:40 消息：明日早峰摆渡车运力可能不足；无书面确认，无法核验。</div>
+              <div class="metrics">
+                <span class="state"><span class="d y"></span>外部非结构化渠道 · ◐ 缓存</span>
+                <span class="st">接驳</span><span class="st">外部异步方</span>
+              </div>
+            </div>
+          </div>
+          <div class="sig">
+            <span class="n">2</span>
+            <div class="body">
+              <div class="t">初版批次（R0 预演）集合点占用重叠</div>
+              <div class="d">B03 / B04 在中央大厅 11:30–12:10 时段叠加，确定性试算峰值占用约 <span class="mono">1,160 人</span>，超出错峰阈值。</div>
+              <div class="metrics">
+                <span class="state"><span class="d r"></span>确定性试算 · ●</span>
+                <span class="st">批次编排</span><span class="st">容量约束</span>
+              </div>
+            </div>
+          </div>
+          <div class="sig">
+            <span class="n">3</span>
+            <div class="body">
+              <div class="t">船代到港时间漂移：06:10 → 09:40 区间</div>
+              <div class="d">外部源到港时间更新，与原计划存在显著偏移；单源、未经港口正式通告证实。航路尺度到港时间预测的公开研究最佳水平约为 ±100 分钟量级（东地中海 2024 案例区间，非本系统效果承诺）。</div>
+              <div class="metrics">
+                <span class="state"><span class="d y"></span>外部单源 · ◐</span>
+                <span class="st">ETA</span><span class="src">案例区间 S11</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="xnote">增量刷新：v1 20:40（接驳、批次两因子）→ v2 20:42（ETA 因子并入）</div>
+        <div class="xfoot">
+          <div class="conf">
+            <div class="lab"><span>组合信度（弱信号阶段）</span><span><b>0.55</b> / 1.00</span></div>
+            <div class="track"><div class="fill"></div><div class="thr"></div></div>
+          </div>
+          <div class="sigma">偏离基线<b>1.8σ</b></div>
+          <a class="btn ghost" href="#">继续观察</a>
+          <a class="btn solid" href="a3-observe.html">打开观察 →</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h3>其他弱信号</h3><span class="en">Weak Signals</span>
+          <span class="right">仅信度与一句话摘要 · 不产生执行动作</span></div>
+        <div class="card-b"><div class="chips">
+          <span class="wchip"><span class="spark"><i style="height:5px"></i><i style="height:8px"></i><i style="height:6px"></i><i style="height:10px"></i><i style="height:7px"></i></span>10 层餐厅入口计数 · 正常区间</span>
+          <span class="wchip"><span class="spark"><i style="height:6px"></i><i style="height:6px"></i><i style="height:7px"></i><i style="height:8px"></i><i style="height:7px"></i></span>中部电梯厅计数 · 正常区间</span>
+          <span class="wchip"><span class="spark"><i style="height:4px"></i><i style="height:6px"></i><i style="height:5px"></i><i style="height:7px"></i><i style="height:6px"></i></span>船尾通道计数 · 正常区间</span>
+        </div></div>
+      </section>
+    </div>
+
+    <!-- 右列 -->
+    <div class="col">
+      <section class="card">
+        <div class="card-h"><h3>在船概览</h3><span class="en">On Board</span></div>
+        <div class="card-b">
+          <div class="stat-grid">
+            <div class="stat">
+              <div class="k"><span class="d r"></span>在船总数 <span class="src">PMS ●</span></div>
+              <div class="v">4,980<span class="u"> 人</span></div>
+              <div class="sub">旅客 4,620 · 当班船员 360（当班口径）</div>
+            </div>
+            <div class="stat">
+              <div class="k">特殊协助登记</div>
+              <div class="v">90<span class="u"> 人</span></div>
+              <div class="sub">轮椅 / 婴儿 / 需协助（聚合）</div>
+            </div>
+          </div>
+          <div class="lockrow">
+            <span>旅客名单默认折叠 · 展开需身份+理由并留痕（计数最小化）</span>
+            <a href="#">申请</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h3>次日上岸作业 · 预判</h3><span class="en">Shore Ops Preview</span></div>
+        <div class="card-b">
+          <div class="kvline"><span class="k">计划上岸</span><span class="mono">3,900 人 <span class="assume" style="font-size:10px">意向率 78%【假设】</span></span></div>
+          <div class="kvline"><span class="k">批次编排</span><span class="dim" style="color:var(--tx-3)">未下达（R0 预演观察中）</span></div>
+          <div class="kvline"><span class="k">岸游团</span><span class="mono">90 团 · 未判定</span></div>
+          <div class="kvline"><span class="k">客廊桥</span><span style="color:var(--tx-3)">未靠泊（双客廊桥预案）</span></div>
+          <div class="kvline hatch" style="padding:7px 9px;margin-top:7px">
+            <span class="k">移民检查工位</span><span class="mono assume">8 工位【假设·C6】</span>
+          </div>
+          <div class="profile">
+            <div class="cap">船舶侧视剖面 · 示意（楼电梯组与 shell door 位置待甲板图核实）</div>
+            <svg viewBox="0 0 380 96" width="100%" height="96">
+              <g stroke="rgba(255,255,255,.14)" stroke-width="1">
+                <line x1="30" y1="20" x2="352" y2="20"/><line x1="30" y1="32" x2="352" y2="32"/>
+                <line x1="30" y1="44" x2="352" y2="44"/><line x1="30" y1="56" x2="352" y2="56"/>
+                <line x1="30" y1="68" x2="352" y2="68"/>
+              </g>
+              <path d="M26 80 L30 56 L330 56 L360 74 Q362 78 356 80 Z" fill="none" stroke="rgba(255,255,255,.22)"/>
+              <text x="36" y="30" font-size="8" fill="#6B7484" font-family="monospace">D10</text>
+              <text x="36" y="42" font-size="8" fill="#6B7484" font-family="monospace">D7</text>
+              <rect x="52" y="53" width="60" height="14" rx="2" fill="var(--accent-dim)" stroke="rgba(76,141,255,.6)"/>
+              <text x="58" y="63" font-size="8.5" fill="#9AA4B2">D3 Lobby 登船层</text>
+              <g stroke="#6B7484" stroke-dasharray="3 3" fill="none">
+                <circle cx="150" cy="90" r="4"/><circle cx="210" cy="90" r="4"/>
+                <line x1="150" y1="80" x2="150" y2="86"/><line x1="210" y1="80" x2="210" y2="86"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" style="flex:1">
+        <div class="card-h"><h3>挂起监测</h3><span class="en">Watch Rail</span></div>
+        <div class="card-b">
+          <div class="empty">无挂起事件<br>P1 现场端口 / P2 外部源监测运行中</div>
+          <div style="height:12px"></div>
+          <div class="mini-h">审批与知会</div>
+          <div class="stat-grid" style="margin-bottom:9px">
+            <div class="stat"><div class="k">待我审批</div><div class="big0">0</div></div>
+            <div class="stat"><div class="k">知会我（不阻塞）</div><div class="big0">1</div></div>
+          </div>
+          <div class="inform">
+            <span class="d g"></span>
+            <span><b>E04-2018</b> 码头摆渡车明日早峰运力预报 · 仅知会<span class="tt">19:30</span></span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="si"><span class="d r"></span>PMS 船载管理 ● 10s</span>
+    <span class="si"><span class="d r"></span>排班系统 ●</span>
+    <span class="si"><span class="d y"></span>预订 / POS ◐ 缓存 6min</span>
+    <span class="si"><span class="d r"></span>气象 ●</span>
+    <span class="si"><span class="d y"></span>港方通告 ◐ 人工录入为主</span>
+    <span class="si"><span class="d r"></span>区域计数端口 ●（仅计数·无图像）</span>
+    <span class="si"><span class="d g"></span>地接接口 ○ 未接入（邮件/电话）</span>
+    <div class="sp"></div>
+    <div class="legend">
+      <span><span class="d r"></span>实接</span><span><span class="d y"></span>缓存/模拟</span><span><span class="d g"></span>不可得</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

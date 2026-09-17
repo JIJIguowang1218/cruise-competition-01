@@ -18,3 +18,14 @@ venv/
 tools/**/__pycache__/
 
 # DSH 项目配置与技能属于项目内容，必须提交（勿忽略 .dsh/）
+
+# 录屏素材永不提交
+recordings/
+
+# 研究原始抓取缓存（体积大，仅本地保留；逐字证据已归档到 sources/）
+research/round3/cache/
+
+# 研究临时抓取/试验文件
+research/round3/.scratch/
+research/round3/bing_test.html
+research/round3/t1.html
