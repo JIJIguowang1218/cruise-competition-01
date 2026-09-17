@@ -1,0 +1,417 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<rect id="bg" x="0" y="0" width="1920" height="1080" fill="#0A0B0E"/>
+<rect x="0" y="0" width="72" height="1080" fill="none"/>
+<line x1="72" y1="0" x2="72" y2="1080" stroke="#ffffff" stroke-width="0.666667"/>
+<rect x="17.7" y="14" width="36" height="36" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="28" y="36.6" font-size="13" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="600" letter-spacing="0.5" xml:space="preserve">CS</text>
+<rect x="5.7" y="70" width="60" height="51.7" rx="8" fill="#1f222a"/>
+<svg x="26.2" y="79" width="19" height="19" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" fill="none" stroke="rgb(242, 244, 247)" stroke-width="1.5" stroke-linecap="round"></rect><rect x="14" y="3" width="7" height="7" rx="1.5" fill="none" stroke="rgb(242, 244, 247)" stroke-width="1.5" stroke-linecap="round"></rect><rect x="3" y="14" width="7" height="7" rx="1.5" fill="none" stroke="rgb(242, 244, 247)" stroke-width="1.5" stroke-linecap="round"></rect><rect x="14" y="14" width="7" height="7" rx="1.5" fill="none" stroke="rgb(242, 244, 247)" stroke-width="1.5" stroke-linecap="round"></rect><text id="now-label" x="496.7" y="141.3" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="11.5" fill="#9BA1AC">现在 20:40</text>
+<text id="thr-label" x="997.8" y="766.5" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="10.5" fill="#676E7A">立案阈 0.80</text>
+<line id="tick-0" x1="1013.6" y1="247.3" x2="1013.6" y2="252.3" stroke="#FFFFFF" stroke-opacity="0.12"/>
+<line id="tick-1" x1="1165.4" y1="247.3" x2="1165.4" y2="252.3" stroke="#FFFFFF" stroke-opacity="0.12"/>
+<line id="tick-2" x1="1317.2" y1="247.3" x2="1317.2" y2="252.3" stroke="#FFFFFF" stroke-opacity="0.12"/>
+<line id="tick-3" x1="1440.5" y1="247.3" x2="1440.5" y2="252.3" stroke="#FFFFFF" stroke-opacity="0.12"/>
+</svg>
+<text x="19.9" y="110.8" font-size="10" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="0.5" xml:space="preserve">态势台</text>
+<svg x="26.2" y="134.7" width="19" height="19" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+<text x="19.9" y="166.5" font-size="10" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="0.5" xml:space="preserve">收件箱</text>
+<svg x="26.2" y="190.3" width="19" height="19" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path><path d="m2 17 10 5 10-5" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path><path d="m2 12 10 5 10-5" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+<text x="19.9" y="222.2" font-size="10" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="0.5" xml:space="preserve">工作区</text>
+<svg x="26.2" y="246" width="19" height="19" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path><path d="m9 14 2 2 4-4" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+<text x="25.2" y="277.8" font-size="10" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="0.5" xml:space="preserve">审批</text>
+<svg x="26.2" y="301.7" width="19" height="19" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></line><path d="M22 2 15 22l-4-9-9-4 20-7z" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+<text x="25.2" y="333.5" font-size="10" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="0.5" xml:space="preserve">触达</text>
+<svg x="26.2" y="357.3" width="19" height="19" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></circle><path d="M12 7v5l3 2" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+<text x="25.2" y="389.2" font-size="10" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="0.5" xml:space="preserve">轨迹</text>
+<rect x="72" y="0" width="1848" height="76" fill="none"/>
+<line x1="72" y1="76" x2="1920" y2="76" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="94" y="44.3" font-size="19" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="600" letter-spacing="0.5" xml:space="preserve">ClarSyn</text>
+<rect x="188.6" y="29.3" width="109.7" height="16.7" fill="none"/>
+<line x1="188.6" y1="29.3" x2="188.6" y2="46" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="207.3" y="42.2" font-size="13" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">宾客运营工作台</text>
+<rect x="316.3" y="13.7" width="498.5" height="48" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="333" y="30.8" font-size="9.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="1.2" xml:space="preserve">船舶</text>
+<text x="373.5" y="49.9" font-size="13.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">MS XING LAN</text>
+<text x="333" y="49.9" font-size="13.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">星澜号</text>
+<rect x="483.9" y="14.3" width="109.2" height="46.7" fill="none"/>
+<line x1="483.9" y1="14.3" x2="483.9" y2="61" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="500.6" y="30.8" font-size="9.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="1.2" xml:space="preserve">航次</text>
+<text x="500.6" y="49.9" font-size="13.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">HL-2609-05</text>
+<rect x="593.2" y="14.3" width="104.7" height="46.7" fill="none"/>
+<line x1="593.2" y1="14.3" x2="593.2" y2="61" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="609.8" y="30.8" font-size="9.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="1.2" xml:space="preserve">挂靠港</text>
+<text x="609.8" y="49.9" font-size="13.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">福冈港 W-3</text>
+<rect x="697.8" y="14.3" width="116.3" height="46.7" fill="none"/>
+<line x1="697.8" y1="14.3" x2="697.8" y2="61" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="714.5" y="30.8" font-size="9.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="1.2" xml:space="preserve">泊离</text>
+<text x="714.5" y="49.9" font-size="13.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">09-18 · 16:00</text>
+<rect x="1225.4" y="17.7" width="250" height="40" rx="20" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1265" y="42" font-size="12.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">检索事件 / 舱位 / 人员</text>
+<svg x="1242" y="30.7" width="14" height="14" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></circle><line x1="20" y1="20" x2="16.5" y2="16.5" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></line></svg>
+<rect x="1493.4" y="19.7" width="105.3" height="36" rx="18" fill="none" stroke="#46c08a" stroke-opacity="0.35" stroke-width="0.666667"/>
+<text x="1525" y="42.2" font-size="13" fill="#46c08a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">T0 全功能</text>
+<rect x="1509" y="33.7" width="8" height="8" rx="4" fill="#46c08a"/>
+<text x="1616.6" y="39.2" font-size="24" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">20:40:07</text>
+<text x="1663.3" y="55.8" font-size="10.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">船钟 · 09-17</text>
+<rect x="1740.2" y="19.7" width="157.8" height="36" rx="18" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1795.8" y="42.2" font-size="13" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">· 何舟</text>
+<text x="1756.8" y="42.2" font-size="13" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">值班员</text>
+<rect x="1843.7" y="29.3" width="37.7" height="16.7" fill="none"/>
+<line x1="1843.7" y1="29.3" x2="1843.7" y2="46" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="1855.3" y="42.2" font-size="13" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">切换</text>
+<rect x="92" y="90" width="352" height="257.5" rx="12" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="92.7" y="90.7" width="350.7" height="46" fill="none"/>
+<line x1="92.7" y1="136.7" x2="443.3" y2="136.7" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="110.7" y="120.6" font-size="15" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">离船作业总览</text>
+<text x="211.7" y="118.8" font-size="10" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" letter-spacing="1.2" xml:space="preserve">Disembark Ops</text>
+<text x="309.8" y="119.5" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">R0 预演</text>
+<rect x="110.7" y="148.7" width="314.7" height="35.3" fill="none"/>
+<line x1="110.7" y1="184" x2="425.3" y2="184" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="110.7" y="170.6" font-size="13" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">计划上岸</text>
+<text x="301.1" y="171.6" font-size="14" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">人</text>
+<text x="257.1" y="171.6" font-size="16" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">3,900</text>
+<rect x="329.8" y="160.3" width="95.5" height="15.3" rx="4" fill="none" stroke="#f0a43f" stroke-opacity="0.45" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="336.5" y="171.7" font-size="10.5" fill="#f0a43f" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">意向率 78% 假设</text>
+<rect x="110.7" y="184" width="314.7" height="33.3" fill="none"/>
+<line x1="110.7" y1="217.3" x2="425.3" y2="217.3" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="110.7" y="204.9" font-size="13" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">批次编排</text>
+<text x="238.5" y="205.2" font-size="14" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">7–9 批 × 400–600 · 未下达</text>
+<rect x="110.7" y="226.3" width="100.2" height="24.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="139" y="242.4" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">8–10 层</text>
+<rect x="217.9" y="226.3" width="100.2" height="24.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="249.4" y="242.4" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">5–7 层</text>
+<rect x="325.1" y="226.3" width="100.2" height="24.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="356.6" y="242.4" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">1–4 层</text>
+<rect x="110.7" y="258.2" width="314.7" height="33.3" fill="none"/>
+<line x1="110.7" y1="291.5" x2="425.3" y2="291.5" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="110.7" y="279.1" font-size="13" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">客廊桥</text>
+<text x="216.2" y="279.4" font-size="14" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">双桥预案 · ≤2,000 pax/h</text>
+<rect x="394.7" y="268.2" width="30.7" height="15.3" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="401.3" y="279.5" font-size="10.5" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">S07</text>
+<rect x="110.7" y="298.5" width="314.7" height="33.3" rx="8" fill="none"/>
+<line x1="110.7" y1="298.5" x2="425.3" y2="298.5" stroke="#f0a43f" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<line x1="110.7" y1="298.5" x2="110.7" y2="331.8" stroke="#f0a43f" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<line x1="425.3" y1="298.5" x2="425.3" y2="331.8" stroke="#f0a43f" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="123.3" y="320.1" font-size="13" fill="#f0a43f" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">移民检查工位</text>
+<text x="298.7" y="320.4" font-size="14" fill="#f0a43f" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">8 工位</text>
+<rect x="349.1" y="309.2" width="63.5" height="15.3" rx="4" fill="none" stroke="#f0a43f" stroke-opacity="0.45" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="355.8" y="320.5" font-size="10.5" fill="#f0a43f" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">假设 · C3</text>
+<rect x="92" y="361.5" width="352" height="269" rx="12" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="92.7" y="362.2" width="350.7" height="46" fill="none"/>
+<line x1="92.7" y1="408.2" x2="443.3" y2="408.2" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="110.7" y="392.1" font-size="15" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">在船概览</text>
+<text x="181.7" y="390.3" font-size="10" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" letter-spacing="1.2" xml:space="preserve">On Board</text>
+<rect x="110.7" y="420.2" width="151.8" height="116.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="139.3" y="445.5" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">在船总数</text>
+<rect x="125.3" y="437.5" width="8" height="8" rx="4" fill="#46c08a"/>
+<rect x="205.6" y="433.8" width="42.2" height="15.3" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="212.3" y="445.2" font-size="10.5" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">PMS ●</text>
+<text x="125.3" y="479.6" font-size="26" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">4,980</text>
+<text x="196.8" y="479" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">人</text>
+<text x="125.3" y="501.4" font-size="11" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">旅客 4,620 · 当班船员</text>
+<text x="125.3" y="517.9" font-size="11" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">360</text>
+<rect x="273.5" y="420.2" width="151.8" height="116.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="288.2" y="445.2" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">特殊协助登记</text>
+<text x="288.2" y="478.9" font-size="26" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">90</text>
+<text x="316.8" y="478.4" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">人</text>
+<text x="288.2" y="500.7" font-size="11" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">聚合口径 · 名单脱敏折叠</text>
+<rect x="110.7" y="546.5" width="100.2" height="24.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="139.3" y="562.5" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">轮椅 32</text>
+<rect x="217.9" y="546.5" width="100.2" height="24.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="246.5" y="562.5" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">婴儿 14</text>
+<rect x="325.1" y="546.5" width="100.2" height="24.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="347.7" y="562.5" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">需协助 44</text>
+<rect x="110.7" y="582.3" width="314.7" height="32.5" fill="none"/>
+<line x1="110.7" y1="582.3" x2="425.3" y2="582.3" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="110.7" y="607.2" font-size="11" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">计数最小化 · API 2004/82/EC · PNR 2016/681</text>
+<rect x="362" y="593" width="63.3" height="21.8" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="371.7" y="607.2" font-size="11" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">申请解锁</text>
+<rect x="92" y="644.5" width="352" height="383.5" rx="12" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="92.7" y="645.2" width="350.7" height="46" fill="none"/>
+<line x1="92.7" y1="691.2" x2="443.3" y2="691.2" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="110.7" y="675.1" font-size="15" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">岸游与空间</text>
+<text x="196.7" y="673.3" font-size="10" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" letter-spacing="1.2" xml:space="preserve">Tours · Flow</text>
+<text x="288.1" y="674" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">示意</text>
+<rect x="110.7" y="703.2" width="314.7" height="31.3" fill="none"/>
+<line x1="110.7" y1="734.5" x2="425.3" y2="734.5" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="110.7" y="723.1" font-size="13" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">岸游团</text>
+<text x="323.1" y="723.4" font-size="14" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">90 团 · 未判定</text>
+<rect x="110.7" y="734.5" width="314.7" height="31.3" fill="none"/>
+<line x1="110.7" y1="765.8" x2="425.3" y2="765.8" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="110.7" y="754.4" font-size="13" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">窗口∩车程判定</text>
+<text x="355.3" y="754.7" font-size="14" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">立案后执行</text>
+<rect x="110.7" y="776.8" width="314.7" height="246.1" fill="none"/>
+<line x1="110.7" y1="776.8" x2="425.3" y2="776.8" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="110.7" y="800" font-size="11" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">批次流向侧视 · 线宽＝流量 · 节点 A9 待核</text>
+<rect x="394.7" y="788.5" width="30.7" height="15.3" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="401.3" y="799.8" font-size="10.5" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">S15</text>
+<svg x="110.7" y="810.8" width="314.7" height="212.1" viewBox="0 0 356 240">
+                <text class="sk-txt" x="150" y="12" text-anchor="middle" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">前</text>
+                <text class="sk-txt" x="196" y="12" text-anchor="middle" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">中</text>
+                <text class="sk-txt" x="232" y="12" text-anchor="middle" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">后</text>
+                <g class="sk-dim" stroke-dasharray="3px, 3px" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1">
+                  <line x1="150" y1="18" x2="150" y2="186" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1" stroke-dasharray="3px, 3px"></line>
+                  <line x1="196" y1="18" x2="196" y2="186" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1" stroke-dasharray="3px, 3px"></line>
+                  <line x1="232" y1="18" x2="232" y2="186" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1" stroke-dasharray="3px, 3px"></line>
+                </g>
+                <rect class="sk-line" x="6" y="18" width="86" height="28" rx="3" fill="none" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"></rect>
+                <text class="sk-txt" x="14" y="36.5" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">8–10 层</text>
+                <text class="sk-val" x="84" y="36.5" text-anchor="end" fill="rgb(155, 161, 172)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="9" font-weight="500">1,560</text>
+                <rect class="sk-line" x="6" y="82" width="86" height="28" rx="3" fill="none" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"></rect>
+                <text class="sk-txt" x="14" y="100.5" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">5–7 层</text>
+                <text class="sk-val" x="84" y="100.5" text-anchor="end" fill="rgb(155, 161, 172)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="9" font-weight="500">1,400</text>
+                <rect class="sk-line" x="6" y="146" width="86" height="28" rx="3" fill="none" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"></rect>
+                <text class="sk-txt" x="14" y="164.5" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">1–4 层</text>
+                <text class="sk-val" x="84" y="164.5" text-anchor="end" fill="rgb(155, 161, 172)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="9" font-weight="500">940</text>
+                <path class="sk-flow" d="M92 32 H150 V186" stroke-width="3" fill="none" stroke="rgb(103, 110, 122)" stroke-linecap="round"></path>
+                <path class="sk-flow" d="M92 96 H196 V186" stroke-width="2.5" fill="none" stroke="rgb(103, 110, 122)" stroke-linecap="round"></path>
+                <path class="sk-flow" d="M92 160 H232 V186" stroke-width="2" fill="none" stroke="rgb(103, 110, 122)" stroke-linecap="round"></path>
+                <rect class="sk-hub" x="6" y="186" width="296" height="22" rx="3" fill="rgba(76, 141, 255, 0.12)" stroke="rgba(76, 141, 255, 0.6)" stroke-width="1"></rect>
+                <text class="sk-txt" x="14" y="200.5" style="fill:var(--tx-2)" fill="rgb(155, 161, 172)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">D3 Lobby · 登船层</text>
+                <rect x="250" y="189.5" width="11" height="15" rx="1.5" fill="rgba(76, 141, 255, 0.35)" stroke="rgba(76, 141, 255, 0.7)" stroke-width="1"></rect>
+                <rect x="266" y="189.5" width="11" height="15" rx="1.5" fill="rgba(76, 141, 255, 0.35)" stroke="rgba(76, 141, 255, 0.7)" stroke-width="1"></rect>
+                <path class="sk-dim" d="M304 197 H340" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1"></path>
+                <path d="M340 197 l-6 -3.5 v7 z" style="fill:var(--tx-3)" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1"></path>
+                <text class="sk-txt" x="312" y="191" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">岸侧</text>
+                <text class="sk-txt" x="6" y="230" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">移民检查 · 假设 C3</text>
+                <text class="sk-txt" x="132" y="230" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">楼电梯组 · 示意</text>
+                <text class="sk-txt" x="244" y="230" fill="rgb(103, 110, 122)" stroke="none" stroke-width="1" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-size="8.5">双廊桥 → 泊位 W-3</text>
+              </svg>
+<rect x="464" y="76" width="1032" height="966" fill="none"/>
+<line x1="464" y1="76" x2="464" y2="1042" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="486.7" y="108.9" font-size="15" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">靠泊窗口</text>
+<text x="557.7" y="107.2" font-size="10" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" letter-spacing="1.2" xml:space="preserve">Berth Window</text>
+<text x="649.1" y="107.9" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">09-18（D+1）· 福冈港 W-3</text>
+<text x="870.2" y="163.5" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">原报 ETA 06:10 ●</text>
+<rect x="972.5" y="147.3" width="1" height="50" fill="#676e7a"/>
+<rect x="972.5" y="139.3" width="176.3" height="0.7" fill="none"/>
+<line x1="972.5" y1="139.3" x2="1148.8" y2="139.3" stroke="#f0a43f" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="1062.6" y="155.5" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">漂移 +3.5h</text>
+<text x="1063.1" y="136.2" font-size="11" fill="#f0a43f" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">漂移后 ETA 09:40 ◐ ±约100min</text>
+<rect x="1148.8" y="147.3" width="1" height="50" fill="#f0a43f"/>
+<text x="1405.9" y="195.7" font-size="10.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">15:30 回船截止</text>
+<rect x="490.7" y="129.3" width="1" height="134" fill="#ffffff" fill-opacity="0.12"/>
+<rect x="490.7" y="197.3" width="979.3" height="44" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<rect x="1013.6" y="197.3" width="456.4" height="44" rx="8" fill="#4c8dff" fill-opacity="0.12" stroke="#4c8dff" stroke-opacity="0.55" stroke-width="0.666667"/>
+<rect x="1064.6" y="191.3" width="0.7" height="56" fill="none"/>
+<line x1="1064.6" y1="191.3" x2="1064.6" y2="247.3" stroke="#f0a43f" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="998.5" y="266.5" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">07:00</text>
+<text x="1150.3" y="266.5" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">10:00</text>
+<text x="1302.1" y="266.5" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">13:00</text>
+<text x="1411" y="266.5" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">16:00 离泊</text>
+<text x="490.7" y="291.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">计划窗口 07:00–16:00（9h）· 虚线＝有效缓冲 ≤8h</text>
+<rect x="1390.9" y="279.3" width="79.1" height="16" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1397.6" y="291.3" font-size="10.5" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">统计阈值 S14</text>
+<rect x="484.7" y="299.3" width="991.3" height="504.3" rx="12" fill="#121317" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.33333" stroke-dasharray="4 4"/>
+<rect x="508" y="315.7" width="97.1" height="28" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="519.7" y="334" font-size="12.5" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="600" letter-spacing="1.5" xml:space="preserve">X 库外组合</text>
+<text x="618.1" y="333.9" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" letter-spacing="1" xml:space="preserve">推测 · 仅提醒 · 不立案</text>
+<rect x="1346.7" y="317.7" width="106" height="24" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1357.3" y="333.5" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">tr-260917-2040</text>
+<rect x="508" y="356.7" width="96.3" height="27.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="518.7" y="374.7" font-size="12.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">接驳运力缺口</text>
+<text x="613.3" y="374.5" font-size="12" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">×</text>
+<rect x="628.9" y="356.7" width="108.8" height="27.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="639.6" y="374.7" font-size="12.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">批次集合点冲突</text>
+<text x="746.8" y="374.5" font-size="12" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">×</text>
+<rect x="762.4" y="356.7" width="96.3" height="27.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="773" y="374.7" font-size="12.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">到港时间漂移</text>
+<rect x="508" y="395" width="944.7" height="90.3" rx="8" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="522.7" y="405.7" width="24" height="24" rx="6" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="531.4" y="421.9" font-size="12" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">1</text>
+<text x="559.7" y="420.1" font-size="14.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">码头接驳运力缺口</text>
+<text x="559.7" y="441.6" font-size="13" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">地接群 18:40 消息：早峰 12 辆摆渡车中 4 辆调往他线，缺口约 180 座。</text>
+<text x="573.7" y="469.5" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">外部渠道 ◐ 缓存</text>
+<rect x="559.7" y="460.3" width="8" height="8" rx="4" fill="#f0a43f"/>
+<rect x="671.8" y="453.8" width="65.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="680.4" y="467.9" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">文本抽取</text>
+<rect x="744.1" y="453.8" width="41.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="752.8" y="467.9" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">接驳</text>
+<rect x="792.4" y="453.8" width="72.9" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="801.1" y="467.9" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">信度 0.45</text>
+<rect x="508" y="493.3" width="944.7" height="90.3" rx="8" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="522.7" y="504" width="24" height="24" rx="6" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="531.4" y="520.2" font-size="12" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">2</text>
+<text x="559.7" y="518.4" font-size="14.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">B03 / B04 集合点占用重叠</text>
+<text x="559.7" y="539.9" font-size="13" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">中央大厅 11:30–12:10 叠加，试算峰值 1,160 人，超错峰阈值约 22%。</text>
+<text x="573.7" y="566.8" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">确定性试算 ● 实时</text>
+<rect x="559.7" y="558.6" width="8" height="8" rx="4" fill="#46c08a"/>
+<rect x="679.6" y="552.2" width="65.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="688.3" y="566.2" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">约束试算</text>
+<rect x="751.9" y="552.2" width="65.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="760.6" y="566.2" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">批次编排</text>
+<rect x="824.3" y="552.2" width="72.9" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="832.9" y="566.2" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">信度 0.70</text>
+<rect x="508" y="591.7" width="944.7" height="90.3" rx="8" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="522.7" y="602.3" width="24" height="24" rx="6" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="531.4" y="618.5" font-size="12" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">3</text>
+<text x="559.7" y="616.7" font-size="14.5" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">到港时间漂移 06:10 → 09:40</text>
+<text x="559.7" y="638.2" font-size="13" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">船代单源更新，未经港方通告证实。</text>
+<text x="573.7" y="666.1" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">外部单源 ◐ 缓存</text>
+<rect x="559.7" y="656.9" width="8" height="8" rx="4" fill="#f0a43f"/>
+<rect x="671.8" y="650.5" width="65.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="680.4" y="664.5" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">时序对齐</text>
+<rect x="744.1" y="650.5" width="36.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="752.8" y="664.5" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">ETA</text>
+<rect x="787.4" y="650.5" width="72.9" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="796.1" y="664.5" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">信度 0.40</text>
+<rect x="867.4" y="652.9" width="79.1" height="16" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="874" y="664.9" font-size="10.5" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">案例区间 S11</text>
+<rect x="508" y="696.7" width="28" height="18.7" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="515.7" y="710" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">v1</text>
+<text x="546" y="710" font-size="11.5" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">20:40</text>
+<text x="587.6" y="710.4" font-size="12.5" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">接驳运力、批次重叠两因子并入</text>
+<rect x="508" y="720.3" width="28" height="18.7" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="515.7" y="733.7" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">v2</text>
+<text x="546" y="733.7" font-size="11.5" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">20:42</text>
+<text x="587.6" y="734" font-size="12.5" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">并入 ETA 漂移 · 组合信度 0.55</text>
+<rect x="486" y="739" width="988.7" height="63.3" fill="none"/>
+<line x1="486" y1="739" x2="1474.7" y2="739" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="508" y="767.4" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">组合信度</text>
+<text x="1083.4" y="768" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">/ 1.00</text>
+<text x="1052.6" y="768.4" font-size="14" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">0.55</text>
+<rect x="508" y="778.5" width="611.6" height="6" rx="3" fill="#1f222a"/>
+<rect x="508" y="778.5" width="336.4" height="6" rx="3" fill="#9ba1ac"/>
+<rect x="997.3" y="775.5" width="1" height="12" fill="#ffffff" fill-opacity="0.12"/>
+<text x="1141.8" y="761.5" font-size="12" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">偏离基线</text>
+<text x="1141.6" y="785" font-size="22" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">1.8σ</text>
+<rect x="1212" y="749.7" width="109.3" height="40.7" rx="20.3" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1238.7" y="774.9" font-size="14" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">继续观察</text>
+<rect x="1343.3" y="749.7" width="109.3" height="40.7" rx="20.3" fill="#f2f4f7" stroke="#f2f4f7" stroke-width="0.666667"/>
+<text x="1370" y="774.9" font-size="14" fill="#0a0b0e" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">打开观察</text>
+<rect x="484.7" y="807.7" width="991.3" height="220.3" rx="12" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="485.3" y="808.3" width="990" height="46" fill="none"/>
+<line x1="485.3" y1="854.3" x2="1475.3" y2="854.3" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="503.3" y="838.3" font-size="15" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">弱信号</text>
+<text x="559.3" y="836.5" font-size="10" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" letter-spacing="1.2" xml:space="preserve">Weak Signals</text>
+<text x="650.7" y="837.2" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">仅提示</text>
+<rect x="503.3" y="866.3" width="954" height="43.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<svg x="518" y="876" width="92" height="24" viewBox="0 0 92 24"><polyline class="pk" points="2,18 15,16 28,17 41,12 54,14 67,9 80,11 90,7" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></polyline></svg>
+<text x="624" y="892.4" font-size="12.5" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">码头摆渡车满载率</text>
+<text x="1348.9" y="892.9" font-size="14" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">0.82</text>
+<rect x="1393.7" y="877.6" width="48.9" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1402.4" y="891.6" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">+0.6σ</text>
+<rect x="503.3" y="917.7" width="954" height="43.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<svg x="518" y="927.3" width="92" height="24" viewBox="0 0 92 24"><polyline class="pk" points="2,12 15,13 28,11 41,13 54,12 67,13 80,11 90,12" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></polyline></svg>
+<text x="624" y="943.7" font-size="12.5" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">餐厅入口计数</text>
+<text x="1311.2" y="944.2" font-size="14" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">128</text>
+<text x="1334.3" y="943.5" font-size="11" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">人/5min</text>
+<rect x="1393.7" y="928.9" width="48.9" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1402.4" y="942.9" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">+0.4σ</text>
+<rect x="503.3" y="969" width="954" height="43.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<svg x="518" y="978.7" width="92" height="24" viewBox="0 0 92 24"><polyline class="pk" points="2,15 15,13 28,15 41,13 54,14 67,12 80,13 90,12" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></polyline></svg>
+<text x="624" y="995" font-size="12.5" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">电梯厅计数</text>
+<text x="1318.9" y="995.6" font-size="14" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">86</text>
+<text x="1334.3" y="994.9" font-size="11" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">人/5min</text>
+<rect x="1393.7" y="980.3" width="48.9" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1402.4" y="994.3" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">+0.2σ</text>
+<rect x="1496" y="76" width="424" height="966" fill="none"/>
+<line x1="1496" y1="76" x2="1496" y2="1042" stroke="#ffffff" stroke-width="0.666667"/>
+<rect x="1516.7" y="90" width="383.3" height="493.9" rx="12" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="1517.3" y="90.7" width="382" height="46" fill="none"/>
+<line x1="1517.3" y1="136.7" x2="1899.3" y2="136.7" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="1535.3" y="120.6" font-size="15" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">事件队列</text>
+<text x="1606.3" y="118.8" font-size="10" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" letter-spacing="1.2" xml:space="preserve">Events</text>
+<text x="1657.5" y="119.5" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">按角色下发</text>
+<rect x="1535.3" y="148.7" width="53.3" height="26.7" rx="13.3" fill="#1f222a" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1550" y="166.2" font-size="12" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">全部</text>
+<rect x="1595.7" y="148.7" width="53.3" height="26.7" rx="13.3" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1610.3" y="166.2" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">挂起</text>
+<rect x="1656" y="148.7" width="77.3" height="26.7" rx="13.3" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1670.7" y="166.2" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">我的权限</text>
+<rect x="1535.3" y="186.3" width="346" height="39.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="1549" y="210.4" font-size="12.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">夜间航行 · 队列无待办</text>
+<rect x="1535.3" y="234.7" width="346" height="92.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="1550" y="247.3" width="84.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1558.7" y="261.4" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">L1 自动留痕</text>
+<text x="1643.3" y="262.1" font-size="12.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">E03-2031</text>
+<text x="1833.7" y="262" font-size="12" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">19:50</text>
+<text x="1550" y="288.4" font-size="14" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">10 层自助餐厅入口人流高峰</text>
+<text x="1587.5" y="311.1" font-size="12.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">· 自行回落</text>
+<text x="1550" y="311.1" font-size="12.5" fill="#46c08a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">已闭环</text>
+<rect x="1535.3" y="336.4" width="346" height="92.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="1550" y="349.1" width="84.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1558.7" y="363.1" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">L1 自动留痕</text>
+<text x="1643.3" y="363.9" font-size="12.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">E21-2044</text>
+<text x="1833.7" y="363.7" font-size="12" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">20:12</text>
+<text x="1550" y="390.2" font-size="14" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">证件 / 靠泊问询聚合</text>
+<text x="1550" y="412.9" font-size="12.5" fill="#46c08a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">已转自助答复</text>
+<rect x="1535.3" y="438.2" width="346" height="92.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="1550" y="450.9" width="84.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1558.7" y="464.9" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">L2 电子确认</text>
+<text x="1643.3" y="465.6" font-size="12.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">E25-2050</text>
+<text x="1833.7" y="465.5" font-size="12" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">19:38</text>
+<text x="1550" y="491.9" font-size="14" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">无障碍通道受阻（D5 电梯厅）</text>
+<text x="1587.5" y="514.7" font-size="12.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">· 值班确认闭环</text>
+<text x="1550" y="514.7" font-size="12.5" fill="#46c08a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="500" xml:space="preserve">已恢复</text>
+<rect x="1535.3" y="541.9" width="346" height="26.3" fill="none"/>
+<line x1="1535.3" y1="541.9" x2="1881.3" y2="541.9" stroke="#ffffff" stroke-width="0.666667" stroke-dasharray="4 4"/>
+<text x="1535.3" y="565" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">本班闭环</text>
+<text x="1584.7" y="565.6" font-size="11.5" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">3</text>
+<text x="1611.1" y="565" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">挂起</text>
+<text x="1637.5" y="565.6" font-size="11.5" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">0</text>
+<text x="1663.8" y="565" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">升级</text>
+<text x="1690.2" y="565.6" font-size="11.5" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">0</text>
+<rect x="1516.7" y="597.9" width="383.3" height="430.1" rx="12" fill="#121317" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="1517.3" y="598.6" width="382" height="46" fill="none"/>
+<line x1="1517.3" y1="644.6" x2="1899.3" y2="644.6" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="1535.3" y="628.5" font-size="15" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">挂起监测</text>
+<text x="1606.3" y="626.8" font-size="10" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" letter-spacing="1.2" xml:space="preserve">Watch Rail</text>
+<text x="1684.3" y="627.5" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">2 条在挂</text>
+<rect x="1535.3" y="656.6" width="346" height="109.7" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1550" y="683.1" font-size="12.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">E04-1118</text>
+<rect x="1614" y="668.3" width="72.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1622.7" y="682.3" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">P2 外部源</text>
+<rect x="1550" y="698.1" width="103.3" height="20.8" rx="8" fill="none" stroke="#f0a43f" stroke-opacity="0.40" stroke-width="0.666667"/>
+<text x="1558.7" y="712.1" font-size="11.5" fill="#f0a43f" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">复检到期 20:40</text>
+<text x="1550" y="735.8" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">接驳回执等待 · 上次复检 20:10</text>
+<text x="1751.1" y="735.8" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">· 偏差</text>
+<text x="1550" y="751.1" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">+0.3σ</text>
+<text x="1718.1" y="736.1" font-size="12" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">still</text>
+<svg x="1802.7" y="700.4" width="64" height="22" viewBox="0 0 64 22"><polyline class="pk" points="2,15 14,13 26,14 38,11 50,12 62,9" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></polyline></svg>
+<rect x="1535.3" y="775.3" width="346" height="109.7" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1550" y="801.7" font-size="12.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">E22-1130</text>
+<rect x="1614" y="786.9" width="72.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1622.7" y="801" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">P2 外部源</text>
+<rect x="1550" y="816.8" width="103.3" height="20.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.666667"/>
+<text x="1558.7" y="830.8" font-size="11.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">下次复检 21:25</text>
+<text x="1550" y="854.5" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">多渠道信息不一致 · 上次复检 20:25</text>
+<text x="1775.1" y="854.5" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">·</text>
+<text x="1550" y="869.8" font-size="12" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">偏差 +0.2σ</text>
+<text x="1742.1" y="854.8" font-size="12" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">still</text>
+<svg x="1802.7" y="819.1" width="64" height="22" viewBox="0 0 64 22"><polyline class="pk" points="2,13 14,13 26,12 38,14 50,12 62,13" fill="none" stroke="rgb(103, 110, 122)" stroke-width="1.5" stroke-linecap="round"></polyline></svg>
+<text x="1535.3" y="913.8" font-size="13" fill="#f2f4f7" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" font-weight="600" xml:space="preserve">审批与知会</text>
+<rect x="1535.3" y="926.6" width="167.5" height="67.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1550" y="951.6" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">待我审批</text>
+<text x="1550" y="975.3" font-size="22" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">0</text>
+<rect x="1713.8" y="926.6" width="167.5" height="67.3" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<text x="1728.5" y="951.6" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">知会我 · 不阻塞</text>
+<text x="1728.5" y="975.3" font-size="22" fill="#f2f4f7" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">1</text>
+<rect x="1535.3" y="1004.9" width="346" height="42.8" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.666667"/>
+<rect x="1549" y="1016.6" width="8" height="8" rx="4" fill="#676e7a"/>
+<text x="1623" y="1030.3" font-size="12.5" fill="#9ba1ac" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">码头摆渡车明日早峰运力预报 · 仅知会</text>
+<text x="1568" y="1031" font-size="12.5" fill="#9ba1ac" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" font-weight="500" xml:space="preserve">E04-2018</text>
+<text x="1837.1" y="1030.8" font-size="11" fill="#676e7a" font-family="JetBrains Mono, Consolas, Cascadia Code, ui-monospace, monospace" xml:space="preserve">19:30</text>
+<rect x="72" y="1042" width="1848" height="38" fill="none"/>
+<line x1="72" y1="1042" x2="1920" y2="1042" stroke="#ffffff" stroke-width="0.666667"/>
+<text x="109" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">PMS 实时</text>
+<rect x="94" y="1057.3" width="8" height="8" rx="4" fill="#46c08a"/>
+<text x="192.3" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">排班 实时</text>
+<rect x="177.3" y="1057.3" width="8" height="8" rx="4" fill="#46c08a"/>
+<text x="273.7" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">预订 / POS 缓存 6min</text>
+<rect x="258.7" y="1057.3" width="8" height="8" rx="4" fill="#f0a43f"/>
+<text x="421" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">气象 实时</text>
+<rect x="406" y="1057.3" width="8" height="8" rx="4" fill="#46c08a"/>
+<text x="502.4" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">港方通告 人工录入</text>
+<rect x="487.4" y="1057.3" width="8" height="8" rx="4" fill="#f0a43f"/>
+<text x="629.8" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">区域计数 实时 · 仅计数无图像</text>
+<rect x="614.8" y="1057.3" width="8" height="8" rx="4" fill="#46c08a"/>
+<text x="812.8" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">地接接口 离线 · 邮件 / 电话</text>
+<rect x="797.8" y="1057.3" width="8" height="8" rx="4" fill="#676e7a"/>
+<text x="1775" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">实时</text>
+<rect x="1761" y="1057.3" width="8" height="8" rx="4" fill="#46c08a"/>
+<text x="1825" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">缓存</text>
+<rect x="1811" y="1057.3" width="8" height="8" rx="4" fill="#f0a43f"/>
+<text x="1875" y="1065.4" font-size="11.5" fill="#676e7a" font-family="PingFang SC, Microsoft YaHei UI, Microsoft YaHei, Segoe UI, Inter, sans-serif" xml:space="preserve">离线</text>
+<rect x="1861" y="1057.3" width="8" height="8" rx="4" fill="#676e7a"/>
+</svg>

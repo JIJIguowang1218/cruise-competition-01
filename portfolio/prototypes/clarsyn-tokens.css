@@ -1,32 +1,34 @@
 /* ============================================================
-   ClarSyn B 端深色主题令牌（全原型唯一色彩/字体控制点）
-   规则：大面积只允许中性灰阶 + 单一强调蓝；
-   语义色（绿/琥珀/红）只出现在真实状态元素上，不做装饰；
-   不使用渐变、辉光、彩色投影。改风格只改本文件。
+   ClarSyn B 端深色主题令牌 v2（全原型唯一色彩/字体控制点）
+   定稿 2026-09-18「墨黑卡面」：近黑中性画布 + 卡面浮起分层；
+   六级强调阶梯（design.md §12.6）：位置尺寸 → 亮度字重 →
+   白 pill 主按钮（每屏至多一颗）→ 边框强度 → 蓝 → 语义色；
+   语义色只上真实状态元素；轻微玻璃仅限浮层（.glass）。
+   改风格只改本文件。
    ============================================================ */
 
 :root{
-  /* —— 中性灰阶（深色，夜间/NOC 场景，默认） —— */
-  --bg0:#0B0E13;            /* 画布底色 */
-  --bg1:#11151C;            /* 卡片 */
-  --bg2:#161B24;            /* 卡片浮层/表头 */
-  --bg3:#1D2430;            /* 轨道、滑块底、悬停 */
-  --line:rgba(255,255,255,.08);
-  --line-2:rgba(255,255,255,.16);
-  --tx:#E6EBF2;             /* 主文字 */
-  --tx-2:#9AA4B2;           /* 次级文字 */
-  --tx-3:#6B7484;           /* 注释、来源、占位 */
+  /* —— 中性灰阶（墨黑卡面） —— */
+  --bg0:#0A0B0E;            /* 画布 */
+  --bg1:#121317;            /* 卡面 */
+  --bg2:#181A20;            /* 浮层/表头 */
+  --bg3:#1F222A;            /* 轨道、滑块底、悬停 */
+  --line:rgba(255,255,255,.06);
+  --line-2:rgba(255,255,255,.12);
+  --tx:#F2F4F7;             /* 主文字 */
+  --tx-2:#9BA1AC;           /* 次级文字 */
+  --tx-3:#676E7A;           /* 注释、来源、占位 */
 
-  /* —— 单一强调色（蓝）：仅窗口带、主操作、链接 —— */
+  /* —— 单一强调色（蓝）：仅链接与窗口带；主操作用白 pill —— */
   --accent:#4C8DFF;
   --accent-dim:rgba(76,141,255,.12);
 
-  /* —— 语义色：仅状态点/状态文字/阈值，不做底纹装饰 —— */
-  --ok:#51B873;   --ok-dim:rgba(81,184,115,.12);
+  /* —— 语义色：仅状态点/状态文字/阈值线/合法性灯，不做底纹装饰 —— */
+  --ok:#46C08A;   --ok-dim:rgba(70,192,138,.12);
   --warn:#F0A43F; --warn-dim:rgba(240,164,63,.12);
-  --err:#E5484D;  --err-dim:rgba(229,72,77,.12);
+  --err:#E85B5B;  --err-dim:rgba(232,91,91,.12);
 
-  /* —— 假设标记（琥珀的唯一额外用途：斜纹/虚框） —— */
+  /* —— 假设标记（琥珀唯一额外用途：斜纹/虚框） —— */
   --hatch:rgba(240,164,63,.10);
   --hatch-line:rgba(240,164,63,.45);
 
@@ -34,35 +36,52 @@
   --sans:'PingFang SC','Microsoft YaHei UI','Microsoft YaHei','Segoe UI',Inter,sans-serif;
   --mono:'JetBrains Mono',Consolas,'Cascadia Code',ui-monospace,monospace;
 
-  --r:10px;          /* 卡片圆角 */
-  --r-s:6px;         /* 小元素圆角 */
+  /* —— 几何与间距（只用五档：4/8/12/16/20） —— */
+  --r:12px;          /* 卡圆角 */
+  --r-s:8px;         /* 小元素圆角 */
+  --r-p:999px;       /* 胶囊/pill */
   --dur:160ms;
 }
 
 /* 日间作业场景：整体抬亮一档，语义色不变 */
 [data-theme="day"]{
-  --bg0:#232A34; --bg1:#29313D; --bg2:#313A49; --bg3:#3B4657;
-  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.20);
+  --bg0:#22262D; --bg1:#292E37; --bg2:#313743; --bg3:#3B4250;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.16);
   --tx:#F4F6F9; --tx-2:#B3BCC9; --tx-3:#8A93A2;
 }
 
+/* —— 轻微玻璃（仅浮层：X 卡/抽屉/弹层/嵌入框；禁大面积、禁彩边） —— */
+.glass{background:rgba(17,19,24,.74);
+       backdrop-filter:blur(22px) saturate(1.15);
+       -webkit-backdrop-filter:blur(22px) saturate(1.15);
+       border:1px solid var(--line-2);border-radius:var(--r)}
+
+/* —— 主/次操作：白 pill 每屏至多一颗，次要一律 ghost —— */
+.btn-pri{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--bg0);
+         background:var(--tx);border:1px solid var(--tx);border-radius:var(--r-p);
+         padding:11px 26px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-ghost{font-family:var(--sans);font-size:14px;font-weight:400;color:var(--tx-2);
+           background:transparent;border:1px solid var(--line-2);border-radius:var(--r-p);
+           padding:11px 26px;cursor:pointer;text-decoration:none;display:inline-block}
+
 /* —— 状态标签：中性底 + 状态色文字（不做彩色实心块） —— */
-.st{font-family:var(--mono);font-size:10.5px;line-height:1;padding:3px 7px;
+.st{font-family:var(--mono);font-size:11.5px;line-height:1;padding:4px 8px;
     border:1px solid var(--line-2);border-radius:var(--r-s);color:var(--tx-2);
     background:transparent;white-space:nowrap}
-.st.ok{color:var(--ok);border-color:rgba(81,184,115,.4)}
+.st.ok{color:var(--ok);border-color:rgba(70,192,138,.4)}
 .st.warn{color:var(--warn);border-color:rgba(240,164,63,.4)}
-.st.err{color:var(--err);border-color:rgba(229,72,77,.4)}
+.st.err{color:var(--err);border-color:rgba(232,91,91,.4)}
 .st.acc{color:var(--accent);border-color:rgba(76,141,255,.4)}
 
-/* —— 数据三态点（直径统一 8px，无辉光） —— */
-.d{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
-.d.r{background:var(--ok)} .d.y{background:var(--warn)} .d.g{background:var(--tx-3)}
+/* —— 数据三态点（直径统一 8px，无辉光；话术：实时/缓存/离线）
+   注意：类名用 .dot，不用单字母 .d，避免与页面文案类名撞车 —— */
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.dot.r{background:var(--ok)} .dot.y{background:var(--warn)} .dot.g{background:var(--tx-3)}
 
 /* —— 假设斜纹（全剧唯一假设语言） —— */
 .hatch{background-image:repeating-linear-gradient(45deg,var(--hatch) 0 6px,transparent 6px 12px);
        border:1px dashed var(--hatch-line)!important;border-radius:var(--r-s)}
 
 /* —— 来源/档位小标记 —— */
-.src{font-family:var(--mono);font-size:9.5px;color:var(--tx-3);
-     border:1px solid var(--line);border-radius:4px;padding:1px 5px;white-space:nowrap}
+.src{font-family:var(--mono);font-size:10.5px;color:var(--tx-3);
+     border:1px solid var(--line);border-radius:4px;padding:1px 6px;white-space:nowrap}

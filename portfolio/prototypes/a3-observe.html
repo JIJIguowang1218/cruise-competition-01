@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A3 事件工作区 · 观察态 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局与排版；色值/字体/按钮/玻璃全部取自 clarsyn-tokens.css（design.md §12.6） */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg0);font-family:var(--sans);color:var(--tx);font-weight:400}
+body{display:flex;align-items:center;justify-content:center}
+#board{width:1920px;height:1080px;transform-origin:center center;background:var(--bg0);display:flex}
+
+/* —— 左侧主导航（壳 1 外壳） —— */
+.side{width:72px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;
+      align-items:center;padding:14px 0 16px;gap:6px}
+.side .mark{width:36px;height:36px;border:1px solid var(--line-2);border-radius:var(--r-s);
+            display:flex;align-items:center;justify-content:center;font-family:var(--mono);
+            font-size:13px;font-weight:600;letter-spacing:.5px;margin-bottom:14px}
+.nav{display:flex;flex-direction:column;gap:4px;width:100%;align-items:center}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;width:60px;padding:9px 0 8px;
+       border-radius:var(--r-s);text-decoration:none;color:var(--tx-3)}
+.nav a svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.5;fill:none;
+           stroke-linecap:round;stroke-linejoin:round}
+.nav a span{font-size:10px;letter-spacing:.5px}
+.nav a.on{color:var(--tx);background:var(--bg3)}
+.side .gap{flex:1}
+
+/* —— 顶栏 —— */
+.right{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{height:76px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;
+        padding:0 22px;gap:18px}
+.logo{font-family:var(--mono);font-weight:600;font-size:19px;letter-spacing:.5px}
+.t-sub{font-size:13px;color:var(--tx-2);border-left:1px solid var(--line-2);padding-left:18px}
+.vcard{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-s);height:48px}
+.vcell{padding:8px 16px;display:flex;flex-direction:column;justify-content:center;gap:3px;border-left:1px solid var(--line)}
+.vcell:first-child{border-left:0}
+.vcell .kl{font-size:9.5px;color:var(--tx-3);letter-spacing:1.2px}
+.vcell .kv{font-size:13.5px;color:var(--tx);white-space:nowrap}
+.vcell .kv b{font-weight:500}
+.sp{flex:1}
+.search{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--r-p);
+        padding:0 16px;height:40px;font-size:12.5px;color:var(--tx-3);width:250px;flex:none}
+.search svg{width:14px;height:14px;stroke:var(--tx-3);stroke-width:1.5;fill:none;stroke-linecap:round}
+.t0{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);
+    border:1px solid rgba(70,192,138,.35);border-radius:var(--r-p);padding:9px 15px;flex:none}
+.clock{text-align:right;line-height:1.25;flex:none}
+.clock .t{font-family:var(--mono);font-size:24px;font-weight:500}
+.clock .l{font-size:10.5px;color:var(--tx-3)}
+.role{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--tx-2);
+      border:1px solid var(--line);border-radius:var(--r-p);padding:9px 16px;flex:none}
+.role b{color:var(--tx);font-weight:500}
+.role .swap{color:var(--tx-3);border-left:1px solid var(--line);padding-left:11px}
+
+/* —— 主区：左（事件头＋四维）＋右栏 —— */
+.main{flex:1;display:grid;grid-template-columns:1fr 424px;min-height:0}
+.colL{display:flex;flex-direction:column;gap:14px;padding:14px 20px;min-height:0;min-width:0}
+.colR{display:flex;flex-direction:column;gap:14px;padding:14px 20px 14px 20px;min-height:0;
+      border-left:1px solid var(--line)}
+.card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
+      display:flex;flex-direction:column;min-height:0}
+.colL > .card{flex:none}
+.card-h{display:flex;align-items:center;gap:11px;padding:15px 18px 11px;border-bottom:1px solid var(--line)}
+.card-h h3{font-size:15px;font-weight:600}
+.card-h .en{font-family:var(--mono);font-size:10px;color:var(--tx-3);letter-spacing:1.2px;text-transform:uppercase}
+.card-h .right{margin-left:auto;font-size:12px;color:var(--tx-3);
+               display:flex;align-items:center;white-space:nowrap}
+.card-b{padding:12px 18px 15px}
+
+/* —— 事件头（观察态） —— */
+.ehead{flex:none}
+.ehead .r1{display:flex;align-items:center;gap:13px;padding:14px 18px 12px}
+.ehead .xbadge{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:1.5px;color:var(--tx);
+               border:1px solid var(--line-2);border-radius:var(--r-s);padding:6px 11px}
+.ehead .eid{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--tx-2)}
+.ehead .nm{font-size:15px;font-weight:600}
+.ehead .r2{display:flex;align-items:center;gap:10px;padding:10px 18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.ehead .step{font-family:var(--mono);font-size:11px;color:var(--tx-3)}
+.ehead .step.on{color:var(--tx);border:1px solid var(--line-2);border-radius:var(--r-s);padding:4px 9px}
+.ehead .arr{font-family:var(--mono);font-size:11px;color:var(--tx-3)}
+.ehead .src{margin-left:6px}
+
+/* —— 琥珀横幅＋立案锁 —— */
+.banner{flex:none;display:flex;align-items:center;gap:14px;border:1px dashed var(--hatch-line);
+        border-radius:var(--r);padding:12px 18px;background:var(--bg1)}
+.banner .tx{font-size:13px;color:var(--warn);letter-spacing:.3px}
+.banner .btn-dis{font-family:var(--sans);font-size:13px;color:var(--tx-3);
+                 border:1px dashed var(--line-2);border-radius:var(--r-p);padding:10px 22px;
+                 display:inline-flex;align-items:center;gap:8px;opacity:.75}
+.banner .btn-dis svg{width:13px;height:13px;stroke:var(--tx-3);stroke-width:1.5;fill:none;stroke-linecap:round}
+
+/* —— 四维评估 —— */
+.dims{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;min-height:0}
+.dim{min-height:0}
+.dim .rows{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:4px 18px 12px}
+.dim .score{display:flex;align-items:center;gap:14px;padding:12px 18px 6px}
+.dim .sv{font-family:var(--mono);font-size:26px;font-weight:500}
+.dim .sv .u{font-size:12px;color:var(--tx-3);font-weight:400}
+.dim .track{flex:1;position:relative;height:6px;border-radius:3px;background:var(--bg3)}
+.dim .fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--tx-2)}
+.drow{display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:5px 0;border-bottom:1px dashed var(--line);font-size:12px}
+.drow:last-child{border-bottom:0}
+.drow .k{color:var(--tx-2);display:flex;align-items:center;gap:8px;min-width:0}
+.drow .v{font-family:var(--mono);font-size:12.5px;color:var(--tx);white-space:nowrap}
+.drow .v.dim2{color:var(--tx-2)}
+.hatch{background-image:repeating-linear-gradient(45deg,rgba(240,164,63,.10) 0 6px,transparent 6px 12px);
+       border:1px dashed rgba(240,164,63,.45);border-radius:var(--r-s)}
+
+/* —— 备选情景条 —— */
+.opts{flex:none;display:flex;gap:12px;align-items:stretch}
+.opt{flex:1;display:flex;align-items:center;gap:12px;border:1px solid var(--line);
+     border-radius:var(--r);padding:13px 18px;background:var(--bg1)}
+.opt.on{border-color:var(--line-2);background:var(--bg2)}
+.opt .ck{width:16px;height:16px;flex:none;border-radius:50%;border:1px solid var(--line-2);position:relative}
+.opt.on .ck::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--tx)}
+.opt .t1{font-size:13.5px;font-weight:500}
+.opt .t2{font-size:11px;color:var(--tx-3);margin-top:2px}
+.opt .decide{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--tx-3);
+             border:1px solid var(--line);border-radius:4px;padding:3px 8px;white-space:nowrap}
+
+/* —— 右栏 —— */
+.signals{flex:1}
+.signals .card-b{flex:1;display:flex;flex-direction:column;gap:10px}
+.sig{flex:1;border:1px solid var(--line);border-radius:var(--r-s);padding:11px 13px;background:var(--bg1);
+     display:flex;flex-direction:column;justify-content:center}
+.sig .r1{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.sig .n{width:22px;height:22px;flex:none;border-radius:6px;border:1px solid var(--line-2);
+        color:var(--tx-2);font-family:var(--mono);font-size:11px;display:flex;align-items:center;justify-content:center}
+.sig .t{font-size:13px;font-weight:500}
+.sig .desc{font-size:11.5px;color:var(--tx-2);line-height:1.5}
+.sig .metrics{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;align-items:center}
+.sig .state{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx-3)}
+.ops .card-b{display:flex;flex-direction:column;gap:10px}
+.xr{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--tx-2)}
+.xr .tm{font-family:var(--mono);font-size:11.5px;color:var(--tx-3)}
+.xr .ver{font-family:var(--mono);font-size:11.5px;color:var(--tx-2);border:1px solid var(--line);
+         border-radius:4px;padding:2px 7px;white-space:nowrap}
+.ops .row{display:flex;gap:10px}
+.btn-ghost2{flex:1;text-align:center;font-family:var(--sans);font-size:12.5px;color:var(--tx-2);
+            border:1px solid var(--line-2);border-radius:var(--r-s);padding:10px 0;cursor:pointer;
+            text-decoration:none;display:inline-block}
+
+/* —— 底栏 —— */
+.footer{flex:none;height:38px;border-top:1px solid var(--line);display:flex;align-items:center;
+        padding:0 22px;gap:17px;font-size:11.5px;color:var(--tx-3)}
+.footer .si{display:flex;align-items:center;gap:7px;white-space:nowrap}
+.legend{display:flex;gap:13px;margin-left:auto}
+.legend span{display:flex;align-items:center;gap:6px}
+.atag{display:inline-block;font-family:var(--mono);font-size:10.5px;color:var(--warn);border:1px dashed rgba(240,164,63,.45);
+      border-radius:4px;padding:1px 6px;margin-left:7px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="board">
+
+  <!-- 左侧主导航 -->
+  <aside class="side">
+    <div class="mark">CS</div>
+    <nav class="nav">
+      <a href="a1-xcard.html" title="值班态势台">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>态势台</span></a>
+      <a href="a2-email.html" title="信号收件箱">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        <span>收件箱</span></a>
+      <a class="on" href="a3-observe.html" title="事件工作区">
+        <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        <span>工作区</span></a>
+      <a href="a4-l3.html" title="审批中心">
+        <svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+        <span>审批</span></a>
+      <a href="a5-wait.html" title="执行与触达">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+        <span>触达</span></a>
+      <a href="a6-daily.html" title="事件轨迹时间轴">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>轨迹</span></a>
+    </nav>
+    <div class="gap"></div>
+  </aside>
+
+  <div class="right">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <span class="logo">ClarSyn</span>
+      <span class="t-sub">宾客运营工作台</span>
+      <div class="vcard">
+        <div class="vcell"><span class="kl">船舶</span><span class="kv"><b>星澜号</b> MS XING LAN</span></div>
+        <div class="vcell"><span class="kl">航次</span><span class="kv">HL-2609-05</span></div>
+        <div class="vcell"><span class="kl">挂靠港</span><span class="kv">福冈港 W-3</span></div>
+        <div class="vcell"><span class="kl">泊离</span><span class="kv">09-18 · 16:00</span></div>
+      </div>
+      <div class="sp"></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+        检索事件 / 舱位 / 人员
+      </div>
+      <div class="t0"><span class="dot r"></span>T0 全功能</div>
+      <div class="clock"><div class="t">20:42:33</div><div class="l">船钟 · 09-17</div></div>
+      <div class="role"><span><b>值班员</b> · 何舟</span><span class="swap">切换</span></div>
+    </header>
+
+    <main class="main">
+
+      <!-- 左：事件头＋横幅＋四维＋备选 -->
+      <div class="colL">
+
+        <!-- 事件头 -->
+        <section class="card ehead">
+          <div class="r1">
+            <span class="xbadge">X 库外组合</span>
+            <span class="eid">X-260917-01</span>
+            <span class="nm">接驳运力缺口 × 批次集合点冲突 × 到港时间漂移</span>
+            <div class="sp"></div>
+            <span class="st">等级 X · 未立案</span>
+            <span class="st">tr-260917-2040</span>
+          </div>
+          <div class="r2">
+            <span class="step on">观察</span><span class="arr">→</span>
+            <span class="step">立案</span><span class="arr">→</span>
+            <span class="step">核算</span><span class="arr">→</span>
+            <span class="step">方案</span><span class="arr">→</span>
+            <span class="step">签署</span><span class="arr">→</span>
+            <span class="step">执行</span><span class="arr">→</span>
+            <span class="step">关闭</span>
+            <div class="sp"></div>
+            <span class="st src">地接群消息 ◐</span>
+            <span class="st src">确定性试算 ●</span>
+            <span class="st src">船代单源 ◐</span>
+            <span class="st src">血缘入口</span>
+          </div>
+        </section>
+
+        <!-- 琥珀横幅＋立案锁 -->
+        <section class="banner">
+          <span class="tx">弱信号阶段 · 待外部正式通知</span>
+          <div class="sp"></div>
+          <span class="btn-dis">
+            <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            立为正式事件
+          </span>
+        </section>
+
+        <!-- 四维评估 -->
+        <div class="dims">
+          <section class="card dim">
+            <div class="card-h"><h3>运营影响</h3><span class="en">Operations</span>
+              <span class="right">确定性试算</span></div>
+            <div class="score"><span class="sv">64<span class="u"> /100</span></span>
+              <div class="track"><div class="fill" style="width:64%"></div></div></div>
+            <div class="rows">
+              <div class="drow"><span class="k">窗口差（若证实）</span><span class="v">-4h</span></div>
+              <div class="drow"><span class="k">07:00–16:00 → 11:00–16:00</span><span class="v dim2">待证实</span></div>
+              <div class="drow"><span class="k">团影响（初判）</span><span class="v">41–58 团</span></div>
+              <div class="drow"><span class="k">瓶颈 · 移民工位</span><span class="v">8 工位<span class="atag">假设 · C3</span></span></div>
+              <div class="drow"><span class="k">接驳缺口（因子①）</span><span class="v">约 180 座</span></div>
+              <div class="drow"><span class="k">集合点峰值（因子②）</span><span class="v">1,160 人</span></div>
+            </div>
+          </section>
+
+          <section class="card dim">
+            <div class="card-h"><h3>经济影响</h3><span class="en">Economic</span>
+              <span class="right">仅相对量级</span></div>
+            <div class="score"><span class="sv">41<span class="u"> /100</span></span>
+              <div class="track"><div class="fill" style="width:41%"></div></div></div>
+            <div class="rows">
+              <div class="drow"><span class="k">退改成本（随团变更数）</span><span class="v dim2">量级</span></div>
+              <div class="drow"><span class="k">增援成本（随用工方案）</span><span class="v dim2">量级</span></div>
+              <div class="drow"><span class="k">统一口径工作量（随子事件）</span><span class="v">130 起</span></div>
+              <div class="drow"><span class="k">口径</span><span class="v dim2">不出金额 · L3/L4</span></div>
+              <div class="drow"><span class="k">合同条款依赖</span><span class="v dim2">待条款库</span></div>
+            </div>
+          </section>
+
+          <section class="card dim">
+            <div class="card-h"><h3>风险影响</h3><span class="en">Risk</span></div>
+            <div class="score"><span class="sv">58<span class="u"> /100</span></span>
+              <div class="track"><div class="fill" style="width:58%"></div></div></div>
+            <div class="rows">
+              <div class="drow"><span class="k">安全</span><span class="v dim2">无不可逆项 · 观察中</span></div>
+              <div class="drow"><span class="k">群体 · 集合点峰值</span><span class="v">1,160 人</span></div>
+              <div class="drow"><span class="k">合规 · 告知时限</span><span class="v dim2">EU 1177</span></div>
+              <div class="drow"><span class="k">合规 · 休息规则</span><span class="v dim2">MLC</span></div>
+              <div class="drow"><span class="k">声誉 · 变更沟通量</span><span class="v">90 团</span></div>
+            </div>
+          </section>
+
+          <section class="card dim">
+            <div class="card-h"><h3>综合价值</h3><span class="en">Composite</span></div>
+            <div class="score"><span class="sv">61<span class="u"> /100</span></span>
+              <div class="track"><div class="fill" style="width:61%"></div></div></div>
+            <div class="rows">
+              <div class="drow"><span class="k">运营</span><span class="v">64</span></div>
+              <div class="drow"><span class="k">经济</span><span class="v">41</span></div>
+              <div class="drow"><span class="k">风险</span><span class="v">58</span></div>
+              <div class="drow"><span class="k">组合信度</span><span class="v">0.55</span></div>
+              <div class="drow"><span class="k">权重档</span><span class="v"><span class="atag" style="margin-left:0">假设 · C3</span></span></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 备选情景条 -->
+        <div class="opts">
+          <div class="opt on">
+            <span class="ck"></span>
+            <span><span class="t1">继续观察</span><br><span class="t2">默认</span></span>
+          </div>
+          <div class="opt">
+            <span class="ck"></span>
+            <span><span class="t1">预生成预案</span><br><span class="t2">不构成决策</span></span>
+          </div>
+          <div class="opt" style="flex:.7;background:transparent;border-style:dashed">
+            <span class="t2" style="margin:0">决定权：船公司与船长</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右栏 -->
+      <div class="colR">
+
+        <!-- 输入信号 -->
+        <section class="card signals">
+          <div class="card-h"><h3>输入信号</h3><span class="en">Signals</span>
+            <span class="right">3 因子</span></div>
+          <div class="card-b">
+            <div class="sig">
+              <div class="r1"><span class="n">1</span><span class="t">码头接驳运力缺口</span></div>
+              <div class="desc">地接群 18:40 消息：早峰 12 辆摆渡车中 4 辆调往他线，缺口约 180 座。</div>
+              <div class="metrics">
+                <span class="state"><span class="dot y"></span>外部渠道 ◐ 缓存</span>
+                <span class="st">信度 0.45</span><span class="st">对齐 18:40</span>
+              </div>
+            </div>
+            <div class="sig">
+              <div class="r1"><span class="n">2</span><span class="t">B03 / B04 集合点占用重叠</span></div>
+              <div class="desc">中央大厅 11:30–12:10 叠加，试算峰值 1,160 人，超错峰阈值约 22%。</div>
+              <div class="metrics">
+                <span class="state"><span class="dot r"></span>确定性试算 ● 实时</span>
+                <span class="st">信度 0.70</span><span class="st">偏离 1.8σ</span>
+              </div>
+            </div>
+            <div class="sig">
+              <div class="r1"><span class="n">3</span><span class="t">到港时间漂移 06:10 → 09:40</span></div>
+              <div class="desc">船代单源 · 待证实</div>
+              <div class="metrics">
+                <span class="state"><span class="dot y"></span>外部单源 ◐ 缓存</span>
+                <span class="st">信度 0.40</span><span class="src">案例区间 S11</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 增量刷新 -->
+        <section class="card">
+          <div class="card-h"><h3>增量刷新</h3><span class="en">Refresh</span>
+            <span class="right"><span class="atag" style="margin-left:0">闸 30min · 假设 C3</span></span></div>
+          <div class="card-b" style="display:flex;flex-direction:column;gap:7px">
+            <div class="xr"><span class="ver">v1</span><span class="tm">20:40</span><span>接驳运力、批次重叠两因子并入</span></div>
+            <div class="xr"><span class="ver">v2</span><span class="tm">20:42</span><span>并入 ETA 漂移 · 组合信度 0.55</span></div>
+          </div>
+        </section>
+
+        <!-- 观察操作 -->
+        <section class="card ops">
+          <div class="card-h"><h3>观察操作</h3><span class="en">Actions</span></div>
+          <div class="card-b">
+            <a class="btn-pri" href="#" style="text-align:center">继续观察</a>
+            <div class="row">
+              <a class="btn-ghost2" href="#">增加观察项</a>
+              <a class="btn-ghost2" href="#">通知值班</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- 底栏 -->
+    <footer class="footer">
+      <span class="si"><span class="dot r"></span>PMS 实时</span>
+      <span class="si"><span class="dot r"></span>排班 实时</span>
+      <span class="si"><span class="dot y"></span>预订 / POS 缓存 6min</span>
+      <span class="si"><span class="dot r"></span>气象 实时</span>
+      <span class="si"><span class="dot y"></span>港方通告 人工录入</span>
+      <span class="si"><span class="dot r"></span>区域计数 实时 · 仅计数无图像</span>
+      <span class="si"><span class="dot g"></span>地接接口 离线 · 邮件 / 电话</span>
+      <div class="legend">
+        <span><span class="dot r"></span>实时</span><span><span class="dot y"></span>缓存</span><span><span class="dot g"></span>离线</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

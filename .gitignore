@@ -29,3 +29,6 @@ research/round3/cache/
 research/round3/.scratch/
 research/round3/bing_test.html
 research/round3/t1.html
+
+# 外部参考件（仅本地对照，不提交）
+portfolio/prototypes/_ref-*.svg
