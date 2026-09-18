@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A3 事件工作区 · 方案 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局与排版；色值/字体/按钮/状态标签/三态点全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化）；壳与事件头（识别条/状态机/页签）与 a3-calc 完全同构，
+   状态机推进至第 3 步【方案】。选定方案以描边＋角标表达，不使用渐变与色块。 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg0);font-family:var(--sans);color:var(--tx);font-weight:400}
+body{display:flex;align-items:center;justify-content:center}
+#board{width:1920px;height:1080px;transform-origin:center center;background:var(--bg0);display:flex}
+
+/* —— 左侧主导航（壳 1 外壳，与全族一致） —— */
+.side{width:72px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;
+      align-items:center;padding:14px 0 16px;gap:6px}
+.side .mark{width:36px;height:36px;border:1px solid var(--line-2);border-radius:var(--r-s);
+            display:flex;align-items:center;justify-content:center;font-family:var(--mono);
+            font-size:13px;font-weight:600;letter-spacing:.5px;margin-bottom:14px}
+.nav{display:flex;flex-direction:column;gap:4px;width:100%;align-items:center}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;width:60px;padding:9px 0 8px;
+       border-radius:var(--r-s);text-decoration:none;color:var(--tx-3)}
+.nav a svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.5;fill:none;
+           stroke-linecap:round;stroke-linejoin:round}
+.nav a span{font-size:10px;letter-spacing:.5px}
+.nav a:hover{color:var(--tx-2);background:var(--bg2)}
+.nav a.on{color:var(--tx);background:var(--bg3)}
+.side .gap{flex:1}
+
+/* —— 顶栏（与全族一致） —— */
+.right{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
+.topbar{height:76px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;
+        padding:0 22px;gap:18px}
+.logo{font-family:var(--mono);font-weight:600;font-size:19px;letter-spacing:.5px}
+.t-sub{font-size:13px;color:var(--tx-2);border-left:1px solid var(--line-2);padding-left:18px}
+.vcard{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-s);height:48px}
+.vcell{padding:8px 16px;display:flex;flex-direction:column;justify-content:center;gap:3px;border-left:1px solid var(--line)}
+.vcell:first-child{border-left:0}
+.vcell .kl{font-size:9.5px;color:var(--tx-3);letter-spacing:1.2px}
+.vcell .kv{font-size:13.5px;color:var(--tx);white-space:nowrap}
+.vcell .kv b{font-weight:500}
+.sp{flex:1}
+.t0{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);
+    border:1px solid rgba(81,184,115,.35);border-radius:var(--r-p);padding:9px 15px;flex:none}
+.clock{text-align:right;line-height:1.25;flex:none}
+.clock .t{font-family:var(--mono);font-size:24px;font-weight:500}
+.clock .l{font-size:10.5px;color:var(--tx-3)}
+.role{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--tx-2);
+      border:1px solid var(--line);border-radius:var(--r-p);padding:9px 16px;flex:none}
+.role b{color:var(--tx);font-weight:500}
+.role .swap{color:var(--tx-3);border-left:1px solid var(--line);padding-left:11px}
+
+/* —— 事件头：三行（识别条 / 状态机 / 页签），与 a3-calc 同构 —— */
+.ehead{flex:none;border-bottom:1px solid var(--line)}
+.ehead .r1{display:flex;align-items:center;gap:11px;padding:11px 20px 9px}
+.ehead .nm{font-size:15px;font-weight:600;white-space:nowrap}
+.ehead .src{font-size:10.5px}
+.ehead .r2,.ehead .r3{display:flex;align-items:center;gap:9px;padding:0 20px 10px;flex-wrap:nowrap}
+.step{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--tx-3);white-space:nowrap}
+.step .n{width:16px;height:16px;border-radius:50%;border:1px solid var(--line-2);display:flex;
+         align-items:center;justify-content:center;font-family:var(--mono);font-size:9.5px;flex:none}
+.step.on{color:var(--tx);border:1px solid var(--line-2);border-radius:var(--r-s);padding:3px 9px;background:var(--bg3)}
+.step.on .n{background:var(--bg2);color:var(--tx);font-weight:600}
+.arr{font-family:var(--mono);font-size:10px;color:var(--tx-3)}
+.tab{font-size:12px;color:var(--tx-3);border:1px solid var(--line);border-radius:var(--r-s);
+     padding:5px 13px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.tab:hover{color:var(--tx-2);border-color:var(--line-2)}
+.tab.on{color:var(--bg0);background:var(--tx);border-color:var(--tx);font-weight:600}
+.tab .ev{border-color:transparent;padding:0;color:inherit;opacity:.75}
+.wlink{font-size:12px;color:var(--warn);text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.wlink:hover{text-decoration:underline}
+.wlink svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* —— 主区（单屏，无滚动） —— */
+.main{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;padding:12px 18px}
+
+/* —— 卡片与通用小件 —— */
+.card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
+      display:flex;flex-direction:column;min-height:0}
+.card-b{padding:10px 16px 12px;display:flex;flex-direction:column;gap:9px}
+.ev{font-family:var(--mono);font-size:10px;color:var(--tx-2);border:1px solid var(--line-2);
+    border-radius:4px;padding:1px 6px;white-space:nowrap}
+.src{font-family:var(--mono);font-size:10px;color:var(--tx-3);border:1px solid var(--line);
+     border-radius:4px;padding:1px 6px;white-space:nowrap}
+
+/* —— 合法性灯组 —— */
+.leg-row{display:flex;align-items:center;gap:14px}
+.leg-row + .leg-row{border-top:1px dashed var(--line);padding-top:9px}
+.leg-lbl{width:200px;flex:none;font-weight:600;color:var(--tx);font-size:12.5px;
+         display:flex;align-items:center;gap:8px}
+.leg-lbl svg{width:15px;height:15px;stroke:var(--tx-2);stroke-width:1.5;fill:none;
+             stroke-linecap:round;stroke-linejoin:round;flex:none}
+.leg-txt{color:var(--tx-3);flex:1;font-size:11.5px;line-height:1.45}
+.leg-status{display:flex;align-items:center;gap:8px;flex:none}
+
+/* —— 三方案卡 —— */
+.plans-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.plan{position:relative;background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
+      display:flex;flex-direction:column;gap:9px;padding:13px 15px}
+.plan.sel{border-color:rgba(76,141,255,.55)}
+.plan .sel-tag{position:absolute;top:-9px;right:14px;font-family:var(--mono);font-size:10px;
+               color:var(--accent);border:1px solid rgba(76,141,255,.4);border-radius:4px;
+               padding:1px 8px;background:var(--bg0)}
+.p-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+     border-bottom:1px solid var(--line);padding-bottom:9px}
+.p-title{font-size:15px;font-weight:600}
+.p-id{font-family:var(--mono);font-size:11px;color:var(--tx-3)}
+.p-metric{background:var(--bg0);border:1px solid var(--line);border-radius:var(--r-s);padding:10px 13px}
+.p-m-lbl{font-size:11px;color:var(--tx-3)}
+.p-m-val{font-family:var(--mono);font-size:23px;font-weight:500;color:var(--tx);margin-top:3px;white-space:nowrap}
+.p-m-val .range{font-size:12px;color:var(--tx-2);font-weight:400;margin-left:6px;font-family:var(--mono)}
+.p-kv{display:flex;flex-direction:column;justify-content:space-between;font-size:12px;flex:1}
+.p-line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5.5px 0;
+        border-bottom:1px dashed var(--line)}
+.p-line:last-child{border-bottom:0}
+.p-k{color:var(--tx-3);white-space:nowrap}
+.p-v{font-family:var(--mono);font-size:11.5px;color:var(--tx);text-align:right}
+.p-v.warn{color:var(--warn)}
+.p-v.ok{color:var(--ok)}
+.p-v.err{color:var(--err)}
+.p-summary{font-size:11.5px;color:var(--tx-2);line-height:1.55;background:var(--bg2);
+           border-radius:var(--r-s);padding:9px 12px;border-left:3px solid var(--line-2)}
+.p-summary .tag{font-size:10px;color:var(--tx-3);display:block;margin-top:5px}
+.plan .btn-ghost{width:100%;justify-content:center}
+.btn-sel{width:100%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;
+         color:var(--accent);border:1px solid rgba(76,141,255,.4);border-radius:var(--r-p);
+         padding:10px 20px;background:transparent;white-space:nowrap}
+
+/* —— 底部拦截与提交 —— */
+.bottom-deck{flex:none;display:flex;align-items:center;gap:14px}
+.intercept-box{flex:1;display:flex;align-items:center;gap:10px;padding:9px 14px;
+               border:1px dashed var(--line-2);border-radius:var(--r-s);font-size:12px;color:var(--tx-2)}
+.intercept-box svg{width:15px;height:15px;stroke:var(--warn);stroke-width:1.5;fill:none;
+                   stroke-linecap:round;stroke-linejoin:round;flex:none}
+.intercept-box b{color:var(--warn);font-weight:500;white-space:nowrap}
+.deck-actions{display:flex;gap:10px;align-items:center;flex:none}
+.deck-actions .btn-ghost,.deck-actions .btn-pri{white-space:nowrap}
+.deck-actions svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.5;fill:none;
+                  stroke-linecap:round;stroke-linejoin:round}
+
+/* —— 底栏（与全族一致） —— */
+.footer{flex:none;height:38px;border-top:1px solid var(--line);display:flex;align-items:center;
+        padding:0 22px;gap:15px;font-size:11px;color:var(--tx-3);white-space:nowrap;overflow:hidden}
+.footer .si{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.legend{display:flex;gap:12px;margin-left:auto;white-space:nowrap}
+.legend span{display:flex;align-items:center;gap:5px}
+/* —— A 系列整体放大（2026-09-18）：顶栏 92 / 侧栏 88 / 底栏 48，字号全面上调 —— */
+.side{width:88px;padding:16px 0 18px}
+.side .mark{width:46px;height:46px;font-size:15px;margin-bottom:16px}
+.nav{gap:6px}
+.nav a{width:74px;padding:11px 0 10px;gap:4px}
+.nav a svg{width:24px;height:24px}
+.nav a span{font-size:12px}
+.topbar{height:92px;padding:0 24px;gap:20px}
+.logo{font-size:22px}
+.t-sub{font-size:14.5px;padding-left:20px}
+.vcard{height:58px}
+.vcell{padding:9px 18px;gap:4px}
+.vcell .kl{font-size:10.5px}
+.vcell .kv{font-size:15px}
+.search{height:46px;width:280px;font-size:14px}
+.t0{font-size:14.5px;padding:10px 17px}
+.clock .t{font-size:30px}
+.clock .l{font-size:12px}
+.role{font-size:14.5px;padding:10px 18px}
+.footer{height:48px;font-size:12px;padding:0 24px;gap:14px}
+.st{font-size:12.5px;padding:4px 9px}
+.ev,.src{font-size:11.5px}
+.ehead .nm{font-size:16.5px}
+.ehead .src{font-size:11.5px}
+.step{font-size:12.5px}
+.step .n{width:18px;height:18px;font-size:10.5px}
+.tab{font-size:13px;padding:6px 14px}
+.wlink{font-size:12.5px}
+.leg-lbl{font-size:14px;width:210px}
+.leg-txt{font-size:13px}
+.p-title{font-size:16.5px}
+.p-id{font-size:12px}
+.p-m-lbl{font-size:12.5px}
+.p-m-val{font-size:25px}
+.p-m-val .range{font-size:13px}
+.p-line{font-size:13px}
+.p-v{font-size:12.5px}
+.p-summary{font-size:13px}
+.p-summary .tag{font-size:11.5px}
+.plan .btn-ghost{font-size:13.5px}
+.btn-sel{font-size:13.5px}
+.sel-tag{font-size:11.5px}
+.intercept-box{font-size:13px}
+.btn-ghost,.btn-pri{font-size:13.5px}
+/* —— A 系列第二轮放大（2026-09-18）：对齐 a3-document 高保真文档页字号体系，下限抬至 12.5px —— */
+.topbar{height:96px}
+.vcell .kv{font-size:16px}
+.vcell .kl{font-size:11px}
+.search{font-size:15px}
+.t0{font-size:15.5px}
+.role{font-size:15.5px}
+.clock .t{font-size:34px}
+.clock .l{font-size:13px}
+.nav a span{font-size:13px}
+.footer{height:52px;font-size:13px}
+.st{font-size:13.5px;padding:5px 10px}
+.ev,.src{font-size:12.5px}
+.ehead .nm{font-size:18px}
+.ehead .src{font-size:12.5px}
+.step{font-size:13.5px}
+.tab{font-size:14px}
+.wlink{font-size:13.5px}
+.leg-lbl{font-size:15.5px;width:230px}
+.leg-txt{font-size:14.5px}
+.p-title{font-size:18px}
+.p-id{font-size:13px}
+.p-m-lbl{font-size:13.5px}
+.p-m-val{font-size:27px}
+.p-m-val .range{font-size:14px}
+.p-line{font-size:14.5px}
+.p-v{font-size:14px}
+.p-summary{font-size:14.5px}
+.p-summary .tag{font-size:12.5px}
+.plan .btn-ghost{font-size:14.5px}
+.btn-sel{font-size:14.5px}
+.sel-tag{font-size:12.5px}
+.intercept-box{font-size:14.5px}
+.btn-ghost,.btn-pri{font-size:14.5px}
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.card,.plan{border-color:transparent;box-shadow:var(--shadow-card)}
+.p-metric{background:var(--bg2);border-color:transparent}
+</style>
+</head>
+<body>
+<div id="board">
+
+  <!-- 左侧主导航 -->
+  <aside class="side">
+    <div class="mark">CS</div>
+    <nav class="nav">
+      <a class="on" href="p1-workspace.html" title="工作区">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="7" rx="1.5"/><rect x="2" y="13" width="9" height="7" rx="1.5"/><rect x="13" y="13" width="9" height="7" rx="1.5"/></svg>
+        <span>工作区</span></a>
+      <a href="a1-xcard.html" title="值班态势台">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>态势台</span></a>
+      <a href="a2-email.html" title="信号收件箱">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        <span>收件箱</span></a>
+      <a href="a3-observe.html" title="预警观察">
+        <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        <span>预警观察</span></a>
+      <a href="a4-l3.html" title="审批中心">
+        <svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+        <span>审批</span></a>
+      <a href="a5-dispatch.html" title="执行与触达">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+        <span>触达</span></a>
+      <a href="a6-daily.html" title="事件轨迹时间轴">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>轨迹</span></a>
+    </nav>
+    <div class="gap"></div>
+  </aside>
+
+  <div class="right">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <span class="logo">ClarSyn</span>
+      <span class="t-sub">宾客运营工作台</span>
+      <div class="vcard">
+        <div class="vcell"><span class="kl">船舶</span><span class="kv"><b>星澜号</b> MS XING LAN</span></div>
+        <div class="vcell"><span class="kl">航次</span><span class="kv">HL-2609-05</span></div>
+        <div class="vcell"><span class="kl">挂靠港</span><span class="kv">福冈港 W-3</span></div>
+        <div class="vcell"><span class="kl">泊离</span><span class="kv">09-18 · 16:00</span></div>
+      </div>
+      <div class="sp"></div>
+      <div class="t0"><span class="dot r"></span>T0 全功能</div>
+      <div class="clock"><div class="t">21:09:15</div><div class="l">船钟 · 09-17</div></div>
+      <div class="role"><span><b>运营经理</b> · 林若岚</span><span class="swap">切换</span></div>
+    </header>
+
+    <!-- 事件头：识别条 -->
+    <div class="ehead">
+      <div class="r1">
+        <span class="st err">L3 级应急</span>
+        <span class="src" style="font-size:11px;color:var(--tx)">E09-0001</span>
+        <span class="nm">福冈港靠泊窗口压缩（07:00–16:00 → 11:00–16:00）</span>
+        <span class="st"><span class="dot r" style="margin-right:6px"></span>船代邮件·人工确认</span>
+        <span class="src">+ 3项弱信号合流</span>
+        <div class="sp" style="flex:1"></div>
+        <span class="src">trace_id: tr-260917-2106</span>
+        <span class="src">源: X-260917-01</span>
+        <a class="wlink" href="#">预挂 130 件退改咨询
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
+      </div>
+
+      <!-- 状态机步进条：推进至方案 -->
+      <div class="r2">
+        <span class="step"><span class="n">1</span>观察</span><span class="arr">→</span>
+        <span class="step"><span class="n">2</span>核算</span><span class="arr">→</span>
+        <span class="step on"><span class="n">3</span>【方案】当前执行</span><span class="arr">→</span>
+        <span class="step"><span class="n">4</span>签署</span><span class="arr">→</span>
+        <span class="step"><span class="n">5</span>挂起</span><span class="arr">→</span>
+        <span class="step"><span class="n">6</span>修订</span><span class="arr">→</span>
+        <span class="step"><span class="n">7</span>执行</span><span class="arr">→</span>
+        <span class="step"><span class="n">8</span>关闭</span>
+      </div>
+
+      <!-- 页签行 -->
+      <div class="r3">
+        <a class="tab" href="a3-calc.html">① 核算 (确定性试算)</a>
+        <a class="tab on" href="a3-plan.html">② 方案 (A/B/C 候选)</a>
+        <a class="tab" href="a3-basis.html">③ 依据 (法规与条款)</a>
+        <a class="tab" href="a3-monitor.html">④ 监测 (P2与双曲线)</a>
+        <div class="sp" style="flex:1"></div>
+      </div>
+    </div>
+
+    <main class="main">
+
+      <!-- 合法性灯组 -->
+      <section class="card">
+        <div class="card-b" style="gap:9px">
+          <div class="leg-row">
+            <div class="leg-lbl">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              MLC 船员休息灯
+            </div>
+            <div class="leg-txt">24h 休息 ≥10h；7d ≥77h；每日至多 2 段且一段 ≥6h；间隔 ≤14h (MLC A2.3 · MSN 1877)</div>
+            <div class="leg-status">
+              <span class="st warn">方案 A 触发例外黄灯 (周工时70h例外，本周1/2)</span>
+              <span class="st ok">方案 B 绿灯通过</span>
+              <span class="st ok">方案 C 绿灯通过</span>
+            </div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-lbl">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              最低安全配员灯
+            </div>
+            <div class="leg-txt">《船舶最低安全配员证书》第22条：船长与大副、轮机长与大管轮不得同时离船；夜间抽调不得清空应变部署表必需岗位</div>
+            <div class="leg-status">
+              <span class="st ok">三方案关键岗位配置均合法校验通过</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- A/B/C 三卡并列 -->
+      <section class="plans-grid">
+        <div class="plan">
+          <div class="p-h"><span class="p-title">方案 A · 增能压缩</span><span class="p-id">Opt-A</span></div>
+          <div class="p-metric">
+            <div class="p-m-lbl">预计可完成上岸旅客比例</div>
+            <div class="p-m-val">92% – 97% <span class="range">(3,590 – 3,780人)</span></div>
+          </div>
+          <div class="p-kv">
+            <div class="p-line"><span class="p-k">岸游团安排</span><span class="p-v">31 可行 / 38 改半日 / 14 取消</span></div>
+            <div class="p-line"><span class="p-k">需增边检工位</span><span class="p-v warn">+3 至 4 工位 (需港方同意)</span></div>
+            <div class="p-line"><span class="p-k">MLC 休息规则</span><span class="p-v"><span class="st warn">黄灯 · 例外排班 70h</span></span></div>
+            <div class="p-line"><span class="p-k">最低配员合规</span><span class="p-v"><span class="st ok">绿灯校验通过</span></span></div>
+            <div class="p-line"><span class="p-k">全船告知规模</span><span class="p-v">全船 4,980 人</span></div>
+            <div class="p-line"><span class="p-k">地接社依赖度</span><span class="p-v warn">高 (7团待定 + 需紧急加车)</span></div>
+            <div class="p-line"><span class="p-k">预估投诉子事件</span><span class="p-v">120 – 150 件</span></div>
+          </div>
+          <div class="p-summary">「以港方增开工位和例外排班换取最高上岸比例，外部依赖最多，日方边检不可控风险高。」
+            </div>
+          <button class="btn-ghost">切换并选择方案 A</button>
+        </div>
+
+        <div class="plan sel">
+          <span class="sel-tag">当前选定方案</span>
+          <div class="p-h"><span class="p-title">方案 B · 分批顺延</span><span class="p-id">Opt-B · 推荐</span></div>
+          <div class="p-metric">
+            <div class="p-m-lbl">预计可完成上岸旅客比例</div>
+            <div class="p-m-val">80% – 88% <span class="range">(3,120 – 3,430人)</span></div>
+          </div>
+          <div class="p-kv">
+            <div class="p-line"><span class="p-k">岸游团安排</span><span class="p-v">20 可行 / 48 改半日 / 22 取消</span></div>
+            <div class="p-line"><span class="p-k">需增边检工位</span><span class="p-v ok">0 (沿用既有 8 工位)</span></div>
+            <div class="p-line"><span class="p-k">MLC 休息规则</span><span class="p-v"><span class="st ok">绿灯合规</span></span></div>
+            <div class="p-line"><span class="p-k">最低配员合规</span><span class="p-v"><span class="st ok">绿灯校验通过</span></span></div>
+            <div class="p-line"><span class="p-k">全船告知规模</span><span class="p-v">计划上岸 3,900 人 (个人定向)</span></div>
+            <div class="p-line"><span class="p-k">地接社依赖度</span><span class="p-v">中 (仅需部分车型压缩)</span></div>
+            <div class="p-line"><span class="p-k">预估投诉子事件</span><span class="p-v">130 – 170 件</span></div>
+          </div>
+          <div class="p-summary">「不增加外部口岸依赖，以批次顺延和半日游产品保八成以上旅客上岸，法律合规与用工风险最低。」</div>
+          <button class="btn-sel">已选定当前方案</button>
+        </div>
+
+        <div class="plan">
+          <div class="p-h"><span class="p-title">方案 C · 保守保港</span><span class="p-id">Opt-C</span></div>
+          <div class="p-metric">
+            <div class="p-m-lbl">预计可完成上岸旅客比例</div>
+            <div class="p-m-val">62% – 70% <span class="range">(2,420 – 2,730人)</span></div>
+          </div>
+          <div class="p-kv">
+            <div class="p-line"><span class="p-k">岸游团安排</span><span class="p-v">20 短线成行 / 48 转船内活动 / 22 取消</span></div>
+            <div class="p-line"><span class="p-k">需增边检工位</span><span class="p-v ok">0 (负荷宽松)</span></div>
+            <div class="p-line"><span class="p-k">MLC 休息规则</span><span class="p-v"><span class="st ok">绿灯合规</span></span></div>
+            <div class="p-line"><span class="p-k">最低配员合规</span><span class="p-v"><span class="st ok">绿灯校验通过</span></span></div>
+            <div class="p-line"><span class="p-k">全船告知规模</span><span class="p-v">全船 4,980 人</span></div>
+            <div class="p-line"><span class="p-k">地接社依赖度</span><span class="p-v">低 (直接取消长线接驳)</span></div>
+            <div class="p-line"><span class="p-k">预估投诉子事件</span><span class="p-v err">170 – 210 件 (船内安抚压力大)</span></div>
+          </div>
+          <div class="p-summary">「最大程度保障码头秩序与安全余量，近三成旅客无法上岸，需全面开放船内娱乐设施与统一解释口径。」</div>
+          <button class="btn-ghost">切换并选择方案 C</button>
+        </div>
+      </section>
+
+      <!-- 拦截明细与提交 -->
+      <section class="bottom-deck">
+        <div class="intercept-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div><b>派包候选规则拦截 2 人次：</b>① 吴海 (HSK-0331) 缺 STCW A-V/2 第4类持证被拦截；② 周敏 (HSK-0205) 属部署表走廊管制必需岗禁止夜间抽空。</div>
+        </div>
+        <div class="deck-actions">
+          <a class="btn-ghost" href="a3-calc.html">← 返回核算重调约束</a>
+          <a class="btn-pri" href="a4-l3.html">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            提交方案 B 至审批中心 (送 L3 签署)</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底栏 -->
+    <footer class="footer">
+      <span class="si"><span class="dot r"></span>PMS 实时</span>
+      <span class="si"><span class="dot r"></span>排班 实时</span>
+      <span class="si"><span class="dot y"></span>预订 / POS 缓存 6min</span>
+      <span class="si"><span class="dot r"></span>气象 实时</span>
+      <span class="si"><span class="dot y"></span>港方通告 人工录入</span>
+      <span class="si"><span class="dot r"></span>区域计数 实时 · 仅计数无图像</span>
+      <span class="si"><span class="dot g"></span>地接接口 离线 · 邮件 / 电话</span>
+      <div class="legend">
+        <span><span class="dot r"></span>实时</span><span><span class="dot y"></span>缓存</span><span><span class="dot g"></span>离线</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

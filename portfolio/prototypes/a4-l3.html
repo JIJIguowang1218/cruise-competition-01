@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A4 审批中心 · 21:38 运营经理 L3 电子签署 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局与排版；色值/字体/按钮/状态标签/三态点全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化）；壳（顶栏/导航/底栏）与原型族完全一致。
+   对应数据包快照【A4-1】a4-l3。固定板单屏。 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg0);font-family:var(--sans);color:var(--tx);font-weight:400}
+body{display:flex;align-items:center;justify-content:center}
+#board{width:1920px;height:1080px;transform-origin:center center;background:var(--bg0);display:flex}
+
+/* —— 左侧主导航（壳 1 外壳，与全族一致） —— */
+.side{width:72px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;
+      align-items:center;padding:14px 0 16px;gap:6px}
+.side .mark{width:36px;height:36px;border:1px solid var(--line-2);border-radius:var(--r-s);
+            display:flex;align-items:center;justify-content:center;font-family:var(--mono);
+            font-size:13px;font-weight:600;letter-spacing:.5px;margin-bottom:14px}
+.nav{display:flex;flex-direction:column;gap:4px;width:100%;align-items:center}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;width:60px;padding:9px 0 8px;
+       border-radius:var(--r-s);text-decoration:none;color:var(--tx-3)}
+.nav a svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.5;fill:none;
+           stroke-linecap:round;stroke-linejoin:round}
+.nav a span{font-size:10px;letter-spacing:.5px}
+.nav a:hover{color:var(--tx-2);background:var(--bg2)}
+.nav a.on{color:var(--tx);background:var(--bg3)}
+.side .gap{flex:1}
+
+/* —— 顶栏（与全族一致） —— */
+.right{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
+.topbar{height:76px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;
+        padding:0 22px;gap:18px}
+.logo{font-family:var(--mono);font-weight:600;font-size:19px;letter-spacing:.5px}
+.t-sub{font-size:13px;color:var(--tx-2);border-left:1px solid var(--line-2);padding-left:18px}
+.vcard{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-s);height:48px}
+.vcell{padding:8px 16px;display:flex;flex-direction:column;justify-content:center;gap:3px;border-left:1px solid var(--line)}
+.vcell:first-child{border-left:0}
+.vcell .kl{font-size:9.5px;color:var(--tx-3);letter-spacing:1.2px}
+.vcell .kv{font-size:13.5px;color:var(--tx);white-space:nowrap}
+.vcell .kv b{font-weight:500}
+.sp{flex:1}
+.search{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--r-p);
+        padding:0 16px;height:40px;font-size:12.5px;color:var(--tx-3);width:250px;flex:none}
+.search svg{width:14px;height:14px;stroke:var(--tx-3);stroke-width:1.5;fill:none;stroke-linecap:round}
+.t0{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);
+    border:1px solid rgba(81,184,115,.35);border-radius:var(--r-p);padding:9px 15px;flex:none}
+.clock{text-align:right;line-height:1.25;flex:none}
+.clock .t{font-family:var(--mono);font-size:24px;font-weight:500}
+.clock .l{font-size:10.5px;color:var(--tx-3)}
+.role{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--tx-2);
+      border:1px solid var(--line);border-radius:var(--r-p);padding:9px 16px;flex:none}
+.role b{color:var(--tx);font-weight:500}
+.role .swap{color:var(--tx-3);border-left:1px solid var(--line);padding-left:11px}
+
+/* —— 工作区：左队列＋右审批单 —— */
+.workspace{flex:1;display:grid;grid-template-columns:360px 1fr;min-height:0}
+.queue-panel{border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;
+             overflow-y:auto;scrollbar-width:none}
+.queue-panel::-webkit-scrollbar{display:none}
+.panel-h{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;
+         justify-content:space-between;gap:8px}
+.panel-h h2{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px}
+.badge-count{font-family:var(--mono);font-size:10.5px;color:var(--accent);
+             border:1px solid rgba(76,141,255,.4);border-radius:var(--r-p);padding:1px 8px}
+.panel-h .stay{font-size:11px;color:var(--tx-3)}
+.queue-list{padding:12px;display:flex;flex-direction:column;gap:10px}
+.q-card{position:relative;background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
+        padding:12px;display:flex;flex-direction:column;gap:8px}
+.q-card.active{border-color:rgba(76,141,255,.55);background:var(--bg2)}
+.q-card.active::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;
+                       background:var(--accent);border-radius:0 2px 2px 0}
+.q-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.q-eid{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--tx-2)}
+.q-title{font-size:13px;font-weight:500;line-height:1.45}
+.q-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--tx-3);flex-wrap:wrap}
+.q-timer{font-family:var(--mono);font-size:11px;color:var(--warn)}
+.inform-section{border-top:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:8px}
+.inform-h{font-size:11.5px;color:var(--tx-3);display:flex;justify-content:space-between;align-items:center}
+.inform-card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r-s);
+             padding:9px 11px;display:flex;flex-direction:column;gap:4px}
+.inform-t{font-size:12px;color:var(--tx-2);display:flex;align-items:center;gap:6px}
+.inform-t b{color:var(--tx);font-weight:500}
+.inform-card .d{font-size:11px;color:var(--tx-3)}
+
+/* —— 右列审批单 —— */
+.dossier{min-width:0;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:12px;
+         scrollbar-width:none}
+.dossier::-webkit-scrollbar{display:none}
+.dossier-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:nowrap}
+.dossier-id-row{display:flex;align-items:center;gap:11px;min-width:0}
+.dossier-eid{font-family:var(--mono);font-size:17px;font-weight:600;white-space:nowrap}
+.dossier-trace{font-family:var(--mono);font-size:10.5px;color:var(--tx-3);border:1px solid var(--line);
+               border-radius:4px;padding:2px 8px;white-space:nowrap}
+.timeout-warn{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--warn);
+              border:1px dashed rgba(240,164,63,.45);padding:6px 12px;border-radius:var(--r-s);
+              white-space:nowrap;flex:none}
+.sheet-card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
+            display:flex;flex-direction:column;flex:1;min-height:0}
+.sheet-h{padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg2);border-radius:var(--r) var(--r) 0 0;
+         display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sheet-h h3{font-size:14px;font-weight:600}
+.sheet-h .revision{font-family:var(--mono);font-size:11px;color:var(--tx-3)}
+.sheet-b{padding:14px 16px;display:flex;flex-direction:column;gap:12px;flex:1}
+.summary-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:12px}
+.box{background:var(--bg0);border:1px solid var(--line);border-radius:var(--r-s);padding:11px 13px;
+     display:flex;flex-direction:column;gap:8px}
+.box-title{font-size:11px;color:var(--tx-3)}
+.plan-name{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.plan-name .badge{font-family:var(--mono);font-size:10.5px;color:var(--ok);
+                  border:1px solid rgba(81,184,115,.4);border-radius:4px;padding:1px 7px}
+.plan-desc{font-size:12px;color:var(--tx-2);line-height:1.6}
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.m-cell{border:1px solid var(--line);border-radius:var(--r-s);padding:8px 10px;background:var(--bg1)}
+.m-k{font-size:10.5px;color:var(--tx-3)}
+.m-v{font-family:var(--mono);font-size:17px;font-weight:500;color:var(--tx);margin-top:4px;white-space:nowrap}
+.m-v span{font-size:11px;color:var(--tx-3);font-family:var(--sans);font-weight:400}
+.legal-item{display:flex;align-items:flex-start;gap:10px;font-size:12px;
+            border-bottom:1px dashed var(--line);padding-bottom:8px}
+.legal-item:last-child{border-bottom:0;padding-bottom:0}
+.legal-item .t{flex:1;min-width:0}
+.legal-item .t .n{font-weight:500;color:var(--tx)}
+.legal-item .t .d{font-size:11px;color:var(--tx-3);margin-top:2px}
+.legal-item .t .d.warn{color:var(--warn)}
+.legal-status{font-family:var(--mono);font-size:10px;padding:1px 7px;border-radius:4px;white-space:nowrap;flex:none}
+.legal-status.pass{color:var(--ok);border:1px solid rgba(81,184,115,.4)}
+.legal-status.void{color:var(--tx-3);border:1px solid var(--line-2)}
+.dispatch-lock-box{border:1px solid var(--line);border-radius:var(--r-s);padding:9px 14px;
+                   display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dispatch-lock-info{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tx-2);line-height:1.5}
+.dispatch-lock-info b{color:var(--tx);font-weight:500}
+.port-badge{font-family:var(--mono);font-size:10.5px;color:var(--accent);
+            border:1px solid rgba(76,141,255,.4);border-radius:4px;padding:2px 8px;white-space:nowrap;flex:none}
+.assumed{font-family:var(--mono);font-size:10.5px;color:var(--tx-3);white-space:nowrap;flex:none}
+.pathways{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pathway{border:1px solid var(--line);border-radius:var(--r-s);padding:9px 12px;font-size:11.5px;
+         color:var(--tx-3);display:flex;flex-direction:column;gap:4px;line-height:1.5}
+.pathway.on{border-color:var(--line-2);color:var(--tx-2)}
+.pathway b{color:var(--tx);font-weight:500}
+.history{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--tx-3);
+         border-top:1px dashed var(--line);padding-top:11px;white-space:nowrap;overflow:hidden}
+.history .lab{color:var(--tx-2);font-weight:500}
+.history .rej{color:var(--err)}
+.history .ok{color:var(--ok)}
+.history .cur{color:var(--tx)}
+.sign-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;
+              border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+.signer{display:flex;align-items:center;gap:11px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--bg3);border:1px solid var(--line-2);
+        display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--tx-2);flex:none}
+.signer .nm{font-size:13px;font-weight:500}
+.signer .rl{font-size:10.5px;color:var(--tx-3);font-family:var(--mono)}
+.acts{display:flex;align-items:center;gap:10px}
+.acts svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.5;fill:none;
+          stroke-linecap:round;stroke-linejoin:round}
+
+/* —— 底栏（与全族一致） —— */
+.footer{flex:none;height:38px;border-top:1px solid var(--line);display:flex;align-items:center;
+        padding:0 22px;gap:15px;font-size:11px;color:var(--tx-3);white-space:nowrap;overflow:hidden}
+.footer .si{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.legend{display:flex;gap:12px;margin-left:auto;white-space:nowrap}
+.legend span{display:flex;align-items:center;gap:5px}
+/* —— A 系列整体放大（2026-09-18）：顶栏 92 / 侧栏 88 / 底栏 48，字号全面上调 —— */
+.side{width:88px;padding:16px 0 18px}
+.side .mark{width:46px;height:46px;font-size:15px;margin-bottom:16px}
+.nav{gap:6px}
+.nav a{width:74px;padding:11px 0 10px;gap:4px}
+.nav a svg{width:24px;height:24px}
+.nav a span{font-size:12px}
+.topbar{height:92px;padding:0 24px;gap:20px}
+.logo{font-size:22px}
+.t-sub{font-size:14.5px;padding-left:20px}
+.vcard{height:58px}
+.vcell{padding:9px 18px;gap:4px}
+.vcell .kl{font-size:10.5px}
+.vcell .kv{font-size:15px}
+.search{height:46px;width:280px;font-size:14px}
+.t0{font-size:14.5px;padding:10px 17px}
+.clock .t{font-size:30px}
+.clock .l{font-size:12px}
+.role{font-size:14.5px;padding:10px 18px}
+.footer{height:48px;font-size:12px;padding:0 24px;gap:14px}
+.st{font-size:12.5px;padding:4px 9px}
+.src{font-size:11.5px}
+.workspace{grid-template-columns:390px 1fr}
+.panel-h h2{font-size:15px}
+.badge-count{font-size:11.5px}
+.panel-h .stay{font-size:12px}
+.q-eid{font-size:13.5px}
+.q-title{font-size:14.5px}
+.q-meta{font-size:12px}
+.q-timer{font-size:12px}
+.inform-h{font-size:12.5px}
+.inform-t{font-size:13px}
+.inform-card .d{font-size:12px}
+.dossier-eid{font-size:19px}
+.dossier-trace{font-size:11.5px}
+.timeout-warn{font-size:12.5px}
+.sheet-h h3{font-size:15.5px}
+.sheet-h .revision{font-size:12px}
+.box-title{font-size:12px}
+.plan-name{font-size:16.5px}
+.plan-name .badge{font-size:11.5px}
+.plan-desc{font-size:13.5px}
+.m-k{font-size:11.5px}
+.m-v{font-size:19px}
+.m-v span{font-size:12px}
+.legal-item{font-size:13px}
+.legal-item .t .d{font-size:12px}
+.legal-status{font-size:11px}
+.dispatch-lock-info{font-size:13px}
+.port-badge{font-size:11.5px}
+.assumed{font-size:11.5px}
+.pathway{font-size:12.5px}
+.history{font-size:12.5px}
+.signer .nm{font-size:14px}
+.signer .rl{font-size:11.5px}
+.btn-ghost,.btn-pri{font-size:13.5px}
+/* —— A 系列第二轮放大（2026-09-18）：对齐 a3-document 高保真文档页字号体系，下限抬至 12.5px —— */
+.topbar{height:96px}
+.vcell .kv{font-size:16px}
+.vcell .kl{font-size:11px}
+.search{font-size:15px}
+.t0{font-size:15.5px}
+.role{font-size:15.5px}
+.clock .t{font-size:34px}
+.clock .l{font-size:13px}
+.nav a span{font-size:13px}
+.footer{height:52px;font-size:13px}
+.st{font-size:13.5px;padding:5px 10px}
+.src{font-size:12.5px}
+.panel-h h2{font-size:16.5px}
+.badge-count{font-size:12.5px}
+.panel-h .stay{font-size:13px}
+.q-eid{font-size:15px}
+.q-title{font-size:16px}
+.q-meta{font-size:13px}
+.q-timer{font-size:13px}
+.inform-h{font-size:13.5px}
+.inform-t{font-size:14.5px}
+.inform-card .d{font-size:13px}
+.dossier-eid{font-size:21px}
+.dossier-trace{font-size:12.5px}
+.timeout-warn{font-size:13.5px}
+.sheet-h h3{font-size:17px}
+.sheet-h .revision{font-size:13px}
+.box-title{font-size:13px}
+.plan-name{font-size:18px}
+.plan-name .badge{font-size:12.5px}
+.plan-desc{font-size:15px}
+.m-k{font-size:12.5px}
+.m-v{font-size:21px}
+.m-v span{font-size:13px}
+.legal-item{font-size:14.5px}
+.legal-item .t .d{font-size:13px}
+.legal-status{font-size:12px}
+.dispatch-lock-info{font-size:14.5px}
+.port-badge{font-size:12.5px}
+.assumed{font-size:12.5px}
+.pathway{font-size:13.5px}
+.history{font-size:13.5px}
+.signer .nm{font-size:15.5px}
+.signer .rl{font-size:12.5px}
+.btn-ghost,.btn-pri{font-size:14.5px}
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.sheet-card,.q-card{border-color:transparent;box-shadow:var(--shadow-card)}
+.box,.inform-card,.dispatch-lock-box,.pathway{background:var(--bg2);border-color:transparent}
+.m-cell{background:var(--bg3);border-color:transparent}
+</style>
+</head>
+<body>
+<div id="board">
+
+  <!-- 左侧主导航 -->
+  <aside class="side">
+    <div class="mark">CS</div>
+    <nav class="nav">
+      <a href="p1-workspace.html" title="工作区">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="7" rx="1.5"/><rect x="2" y="13" width="9" height="7" rx="1.5"/><rect x="13" y="13" width="9" height="7" rx="1.5"/></svg>
+        <span>工作区</span></a>
+      <a href="a1-xcard.html" title="值班态势台">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>态势台</span></a>
+      <a href="a2-email.html" title="信号收件箱">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        <span>收件箱</span></a>
+      <a href="a3-observe.html" title="预警观察">
+        <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        <span>预警观察</span></a>
+      <a class="on" href="a4-l3.html" title="审批中心">
+        <svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+        <span>审批</span></a>
+      <a href="a5-dispatch.html" title="执行与触达">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+        <span>触达</span></a>
+      <a href="a6-daily.html" title="事件轨迹时间轴">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>轨迹</span></a>
+    </nav>
+    <div class="gap"></div>
+  </aside>
+
+  <div class="right">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <span class="logo">ClarSyn</span>
+      <span class="t-sub">宾客运营工作台</span>
+      <div class="vcard">
+        <div class="vcell"><span class="kl">船舶</span><span class="kv"><b>星澜号</b> MS XING LAN</span></div>
+        <div class="vcell"><span class="kl">航次</span><span class="kv">HL-2609-05</span></div>
+        <div class="vcell"><span class="kl">挂靠港</span><span class="kv">福冈港 W-3</span></div>
+        <div class="vcell"><span class="kl">泊离</span><span class="kv">09-18 · 16:00</span></div>
+      </div>
+      <div class="sp"></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+        检索审批单 / 批次 / 人员
+      </div>
+      <div class="t0"><span class="dot r"></span>T0 全功能</div>
+      <div class="clock"><div class="t">21:38:15</div><div class="l">船钟 · 09-17</div></div>
+      <div class="role"><span><b>运营经理</b> · 林若岚</span><span class="swap">切换</span></div>
+    </header>
+
+    <main class="workspace">
+
+      <!-- 左列：待审批队列与知会流 -->
+      <section class="queue-panel">
+        <div class="panel-h">
+          <h2>待我审批 <span class="badge-count">1</span></h2>
+          <span class="stay">停留: 02:40</span>
+        </div>
+        <div class="queue-list">
+          <div class="q-card active">
+            <div class="q-top">
+              <span class="q-eid">E09-0001</span>
+              <span class="st warn">L3 电子签署</span>
+            </div>
+            <div class="q-title">福冈港靠泊窗口压缩 · 方案 B 分批顺延</div>
+            <div class="q-meta">
+              <span class="q-timer">⏱️ 剩余 22 分钟</span>
+              <span>• 提交人: 林若岚</span>
+            </div>
+          </div>
+        </div>
+        <div class="inform-section">
+          <div class="inform-h">
+            <span>知会与抄送流 (不阻塞)</span>
+            <span class="src">2</span>
+          </div>
+          <div class="inform-card">
+            <div class="inform-t"><span class="dot r"></span><b>船长 · 王立军</b></div>
+            <div class="d">签署后将同步推送 Inform 知会卡至平板端</div>
+          </div>
+          <div class="inform-card">
+            <div class="inform-t"><span class="dot r"></span><b>合规 / 法务 · 方澄</b></div>
+            <div class="d">合同条款缺口标注已抄送审查</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 右列：审批单据详情 -->
+      <section class="dossier">
+        <div class="dossier-head">
+          <div class="dossier-id-row">
+            <span class="dossier-eid">E09-0001 · 审批流转单</span>
+            <span class="st warn">L3 电子签署</span>
+            <span class="dossier-trace">tr-260917-2106</span>
+          </div>
+          <div class="timeout-warn">⚠️ 超时保护机制：剩余 22:00 若无人工驳回，常规方案将默认执行并写入审计</div>
+        </div>
+
+        <div class="sheet-card">
+          <div class="sheet-h">
+            <h3>方案 B · 实施综合审批单</h3>
+            <span class="revision">轮次：R2（已消解 B03/B04 集合点重叠）</span>
+          </div>
+          <div class="sheet-b">
+            <div class="summary-grid">
+              <div class="box">
+                <div class="box-title">选定执行方案</div>
+                <div class="plan-name">方案 B · 分批顺延 <span class="badge">已通过合规核验</span></div>
+                <div class="plan-desc">「不增加外部口岸依赖，以批次顺延和半日游产品保八成以上旅客上岸，法律合规与用工风险最低。」</div>
+                <div class="metrics-row">
+                  <div class="m-cell"><div class="m-k">可上岸比例区间</div><div class="m-v">80–88<span>%</span></div></div>
+                  <div class="m-cell"><div class="m-k">预计上岸人数</div><div class="m-v">3,120–3,430<span>人</span></div></div>
+                  <div class="m-cell"><div class="m-k">岸游团处置</div><div class="m-v">20<span>成</span> / 48<span>改</span> / 22<span>取</span></div></div>
+                </div>
+              </div>
+              <div class="box">
+                <div class="box-title">法律与公约依据核验</div>
+                <div class="legal-item">
+                  <div class="t">
+                    <div class="n">MLC 2006 A2.3 休息规则</div>
+                    <div class="d">24h≥10h; 7d≥77h 校验无冲突</div>
+                  </div>
+                  <span class="legal-status pass">绿灯合规</span>
+                </div>
+                <div class="legal-item">
+                  <div class="t">
+                    <div class="n">最低安全配员证书 第 22 条</div>
+                    <div class="d">船长/大副、轮机长/大管轮未同时离船</div>
+                  </div>
+                  <span class="legal-status pass">绿灯合规</span>
+                </div>
+                <div class="legal-item">
+                  <div class="t">
+                    <div class="n">船票合同·行程变更条款</div>
+                    <div class="d warn">本船文本未入库，禁止承诺赔偿金额</div>
+                  </div>
+                  <span class="legal-status void">空结果标注</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="dispatch-lock-box">
+              <div class="dispatch-lock-info">
+                <span class="port-badge">公共端口 ≥L2 锁</span>
+                <span>本审批签署后将自动解锁公共渠道：<b>船载电视公屏</b> 与 <b>全船 PA 广播</b>。动作具有不可撤回性。</span>
+              </div>
+              <span class="assumed">已验证 9 项显式假设</span>
+            </div>
+
+            <div class="pathways">
+              <div class="pathway on">
+                <b>常规业务分支（当前）</b>
+                <span>到达时限 22 分钟后，常规方案将默认进入执行流水线，所有操作与时间戳记入不可篡改审计链。</span>
+              </div>
+              <div class="pathway">
+                <b>涉人身/安全风险分支</b>
+                <span>若期间触发海况或船体安全判据，系统将立即阻断自动流转，无条件升级至船长端（L4 决策）。</span>
+              </div>
+            </div>
+
+            <div class="history">
+              <span class="lab">流转历史：</span>
+              <span class="rej">R1 初版驳回 (21:34 · 集合点冲突未消解)</span>
+              <span>→</span>
+              <span class="ok">R2 参数级重算完成 (21:36 · 错峰拉开间距)</span>
+              <span>→</span>
+              <span class="cur">当前待签署</span>
+            </div>
+
+            <div class="sign-actions">
+              <div class="signer">
+                <div class="avatar">HSK</div>
+                <div class="signer-info">
+                  <div class="nm">林若岚 (HSK-0007) · 宾客运营经理</div>
+                  <div class="rl">STCW V/2 第 1/3 类持证 · 集合站指挥</div>
+                </div>
+              </div>
+              <div class="acts">
+                <button class="btn-ghost" onclick="alert('进入驳回修订模式')">驳回修订 (R+1)</button>
+                <button class="btn-ghost" onclick="alert('PDF 预览已调出')">预览签署单 PDF</button>
+                <button class="btn-pri" onclick="alert('方案 B 签署成功，任务包封装并同步下达！')">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  确认并执行 L3 电子签署</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底栏 -->
+    <footer class="footer">
+      <span class="si"><span class="dot r"></span>PMS 实时</span>
+      <span class="si"><span class="dot r"></span>排班 实时</span>
+      <span class="si"><span class="dot y"></span>预订 / POS 缓存 6min</span>
+      <span class="si"><span class="dot r"></span>气象 实时</span>
+      <span class="si"><span class="dot y"></span>港方通告 人工录入</span>
+      <span class="si"><span class="dot r"></span>区域计数 实时 · 仅计数无图像</span>
+      <span class="si"><span class="dot g"></span>地接接口 离线 · 邮件 / 电话</span>
+      <div class="legend">
+        <span><span class="dot r"></span>实时</span><span><span class="dot y"></span>缓存</span><span><span class="dot g"></span>离线</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

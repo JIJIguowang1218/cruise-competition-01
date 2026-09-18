@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 船长 L4 决策页 · 02:10 海况恶化上岸作业安全决策 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局与排版；色值/字体/按钮全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化）。
+   B 系列船长平板：1280×720 平板比例固定画板，壳与桌面工作台不同（用户指定）。
+   对应数据包快照【B2】b2-decision。L4 触发横幅以红描边＋红字表达，不用红色底块。 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg0);font-family:var(--sans);color:var(--tx);font-weight:400}
+body{display:flex;align-items:center;justify-content:center}
+#board{width:1280px;height:720px;transform-origin:center center;background:var(--bg0);display:flex;flex-direction:column}
+
+/* —— 顶栏：低侵入平板环境 —— */
+.topbar{height:60px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{font-family:var(--mono);font-size:13px;font-weight:700;border:1px solid var(--line-2);padding:2px 8px;border-radius:4px}
+.logo{font-family:var(--mono);font-size:17px;font-weight:600;letter-spacing:.5px}
+.device-tag{font-size:10.5px;color:var(--tx-3);border-left:1px solid var(--line-2);padding-left:13px;letter-spacing:1px;white-space:nowrap}
+.status-pills{display:flex;align-items:center;gap:9px;margin-left:16px}
+.pill{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:var(--r-p);padding:5px 13px;font-size:11.5px;color:var(--tx-2);white-space:nowrap}
+.pill b{color:var(--tx);font-weight:500}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.clock{text-align:right}
+.clock .time{font-family:var(--mono);font-size:22px;font-weight:500;line-height:1}
+.clock .sub{font-size:10.5px;color:var(--tx-3);margin-top:3px}
+.role-badge{border:1px solid var(--line-2);padding:6px 14px;border-radius:var(--r-p);font-size:12px;color:var(--tx-2);white-space:nowrap}
+.role-badge b{color:var(--tx)}
+
+/* —— 触发横幅 —— */
+.trigger-banner{flex:none;margin:12px 20px 0;border:1px solid rgba(229,72,77,.35);border-radius:var(--r);
+                padding:11px 16px;display:flex;align-items:flex-start;gap:14px}
+.banner-badge{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--err);
+              border:1px solid rgba(229,72,77,.45);padding:3px 10px;border-radius:4px;white-space:nowrap;margin-top:2px}
+.banner-content{flex:1;min-width:0}
+.banner-title{font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:11px;flex-wrap:nowrap}
+.banner-title .src{font-size:11.5px;font-weight:400;color:var(--tx-3)}
+.banner-facts{display:flex;gap:14px;margin-top:7px;font-size:12px;color:var(--tx-2);flex-wrap:nowrap;overflow:hidden}
+.fact-item{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.fact-item b{color:var(--tx);font-weight:500}
+
+/* —— 主网格 —— */
+.main-grid{flex:1;min-height:0;padding:12px 20px 16px;display:grid;grid-template-columns:372px 1fr;gap:16px}
+.left-col{display:flex;flex-direction:column;gap:12px;min-height:0;overflow-y:auto;scrollbar-width:none}
+.left-col::-webkit-scrollbar{display:none}
+.card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;min-height:0}
+.card-h{padding:12px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.card-h h3{font-size:13.5px;font-weight:600}
+.card-h .en{font-family:var(--mono);font-size:9.5px;color:var(--tx-3);letter-spacing:1px}
+.card-b{padding:12px 15px;display:flex;flex-direction:column;gap:9px;flex:1}
+
+/* —— 四判据 —— */
+.criteria-list{display:flex;flex-direction:column;gap:8px}
+.crit-item{border:1px solid var(--line);border-radius:var(--r-s);padding:10px 12px;background:var(--bg2);
+           display:flex;flex-direction:column;gap:4px}
+.crit-item.hit{border-color:rgba(229,72,77,.45)}
+.crit-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.crit-name{font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:7px}
+.crit-status{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.crit-item.hit .crit-status{color:var(--err);border:1px solid rgba(229,72,77,.4)}
+.crit-item.miss .crit-status{color:var(--tx-3);border:1px solid var(--line)}
+.crit-desc{font-size:11px;color:var(--tx-3);line-height:1.45}
+.crit-item.hit .crit-desc{color:var(--tx-2)}
+
+/* —— 法定依据 —— */
+.legal-box{border:1px dashed var(--line-2);border-radius:var(--r-s);padding:10px 12px;background:var(--bg0);
+           display:flex;flex-direction:column;gap:5px}
+.legal-title{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--tx-2);display:flex;align-items:center;gap:6px}
+.legal-title svg{width:13px;height:13px;stroke:var(--tx-2);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.legal-p{font-size:11.5px;color:var(--tx-3);line-height:1.55}
+.legal-p b{color:var(--tx-2);font-weight:500}
+
+/* —— 决策区 —— */
+.right-col{display:flex;flex-direction:column;gap:11px;min-height:0}
+.decision-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.decision-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px}
+.decision-title .note{font-size:11.5px;font-weight:400;color:var(--tx-3)}
+.decision-sub{font-size:11.5px;color:var(--tx-3);font-family:var(--mono);white-space:nowrap}
+.options-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opt-card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px;
+          display:flex;flex-direction:column;position:relative;cursor:pointer}
+.opt-card:hover{border-color:var(--line-2)}
+.opt-card.selected{border-color:rgba(76,141,255,.55)}
+.opt-badge{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.opt-code{font-family:var(--mono);font-size:10.5px;color:var(--tx-3);border:1px solid var(--line);padding:2px 7px;border-radius:4px}
+.opt-radio{width:15px;height:15px;border-radius:50%;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center}
+.opt-card.selected .opt-radio{border-color:var(--accent);background:var(--accent)}
+.opt-card.selected .opt-radio::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--bg0)}
+.opt-name{font-size:14.5px;font-weight:600;margin-bottom:6px;line-height:1.35}
+.opt-desc{font-size:11.5px;color:var(--tx-3);line-height:1.45;margin-bottom:11px}
+.opt-kpis{display:flex;flex-direction:column;gap:7px;border-top:1px dashed var(--line);padding-top:11px;margin-bottom:11px}
+.opt-kpi-row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11.5px}
+.opt-kpi-row .k{color:var(--tx-3);white-space:nowrap}
+.opt-kpi-row .v{font-family:var(--mono);font-weight:500;color:var(--tx);text-align:right}
+.opt-consequence{background:var(--bg2);border-radius:var(--r-s);padding:9px 11px;font-size:11.5px;
+                 color:var(--tx-2);line-height:1.5;margin-top:auto}
+.opt-consequence b{color:var(--tx);font-weight:500}
+
+/* —— 动作栏 —— */
+.action-dock{flex:none;background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
+             padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.post-sign-note{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--tx-2);line-height:1.4}
+.post-sign-note .mono-tag{font-family:var(--mono);font-size:10.5px;border:1px solid var(--line-2);padding:3px 8px;
+                          border-radius:4px;color:var(--tx-3);white-space:nowrap;flex:none}
+.post-sign-note b{color:var(--tx);font-weight:500}
+.actions-group{display:flex;align-items:center;gap:10px;flex:none}
+.btn-ghost{font-size:12.5px;color:var(--tx-2);background:transparent;border:1px solid var(--line-2);
+           border-radius:var(--r-p);padding:8px 18px;cursor:pointer;white-space:nowrap}
+.btn-pri{font-size:12.5px;font-weight:600;color:var(--bg0);background:var(--tx);border:1px solid var(--tx);
+         border-radius:var(--r-p);padding:8px 18px;cursor:pointer;white-space:nowrap}
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.card,.opt-card,.action-dock{border-color:transparent;box-shadow:var(--shadow-card)}
+.crit-item{background:var(--bg2)}
+.crit-item.hit{box-shadow:inset 3px 0 0 var(--err)}
+</style>
+</head>
+<body>
+<div id="board">
+
+  <!-- 顶栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark">CS</span>
+      <span class="logo">ClarSyn</span>
+      <span class="device-tag">船长低侵入决策终端 · 16:9 TABLET</span>
+    </div>
+    <div class="status-pills">
+      <div class="pill">船舶 <b>星澜号 MS XING LAN</b></div>
+      <div class="pill">泊位 <b>福冈港 W-3</b></div>
+      <div class="pill"><span class="dot err"></span>事件 <b>E-L4-0001 (安全决策)</b></div>
+    </div>
+    <div class="topbar-right">
+      <div class="clock">
+        <div class="time">02:10:14</div>
+        <div class="sub">本地船钟 · 09-18</div>
+      </div>
+      <div class="role-badge"><span><b>船长</b> · 王立军</span></div>
+    </div>
+  </header>
+
+  <!-- 触发横幅 -->
+  <section class="trigger-banner">
+    <span class="banner-badge">L4 安全触发</span>
+    <div class="banner-content">
+      <div class="banner-title">福冈港夜间海况恶化 · 上岸作业最高决策权激活
+        <span class="src">触发来源：外部安全事实与船侧实测 · 非算法自行升阶</span></div>
+      <div class="banner-facts">
+        <div class="fact-item"><span class="dot y"></span><span><b>港方警报</b>：福冈港方 01:55 强风警报 (代理转发原文 ◐)</span></div>
+        <div class="fact-item"><span class="dot err"></span><span><b>船侧记录</b>：现场涌浪 1.8m 且趋强，廊桥横摇加剧 (● 实时)</span></div>
+        <div class="fact-item"><span class="dot y"></span><span><b>引航状态</b>：原 10:20 引航计划可能撤销 / 暂缓 (◐ 待证实)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主网格 -->
+  <main class="main-grid">
+
+    <!-- 左列：判据与法定依据 -->
+    <div class="left-col">
+      <section class="card" style="flex:1">
+        <div class="card-h"><h3>L4 决策触发判据校验</h3><span class="en">CRITERIA HIT</span></div>
+        <div class="card-b">
+          <div class="criteria-list">
+            <div class="crit-item hit">
+              <div class="crit-head">
+                <span class="crit-name"><span class="dot err"></span>① 安全不可逆事项</span>
+                <span class="crit-status">命中 HIT</span>
+              </div>
+              <div class="crit-desc">涌浪持续增大，客廊桥横摇幅度接近临界值，旅客登离船存在严重人身伤害与跌落风险。</div>
+            </div>
+            <div class="crit-item miss">
+              <div class="crit-head">
+                <span class="crit-name"><span class="dot g"></span>② 群体必达承诺</span>
+                <span class="crit-status">未命中</span>
+              </div>
+              <div class="crit-desc">暂无全船级人道主义撤离或不可推迟的群体刚性转运要求。</div>
+            </div>
+            <div class="crit-item hit">
+              <div class="crit-head">
+                <span class="crit-name"><span class="dot warn"></span>③ 法定对外通告</span>
+                <span class="crit-status">命中 HIT</span>
+              </div>
+              <div class="crit-desc">日本福冈港方正式发布强风管制警报，港口引航计划面临程序性撤销。</div>
+            </div>
+            <div class="crit-item miss">
+              <div class="crit-head">
+                <span class="crit-name"><span class="dot g"></span>④ 不可逆高后果</span>
+                <span class="crit-status">未命中</span>
+              </div>
+              <div class="crit-desc">未造成船舶结构损毁或海事公约一级涉险事件。</div>
+            </div>
+          </div>
+
+          <div class="legal-box">
+            <div class="legal-title">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              法定权威依据 · ISM Code §5.2
+            </div>
+            <div class="legal-p"><b>国际安全管理规则第 5.2 条明文规定</b>：船长在船舶安全、航行防污染及人员生命保障方面享有<b>绝对决定权与最高裁决权</b>。</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 右列：三选项 -->
+    <div class="right-col">
+      <div class="decision-header">
+        <div class="decision-title">上岸作业执行策略抉择</div>
+        <div class="decision-sub">当前窗口：11:00–16:00 · 待上岸：3,900 人</div>
+      </div>
+
+      <div class="options-grid">
+        <div class="opt-card">
+          <div class="opt-badge"><span class="opt-code">OPT-1</span><div class="opt-radio"></div></div>
+          <div class="opt-name">暂缓首批 · 等待 06:30 复评</div>
+          <div class="opt-desc">先行推迟 B01/B02 首发批次，保持全员留船待命，等候早间气象与引航复评后再行动。</div>
+          <div class="opt-kpis">
+            <div class="opt-kpi-row"><span class="k">预估上岸比例</span><span class="v">65% – 75%</span></div>
+            <div class="opt-kpi-row"><span class="k">受影响人数</span><span class="v">约 1,150 人顺延</span></div>
+            <div class="opt-kpi-row"><span class="k">岸游团变更</span><span class="v">早班 18 团取消/改半日</span></div>
+            <div class="opt-kpi-row"><span class="k">安全裕度</span><span class="v" style="color:var(--ok)">高 (避免夜间盲目调遣)</span></div>
+          </div>
+          <div class="opt-consequence"><b>业务影响推演</b>：全船公共区需开放晨间加餐；若 06:30 涌浪减弱可迅速切回顺延批次。</div>
+        </div>
+
+        <div class="opt-card selected">
+          <div class="opt-badge"><span class="opt-code">OPT-2</span><div class="opt-radio"></div></div>
+          <div class="opt-name">受限继续 · 仅廊桥接驳停运</div>
+          <div class="opt-desc">严禁任何水上接驳艇运行；仅依托码头实体双客廊桥作业，且各批次间距拉大 15 分钟。</div>
+          <div class="opt-kpis">
+            <div class="opt-kpi-row"><span class="k">预估上岸比例</span><span class="v">80% – 88%</span></div>
+            <div class="opt-kpi-row"><span class="k">实际上岸规模</span><span class="v">3,120 – 3,430 人</span></div>
+            <div class="opt-kpi-row"><span class="k">岸游团变更</span><span class="v">取消水上团 (EX-012等)</span></div>
+            <div class="opt-kpi-row"><span class="k">安全管控点</span><span class="v" style="color:var(--warn)">B层廊桥实时防跌倒管控</span></div>
+          </div>
+          <div class="opt-consequence"><b>业务影响推演</b>：与已通过的方案 B 参数自洽，海面接驳风险彻底剥离，需前厅即刻封装廊桥与楼梯管控任务包。</div>
+        </div>
+
+        <div class="opt-card">
+          <div class="opt-badge"><span class="opt-code">OPT-3</span><div class="opt-radio"></div></div>
+          <div class="opt-name">中止上岸 · 全员留船保安全</div>
+          <div class="opt-desc">彻底取消福冈港当日全部旅客离船登岸作业，全船转为海上巡航/港内避风活动状态。</div>
+          <div class="opt-kpis">
+            <div class="opt-kpi-row"><span class="k">预估上岸比例</span><span class="v" style="color:var(--err)">0% (全员留船)</span></div>
+            <div class="opt-kpi-row"><span class="k">在船人数</span><span class="v">4,980 人全员在船</span></div>
+            <div class="opt-kpi-row"><span class="k">岸游团变更</span><span class="v">90 个岸游团全额退款</span></div>
+            <div class="opt-kpi-row"><span class="k">安全裕度</span><span class="v" style="color:var(--ok)">绝对安全 (零人身涉险)</span></div>
+          </div>
+          <div class="opt-consequence"><b>业务影响推演</b>：人身风险彻底清零，但酒店部将面临极端客诉安抚及全船娱乐餐饮活动即时转产压力。</div>
+        </div>
+      </div>
+
+      <div class="action-dock">
+        <div class="post-sign-note">
+          <span class="mono-tag">C3.8 应急执行机制</span>
+          <span>根据公约应急响应流程：<b>紧急处置可先行口头下达执行，02:22 前完成事后补签</b>，系统立即封装前厅任务包。</span>
+        </div>
+        <div class="actions-group">
+          <button class="btn-ghost">否决并转人工研判</button>
+          <button class="btn-pri">裁定确认：执行受限继续并派发任务包 →</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1280,window.innerHeight/720);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

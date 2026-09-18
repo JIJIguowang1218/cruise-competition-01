@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B3 船员手持 · 11:00 TP-02 任务包 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局与排版；色值/字体/按钮全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化：去除彩底大按钮/硬编码色值）。
+   B3 为船员手持端：390×844 手机竖屏固定视口（画板即屏），大字号大触控（戴手套现场）。
+   对应数据包快照【B3-1】b3-task。 */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { width: 100%; height: 100%; background: var(--bg0); font-family: var(--sans);
+             color: var(--tx); overflow: hidden; display: flex; justify-content: center; align-items: center; }
+#board { width: 390px; height: 844px; transform-origin: center center; background: var(--bg0);
+         display: flex; flex-direction: column; flex: none; }
+
+/* 状态栏 */
+.status-bar {
+  padding: 11px 16px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--tx-3);
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+.status-bar .clock { font-size: 12.5px; font-weight: 600; color: var(--tx); }
+
+/* 船员身份 */
+.crew-header {
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg1);
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+.crew-profile { display: flex; align-items: center; gap: 9px; }
+.crew-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-s);
+  border: 1px solid rgba(76,141,255,.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  flex: none;
+}
+.crew-meta { display: flex; flex-direction: column; }
+.crew-name { font-size: 13.5px; font-weight: 600; }
+.crew-title { font-size: 10.5px; color: var(--tx-2); }
+.badge-stcw {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: var(--r-p);
+  border: 1px solid rgba(81,184,115,.4);
+  color: var(--ok);
+  white-space: nowrap;
+}
+
+/* 一屏一包主体 */
+.task-container {
+  flex: 1;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.task-container::-webkit-scrollbar { display: none; }
+
+.task-tag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tag-pkg {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(229,72,77,.4);
+  color: var(--err);
+  letter-spacing: .5px;
+}
+.tag-priority {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--warn);
+  border: 1px dashed rgba(240,164,63,.45);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.task-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* 区域与指引 */
+.loc-box {
+  background: var(--bg1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-s);
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.loc-row { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--tx-2); }
+.loc-row svg { width: 15px; height: 15px; stroke: var(--tx-2); fill: none; flex: none;
+               stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.loc-main { font-size: 13.5px; font-weight: 600; font-family: var(--mono); }
+.loc-hint { font-size: 11.5px; color: var(--tx-3); padding-left: 22px; }
+
+/* 期望结果 */
+.section-block {
+  background: var(--bg1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-s);
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.sec-lbl { font-size: 11px; color: var(--tx-3); letter-spacing: .5px; }
+.sec-val { font-size: 13px; line-height: 1.5; }
+.sec-val b { color: var(--ok); font-weight: 600; }
+
+/* 主管转达建议 */
+.advice-box {
+  background: var(--bg0);
+  border: 1px dashed var(--line-2);
+  padding: 9px 12px;
+  border-radius: var(--r-s);
+  font-size: 12px;
+  color: var(--tx-2);
+  line-height: 1.5;
+}
+.advice-box .lead { font-weight: 500; }
+.advice-box .author { font-size: 10.5px; color: var(--tx-3); margin-top: 4px; display: block; }
+
+/* 关联批次 */
+.batch-pill-row { display: flex; gap: 8px; }
+.batch-chip {
+  flex: 1;
+  background: var(--bg1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-s);
+  padding: 8px 10px;
+  text-align: center;
+}
+.batch-chip .b-id { font-family: var(--mono); font-size: 11.5px; font-weight: 600; }
+.batch-chip .b-time { font-family: var(--mono); font-size: 10.5px; color: var(--tx-2); margin-top: 2px; }
+
+/* 底部大触控三键回执 */
+.action-panel {
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: none;
+}
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.btn-touch {
+  height: 52px;
+  border-radius: var(--r-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+}
+.btn-touch:active { opacity: .8; }
+.btn-touch svg { width: 16px; height: 16px; stroke: currentColor; fill: none;
+                 stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.btn-done {
+  background: var(--tx);
+  color: var(--bg0);
+  grid-column: span 2;
+  font-size: 14.5px;
+  letter-spacing: .5px;
+}
+.btn-blocked { border: 1px solid rgba(229,72,77,.45); color: var(--err); }
+.btn-delay { border: 1px solid rgba(240,164,63,.45); color: var(--warn); }
+.hint-sub { text-align: center; font-size: 10.5px; color: var(--tx-3); }
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.loc-box,.section-block,.batch-chip{border-color:transparent}
+</style>
+</head>
+<body>
+
+<div id="board">
+  <!-- 状态栏 -->
+  <div class="status-bar">
+    <span>HL-2609-05 · 船载局域网</span>
+    <span class="clock">11:00:15 本地船钟</span>
+    <span>5G / 离线就绪</span>
+  </div>
+
+  <!-- 船员身份 -->
+  <div class="crew-header">
+    <div class="crew-profile">
+      <div class="crew-avatar">周</div>
+      <div class="crew-meta">
+        <div class="crew-name">周敏 · 客房领班</div>
+        <div class="crew-title">工号 HSK-0205 · 5层防区主管</div>
+      </div>
+    </div>
+    <span class="badge-stcw">STCW 第1类持证</span>
+  </div>
+
+  <!-- 一屏一包 -->
+  <div class="task-container">
+    <div class="task-tag-row">
+      <span class="tag-pkg">TP-02 · P1 紧急</span>
+      <span class="tag-priority">应变部署表法定岗</span>
+    </div>
+
+    <h1 class="task-title">五层中部楼梯通行管控与人流分流</h1>
+
+    <div class="loc-box">
+      <div class="loc-row">
+        <svg viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>指派责任空间 (Deck 5)</span>
+      </div>
+      <div class="loc-main">Deck 5 中部楼梯组与主通道交接处</div>
+      <div class="loc-hint">覆盖舱房 5200–5450 梯口通道 · 连通 3 层登船大厅</div>
+    </div>
+
+    <div class="section-block">
+      <div class="sec-lbl">期望控制目标 (Expected Target)</div>
+      <div class="sec-val">下行旅客单向有序通行，严格控制梯道每 5 分钟通过量 <b>≤ 180 pax</b>，防止涌向 3 层 Lobby 发生冲撞与跌倒隐患。</div>
+    </div>
+
+    <div class="advice-box">
+      <div class="lead">建议执行方式 (经运营经理林若岚审核建议)：</div>
+      在梯道上段设置单向通行隔离线，若 5 层集结超阈值，引导 6–8 层下行旅客改乘艉部客梯。
+      <span class="author">来源：21:40 方案 B 派生建议包 · 仅作参考非强制指令</span>
+    </div>
+
+    <div class="batch-pill-row">
+      <div class="batch-chip"><div class="b-id">B03 批次</div><div class="b-time">11:35 集合 (8层)</div></div>
+      <div class="batch-chip"><div class="b-id">B04 批次</div><div class="b-time">11:55 集合 (7层)</div></div>
+      <div class="batch-chip"><div class="b-id">B06 本层</div><div class="b-time">12:35 集合 (5层)</div></div>
+    </div>
+  </div>
+
+  <!-- 三键回执 -->
+  <div class="action-panel">
+    <button class="btn-touch btn-done" onclick="alert('已向指挥台回执：完成岗位就绪')">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      完成 · 岗位已就绪执行
+    </button>
+    <div class="action-grid">
+      <button class="btn-touch btn-blocked" onclick="alert('已登记受阻，请简短说明原因')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        通道受阻 (上报)
+      </button>
+      <button class="btn-touch btn-delay" onclick="alert('已上报延误预计时限')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        执行延误 (+10m)
+      </button>
+    </div>
+    <div class="hint-sub">操作将记录于应变审计流 · 离线自动缓存上传</div>
+  </div>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/390,window.innerHeight/844);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

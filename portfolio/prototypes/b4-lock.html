@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B4 广播台 · 07:45 单条待播执行确认 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局与排版；色值/字体/按钮全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化：去除底纹/辉光，硬编码色值改为令牌）。
+   B4 为嵌入广播室机台的窄视图：1280×720 画板内 1200×680 设备外框（嵌入式边框语言，§12.2）。
+   对应数据包快照【B4-1】b4-lock。 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%; height: 100%; background: var(--bg0);
+  font-family: var(--sans); color: var(--tx);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+#board { width: 1280px; height: 720px; transform-origin: center center;
+         display: flex; align-items: center; justify-content: center; flex: none; }
+
+/* 嵌入式控制台外框（设备边框语言） */
+.console-wrapper {
+  width: 1200px;
+  height: 680px;
+  background: var(--bg1);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 控制台顶栏 */
+.console-header {
+  height: 60px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--line);
+  border-radius: var(--r) var(--r) 0 0;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  gap: 15px;
+}
+.rack-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  color: var(--tx-2);
+}
+.console-title { font-size: 14.5px; font-weight: 600; }
+.v-line { width: 1px; height: 20px; background: var(--line); }
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--ok);
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 18px;
+                font-family: var(--mono); font-size: 12.5px; color: var(--tx-2); white-space: nowrap; }
+.header-clock { font-size: 17px; color: var(--tx); font-weight: 600; }
+
+/* 主工作区 */
+.console-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  min-height: 0;
+}
+
+/* 左侧：待播锁定卡与公约级别 */
+.left-rail {
+  background: var(--bg0);
+  border-right: 1px solid var(--line);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.left-rail::-webkit-scrollbar { display: none; }
+.lock-banner {
+  border: 1px solid rgba(240,164,63,.4);
+  border-radius: var(--r-s);
+  padding: 13px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lock-title-row { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--warn); }
+.lock-title-row svg { width: 15px; height: 15px; stroke: var(--warn); fill: none;
+                      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.lock-desc { font-size: 11.5px; color: var(--tx-2); line-height: 1.5; }
+
+.meta-group { display: flex; flex-direction: column; gap: 9px; }
+.meta-item { display: flex; justify-content: space-between; gap: 10px; font-size: 12px;
+             border-bottom: 1px dashed var(--line); padding-bottom: 8px; }
+.meta-item .lbl { color: var(--tx-3); white-space: nowrap; }
+.meta-item .val { font-family: var(--mono); font-size: 11.5px; color: var(--tx); text-align: right; }
+.meta-item .val.warn { color: var(--warn); }
+
+.law-warning {
+  margin-top: auto;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-s);
+  padding: 11px 13px;
+  font-size: 11px;
+  color: var(--tx-3);
+  line-height: 1.55;
+}
+.law-warning b { color: var(--tx-2); font-weight: 500; }
+
+/* 右侧：双语文稿与播报触控区 */
+.right-content {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+.tab-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 11px;
+}
+.tab-buttons { display: flex; gap: 9px; }
+.tab-btn {
+  background: transparent;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-p);
+  padding: 6px 15px;
+  font-size: 12.5px;
+  color: var(--tx-2);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tab-btn.active {
+  background: var(--bg3);
+  border-color: var(--line-2);
+  color: var(--tx);
+  font-weight: 600;
+}
+.readiness-hint { font-size: 11.5px; color: var(--ok); font-family: var(--mono); white-space: nowrap; }
+
+.script-card {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.script-card::-webkit-scrollbar { display: none; }
+.script-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--tx-3);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+  white-space: nowrap;
+}
+.script-text {
+  font-size: 15.5px;
+  line-height: 1.85;
+  letter-spacing: .4px;
+}
+.script-text b { font-weight: 600; }
+
+/* 底部操作条 */
+.console-footer {
+  height: 76px;
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 var(--r) var(--r);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.notice-text { font-size: 11.5px; color: var(--tx-3); }
+.footer-actions { display: flex; gap: 12px; }
+.btn-reject {
+  background: transparent;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-p);
+  padding: 10px 20px;
+  color: var(--tx-2);
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-reject:hover { color: var(--tx); background: var(--bg3); }
+.btn-broadcast {
+  background: var(--tx);
+  color: var(--bg0);
+  border: none;
+  border-radius: var(--r-p);
+  padding: 11px 30px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.btn-broadcast svg { width: 15px; height: 15px; stroke: currentColor; fill: none;
+                     stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.script-card,.law-warning{border-color:transparent}
+</style>
+</head>
+<body>
+
+<div id="board">
+<div class="console-wrapper">
+  <!-- 顶栏 -->
+  <div class="console-header">
+    <span class="rack-badge">RACK-PA-04 · 全船广播总台</span>
+    <span class="console-title">ClarSyn 广播协同与多语触达通道</span>
+    <div class="v-line"></div>
+    <div class="status-pill">
+      <span class="dot r"></span>
+      全船功放矩阵在线 · 104个分区待命
+    </div>
+    <div class="header-right">
+      <span>播音员：张铭 (工号 DCK-0199)</span>
+      <div class="header-clock">07:45:20</div>
+    </div>
+  </div>
+
+  <!-- 主工作区 -->
+  <div class="console-body">
+    <!-- 左侧：锁定与来源 -->
+    <div class="left-rail">
+      <div class="lock-banner">
+        <div class="lock-title-row">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>L2 级别锁 · 公共端口不可撤回</span>
+        </div>
+        <div class="lock-desc">
+          本播报包含全船公共强打扰信息，严禁前台自由编辑修改词句，必须经运营经理 L2 电子签署解锁。
+        </div>
+      </div>
+
+      <div class="meta-group">
+        <div class="meta-item">
+          <span class="lbl">对应事件</span>
+          <span class="val">E09-0001 (福冈窗口压缩)</span>
+        </div>
+        <div class="meta-item">
+          <span class="lbl">核准签署人</span>
+          <span class="val">林若岚 (运营经理 · 07:42签)</span>
+        </div>
+        <div class="meta-item">
+          <span class="lbl">方案版本</span>
+          <span class="val">方案 B · R2 修订终版</span>
+        </div>
+        <div class="meta-item">
+          <span class="lbl">联动渠道</span>
+          <span class="val">全船PA + 舱房电视共屏</span>
+        </div>
+        <div class="meta-item">
+          <span class="lbl">预定播发时刻</span>
+          <span class="val warn">08:00:00 (整点全船)</span>
+        </div>
+      </div>
+
+      <div class="law-warning">
+        <b>公约准则 (STCW A-V/2 规范)：</b><br>
+        广播须使用规范中文及基础英语连续宣读，用语保持中性，不陈述外部责任归咎，不承诺退款赔付金额。
+      </div>
+    </div>
+
+    <!-- 右侧：双语文稿 -->
+    <div class="right-content">
+      <div class="tab-row">
+        <div class="tab-buttons">
+          <button class="tab-btn active">中文文稿 (Mandarin)</button>
+          <button class="tab-btn">英文文稿 (English · 08:03待播)</button>
+        </div>
+        <div class="readiness-hint">● 审定文稿无修改 · 签名校验通过</div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-header">
+          <span>文稿标题：上岸靠泊窗口变更全船通告</span>
+          <span>预计宣读耗时：1分15秒 (约 210 字)</span>
+        </div>
+        <div class="script-text">
+          “各位旅客请注意，各位旅客请注意：<br><br>
+          受挂靠港泊位调整影响，本船今日靠泊时间变更为<b>上午 11:00 至下午 16:00</b>。请您按照客舱内更新的上岸批次通知，在指定时间前往指定集合点集合。<br><br>
+          已报名岸上游的旅客，请查看 App 内团队的最新状态。全船最晚回船时间为<b>下午 3:30 (15:30)</b>。给您带来不便，我们深表歉意，感谢您的理解与配合。”
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部操作条 -->
+  <div class="console-footer">
+    <div class="notice-text">
+      广播下达后立即同步至 C1 审计台记录时间戳 · 不可撤回操作
+    </div>
+    <div class="footer-actions">
+      <button class="btn-reject" onclick="alert('已发起退回，请在弹层中填写退回原因（例如音响专网冲突）')">退回修订 (需填写原因)</button>
+      <button class="btn-broadcast" onclick="alert('已启动 08:00 定时广播队列并解锁全船音频信道')">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        执行全船公共广播 (08:00 下达)
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1280,window.innerHeight/720);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

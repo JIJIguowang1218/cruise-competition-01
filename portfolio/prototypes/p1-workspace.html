@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工作区 · 船长指挥视图 · ClarSyn</title>
+<style>
+  :root{
+    --bg0:#0b0e13; --bg1:#10141b; --bg2:#171c26; --bg3:#1f2633;
+    --line0:rgba(255,255,255,.06); --line1:rgba(255,255,255,.12);
+    --th:#e6ebf2; --tlo:#8b95a5;
+    --detect:#f0a43f; --exec:#51b873; --abn:#e5484d; --outlib:#4c8dff; --recover:#2f9e63;
+    --r:10px; --dur:160ms;
+    --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  body.dusk{ --bg0:#12161d; --bg1:#161b24; --bg2:#1d2430; --bg3:#252d3c; --th:#eef1f6; --tlo:#97a1b0; }
+  body.day{ --bg0:#232a34; --bg1:#29313d; --bg2:#313a49; --bg3:#3b4657; --th:#f4f6f9; --tlo:#b3bcc9; --shadow:0 6px 20px rgba(0,0,0,.3); }
+  *{box-sizing:border-box;margin:0}
+  body{margin:0;background:#05070a;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--th);font-size:13px;line-height:1.35}
+  /* === 整体等比缩放（scale-to-fit 画布） === */
+  .viewport{width:100vw;min-height:100vh;display:flex;justify-content:center;overflow:auto;padding:10px 4px 40px}
+  .stage{width:1520px;height:940px;flex:none;transform-origin:top center}
+  .app{width:100%;height:100%;background:var(--bg0);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 70px rgba(0,0,0,.55);}
+  /* 顶栏：留白分隔，仅一条极淡基线 */
+  .topbar{display:flex;align-items:center;gap:14px;padding:12px 20px;background:transparent;box-shadow:0 1px 0 var(--line0)}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px}
+  .brand-logo{height:22px;width:auto;image-rendering:pixelated;display:block}
+  .brand-text{display:block;line-height:1.1}
+  .brand-text small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  @keyframes brandFlash{0%,100%{opacity:1}50%{opacity:.12}}
+  .brand-logo.flash{animation:brandFlash .35s linear 2}
+  .kpis{display:flex;gap:8px}
+  .kpi{background:var(--bg2);padding:5px 12px;border-radius:8px;font-size:11px;color:var(--tlo);min-width:74px}
+  .kpi b{font-size:17px;color:var(--th);display:block;line-height:1.15}
+  .kpi.warn b{color:var(--abn)}
+  .spacer{flex:1}
+  .modebox{display:flex;align-items:center;gap:8px;background:var(--bg2);padding:4px 10px;border-radius:8px}
+  .modebox .t{font-size:10px;color:var(--tlo)}
+  .mode{font-weight:800;font-size:15px;padding:1px 10px;border-radius:6px;background:var(--bg3)}
+  .modesel{display:flex;gap:4px}
+  .modesel button{border:1px solid var(--line0);background:var(--bg1);color:var(--tlo);padding:3px 9px;font-size:11px;cursor:pointer;border-radius:6px}
+  .modesel button.on{background:var(--exec);color:#04121a;font-weight:700;border-color:var(--exec)}
+  .theme{display:flex;gap:2px;background:var(--bg2);border-radius:8px;padding:2px}
+  .theme button{border:none;background:transparent;color:var(--tlo);padding:3px 9px;font-size:11px;cursor:pointer;border-radius:6px}
+  .theme button.on{background:var(--bg3);color:var(--th)}
+  .user{display:flex;align-items:center;gap:10px}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;position:relative}
+  .dd{display:none;position:absolute;top:38px;right:0;background:var(--bg2);border:1px solid var(--line1);border-radius:10px;z-index:60;min-width:140px;overflow:hidden;box-shadow:var(--shadow)}
+  .dd.open{display:block}
+  .dd button{display:block;width:100%;text-align:left;padding:8px 12px;background:transparent;border:none;color:var(--th);cursor:pointer;font-size:12px}
+  .dd button:hover{background:rgba(255,255,255,.06)}
+  .uth{font-size:13px;font-weight:700}
+  .uth small{display:block;font-weight:400;color:var(--tlo);font-size:10px}
+  .clock{font-size:24px;font-weight:800;letter-spacing:.5px}
+  .clock small{display:block;font-size:10px;color:var(--tlo);font-weight:400}
+  .chip{background:var(--bg2);padding:2px 10px;font-size:10px;color:var(--tlo);border-radius:999px}
+  .chip.warn{color:#f0a43f;background:rgba(240,164,63,.12);border:1px solid rgba(240,164,63,.4)}
+  .chip.danger{color:#e5484d;background:rgba(229,72,77,.12);border:1px solid rgba(229,72,77,.4)}
+  /* 主区：卡片式分区，靠留白/gap/底色分层，去边框线 */
+  .main{flex:1;display:flex;gap:14px;padding:14px;min-height:0;position:relative}
+  .col{min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .c-left{width:248px}
+  .c-mid{flex:1;display:flex;gap:14px;min-width:0}
+  .c-mid-main{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;min-height:0}
+  .c-right{width:352px}
+  .panel{background:var(--bg1);border-radius:var(--r);box-shadow:0 2px 10px rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column;min-height:0}
+  .panel>.ph{padding:10px 14px;font-weight:700;font-size:12px;display:flex;align-items:center;gap:8px}
+  .ph .sub{font-size:10px;color:var(--tlo);font-weight:400}
+  .ph .sp{flex:1}
+  .tagpill{font-size:9px;color:var(--exec);border:1px solid var(--exec);border-radius:999px;padding:0 7px}
+  /* 左栏卡片 */
+  .map{border-radius:10px;background:linear-gradient(160deg,var(--bg2),var(--bg1));height:180px;margin:0 0 6px}
+  .map svg{width:100%;height:100%}
+  .oplog{background:var(--bg1);border-radius:10px;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line0)}
+  .oplog .head{display:flex;align-items:center;gap:6px;padding:8px 12px;line-height:18px}
+  .oplog .head b{font-size:12px;line-height:18px;flex:none}
+  .oplog .head b{font-size:12px}
+  .oplog .ctl{display:flex;align-items:center;gap:5px;padding:0 12px 8px;font-size:10px;color:var(--tlo)}
+  .oplog .ctl .fil{flex:none}
+  .btn.icn{width:26px;height:24px;padding:0;display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .btn.icn svg{display:block}
+  .oplog .head input{flex:1;min-width:120px;max-width:270px;height:18px;box-sizing:border-box;border:1px solid var(--line0);background:var(--bg2);color:var(--th);border-radius:10px;padding:0 10px;font-size:10px;outline:none;transition:border-color var(--dur)}
+  .oplog .head input:focus{border-color:var(--outlib)}
+  .oplog .head input::placeholder{color:var(--tlo)}
+  .fil{border:1px solid var(--line0);background:var(--bg2);color:var(--tlo);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
+  .fil.on{background:var(--exec);color:#04121a;border-color:var(--exec)}
+  .opfeed{flex:1;overflow:auto;padding:2px 12px 8px;display:flex;flex-direction:column;gap:1px}
+  .opfeed::-webkit-scrollbar,.rbody::-webkit-scrollbar,.zbody::-webkit-scrollbar,.donelist::-webkit-scrollbar,.inferfeed::-webkit-scrollbar{width:14px;height:14px}
+  .opfeed::-webkit-scrollbar-track,.rbody::-webkit-scrollbar-track,.zbody::-webkit-scrollbar-track,.donelist::-webkit-scrollbar-track,.inferfeed::-webkit-scrollbar-track{background:transparent}
+  .opfeed::-webkit-scrollbar-thumb,.rbody::-webkit-scrollbar-thumb,.zbody::-webkit-scrollbar-thumb,.donelist::-webkit-scrollbar-thumb,.inferfeed::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border:4px solid transparent;background-clip:padding-box;border-radius:7px}
+  .opfeed::-webkit-scrollbar-thumb:hover,.rbody::-webkit-scrollbar-thumb:hover,.zbody::-webkit-scrollbar-thumb:hover,.donelist::-webkit-scrollbar-thumb:hover,.inferfeed::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.3);border:4px solid transparent;background-clip:padding-box}
+  .opfeed::-webkit-scrollbar-corner,.rbody::-webkit-scrollbar-corner,.zbody::-webkit-scrollbar-corner,.donelist::-webkit-scrollbar-corner,.inferfeed::-webkit-scrollbar-corner{background:transparent}
+  .op{font-size:11px;padding:5px 0;color:var(--th);border-top:1px solid var(--line0);display:flex;gap:8px}
+  .op .t{color:var(--tlo);font-size:10px;flex:none;padding-top:1px}
+  .op .evv{color:var(--detect)} .op .opv{color:var(--outlib)} .op .abv{color:var(--abn)}
+  .setbar{margin-top:auto;background:var(--bg2);border-radius:10px;padding:8px 12px;display:flex;gap:6px;align-items:center;font-size:10px;color:var(--tlo);flex-wrap:wrap}
+  .setbar button{border:1px solid var(--line0);background:var(--bg3);color:var(--th);padding:2px 8px;border-radius:999px;cursor:pointer;font-size:10px}
+  /* 中栏 */
+  .portbar{display:flex;gap:6px;flex-wrap:wrap;background:var(--bg1);border-radius:10px;padding:6px 8px}
+  .portbar button{border:none;background:transparent;color:var(--tlo);padding:4px 10px;font-size:11px;border-radius:999px;cursor:pointer}
+  .portbar button.on{background:var(--bg3);color:var(--th)}
+  .reserve{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+  .portlive{flex:0 0 auto;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;color:var(--tlo);font-size:11px;display:flex;align-items:center;justify-content:center}
+  /* 执行监督条（reserve 顶部，替换原端口占位） */
+  .execsup{flex-direction:column;align-items:stretch;justify-content:flex-start;padding:6px 8px;overflow:hidden}
+  .es-head{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
+  .es-cnt{font-size:9.5px;color:var(--tlo);font-weight:400}
+  .es-clk{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400;font-variant-numeric:tabular-nums}
+  .es-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:3px;overflow:hidden;padding:4px 0}
+  .es-row{display:flex;align-items:center;gap:6px;background:var(--bg2);border-radius:6px;padding:3px 8px;border-left:2px solid var(--line1);animation:espop .3s ease}
+  .es-row.done{opacity:.45;filter:grayscale(.6)}
+  .es-row.lv4{border-left-color:#e5484d;background:rgba(229,72,77,.10)}
+  .es-row.lv3{border-left-color:#f0a43f}
+  .es-row.lv2{border-left-color:#51b873}
+  @keyframes espop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .es-no{color:var(--th);font-weight:700;font-size:10px;flex:none}
+  .es-nm{color:var(--tlo);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:120px;flex:none}
+  .es-tag{flex:none;font-size:9px;color:var(--tlo);border:1px solid var(--line1);border-radius:4px;padding:0 4px;font-weight:400}
+  .es-st{margin-left:auto;display:inline-flex;align-items:center;gap:4px;min-width:0}
+  .es-bats{display:inline-flex;gap:2px;flex:none}
+  .es-bat{font-size:8px;border-radius:3px;padding:0 4px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .es-bat.done{background:rgba(81,184,115,.2);color:#9fe6bc}
+  .es-bat.cur{background:var(--exec);color:#04121a;font-weight:700}
+  .es-ports{display:inline-flex;gap:2px;flex-wrap:wrap}
+  .es-p{font-size:8px;border-radius:3px;padding:0 4px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .es-p.ok{background:rgba(81,184,115,.16);color:#9fe6bc}
+  .es-p.wait{background:rgba(240,164,63,.16);color:#f6c98a}
+  .es-p.bad{background:rgba(229,72,77,.18);color:#ffb4b6}
+  .es-done{display:flex;gap:6px;font-size:8.5px;color:var(--tlo);border-top:1px solid var(--line0);padding-top:3px;white-space:nowrap;overflow:hidden}
+  .es-done i{font-style:normal;color:var(--exec)}
+  .es-row.exiting{transition:opacity .3s,transform .3s;opacity:0;transform:translateY(-6px)}
+  .infer{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
+  .infer .head{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
+  .infer .head .cnt{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
+  .inferfeed{flex:1;min-height:0;overflow-y:auto;padding:4px 10px 6px;display:flex;flex-direction:column}
+  .irow{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--th);border-top:1px solid var(--line0);padding:5px 8px;overflow:hidden;flex:none;transition:opacity .6s;animation:ifadein .3s ease}
+  @keyframes ifadein{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+  .irow.fade{opacity:0}
+  .irow.new{background:rgba(255,255,255,.05);box-shadow:inset 3px 0 0 var(--outlib)}
+  .idot{width:8px;height:8px;border-radius:50%;background:var(--tlo);flex:none;animation:bob .7s ease-in-out infinite}
+  .idot.on{animation:none}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+  .ino{font-family:ui-monospace,Consolas,monospace;font-size:9px;color:var(--tlo);flex:none;width:62px;overflow:hidden;white-space:nowrap}
+  .imarqwrap{flex:1;overflow:hidden;white-space:nowrap;position:relative;height:14px}
+  .imarq{display:inline-block;position:absolute;left:0;top:0;white-space:nowrap}
+  .timeline{background:var(--bg1);border-radius:10px;flex:0 1 auto;min-height:0;overflow:hidden}
+  .timeline svg{display:block;width:100%;height:auto}
+  .tlleg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--tlo);background:var(--bg1);border-radius:10px;padding:6px 12px}
+  .sw{width:12px;height:7px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px;box-shadow:inset 0 0 0 1px var(--line0)}
+  .dot8{width:7px;height:7px;border-radius:50%;border:2px solid var(--recover);background:#fff;display:inline-block;vertical-align:middle;margin-right:3px}
+  .dot8.am{border-color:#f0a43f}
+  /* 卡片带（整竖条） */
+  .cardband{width:212px;flex:none;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+  .zone{display:flex;flex-direction:column;flex:1;min-height:0;background:var(--bg1);border:1px solid var(--line0);border-radius:10px;overflow:hidden}
+  .zh{display:flex;align-items:center;gap:6px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--th);border-bottom:1px solid var(--line0);line-height:16px;flex:none}
+  .zh .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .zh .zc{margin-left:auto;font-size:9.5px;color:var(--tlo);font-weight:400}
+  .zbody{flex:1;min-height:0;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
+  .zempty{flex:1;border:1px dashed var(--line1);border-radius:8px;color:var(--tlo);font-size:10px;display:flex;align-items:center;justify-content:center;min-height:32px}
+  .card{background:var(--bg2);border-radius:8px;padding:6px 8px;font-size:10.5px;cursor:pointer;color:var(--th);box-shadow:inset 3px 0 0 var(--lv,#555);transition:transform var(--dur),filter var(--dur);flex:none}
+  .card:hover{filter:brightness(1.15);transform:translateY(-1px)}
+  .card.sel{outline:1px solid var(--th)}
+  .card.pop{animation:pop .3s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(5px) scale(.96)}to{opacity:1;transform:none}}
+  .card.lv4{--lv:var(--abn)} .card.lv3{--lv:var(--detect)} .card.lv2{--lv:var(--exec)} .card.lv1{--lv:#6f7886} .card.lvX{--lv:var(--outlib)}
+  .card.linger{opacity:.5;filter:saturate(.5)}
+  .card.collect{animation:collect .46s ease forwards;pointer-events:none}
+  @keyframes collect{from{opacity:.5}to{opacity:0;transform:translateY(10px) scale(.96)}}
+  .card .t1{display:flex;justify-content:space-between;gap:4px;font-weight:700}
+  .tag{font-size:9px;padding:0 6px;border-radius:999px;background:var(--bg3);color:var(--tlo);white-space:nowrap}
+  .tag.pin{background:var(--outlib);color:#04101f}
+  .donebar{display:flex;align-items:center;gap:6px;width:100%;border-top:1px solid var(--line0);background:var(--bg2);color:var(--tlo);font-size:10px;padding:4px 10px;cursor:pointer;flex:none}
+  .donebar:hover{color:var(--th)}
+  .donebar .cnt{background:var(--bg3);border-radius:999px;padding:0 7px;font-size:9px}
+  .donebar.zpulse{animation:zflash .8s ease}
+  @keyframes zflash{0%{background:rgba(81,184,115,.28)}100%{background:var(--bg2)}}
+  /* 右栏（卡片式） */
+  .rtabs{display:flex;gap:2px;background:var(--bg1);border-radius:10px 10px 0 0;padding:6px 10px 0}
+  .rtabs button{border:none;background:transparent;color:var(--tlo);padding:8px 12px;font-size:12px;cursor:pointer;border-radius:8px 8px 0 0}
+  .rtabs button.on{background:var(--bg2);color:var(--th)}
+  .rbody{background:var(--bg2);border-radius:0 10px 10px 10px;flex:1;min-height:0;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+  .mcard{background:var(--bg3);border-radius:8px;padding:10px;font-size:12px}
+  .mcard .lbl{font-size:10px;color:var(--tlo);margin-bottom:3px}
+  .mcard b{font-size:13px}
+  .steps{display:flex;gap:3px;align-items:center;margin-top:6px}
+  .step{flex:1;text-align:center;font-size:10px;padding:4px 0;border-radius:6px;color:var(--tlo);background:var(--bg2)}
+  .step.done{color:var(--th)} .step.cur{background:var(--exec);color:#04121a;font-weight:700}
+  .act{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .btn{position:relative;border:1px solid var(--line1);background:var(--bg3);color:var(--th);padding:6px 12px;font-size:12px;cursor:pointer;border-radius:8px;overflow:hidden}
+  .btn::before{content:"";position:absolute;inset:0;border-radius:inherit;transition:background var(--dur)}
+  .btn:hover::before{background:rgba(255,255,255,.07)}
+  .btn:active::before{background:rgba(255,255,255,.14)}
+  .btn:focus-visible{outline:2px solid var(--outlib);outline-offset:2px}
+  .btn.primary{background:var(--exec);border-color:var(--exec);color:#04121a;font-weight:700}
+  .btn.danger{background:var(--abn);border-color:var(--abn);color:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.sm{font-size:10px;padding:2px 8px}
+  .rsn{display:none;background:var(--bg3);border-radius:8px;padding:10px;font-size:11px;color:var(--tlo)}
+  .rsn.open{display:block}
+  .rsn p{color:var(--th);margin:4px 0}
+  .static-inline{font-size:11px;color:var(--tlo)}
+  /* 点击波纹（简约但清晰：细圆环 + 明亮填充，无发光） */
+  .ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%) scale(0);
+    background:radial-gradient(circle,rgba(255,255,255,.55) 0%,rgba(255,255,255,.16) 45%,rgba(255,255,255,0) 65%);
+    animation:rip .55s cubic-bezier(.2,.6,.35,1) forwards}
+  .ripple::after{content:"";position:absolute;inset:16%;border-radius:50%;border:2px solid rgba(255,255,255,.85)}
+  @keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.9}60%{opacity:.5}
+    100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+  /* 页面内轻提示条（替代原生 alert，不阻断演示） */
+  .toastbar{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-24px);z-index:1000;
+    background:rgba(10,18,26,.92);border:1px solid var(--exec);color:#e8fff3;font-size:12px;padding:8px 16px;
+    border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.5);opacity:0;transition:transform .25s ease,opacity .25s ease;pointer-events:none}
+  .toastbar.show{transform:translateX(-50%) translateY(0);opacity:1}
+  /* 开场/聚光/字幕层（录屏用，不参与布局） */
+  .cinema-mask{position:fixed;inset:0;z-index:900;pointer-events:none;display:none}
+  .cinema-pane{position:fixed;background:rgba(3,5,8,.74);z-index:900;pointer-events:none;transition:opacity .2s ease}
+  .cinema-title{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:950;text-align:center;display:none;pointer-events:none;line-height:1.25}
+  .cinema-title .clarsyn-hero{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:8px}
+  .cinema-title .clarsyn-logo{flex:none;line-height:0}
+  .cinema-title .clarsyn-logo svg{display:block;width:min(40vw,250px);height:auto;image-rendering:pixelated}
+  .cinema-title .clarsyn-sub{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.55);max-width:92vw;margin-left:auto;margin-right:auto}
+  .cinema-title .clarsyn-sub.cn{font-size:22px;font-weight:700;letter-spacing:1px;line-height:1.4;text-align:left;white-space:nowrap}
+  .cinema-title .clarsyn-sub.en{font-size:14px;color:#c7d0dc;margin-top:6px;letter-spacing:.5px;line-height:1.45}
+  .cinema-caption{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:950;background:rgba(140,150,165,.38);padding:8px 22px;border-radius:6px;font-size:20px;line-height:1.5;color:#fff;text-align:center;max-width:80vw;display:none;pointer-events:none;white-space:normal}
+  .ff-icon{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:950;font-size:72px;color:rgba(255,255,255,.75);text-shadow:0 2px 14px rgba(0,0,0,.5);display:none;pointer-events:none;animation:ffblink .8s ease-in-out infinite;line-height:1}
+  @keyframes ffblink{0%,100%{opacity:.25}50%{opacity:1}}
+  .holder{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
+  .srow{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 0;border-bottom:1px dashed var(--line1)}
+  .srow span{color:var(--tlo);white-space:nowrap}
+  .srow b{font-size:11px;text-align:right}
+  .prow{background:var(--bg2);border-radius:6px;padding:6px 8px;margin-top:4px}
+  .plan-sec{margin-top:6px;background:var(--bg2);border-radius:6px;padding:6px 8px}
+  .plan-sec b{display:block;font-size:10px;color:var(--tlo);margin-bottom:3px}
+  .plan-row{display:flex;gap:6px;font-size:10.5px;padding:2px 0;color:var(--th)}
+  .plan-row span{flex:none;color:var(--exec);white-space:nowrap}
+  .arow{display:flex;justify-content:space-between;gap:8px;padding:2px 0;font-size:10px}
+  .arow code{font-family:monospace;color:var(--exec)}
+  /* 告警/动画 */
+  .banner{display:none;margin:0 0 8px;border-radius:8px;padding:8px 12px;font-size:12px;align-items:center;gap:8px}
+  .banner.err{display:flex;background:rgba(229,72,77,.16);box-shadow:inset 0 0 0 1px var(--abn);color:#ffd9da;animation:flash 1.2s infinite}
+  .banner.ok{display:flex;background:rgba(81,184,115,.14);box-shadow:inset 0 0 0 1px var(--exec);color:#d4f4e0}
+  @keyframes flash{0%,100%{opacity:1}50%{opacity:.45}}
+  .cdbar{height:5px;border-radius:3px;background:var(--bg2);overflow:hidden;margin-top:6px}
+  .cdbar i{display:block;height:100%;background:var(--abn);animation:shrink 30s linear forwards}
+  @keyframes shrink{from{width:100%}to{width:4%}}
+  .pulse{animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,72,77,.45)}50%{box-shadow:0 0 0 10px rgba(229,72,77,0)}}
+  .evchip{width:12px;height:7px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
+  .ev-d{background:var(--detect)}.ev-x{background:var(--exec)}.ev-a{background:var(--abn)}.ev-o{background:var(--outlib)}
+
+
+/* ===== A 族壳覆盖层（2026-09-18）：左侧导航 + 96px 顶栏 + 1920×1080 画板；仅加壳，不改动面板内部 ===== */
+html,body{width:100%;height:100%}
+body{display:flex;align-items:center;justify-content:center;overflow:hidden}
+#board{width:1920px;height:1080px;transform-origin:center center;display:flex;flex:none;background:var(--bg0)}
+.app{flex:1;min-width:0;flex-direction:row;border-radius:0;box-shadow:none}
+.appmain{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
+.side{width:88px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:16px 0 18px;gap:6px}
+.side .mark{width:46px;height:46px;border:1px solid var(--line-1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.5px;margin-bottom:16px}
+.nav{display:flex;flex-direction:column;gap:6px;width:100%;align-items:center}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:4px;width:74px;padding:11px 0 10px;border-radius:8px;text-decoration:none;color:var(--tlo)}
+.nav a svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.nav a span{font-size:13px;letter-spacing:.5px}
+.nav a:hover{color:var(--th);background:var(--bg2)}
+.nav a.on{color:var(--th);background:var(--bg3)}
+.side .gap{flex:1}
+.topbar{height:96px;flex:none;display:flex;align-items:center;gap:18px;padding:0 24px;background:var(--bg1);box-shadow:0 1px 0 var(--line0)}
+.logo{font-family:var(--mono);font-weight:600;font-size:22px;letter-spacing:.5px;color:var(--th)}
+.t-sub{font-size:14.5px;color:var(--tlo);border-left:1px solid var(--line-1);padding-left:20px;white-space:nowrap}
+.vcard{display:flex;align-items:stretch;border:1px solid var(--line1);border-radius:8px;height:58px}
+.vcell{padding:9px 18px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-left:1px solid var(--line1)}
+.vcell:first-child{border-left:0}
+.vcell .kl{font-size:11px;color:var(--tlo);letter-spacing:1.2px}
+.vcell .kv{font-size:16px;color:var(--th);white-space:nowrap}
+.vcell .kv b{font-weight:500}
+.sp{flex:1}
+.t0{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13.5px;color:var(--exec);border:1px solid rgba(81,184,115,.35);border-radius:999px;padding:8px 15px;flex:none;white-space:nowrap}
+.clock{font-family:var(--mono);text-align:right;line-height:1.1}
+.clock .t{font-size:34px;font-weight:500;color:var(--th)}
+.clock .l{font-size:13px;color:var(--tlo);margin-top:3px;font-family:var(--sans)}
+.role{display:flex;align-items:center;gap:10px;border:1px solid var(--line-1);border-radius:999px;padding:8px 16px;font-size:13.5px;color:var(--tlo);white-space:nowrap}
+.role b{color:var(--th)}
+.c-left{width:200px}
+/* 冻结跑马灯复位＋推理面板防挤压：字幕静态排版，面板给足高度 */
+.irow,.irow.new{box-shadow:inset 3px 0 0 var(--outlib)}
+.imarqwrap{white-space:normal;height:auto;position:static;overflow:visible}
+.imarq{position:static;display:inline;white-space:normal;transform:none!important}
+.infer{min-height:240px}
+
+</style>
+</head>
+<body class="night">
+<div id="board">
+<div class="app">
+  <aside class="side">
+    <div class="mark">CS</div>
+    <nav class="nav">
+      <a class="on" href="p1-workspace.html" title="工作区"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="7" rx="1.5"/><rect x="2" y="13" width="9" height="7" rx="1.5"/><rect x="13" y="13" width="9" height="7" rx="1.5"/></svg><span>工作区</span></a>
+      <a href="a1-xcard.html" title="值班态势台"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>态势台</span></a>
+      <a href="a2-email.html" title="收件箱"><svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><span>收件箱</span></a>
+      <a href="a3-observe.html" title="预警观察"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg><span>预警观察</span></a>
+      <a href="a4-l3.html" title="审批中心"><svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg><span>审批</span></a>
+      <a href="a5-dispatch.html" title="执行与触达"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg><span>触达</span></a>
+      <a href="a6-daily.html" title="事件轨迹"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>轨迹</span></a>
+    </nav>
+    <div class="gap"></div>
+  </aside>
+  <div class="appmain">
+  <!-- 顶栏（A 族样式） -->
+  <header class="topbar">
+    <span class="logo">ClarSyn</span>
+    <span class="t-sub">宾客运营工作台</span>
+    <div class="vcard">
+      <div class="vcell"><span class="kl">船舶</span><span class="kv"><b>星澜号</b> MS XING LAN</span></div>
+      <div class="vcell"><span class="kl">航次</span><span class="kv">HL-2609-05</span></div>
+      <div class="vcell"><span class="kl">挂靠港</span><span class="kv">福冈港 W-3</span></div>
+      <div class="vcell"><span class="kl">泊离</span><span class="kv">09-18 · 16:00</span></div>
+    </div>
+    <div class="sp"></div>
+    <div class="t0"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--exec)"></span>T0 全功能</div>
+    <div class="clock"><div class="t">12:33</div><div class="l">本地 · 船时</div></div>
+    <div class="role"><span><b>船长</b> · 王立军</span></div>
+  </header>
+
+  <!-- 冻结的工作区画面（12:33 · L4 执行段 · 端口·审计；数据已写死，无任何脚本依赖） -->
+  <main class="main">
+
+    <!-- 左栏（卡片式） -->
+    <div class="col c-left">
+      <div class="panel">
+        <div class="ph">局势图<span class="sub">· 泊位 3A</span></div>
+        <div class="map">
+          <svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg">
+            <g id="portBox" style="opacity: 0.3;">
+              <rect id="shore" x="6" y="20" width="48" height="150" rx="5" fill="var(--bg2)" stroke="var(--line1)" stroke-width="1.5"></rect>
+              <line x1="54" y1="20" x2="54" y2="170" stroke="var(--line0)" stroke-width="3"></line>
+              <circle cx="30" cy="40" r="3" fill="var(--line1)"></circle>
+              <circle cx="30" cy="150" r="3" fill="var(--line1)"></circle>
+            </g>
+            <g id="gang" style="display: none;">
+              <line x1="54" y1="60" x2="120" y2="60" stroke="var(--line1)" stroke-width="2.5" stroke-dasharray="5 4"></line>
+              <line x1="54" y1="95" x2="120" y2="95" stroke="var(--line1)" stroke-width="2.5" stroke-dasharray="5 4"></line>
+              <line x1="54" y1="130" x2="120" y2="130" stroke="var(--line1)" stroke-width="2.5" stroke-dasharray="5 4"></line>
+            </g>
+            <g id="ship">
+              <path id="shipHull" d="M121 34 Q135 16 149 34 L150 146 Q150 158 135 158 Q120 158 120 146 Z" fill="var(--bg1)" stroke="var(--th)" stroke-width="2.5"></path>
+              <rect x="126" y="46" width="18" height="90" rx="8" fill="var(--bg2)" stroke="var(--line1)" stroke-width="1.5"></rect>
+              <line x1="126" y1="42" x2="144" y2="42" stroke="var(--line0)" stroke-width="2"></line>
+              <circle cx="135" cy="150" r="5" fill="none" stroke="var(--outlib)" stroke-width="1.5" opacity=".7"></circle>
+            </g>
+            <g id="dots" style="">
+              <circle cx="6" cy="118" r="5" fill="var(--bg0)" stroke="var(--outlib)" stroke-width="2"></circle>
+              <line x1="10" y1="118" x2="133" y2="92" stroke="var(--outlib)" stroke-dasharray="4 3" stroke-width="2"></line>
+              <circle cx="214" cy="70" r="5" fill="var(--bg0)" stroke="var(--detect)" stroke-width="2"></circle>
+              <line x1="210" y1="73" x2="137" y2="88" stroke="var(--detect)" stroke-dasharray="4 3" stroke-width="2"></line>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="oplog">
+        <div class="head"><b>操作台日志</b><input id="logSearch" placeholder="搜索日志…"></div>
+        <div class="ctl">
+          <button class="fil on" data-f="all">全部</button><button class="fil" data-f="evt">事件</button><button class="fil" data-f="op">操作</button>
+          <button class="btn sm" onclick="copyLog()">复制</button>
+          <span style="flex:1"></span>
+          <button class="btn sm icn" id="logFz" title="冻结日志滚动"><svg width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="0" width="3" height="10" rx="1" fill="currentColor"></rect><rect x="6" y="0" width="3" height="10" rx="1" fill="currentColor"></rect></svg></button>
+          <span id="logcnt">310</span>
+        </div>
+        <div class="opfeed" id="opfeed"><div class="op"><span class="t">12:33</span><span>E11-0001 执行中（人工作业·含恢复确认）</span></div><div class="op"><span class="t">12:33</span><span>E11-0001 确认通过 → 进入执行段</span></div><div class="op"><span class="t">12:33</span><span>E03-0001-C1 再检 1/1：恢复，关闭监测（无新事件）</span></div><div class="op"><span class="t">12:32</span><span>E11-0001 待确认/待审批（时限 60′）</span></div><div class="op"><span class="t">12:32</span><span>移交 E11-0001 → MGR</span></div><div class="op"><span class="t">12:32</span><span>发现 E11-0001 接驳中断</span></div><div class="op"><span class="t">12:28</span><span>E-L4-0001 执行中（人工作业·含恢复确认）</span></div><div class="op"><span class="t">12:28</span><span>E-L4-0001 确认通过 → 进入执行段</span></div><div class="op"><span class="t">12:28</span><span>E-L4-0001 待确认/待审批（时限 0′）</span></div><div class="op"><span class="t">12:28</span><span>移交 E-L4-0001 → CAPT</span></div><div class="op"><span class="t">12:27</span><span>E03-0001-C1 判定挂起 → 转入周期再检</span></div><div class="op"><span class="t">12:27</span><span>E-L4-0001 衍生自 E09-0001（parentTrace=68F9-AE29）</span></div><div class="op"><span class="t">12:27</span><span>发现 E-L4-0001 安全离船/整体下船方案调整</span></div><div class="op"><span class="t">12:27</span><span>E09-0001 执行中检测更强信号 → AI 判据达标，自动升级为 L4（物理劣化：侧风持续超操作限值，呈船长处置，关系A升级线）</span></div><div class="op"><span class="t">12:26</span><span>E09-0001 执行中（人工作业·含恢复确认）</span></div><div class="op"><span class="t">12:26</span><span>E09-0001 确认通过 → 进入执行段</span></div><div class="op"><span class="t">12:26</span><span>E21-L1-04 恢复，事件闭合</span></div><div class="op"><span class="t">12:25</span><span>E21-L1-16 恢复，事件闭合</span></div><div class="op"><span class="t">12:23</span><span>X-0002 判定挂起 → 转入周期再检</span></div><div class="op"><span class="t">12:22</span><span>E09-0001 待确认/待审批（时限 60′）</span></div><div class="op"><span class="t">12:22</span><span>移交 E09-0001 → MGR</span></div><div class="op"><span class="t">12:22</span><span>发现 E09-0001 台风靠离泊调整</span></div><div class="op"><span class="t">12:22</span><span>E03-0003 再检 1/1：恢复，关闭监测（无新事件）</span></div><div class="op"><span class="t">12:21</span><span>E03-0001-C1 执行中（人工作业·含恢复确认）</span></div><div class="op"><span class="t">12:21</span><span>E03-0001-C1 确认通过 → 进入执行段</span></div><div class="op"><span class="t">12:21</span><span>发现 X-0002 接驳×离船批次弱信号组合</span></div><div class="op"><span class="t">12:20</span><span>E21-L1-04 执行中（人工作业·含恢复确认）</span></div><div class="op"><span class="t">12:20</span><span>E21-L1-04 确认通过 → 进入执行段</span></div><div class="op"><span class="t">12:20</span><span>E21-L1-16 执行中（人工作业·含恢复确认）</span></div><div class="op"><span class="t">12:20</span><span>E21-L1-16 确认通过 → 进入执行段</span></div><div class="op"><span class="t">12:20</span><span>E21-L1-04 待确认/待审批（时限 15′）</span></div><div class="op"><span class="t">12:20</span><span>移交 E21-L1-04 → DUTY</span></div><div class="op"><span class="t">12:20</span><span>发现 E21-L1-04 航变相关乘客询问增多</span></div><div class="op"><span class="t">12:19</span><span>E21-L1-16 待确认/待审批（时限 15′）</span></div><div class="op"><span class="t">12:19</span><span>移交 E21-L1-16 → DUTY</span></div><div class="op"><span class="t">12:19</span><span>发现 E21-L1-16 航变相关询问·第三波</span></div><div class="op"><span class="t">12:19</span><span>E03-0005 再检 1/1：恢复，关闭监测（无新事件）</span></div><div class="op"><span class="t">12:19</span><span>E03-0002 再检 1/1：恢复，关闭监测（无新事件）</span></div><div class="op"><span class="t">12:17</span><span>E03-0001-C1 待确认/待审批（时限 30′）</span></div><div class="op"><span class="t">12:17</span><span>移交 E03-0001-C1 → DUTY</span></div></div>
+      </div>
+      <div class="setbar"><span>操作台设置</span><button>设置</button><button>等级▾</button><button>时段▾</button></div>
+    </div>
+    <!-- 中栏：主列 + 整竖条卡片带 -->
+    <div class="c-mid">
+      <div class="c-mid-main">
+        <div class="panel" style="padding:6px 8px">
+          <div class="portbar" id="portbar" style="background:transparent;padding:0">
+            <button class="on">总览</button><button>天气/台风</button><button>口岸/通关</button>
+            <button>登离船</button><button>AIS</button><button>船舶系统</button><button>通知/广播</button>
+          </div>
+        </div>
+        <div class="reserve">
+          <div class="portlive execsup" style="height: 174px;">
+            <div class="es-head"><b>执行监督</b><span class="es-cnt" id="esCnt">2 项</span><span class="es-clk" id="esClk">12:33</span></div>
+            <div class="es-body" id="esBody" data-sig="E-L4-0001|run|todotodotodo|okokokokwait;E11-0001|run||okwait#@E09-0001" data-prev-act="E-L4-0001,E11-0001"><div class="es-row lvl4" data-no="E-L4-0001"><span class="es-no">E-L4-0001</span><span class="es-nm">安全离船/整体下船方案调整</span><span class="es-tag">⚑L4</span><span class="es-st"><span class="es-bats"><span class="es-bat ">1</span><span class="es-bat ">2</span><span class="es-bat ">3</span></span><span class="es-ports"><span class="es-p ok" title="整体下船方案通知（分组+时间）">APP✓</span><span class="es-p ok" title="分组离船广播（按甲板/房型）">PA✓</span><span class="es-p ok" title="船员端分组引导指令">CRW✓</span><span class="es-p ok" title="赔付/安抚口径同步法务 LEGAL（知情端口）">MGMT✓</span><span class="es-p wait" title="客服安抚口径同步 OTA（知情端口）">OTA◐</span></span></span></div><div class="es-row lvl3" data-no="E11-0001"><span class="es-no">E11-0001</span><span class="es-nm">接驳中断</span><span class="es-tag">L3</span><span class="es-st"><span class="es-ports"><span class="es-p ok" title="接驳中断/调整通知">APP✓</span><span class="es-p wait" title="接驳口径同步">OTA◐</span></span></span></div></div>
+            <div class="es-done" id="esDone"><i>✓</i>E09-0001</div>
+          </div>
+          <div class="infer">
+            <div class="head">AI 实时推理监视<span class="cnt" id="infercnt">4</span></div>
+            <div class="inferfeed" id="inferfeed"><div class="irow new" data-no="E11-0001"><i class="idot on" style="background: rgb(240, 164, 63);"></i><span class="imarqwrap"><span class="imarq" style="transform: none;">下达：APP 接驳调整通知 + 调车指令。运力恢复后事件闭合；恢复前持续监测候车区滞留，不失控。</span></span></div><div class="irow" data-no="E21-L1-01"><i class="idot"></i><span class="imarqwrap"><span class="imarq" style="transform: translateX(-226px);">客服端涌进来一串登船流程/证件问题，计数 6 条、高度集中（ota/faq）。先看是不是同一波乘客在反复问——是，问题同质，不是分散个案。再确认没有伴生信号：没有设施故障、没有排队异常，就是信息沟通层面的问题。</span></span></div><div class="irow" data-no="X-0001"><i class="idot"></i><span class="imarqwrap"><span class="imarq" style="transform: translateX(-1380.17px);">登船大厅这层的滞留曲线比历史基线明显抬了一档，先是 1.8σ 的偏离信号。库里 30 类模板挨个过了一遍，对不上——不像排队、不像设施故障，更像一种没见过组合的形态。先不当结论，按库外流程挂着观察，语气放软。得再想想：会不会是摄像机角度造成的误判？查了相邻点位，B 层廊桥区的密度读数也在同步抬升，说明不是单点视角问题。那先按真实异常对待，但不下断言。</span></span></div><div class="irow" data-no="A01-L1-01"><i class="idot on" style="background: rgb(111, 120, 134);"></i><span class="imarqwrap"><span class="imarq" style="transform: translateX(-539.76px);">下达：APP 推送登船排队提示，回执记录入审计；队列回落后自动撤下。撤下的条件也定好：连续两个采样点低于阈值才算回落，不因单点波动误撤。</span></span></div></div>
+          </div>
+        </div>
+                <div class="timeline">
+          <svg id="tlgen" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg"><rect x="70" y="14" width="790" height="36" fill="rgba(255,255,255,.03)" stroke="var(--line0)"></rect><rect x="70" y="56" width="790" height="72" fill="rgba(255,255,255,.03)" stroke="var(--line0)"></rect><rect x="70" y="134" width="790" height="108" fill="rgba(255,255,255,.03)" stroke="var(--line0)"></rect><rect x="70" y="248" width="790" height="180" fill="rgba(255,255,255,.03)" stroke="var(--line0)"></rect><rect x="70" y="466" width="790" height="40" fill="rgba(255,255,255,.03)" stroke="var(--line0)"></rect><g stroke="var(--line0)" stroke-width="1" stroke-dasharray="4 4"><line x1="70" y1="23" x2="860" y2="23"></line><line x1="70" y1="41" x2="860" y2="41"></line><line x1="70" y1="65" x2="860" y2="65"></line><line x1="70" y1="83" x2="860" y2="83"></line><line x1="70" y1="101" x2="860" y2="101"></line><line x1="70" y1="119" x2="860" y2="119"></line><line x1="70" y1="143" x2="860" y2="143"></line><line x1="70" y1="161" x2="860" y2="161"></line><line x1="70" y1="179" x2="860" y2="179"></line><line x1="70" y1="197" x2="860" y2="197"></line><line x1="70" y1="215" x2="860" y2="215"></line><line x1="70" y1="233" x2="860" y2="233"></line><line x1="70" y1="257" x2="860" y2="257"></line><line x1="70" y1="275" x2="860" y2="275"></line><line x1="70" y1="293" x2="860" y2="293"></line><line x1="70" y1="311" x2="860" y2="311"></line><line x1="70" y1="329" x2="860" y2="329"></line><line x1="70" y1="347" x2="860" y2="347"></line><line x1="70" y1="365" x2="860" y2="365"></line><line x1="70" y1="383" x2="860" y2="383"></line><line x1="70" y1="401" x2="860" y2="401"></line><line x1="70" y1="419" x2="860" y2="419"></line><line x1="70" y1="475" x2="860" y2="475"></line><line x1="70" y1="493" x2="860" y2="493"></line></g><rect x="8" y="14" width="54" height="36" fill="var(--bg2)" rx="6"></rect><text x="35" y="36" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">L4</text><rect x="8" y="56" width="54" height="72" fill="var(--bg2)" rx="6"></rect><text x="35" y="96" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">L3</text><rect x="8" y="134" width="54" height="108" fill="var(--bg2)" rx="6"></rect><text x="35" y="192" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">L2</text><rect x="8" y="248" width="54" height="180" fill="var(--bg2)" rx="6"></rect><text x="35" y="342" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">L1</text><rect x="8" y="466" width="54" height="40" fill="var(--bg2)" rx="6"></rect><text x="35" y="490" font-size="11" font-weight="700" fill="var(--th)" text-anchor="middle">X·库外</text><line x1="70" y1="444" x2="860" y2="444" stroke="var(--line1)" stroke-width="2"></line><line x1="153.38888888888889" y1="441" x2="153.38888888888889" y2="447" stroke="var(--line0)"></line><line x1="258.72222222222223" y1="441" x2="258.72222222222223" y2="447" stroke="var(--line0)"></line><line x1="364.05555555555554" y1="441" x2="364.05555555555554" y2="447" stroke="var(--line0)"></line><line x1="469.38888888888886" y1="441" x2="469.38888888888886" y2="447" stroke="var(--line0)"></line><line x1="574.7222222222222" y1="441" x2="574.7222222222222" y2="447" stroke="var(--line0)"></line><line x1="680.0555555555555" y1="441" x2="680.0555555555555" y2="447" stroke="var(--line0)"></line><line x1="785.3888888888889" y1="441" x2="785.3888888888889" y2="447" stroke="var(--line0)"></line><line x1="153.38888888888889" y1="8" x2="153.38888888888889" y2="506" stroke="rgba(255,255,255,.05)"></line><line x1="153.38888888888889" y1="439" x2="153.38888888888889" y2="449" stroke="var(--line1)"></line><text x="139.38888888888889" y="460" font-size="8" fill="var(--tlo)">12:20</text><line x1="680.0555555555555" y1="8" x2="680.0555555555555" y2="506" stroke="rgba(255,255,255,.05)"></line><line x1="680.0555555555555" y1="439" x2="680.0555555555555" y2="449" stroke="var(--line1)"></line><text x="666.0555555555555" y="460" font-size="8" fill="var(--tlo)">12:30</text><text x="842" y="460" font-size="8" fill="var(--th)">现在</text><line x1="860" y1="8" x2="860" y2="506" stroke="var(--th)" stroke-width="2"></line><rect x="100.72222222222223" y="252" width="36.866666666666674" height="9" fill="#f0a43f" rx="2" opacity="1"></rect><line x1="137.5888888888889" y1="250" x2="137.5888888888889" y2="264" stroke="#51b873" stroke-width="3"></line><rect x="137.5888888888889" y="252" width="47.39999999999998" height="9" fill="#e8b64c" rx="2" opacity="1"></rect><rect x="184.98888888888888" y="252" width="231.73333333333335" height="9" fill="#51b873" rx="2" opacity="1"></rect><circle cx="416.72222222222223" cy="257" r="4.5" fill="#fff" stroke="#2f9e63" stroke-width="2"></circle><rect x="153.38888888888889" y="270" width="17.55555555555557" height="9" fill="#f0a43f" rx="2" opacity="1"></rect><line x1="170.94444444444446" y1="268" x2="170.94444444444446" y2="282" stroke="#51b873" stroke-width="3"></line><rect x="170.94444444444446" y="270" width="18.433333333333337" height="9" fill="#e8b64c" rx="2" opacity="1"></rect><rect x="189.3777777777778" y="270" width="280.01111111111106" height="9" fill="#51b873" rx="2" opacity="1"></rect><circle cx="469.38888888888886" cy="275" r="4.5" fill="#fff" stroke="#2f9e63" stroke-width="2"></circle><rect x="206.05555555555554" y="488" width="105.33333333333337" height="9" fill="#6f7886" stroke="var(--line0)" stroke-dasharray="3 2" rx="2"></rect><circle cx="311.3888888888889" cy="493" r="4.5" fill="#fff" stroke="#f0a43f" stroke-width="2"></circle><rect x="258.72222222222223" y="60" width="5.2666666666666515" height="9" fill="#f0a43f" rx="2" opacity="1"></rect><line x1="263.9888888888889" y1="58" x2="263.9888888888889" y2="72" stroke="#51b873" stroke-width="3"></line><rect x="263.9888888888889" y="60" width="205.39999999999998" height="9" fill="#e8b64c" rx="2" opacity="1"></rect><rect x="469.38888888888886" y="60" width="52.666666666666686" height="9" fill="#51b873" rx="2" opacity="1"></rect><line x1="522.0555555555555" y1="18" x2="522.0555555555555" y2="70" stroke="#e5484d" stroke-width="3"></line><rect x="522.0555555555555" y="18" width="61.44444444444446" height="9" fill="#f0a43f" rx="2" opacity="1"></rect><line x1="583.5" y1="16" x2="583.5" y2="30" stroke="#51b873" stroke-width="3"></line><line x1="606.3222222222222" y1="16" x2="606.3222222222222" y2="30" stroke="#51b873" stroke-width="3"></line><rect x="583.5" y="18" width="22.822222222222194" height="9" fill="#e8b64c" rx="2" opacity="1"></rect><rect x="606.3222222222222" y="18" width="253.6777777777778" height="9" fill="#51b873" rx="2" opacity="1"></rect><rect x="70" y="228" width="136.05555555555554" height="9" fill="#e8b64c" rx="2" opacity="1"></rect><rect x="206.05555555555554" y="228" width="316" height="9" fill="#51b873" rx="2" opacity="1"></rect><circle cx="522.0555555555555" cy="233" r="4.5" fill="#fff" stroke="#f0a43f" stroke-width="2"></circle><rect x="785.3888888888889" y="78" width="5.2666666666666515" height="9" fill="#f0a43f" rx="2" opacity="1"></rect><line x1="790.6555555555556" y1="76" x2="790.6555555555556" y2="90" stroke="#51b873" stroke-width="3"></line><rect x="790.6555555555556" y="78" width="47.39999999999998" height="9" fill="#e8b64c" rx="2" opacity="1"></rect><rect x="838.0555555555555" y="78" width="21.944444444444457" height="9" fill="#51b873" rx="2" opacity="1"></rect></svg>
+        </div>
+        <div class="tlleg">
+          <span><i class="evchip ev-d"></i>发现</span><span><i class="evchip ev-a"></i>异常/升级</span>
+          <span><i class="dot8"></i>恢复点（深绿空心）</span><span><i class="dot8 am"></i>挂起点（琥珀空心·§13）</span><span>竖线=瞬时移交(绿=正常/红=异常)</span>
+        <span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center"><label style="color:var(--tlo);font-size:10px;display:inline-flex;align-items:center;gap:3px">时间 <input id="tlsnaprange" type="range" min="0" max="7200" step="30" value="0" style="width:200px"></label><button class="btn sm" id="tlplay">▶ 播放</button><span id="tlsnaplbl" style="font-size:10px">快照 12:33</span></span></div>
+      </div>
+      <!-- 整竖条卡片带 -->
+                  <div class="cardband" id="cardband"><div class="zone"><div class="zh"><i class="dot" style="background:#e5484d"></i>L4<span class="zc">实时 0 · 已处置 1</span></div><div class="zbody"><div class="card lv4 linger sel" data-no="E-L4-0001"><div class="t1"><span>E-L4-0001 安全离船/整体下船方案调整</span></div><div style="font-size:9.5px;color:var(--tlo)">船长确认整体下船安全再排方案 → 分组触达（APP/广播/船员端）+ 安抚告知（法务/客服知情端口）→ 靠岸执行中（片尾=靠岸瞬间 12:35）</div></div></div><button class="donebar" data-donebar="L4" title="已处置明细（弹窗待定）">已处置 <span class="cnt">1</span> ▸</button></div><div class="zone"><div class="zh"><i class="dot" style="background:#4c8dff"></i>X · 库外<span class="zc">实时 0 · 已处置 2</span></div><div class="zbody"><div class="card lvX linger" data-no="X-0002"><div class="t1"><span>X-0002 接驳×离船批次弱信号组合</span></div><div style="font-size:9.5px;color:var(--tlo)">库外弱信号组合（接驳×离船批次）：观察后存档（挂起），作为 E09 长链推演的弱信号输入之一</div></div><div class="card lvX linger" data-no="X-0001"><div class="t1"><span>X-0001 登船日楼层滞留偏离历史</span></div><div style="font-size:9.5px;color:var(--tlo)">库外弱信号：观察期信度持续升高（0.55→0.86），按关系A升级为正式事件 E01</div></div></div><button class="donebar" data-donebar="X" title="已处置明细（弹窗待定）">已处置 <span class="cnt">2</span> ▸</button></div><div class="zone"><div class="zh"><i class="dot" style="background:#f0a43f"></i>L3<span class="zc">实时 0 · 已处置 2</span></div><div class="zbody"><div class="card lv3 linger" data-no="E11-0001"><div class="t1"><span>E11-0001 接驳中断</span></div><div style="font-size:9.5px;color:var(--tlo)">运营经理确认 A09（调备用接驳/重排批次）→ 备用运力到位执行 → 恢复，完整闭环</div></div><div class="card lv3 linger" data-no="E09-0001"><div class="t1"><span>E09-0001 台风靠离泊调整</span></div><div style="font-size:9.5px;color:var(--tlo)">经理审批确认 → 长链推演（台风×靠泊窗口×离船批次×接驳耦合）判'需整体下船安全再排' → 升级(L4·物理)</div></div></div><button class="donebar" data-donebar="L3" title="已处置明细（弹窗待定）">已处置 <span class="cnt">2</span> ▸</button></div><div class="zone"><div class="zh"><i class="dot" style="background:#51b873"></i>L2<span class="zc">实时 0 · 已处置 18</span></div><div class="zbody"><div class="card lv2 linger" data-no="E03-0001-C1"><div class="t1"><span>E03-0001-C1 午餐高峰复燃（衍生自 E03-0001）</span></div><div style="font-size:9.5px;color:var(--tlo)">午餐高峰复燃（衍生自 E03-0001）：12:16 再检 upgrade → 新事件 → 挂起 → 再检复查确认恢复；配合 E-L4 离船口径</div></div><div class="card lv2 linger" data-no="E03-0003"><div class="t1"><span>E03-0003 剧场演出入场/散场拥挤</span></div><div style="font-size:9.5px;color:var(--tlo)">剧场入场/散场拥挤（E03）→ A16 分流 → 挂起 → 再检 仍同类→复查确认恢复</div></div><div class="card lv2 linger" data-no="E03-0002"><div class="t1"><span>E03-0002 午餐甜品/收餐台排队</span></div><div style="font-size:9.5px;color:var(--tlo)">甜品/收餐台排队 → 分流 → 挂起 → 再检复查确认恢复</div></div><div class="card lv2 linger" data-no="E27-0002"><div class="t1"><span>E27-0002 儿童俱乐部活动拥挤</span></div><div style="font-size:9.5px;color:var(--tlo)">儿童俱乐部活动拥挤（E27）→ A16 协调 → 挂起 → 再检复查确认恢复</div></div><div class="card lv2 linger" data-no="E03-0005"><div class="t1"><span>E03-0005 泳池甲板午间高峰</span></div><div style="font-size:9.5px;color:var(--tlo)">泳池甲板午间高峰 → 分流 → 挂起 → 再检复查确认恢复</div></div><div class="card lv2 linger" data-no="E06-0001"><div class="t1"><span>E06-0001 电梯/扶梯停运</span></div><div style="font-size:9.5px;color:var(--tlo)">值班确认 A04（维修派单）+ A11（暂停使用提示）→ 工程修复 → 恢复</div></div><div class="card lv2 linger" data-no="E22-0001"><div class="t1"><span>E22-0001 多渠道调度信息不一致</span></div><div style="font-size:9.5px;color:var(--tlo)">经理确认 A05 统一口径 → 全端口校准 → 恢复</div></div><div class="card lv2 linger" data-no="E03-0001"><div class="t1"><span>E03-0001 午餐主餐厅高峰·波1</span></div><div style="font-size:9.5px;color:var(--tlo)">午餐主餐厅高峰波1：A01+A16 分流 → 用餐周期长 → 挂起 → 12:16 复燃再检 upgrade → 衍生 E03-0001-C1</div></div><div class="card lv2 linger" data-no="E27-0001"><div class="t1"><span>E27-0001 儿童/家庭活动区拥挤</span></div><div style="font-size:9.5px;color:var(--tlo)">儿童/家庭活动区拥挤（E27）→ A16 分流 → 挂起 → 再检 仍同类→复查确认恢复</div></div><div class="card lv2 linger" data-no="E01-0002"><div class="t1"><span>E01-0002 登船口/安检排队·第二波</span></div><div style="font-size:9.5px;color:var(--tlo)">登船口排队第二波（隔段再现）→ A01+A02 → 挂起 → 再检 仍同类→复查确认恢复</div></div><div class="card lv2 linger" data-no="E03-0004"><div class="t1"><span>E03-0004 电梯厅/回房人流挤塞</span></div><div style="font-size:9.5px;color:var(--tlo)">回房潮电梯厅挤塞 → 分流引导 → 挂起 → 单次再检复查确认恢复</div></div><div class="card lv2 linger" data-no="E04-0001"><div class="t1"><span>E04-0001 接驳点乘客滞留/巴士晚点</span></div><div style="font-size:9.5px;color:var(--tlo)">接驳点滞留+巴士晚点：A01 提示 + A09 调车 → 运力不足 → 挂起 → 再检 仍/仍 → 恢复；靠泊段与 E11 同源耦合</div></div><div class="card lv2 linger" data-no="E07-0002"><div class="t1"><span>E07-0002 行李转盘 2 号卡滞</span></div><div style="font-size:9.5px;color:var(--tlo)">A04 通知维修 + 人工清障 → 转盘复位，事件闭合</div></div><div class="card lv2 linger" data-no="E24-0001"><div class="t1"><span>E24-0001 调度指令执行反馈超时</span></div><div style="font-size:9.5px;color:var(--tlo)">值班确认 A08（跟踪回执）→ 重发指令并人工确认 → 恢复</div></div><div class="card lv2 linger" data-no="E25-0001"><div class="t1"><span>E25-0001 轮椅/行动不便通道受阻</span></div><div style="font-size:9.5px;color:var(--tlo)">值班确认 A15（无障碍通道清障）→ 现场清障完成 → 恢复，事件闭合</div></div><div class="card lv2 linger" data-no="E01-0001"><div class="t1"><span>E01-0001 登船口/安检排队过长</span></div><div style="font-size:9.5px;color:var(--tlo)">增开两通道(A01)+错峰提示(A02) → 执行后仍超阈值 → 挂起 → 三次再检后恢复关闭</div></div><div class="card lv2 linger" data-no="E05-0001"><div class="t1"><span>E05-0001 廊桥/登船梯临时故障</span></div><div style="font-size:9.5px;color:var(--tlo)">A04 通知维修 + A10 启用备用登船梯 → 修复复位，事件闭合</div></div><div class="card lv2 linger" data-no="E07-0001"><div class="t1"><span>E07-0001 行李传送带缓慢/滞留</span></div><div style="font-size:9.5px;color:var(--tlo)">A01 提示 + A12 人工行李转运 → 吞吐仍低 → 挂起 → 再检 仍同类→复查确认恢复</div></div></div><button class="donebar" data-donebar="L2" title="已处置明细（弹窗待定）">已处置 <span class="cnt">18</span> ▸</button></div><div class="zone"><div class="zh"><i class="dot" style="background:#6f7886"></i>L1<span class="zc">实时 0 · 已处置 32</span></div><div class="zbody"><div class="card lv1 linger" data-no="E21-L1-04"><div class="t1"><span>E21-L1-04 航变相关乘客询问增多</span></div><div style="font-size:9.5px;color:var(--tlo)">航变相关询问增多：值班按 A01 口径答复并上报趋势；为 E09（12:12 诞生）埋线</div></div><div class="card lv1 linger" data-no="E21-L1-16"><div class="t1"><span>E21-L1-16 航变相关询问·第三波</span></div><div style="font-size:9.5px;color:var(--tlo)">航变询问第三波（贴 E09 诞生）→ 按'待通知'口径答复</div></div><div class="card lv1 linger" data-no="A01-L1-12"><div class="t1"><span>A01-L1-12 电梯厅午间人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">电梯厅午间人流自动提示，自动恢复</div></div><div class="card lv1 linger" data-no="E21-L1-15"><div class="t1"><span>E21-L1-15 演出时间问询</span></div><div style="font-size:9.5px;color:var(--tlo)">演出时间问询 → 节目表口径 → 恢复</div></div><div class="card lv1 linger" data-no="A01-L1-11"><div class="t1"><span>A01-L1-11 泳池甲板人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">泳池甲板人流自动提示，自动恢复</div></div><div class="card lv1 linger" data-no="E21-L1-14"><div class="t1"><span>E21-L1-14 儿童活动问询</span></div><div style="font-size:9.5px;color:var(--tlo)">儿童活动问询 → 活动安排口径 → 恢复</div></div><div class="card lv1 linger" data-no="A01-L1-10"><div class="t1"><span>A01-L1-10 剧场入场人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">剧场入场人流自动提示，自动恢复</div></div><div class="card lv1 linger" data-no="E21-L1-13"><div class="t1"><span>E21-L1-13 菜式/开放时段问询</span></div><div style="font-size:9.5px;color:var(--tlo)">菜式/开放时段问询 → 口径 → 恢复</div></div><div class="card lv1 linger" data-no="A01-L1-09"><div class="t1"><span>A01-L1-09 甜品台人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">甜品台人流自动提示，自动恢复</div></div><div class="card lv1 linger" data-no="E21-L1-12"><div class="t1"><span>E21-L1-12 座位/预约问询</span></div><div style="font-size:9.5px;color:var(--tlo)">座位/预约问询 → A01 口径 → 恢复</div></div><div class="card lv1 linger" data-no="A01-L1-08"><div class="t1"><span>A01-L1-08 午餐区人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">午餐区人流自动提示，密度回落自动恢复</div></div><div class="card lv1 linger" data-no="A04-L1-03"><div class="t1"><span>A04-L1-03 机舱/泵房设备巡检（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">自动 A04：机舱/泵房设备例行巡检自动登记，ENG 例行确认后恢复</div></div><div class="card lv1 linger" data-no="E21-L1-11"><div class="t1"><span>E21-L1-11 娱乐活动咨询</span></div><div style="font-size:9.5px;color:var(--tlo)">娱乐活动咨询 → 节目表口径 → 恢复</div></div><div class="card lv1 linger" data-no="E21-L1-02"><div class="t1"><span>E21-L1-02 航变相关乘客询问初现</span></div><div style="font-size:9.5px;color:var(--tlo)">航变相关询问初现：值班确认 A01 模板答复；为 E09 与 E-L4 安抚告知埋线</div></div><div class="card lv1 linger" data-no="A04-L1-02"><div class="t1"><span>A04-L1-02 泵房巡检提示</span></div><div style="font-size:9.5px;color:var(--tlo)">自动 A04：泵房巡检提示下发 ENG，例行确认后自动恢复</div></div><div class="card lv1 linger" data-no="A04-L1-01"><div class="t1"><span>A04-L1-01 扶梯维修派单（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">自动 A04：扶梯异常自动派单 ENG，检修确认后自动恢复</div></div><div class="card lv1 linger" data-no="A03-L1-03"><div class="t1"><span>A03-L1-03 午餐开餐提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">自动 A03：午餐开餐提示全端口推送，完成即恢复</div></div><div class="card lv1 linger" data-no="E21-L1-10"><div class="t1"><span>E21-L1-10 午餐/餐厅预约问询</span></div><div style="font-size:9.5px;color:var(--tlo)">午餐预约问询 → A01 开放时段口径 → 恢复</div></div><div class="card lv1 linger" data-no="A03-L1-02"><div class="t1"><span>A03-L1-02 离泊信息二次同步（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">自动 A03：离泊完成二次同步，端口校准后恢复</div></div><div class="card lv1 linger" data-no="A01-L1-02"><div class="t1"><span>A01-L1-02 登船排队提示·波2（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">自动 A01：第二波排队提示自动下发，队列回落，自动恢复</div></div><div class="card lv1 linger" data-no="A03-L1-01"><div class="t1"><span>A03-L1-01 离泊信息同步提示</span></div><div style="font-size:9.5px;color:var(--tlo)">自动 A03：离泊信息全端口同步提示，完成即恢复</div></div><div class="card lv1 linger" data-no="A01-L1-07"><div class="t1"><span>A01-L1-07 电梯厅人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">电梯厅人流提示，自动恢复</div></div><div class="card lv1 linger" data-no="A01-L1-05"><div class="t1"><span>A01-L1-05 舱房区人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">舱房走廊人流提示，自动恢复</div></div><div class="card lv1 linger" data-no="A01-L1-04"><div class="t1"><span>A01-L1-04 登船口分流引导（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">自动分流引导（船载屏），密度回落自动恢复</div></div><div class="card lv1 linger" data-no="E21-L1-06"><div class="t1"><span>E21-L1-06 房间/门禁卡问题集中</span></div><div style="font-size:9.5px;color:var(--tlo)">房卡/门禁问题 → A01 口径 + 前台补卡指引 → 恢复</div></div><div class="card lv1 linger" data-no="E21-L1-07"><div class="t1"><span>E21-L1-07 登船证件/流程问询</span></div><div style="font-size:9.5px;color:var(--tlo)">证件/流程问询 → A01 口径应答 → 恢复</div></div><div class="card lv1 linger" data-no="A01-L1-06"><div class="t1"><span>A01-L1-06 行李区人流提示（自动）</span></div><div style="font-size:9.5px;color:var(--tlo)">行李区人流提示，自动恢复</div></div><div class="card lv1 linger" data-no="E21-L1-09"><div class="t1"><span>E21-L1-09 设施/电梯方向问询</span></div><div style="font-size:9.5px;color:var(--tlo)">设施/电梯方向问询 → 指引口径 → 恢复</div></div><div class="card lv1 linger" data-no="E21-L1-08"><div class="t1"><span>E21-L1-08 房间位置/寻路问询</span></div><div style="font-size:9.5px;color:var(--tlo)">寻路问询 → 地图/引导口径 → 恢复</div></div><div class="card lv1 linger" data-no="E21-L1-05"><div class="t1"><span>E21-L1-05 行李托运问询</span></div><div style="font-size:9.5px;color:var(--tlo)">值班确认 A01 答询口径 → 客服/BOT 回复 → 恢复</div></div><div class="card lv1 linger" data-no="E21-L1-01"><div class="t1"><span>E21-L1-01 登船信息反复询问</span></div><div style="font-size:9.5px;color:var(--tlo)">值班确认 A01（标准答询口径）→ 客服/BOT 应答 → 恢复</div></div></div><button class="donebar" data-donebar="L1" title="已处置明细（弹窗待定）">已处置 <span class="cnt">32</span> ▸</button></div></div>
+    </div>
+    <!-- 右栏（卡片式） -->
+    <div class="col c-right">
+      <div class="panel" style="flex:1">
+        <div class="rtabs" id="tabs">
+          <button class="" data-tab="card">决策卡</button>
+          <button data-tab="flow" class="">审批流</button>
+          <button data-tab="audit" class="on">端口·审计</button>
+        </div>
+        <div class="rbody" id="apwrap">
+          <div class="tabpane" id="tab-card" style="display: none;"><div class="banner err" id="l4ban">⚑ 安全离船/整体下船方案调整<span style="flex:1"></span><button class="btn sm" onclick="copyTrace()">复制 trace</button></div><div class="mcard"><div class="lbl">决策卡 · E-L4-0001 · L4</div><b>执行中</b><div class="static-inline">船长确认整体下船安全再排方案 → 分组触达（APP/广播/船员端）+ 安抚告知（法务/客服知情端口）→ 靠岸执行中（片尾=靠岸瞬间 12:35） · 置信度 0.95</div></div><div class="mcard"><div class="lbl">处置动作</div><div class="holder"><div class="lbl">处置人员（当前执行端）</div><div class="static-inline">船长 · 郑船长 · CAPT · 12:28 起执行 · 已投放 APP/PA/CRW/MGMT/OTA</div></div><div class="act"><button class="btn" data-act="takeover" title="本镜头不点，仅展示人工接管入口">转人工接管</button></div></div><div class="mcard"><div class="lbl">调整方案详情（船长决策）</div><div class="plan-sec"><b>下船时机</b><div class="plan-row"><span>批次间隔离</span>相邻批次间隔 ≥ 8 分钟，避免通道叠加</div><div class="plan-row"><span>靠岸即开始</span>靠泊完成（12:45）后立即启动第 1 批，13:00 前清空全船</div><div class="plan-row"><span>末批预留</span>行动不便/重点乘客安排最后批次，专属引导</div></div><div class="plan-sec"><b>分组批次</b><div class="plan-row"><span>第 1 批</span>8–10 层 房型 A/B（400 人）· 集合点：主剧场</div><div class="plan-row"><span>第 2 批</span>5–7 层 房型 C/D（480 人）· 集合点：中庭</div><div class="plan-row"><span>第 3 批</span>1–4 层 房型 E/F + 行动不便（520 人）· 集合点：船尾甲板</div></div><div class="plan-sec"><b>船上通道</b><div class="plan-row"><span>垂直动线</span>分批使用 2 部主电梯 + 1 部后梯，禁止混批乘梯</div><div class="plan-row"><span>通道分流</span>主廊道单向放行，按批次交替启用左右舷通道</div><div class="plan-row"><span>无障碍保障</span>轮椅优先通道全程开放，专人护送（§R8-020）</div><div class="plan-row"><span>秩序广播</span>PA 按批次播报集合指引，每批一播、错峰不叠加</div></div></div><div class="mcard"><div class="lbl">推理附件</div><button class="btn sm" onclick="toggleRsn()">展开推理附件 ▾</button><div id="rsn" style="display:none;margin-top:6px"><p>① 输入信号（2 路，12:27 前后）：escalate 由 E09-0001 物理升级而来（侧风 32 节超操作限值，关系A，upgrade.to=L4）；ai-risk 本系统 AI 推理产物——安抚/赔付风险高（payoutRisk=high），同步法务/客服端口。</p><p>② 事件分类：E-L4 安全离船/整体下船方案调整（最高级）——不是局部延迟能解决的，必须全船级重排下船方案。排除项：E02 批次调整只动离船批次，接驳+台风+批次三因素耦合下局部调整无效。</p><p>③ 安全评估（AI 推理）：照常按原方案下船将入 32 节侧风区，叠加接驳滞留（E04/E11）与离船批次弱信号（X-0002）——靠泊中断风险大于临时调整代价。风险等级 L4（紧急·全船级），置信度 0.95（多源信号＋升级链路完整）。按 §4.11.2[4] 直送船长。</p><p>④ 方案生成（动作库组合）：A=按甲板/房型分组离船+巴士批次重排（采纳）；B=分批撤离（否决：靠泊窗口不足，风险更高）；C=锚地停留（否决：气象持续恶化）。</p><p>⑤ 条款检索：§R8-031 离船安全再排预案、§R8-040 安抚/赔付告知口径原文引用——SOLAS 离船秩序、人群密度模型、无障碍通道保障逐项核对。</p><p>⑥ 自我审核：方案参数可复算（批次×接驳时段对齐）、引用可回溯（哈希链）、风险边界清晰（法务知情不担责）——通过。</p><p>⑦ 边界声明（§4.11.4/§4.13.1 L4）：本附件为说明性存在，AI 只出态势与候选方案；L4 由船长直接触发、事后补签确认单；最终处置永远是人。</p><p style="margin-top:6px"><b>推理流水（模拟 AI 推理后台）</b></p><p>• 信号整合：E09 长链结论 + 接驳滞留 + E11 接驳中断 + 离船批次弱信号</p><p>• 方案比对：分组离船(选) vs 分批撤离(否决：窗口不足) vs 停在锚地(否决：气象持续恶化)</p><p>• 安全推演：SOLAS 离船秩序 + 人群密度模型 + 无障碍通道保障</p><p>• 条款检索：§R8-031 离船安全再排 / §R8-040 安抚赔付口径</p><p>• 赔付风险：AI 推理产物 → 同步法务(知情)/客服(口径)，边界=不替人判决</p><p>• 船长拍板：L4 由船长直接触发，事后补签确认单（§4.13.1）</p></div></div></div>
+          <div class="tabpane" id="tab-flow" style="display: none;"><div class="mcard"><div class="lbl">审批流 · trace EBBD-B737</div><div class="steps"><div class="step done">感知<small>12:27</small></div><div class="step done">船长<small>12:28</small></div><div class="step done">执行端<small>12:28</small></div><div class="step done">船长<small>✓已审批</small></div><div class="step done">现场<small>12:28</small></div></div><div class="static-inline" style="margin-top:6px">状态 执行中</div></div><div class="mcard"><div class="lbl">确认单（电子签署 · §4.13.1 L4）</div><div class="srow"><span>事件</span><b>E-L4-0001 安全离船/整体下船方案调整</b></div><div class="srow"><span>处置等级</span><b>L4（最高级 · 船长直接触发，事后补签）</b></div><div class="srow"><span>依据条款</span><b>§R8-031 离船安全再排预案；§R8-040 安抚/赔付告知口径</b></div><div class="srow"><span>审批人</span><b>船长 · 郑船长</b></div><div class="srow"><span>审批时间</span><b>12:28</b></div><div class="srow"><span>trace</span><b>EBBD-B737</b></div><div class="static-inline" style="margin-top:6px">✓ 已审批 · ✓ 已电子签署</div></div><div class="mcard"><div class="lbl">处置人员</div><div class="static-inline">法务 · 陈律 · LEGAL · 12:28 起执行</div><div class="act" style="margin-top:6px"><button class="btn" data-act="takeover" title="本镜头不点，仅展示入口">转人工接管</button></div></div></div>
+          <div class="tabpane" id="tab-audit" style=""><div class="mcard"><div class="lbl">端口执行记录 · trace EBBD-B737</div><div class="prow"><div class="lbl">APP（告知端口 · 数字化/IT）</div><div class="static-inline">12:29 发布「整体下船方案通知（分组+时间）」 · 已触达</div></div><div class="prow"><div class="lbl">PA（告知端口 · 通播系统）</div><div class="static-inline">12:30 发布「分组离船广播（按甲板/房型）」 · 已广播</div></div><div class="prow"><div class="lbl">CRW（执行端 · 现场部门）</div><div class="static-inline">12:31 发布「船员端分组引导指令」 · 已下发</div></div><div class="prow"><div class="lbl">MGMT（决策端 · 运营管理）</div><div class="static-inline">12:32 发布「赔付/安抚口径同步法务 LEGAL（知情端口）」 · 已同步(知情)</div></div><div class="prow"><div class="lbl">OTA（告知端口 · 商务/客服）</div><div class="static-inline">12:33 发布「客服安抚口径同步 OTA（知情端口）」 · 已同步(知情)</div></div><div class="prow"><div class="lbl">CRW（执行端 · 现场部门）</div><div class="static-inline">12:28 执行中（人工作业 · 含恢复确认）</div></div></div><div class="mcard"><div class="lbl">审计哈希链（append-only · §4.13.2）</div><div style="font-size:10px;color:var(--tlo)"><div class="arow"><span>EBBD-B737-A001 发现</span><code>E506AA3A</code></div><div class="arow"><span>EBBD-B737-A002 移交/待审批</span><code>25D3F6EB</code></div><div class="arow"><span>EBBD-B737-A003 确认签署</span><code>9446EBD5</code></div></div><button class="btn sm" style="margin-top:8px" onclick="toast('导出审计包 PDF')">导出审计包 PDF</button></div></div>
+        </div>
+      </div>
+    </div>
+  
+  </main>
+  </div>
+</div>
+</div>
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

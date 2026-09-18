@@ -1,200 +1,198 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="-apple-system,'PingFang SC','Microsoft YaHei','Source Han Sans SC',sans-serif">
-  <!-- ============ PAGE 2 / 3 : 方案推演多 Agent · 技术架构 ============ -->
-  <rect id="bg" x="0" y="0" width="1600" height="900" fill="#FFFFFF"/>
+  <!-- ============ PAGE 2 / 3 : 方案推演多 Agent · 技术架构（A3 浅色风格重绘 · 文本内容与原稿一致） ============ -->
+  <rect x="0" y="0" width="1600" height="900" fill="#F7F4EC"/>
+  <rect x="0" y="0" width="1180" height="8" fill="#3B7DD8"/>
+  <rect x="1180" y="0" width="200" height="8" fill="#D98A1F"/>
 
   <!-- header -->
-  <text x="1540" y="54" text-anchor="end" font-size="15" fill="#8A8F98" letter-spacing="3">02 / 03</text>
-  <text x="60" y="74" font-size="36" font-weight="700" fill="#111111">方案推演多 Agent：技术架构</text>
-  <text x="60" y="112" font-size="18" fill="#555555">固定图编排引擎驱动无状态模型节点；推理、工具、执行物理分离——模型不接触任何写接口</text>
-  <line x1="60" y1="136" x2="1540" y2="136" stroke="#111111" stroke-width="2"/>
+  <text x="60" y="76" font-size="34" font-weight="700" fill="#22304A">方案推演多 Agent：技术架构</text>
+  <text x="60" y="112" font-size="18" fill="#4A5468">固定图编排引擎驱动无状态模型节点；推理、工具、执行物理分离——模型不接触任何写接口</text>
+  <line x1="60" y1="136" x2="1540" y2="136" stroke="#D8DCE3" stroke-width="1.5"/>
 
   <!-- ===================== LAYER A : 编排层 ===================== -->
-  <rect id="label-a" x="60" y="150" width="130" height="96" fill="#111111"/>
+  <rect x="60" y="150" width="130" height="96" rx="10" fill="#3B7DD8"/>
   <text x="125" y="196" text-anchor="middle" font-size="20" font-weight="700" fill="#FFFFFF">编排层</text>
-  <text x="125" y="220" text-anchor="middle" font-size="12" fill="#9AA0A8">Orchestration</text>
+  <text x="125" y="220" text-anchor="middle" font-size="12" fill="#DCE9F8">Orchestration</text>
 
-  <!-- A cells -->
-  <rect id="a1" x="200" y="150" width="326" height="96" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="218" y="182" font-size="17" font-weight="700" fill="#111111">固定图运行时</text>
-  <text x="218" y="210" font-size="14.5" fill="#444444">节点与边由代码预定义，</text>
-  <text x="218" y="232" font-size="14.5" fill="#444444">模型不能选择下一节点</text>
+  <rect x="200" y="150" width="326" height="96" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="218" y="182" font-size="17" font-weight="700" fill="#1D4E7E">固定图运行时</text>
+  <text x="218" y="210" font-size="14.5" fill="#4A5468">节点与边由代码预定义，</text>
+  <text x="218" y="232" font-size="14.5" fill="#4A5468">模型不能选择下一节点</text>
 
-  <rect id="a2" x="538" y="150" width="326" height="96" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="556" y="182" font-size="17" font-weight="700" fill="#111111">类型化共享状态</text>
-  <text x="556" y="210" font-size="14.5" fill="#444444">节点间只传经校验的 JSON，</text>
-  <text x="556" y="232" font-size="14.5" fill="#444444">流程状态集中持久化</text>
+  <rect x="538" y="150" width="326" height="96" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="556" y="182" font-size="17" font-weight="700" fill="#1D4E7E">类型化共享状态</text>
+  <text x="556" y="210" font-size="14.5" fill="#4A5468">节点间只传经校验的 JSON，</text>
+  <text x="556" y="232" font-size="14.5" fill="#4A5468">流程状态集中持久化</text>
 
-  <rect id="a3" x="876" y="150" width="326" height="96" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="894" y="182" font-size="17" font-weight="700" fill="#111111">中断与恢复</text>
-  <text x="894" y="210" font-size="14.5" fill="#444444">审批处暂停、状态落盘；</text>
-  <text x="894" y="232" font-size="14.5" fill="#444444">恢复后无重复执行 / 重复触达</text>
+  <rect x="876" y="150" width="326" height="96" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="894" y="182" font-size="17" font-weight="700" fill="#1D4E7E">中断与恢复</text>
+  <text x="894" y="210" font-size="14.5" fill="#4A5468">审批处暂停、状态落盘；</text>
+  <text x="894" y="232" font-size="14.5" fill="#4A5468">恢复后无重复执行 / 重复触达</text>
 
-  <rect id="a4" x="1214" y="150" width="326" height="96" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="1232" y="182" font-size="17" font-weight="700" fill="#111111">预算与熔断</text>
-  <text x="1232" y="210" font-size="14.5" fill="#444444">逐节点时延 / token 上限，</text>
-  <text x="1232" y="232" font-size="14.5" fill="#444444">超时即降级并转人工</text>
+  <rect x="1214" y="150" width="326" height="96" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="1232" y="182" font-size="17" font-weight="700" fill="#1D4E7E">预算与熔断</text>
+  <text x="1232" y="210" font-size="14.5" fill="#4A5468">逐节点时延 / token 上限，</text>
+  <text x="1232" y="232" font-size="14.5" fill="#4A5468">超时即降级并转人工</text>
 
   <!-- ===================== LAYER B : 无状态模型节点 ===================== -->
-  <rect id="label-b" x="60" y="258" width="130" height="130" fill="#111111"/>
+  <rect x="60" y="258" width="130" height="130" rx="10" fill="#3B7DD8"/>
   <text x="125" y="306" text-anchor="middle" font-size="19" font-weight="700" fill="#FFFFFF">智能节点层</text>
-  <text x="125" y="330" text-anchor="middle" font-size="12" fill="#9AA0A8">Stateless LLM</text>
-  <text x="125" y="348" text-anchor="middle" font-size="12" fill="#9AA0A8">Nodes ×4</text>
+  <text x="125" y="330" text-anchor="middle" font-size="12" fill="#DCE9F8">Stateless LLM</text>
+  <text x="125" y="348" text-anchor="middle" font-size="12" fill="#DCE9F8">Nodes ×4</text>
 
-  <!-- slivers -->
-  <rect x="205" y="263" width="326" height="92" fill="#D9DCE1"/>
-  <rect x="543" y="263" width="326" height="92" fill="#D9DCE1"/>
-  <rect x="881" y="263" width="326" height="92" fill="#D9DCE1"/>
-  <rect x="1219" y="263" width="326" height="92" fill="#D9DCE1"/>
+  <rect x="205" y="263" width="326" height="92" fill="#E8EDF4"/>
+  <rect x="543" y="263" width="326" height="92" fill="#E8EDF4"/>
+  <rect x="881" y="263" width="326" height="92" fill="#E8EDF4"/>
+  <rect x="1219" y="263" width="326" height="92" fill="#E8EDF4"/>
 
-  <!-- B cards -->
-  <rect id="node-n1" x="200" y="258" width="326" height="92" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <rect x="216" y="272" width="26" height="26" fill="#111111"/>
+  <rect x="200" y="258" width="326" height="92" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <rect x="216" y="272" width="26" height="26" rx="6" fill="#3B7DD8"/>
   <text x="229" y="291" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">N1</text>
-  <text x="252" y="292" font-size="17" font-weight="700" fill="#111111">LLM 调用节点 · 无状态</text>
-  <line x1="216" y1="308" x2="510" y2="308" stroke="#D5D8DD"/>
-  <text x="216" y="328" font-size="13.5" fill="#8A8F98">业务职责：事件理解</text>
-  <text x="216" y="346" font-size="13.5" fill="#333333">Prompt ＋ 上下文 → 结构化 JSON</text>
+  <text x="252" y="292" font-size="17" font-weight="700" fill="#1A2233">LLM 调用节点 · 无状态</text>
+  <line x1="216" y1="308" x2="510" y2="308" stroke="#E3E7EE"/>
+  <text x="216" y="328" font-size="13.5" fill="#8B95A5">业务职责：事件理解</text>
+  <text x="216" y="346" font-size="13.5" fill="#4A5468">Prompt ＋ 上下文 → 结构化 JSON</text>
 
-  <rect id="node-n2" x="538" y="258" width="326" height="92" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <rect x="554" y="272" width="26" height="26" fill="#111111"/>
+  <rect x="538" y="258" width="326" height="92" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <rect x="554" y="272" width="26" height="26" rx="6" fill="#3B7DD8"/>
   <text x="567" y="291" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">N2</text>
-  <text x="590" y="292" font-size="17" font-weight="700" fill="#111111">LLM 调用节点 · 无状态</text>
-  <line x1="554" y1="308" x2="848" y2="308" stroke="#D5D8DD"/>
-  <text x="554" y="328" font-size="13.5" fill="#8A8F98">业务职责：影响推演</text>
-  <text x="554" y="346" font-size="13.5" fill="#333333">Prompt ＋ 上下文 → 结构化 JSON</text>
+  <text x="590" y="292" font-size="17" font-weight="700" fill="#1A2233">LLM 调用节点 · 无状态</text>
+  <line x1="554" y1="308" x2="848" y2="308" stroke="#E3E7EE"/>
+  <text x="554" y="328" font-size="13.5" fill="#8B95A5">业务职责：影响推演</text>
+  <text x="554" y="346" font-size="13.5" fill="#4A5468">Prompt ＋ 上下文 → 结构化 JSON</text>
 
-  <rect id="node-n3" x="876" y="258" width="326" height="92" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <rect x="892" y="272" width="26" height="26" fill="#111111"/>
+  <rect x="876" y="258" width="326" height="92" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <rect x="892" y="272" width="26" height="26" rx="6" fill="#3B7DD8"/>
   <text x="905" y="291" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">N3</text>
-  <text x="928" y="292" font-size="17" font-weight="700" fill="#111111">LLM 调用节点 · 无状态</text>
-  <line x1="892" y1="308" x2="1186" y2="308" stroke="#D5D8DD"/>
-  <text x="892" y="328" font-size="13.5" fill="#8A8F98">业务职责：资源盘点</text>
-  <text x="892" y="346" font-size="13.5" fill="#333333">Prompt ＋ 上下文 → 结构化 JSON</text>
+  <text x="928" y="292" font-size="17" font-weight="700" fill="#1A2233">LLM 调用节点 · 无状态</text>
+  <line x1="892" y1="308" x2="1186" y2="308" stroke="#E3E7EE"/>
+  <text x="892" y="328" font-size="13.5" fill="#8B95A5">业务职责：资源盘点</text>
+  <text x="892" y="346" font-size="13.5" fill="#4A5468">Prompt ＋ 上下文 → 结构化 JSON</text>
 
-  <rect id="node-n4" x="1214" y="258" width="326" height="92" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <rect x="1230" y="272" width="26" height="26" fill="#111111"/>
+  <rect x="1214" y="258" width="326" height="92" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <rect x="1230" y="272" width="26" height="26" rx="6" fill="#3B7DD8"/>
   <text x="1243" y="291" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">N4</text>
-  <text x="1266" y="292" font-size="17" font-weight="700" fill="#111111">LLM 调用节点 · 无状态</text>
-  <line x1="1230" y1="308" x2="1524" y2="308" stroke="#D5D8DD"/>
-  <text x="1230" y="328" font-size="13.5" fill="#8A8F98">业务职责：方案组合</text>
-  <text x="1230" y="346" font-size="13.5" fill="#333333">Prompt ＋ 上下文 → 结构化 JSON</text>
+  <text x="1266" y="292" font-size="17" font-weight="700" fill="#1A2233">LLM 调用节点 · 无状态</text>
+  <line x1="1230" y1="308" x2="1524" y2="308" stroke="#E3E7EE"/>
+  <text x="1230" y="328" font-size="13.5" fill="#8B95A5">业务职责：方案组合</text>
+  <text x="1230" y="346" font-size="13.5" fill="#4A5468">Prompt ＋ 上下文 → 结构化 JSON</text>
 
   <!-- deterministic edges between nodes -->
-  <line x1="526" y1="304" x2="534" y2="304" stroke="#111111" stroke-width="2"/>
-  <polygon points="538,304 528,298 528,310" fill="#111111"/>
-  <line x1="864" y1="304" x2="872" y2="304" stroke="#111111" stroke-width="2"/>
-  <polygon points="876,304 866,298 866,310" fill="#111111"/>
-  <line x1="1202" y1="304" x2="1210" y2="304" stroke="#111111" stroke-width="2"/>
-  <polygon points="1214,304 1204,298 1204,310" fill="#111111"/>
+  <line x1="526" y1="304" x2="534" y2="304" stroke="#3B7DD8" stroke-width="2"/>
+  <polygon points="538,304 528,298 528,310" fill="#3B7DD8"/>
+  <line x1="864" y1="304" x2="872" y2="304" stroke="#3B7DD8" stroke-width="2"/>
+  <polygon points="876,304 866,298 866,310" fill="#3B7DD8"/>
+  <line x1="1202" y1="304" x2="1210" y2="304" stroke="#3B7DD8" stroke-width="2"/>
+  <polygon points="1214,304 1204,298 1204,310" fill="#3B7DD8"/>
 
   <!-- B shared strip -->
-  <rect id="nodes-common" x="200" y="358" width="1340" height="30" fill="#F4F5F7" stroke="#111111" stroke-width="1.2"/>
-  <text x="800" y="378" text-anchor="middle" font-size="14.5" fill="#111111">节点共性：无状态调用　｜　只绑定只读工具　｜　JSON Schema 约束解码　｜　输出不合法即转人工　｜　每步独立可重放</text>
+  <rect x="200" y="358" width="1340" height="30" rx="8" fill="#EAF1FC" stroke="#B9CFE2" stroke-width="1.2"/>
+  <text x="800" y="378" text-anchor="middle" font-size="14.5" fill="#1D4E7E">节点共性：无状态调用　｜　只绑定只读工具　｜　JSON Schema 约束解码　｜　输出不合法即转人工　｜　每步独立可重放</text>
 
   <!-- ===================== LAYER C : 推理服务 + 只读工具 ===================== -->
-  <rect id="label-c" x="60" y="400" width="130" height="150" fill="#111111"/>
+  <rect x="60" y="400" width="130" height="150" rx="10" fill="#3B7DD8"/>
   <text x="125" y="452" text-anchor="middle" font-size="17" font-weight="700" fill="#FFFFFF">模型推理</text>
-  <text x="125" y="470" text-anchor="middle" font-size="12" fill="#9AA0A8">Inference</text>
-  <line x1="80" y1="480" x2="170" y2="480" stroke="#3A3F47"/>
+  <text x="125" y="470" text-anchor="middle" font-size="12" fill="#DCE9F8">Inference</text>
+  <line x1="80" y1="480" x2="170" y2="480" stroke="#DCE9F8"/>
   <text x="125" y="502" text-anchor="middle" font-size="17" font-weight="700" fill="#FFFFFF">只读工具</text>
-  <text x="125" y="520" text-anchor="middle" font-size="12" fill="#9AA0A8">Read-only</text>
+  <text x="125" y="520" text-anchor="middle" font-size="12" fill="#DCE9F8">Read-only</text>
 
-  <!-- C1 : inference runtime -->
-  <rect id="c1-1" x="200" y="400" width="326" height="66" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="218" y="428" font-size="16" font-weight="700" fill="#111111">本地小模型档 0.5B–4B</text>
-  <text x="218" y="452" font-size="13.5" fill="#555555">分类 / 意图 / 话术，思考模式关闭</text>
+  <rect x="200" y="400" width="326" height="66" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="218" y="428" font-size="16" font-weight="700" fill="#1A2233">本地小模型档 0.5B–4B</text>
+  <text x="218" y="452" font-size="13.5" fill="#4A5468">分类 / 意图 / 话术，思考模式关闭</text>
 
-  <rect id="c1-2" x="538" y="400" width="326" height="66" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="556" y="428" font-size="16" font-weight="700" fill="#111111">本地快档 4B–9B · 思考模型</text>
-  <text x="556" y="452" font-size="13.5" fill="#555555">推演链默认档，设思考预算上限</text>
+  <rect x="538" y="400" width="326" height="66" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="556" y="428" font-size="16" font-weight="700" fill="#1A2233">本地快档 4B–9B · 思考模型</text>
+  <text x="556" y="452" font-size="13.5" fill="#4A5468">推演链默认档，设思考预算上限</text>
 
-  <rect id="c1-3" x="876" y="400" width="326" height="66" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="894" y="428" font-size="16" font-weight="700" fill="#111111">本地深档 8B–14B</text>
-  <text x="894" y="452" font-size="13.5" fill="#555555">高后果段落，尺寸由 PoC 标定</text>
+  <rect x="876" y="400" width="326" height="66" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="894" y="428" font-size="16" font-weight="700" fill="#1A2233">本地深档 8B–14B</text>
+  <text x="894" y="452" font-size="13.5" fill="#4A5468">高后果段落，尺寸由 PoC 标定</text>
 
-  <rect id="c1-4-cloud" x="1214" y="400" width="326" height="66" fill="#FFFFFF" stroke="#111111" stroke-width="1.4" stroke-dasharray="7 4"/>
-  <text x="1232" y="428" font-size="16" font-weight="700" fill="#111111">云端大模型（岸基 · 异步）</text>
-  <text x="1232" y="452" font-size="13.5" fill="#555555">仅长文档 / 法规解析，不进实时闭环</text>
+  <rect x="1214" y="400" width="326" height="66" rx="10" fill="#FFFFFF" stroke="#7FA8CC" stroke-width="1.5" stroke-dasharray="7 4"/>
+  <text x="1232" y="428" font-size="16" font-weight="700" fill="#1A2233">云端大模型（岸基 · 异步）</text>
+  <text x="1232" y="452" font-size="13.5" fill="#4A5468">仅长文档 / 法规解析，不进实时闭环</text>
 
-  <!-- C2 : read-only tools -->
-  <rect id="c2-1" x="200" y="478" width="438" height="72" fill="#F4F5F7" stroke="#111111" stroke-width="1.4"/>
-  <text x="218" y="506" font-size="16" font-weight="700" fill="#111111">只读数据 API</text>
-  <text x="218" y="532" font-size="13.5" fill="#444444">船期 / 舱位 / 排班 / POS；只读凭据 ＋ 访问限流</text>
+  <rect x="200" y="478" width="438" height="72" rx="10" fill="#EAF1FC" stroke="#B9CFE2" stroke-width="1.5"/>
+  <text x="218" y="506" font-size="16" font-weight="700" fill="#1D4E7E">只读数据 API</text>
+  <text x="218" y="532" font-size="13.5" fill="#4A5468">船期 / 舱位 / 排班 / POS；只读凭据 ＋ 访问限流</text>
 
-  <rect id="c2-2" x="650" y="478" width="438" height="72" fill="#F4F5F7" stroke="#111111" stroke-width="1.4"/>
-  <text x="668" y="506" font-size="16" font-weight="700" fill="#111111">RAG 检索服务</text>
-  <text x="668" y="532" font-size="13.5" fill="#444444">向量库 ＋ 条款 / 策略 / 事故模式库，输出逐字引用编号</text>
+  <rect x="650" y="478" width="438" height="72" rx="10" fill="#EAF1FC" stroke="#B9CFE2" stroke-width="1.5"/>
+  <text x="668" y="506" font-size="16" font-weight="700" fill="#1D4E7E">RAG 检索服务</text>
+  <text x="668" y="532" font-size="13.5" fill="#4A5468">向量库 ＋ 条款 / 策略 / 事故模式库，输出逐字引用编号</text>
 
-  <rect id="c2-3" x="1100" y="478" width="440" height="72" fill="#F4F5F7" stroke="#111111" stroke-width="1.4"/>
-  <text x="1118" y="506" font-size="16" font-weight="700" fill="#111111">确定性计算内核</text>
-  <text x="1118" y="532" font-size="13.5" fill="#444444">排队 / 时间窗 / 人数 / 资源缺口，毫秒级、可复算</text>
+  <rect x="1100" y="478" width="440" height="72" rx="10" fill="#EAF1FC" stroke="#B9CFE2" stroke-width="1.5"/>
+  <text x="1118" y="506" font-size="16" font-weight="700" fill="#1D4E7E">确定性计算内核</text>
+  <text x="1118" y="532" font-size="13.5" fill="#4A5468">排队 / 时间窗 / 人数 / 资源缺口，毫秒级、可复算</text>
 
   <!-- ===================== GATES ===================== -->
-  <rect id="gates" x="60" y="566" width="1480" height="86" fill="#111111"/>
-  <rect x="78" y="586" width="132" height="46" fill="none" stroke="#FFFFFF" stroke-width="1.3"/>
-  <text x="144" y="606" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">提案 JSON</text>
-  <text x="144" y="624" text-anchor="middle" font-size="13" fill="#C9CDD3">出链三闸</text>
+  <rect x="60" y="566" width="1480" height="86" rx="10" fill="#EAF1FC" stroke="#B9CFE2" stroke-width="1.5"/>
+  <rect x="78" y="586" width="132" height="46" rx="8" fill="#FFFFFF" stroke="#3B7DD8" stroke-width="1.5"/>
+  <text x="144" y="606" text-anchor="middle" font-size="15" font-weight="700" fill="#2E6DA8">提案 JSON</text>
+  <text x="144" y="624" text-anchor="middle" font-size="13" fill="#8B95A5">出链三闸</text>
 
-  <line x1="232" y1="582" x2="232" y2="636" stroke="#3A3F47"/>
-  <text x="252" y="600" font-size="16" font-weight="700" fill="#FFFFFF">[5.5] 确定性校验</text>
-  <text x="252" y="624" font-size="13.5" fill="#D9DCE1">引用编号存在 / 置信区间合法 / 公式可复算</text>
-  <text x="252" y="642" font-size="13.5" fill="#9AA0A8">由代码执行，不由模型互评</text>
+  <line x1="232" y1="582" x2="232" y2="636" stroke="#C9D8E8"/>
+  <text x="252" y="600" font-size="16" font-weight="700" fill="#1D4E7E">[5.5] 确定性校验</text>
+  <text x="252" y="624" font-size="13.5" fill="#4A5468">引用编号存在 / 置信区间合法 / 公式可复算</text>
+  <text x="252" y="642" font-size="13.5" fill="#8B95A5">由代码执行，不由模型互评</text>
 
-  <line x1="666" y1="582" x2="666" y2="636" stroke="#3A3F47"/>
-  <text x="686" y="600" font-size="16" font-weight="700" fill="#FFFFFF">[6] 置信度门（规则裁决）</text>
-  <text x="686" y="624" font-size="13.5" fill="#D9DCE1">证据不足 / 低置信 → 优先人工复核队列</text>
-  <text x="686" y="642" font-size="13.5" fill="#9AA0A8">不自动分发，超时仍按升级链处理</text>
+  <line x1="666" y1="582" x2="666" y2="636" stroke="#C9D8E8"/>
+  <text x="686" y="600" font-size="16" font-weight="700" fill="#1D4E7E">[6] 置信度门（规则裁决）</text>
+  <text x="686" y="624" font-size="13.5" fill="#4A5468">证据不足 / 低置信 → 优先人工复核队列</text>
+  <text x="686" y="642" font-size="13.5" fill="#8B95A5">不自动分发，超时仍按升级链处理</text>
 
-  <line x1="1100" y1="582" x2="1100" y2="636" stroke="#3A3F47"/>
-  <text x="1120" y="600" font-size="16" font-weight="700" fill="#FFFFFF">[7] 审批中断 L1–L4</text>
-  <text x="1120" y="624" font-size="13.5" fill="#D9DCE1">签署身份 ＋ 动作摘要 ＋ 时间戳持久化</text>
-  <text x="1120" y="642" font-size="13.5" fill="#9AA0A8">超时按级升级；L4 仅四类判据触发</text>
+  <line x1="1100" y1="582" x2="1100" y2="636" stroke="#C9D8E8"/>
+  <text x="1120" y="600" font-size="16" font-weight="700" fill="#1D4E7E">[7] 审批中断 L1–L4</text>
+  <text x="1120" y="624" font-size="13.5" fill="#4A5468">签署身份 ＋ 动作摘要 ＋ 时间戳持久化</text>
+  <text x="1120" y="642" font-size="13.5" fill="#8B95A5">超时按级升级；L4 仅四类判据触发</text>
 
   <!-- arrow gates -> execution -->
-  <line x1="800" y1="652" x2="800" y2="666" stroke="#111111" stroke-width="2"/>
-  <polygon points="790,666 810,666 800,678" fill="#111111"/>
-  <text x="816" y="670" font-size="13.5" fill="#555555">审批通过后一次执行</text>
+  <line x1="800" y1="652" x2="800" y2="666" stroke="#3B7DD8" stroke-width="2"/>
+  <polygon points="790,666 810,666 800,678" fill="#3B7DD8"/>
+  <text x="816" y="670" font-size="13.5" fill="#4A5468">审批通过后一次执行</text>
 
   <!-- ===================== LAYER D : 执行层 ===================== -->
-  <rect id="label-d" x="60" y="682" width="130" height="70" fill="#111111"/>
+  <rect x="60" y="682" width="130" height="70" rx="10" fill="#3B7DD8"/>
   <text x="125" y="712" text-anchor="middle" font-size="20" font-weight="700" fill="#FFFFFF">执行层</text>
-  <text x="125" y="735" text-anchor="middle" font-size="12" fill="#9AA0A8">Execution</text>
+  <text x="125" y="735" text-anchor="middle" font-size="12" fill="#DCE9F8">Execution</text>
 
-  <rect id="writer" x="200" y="682" width="700" height="70" fill="#111111"/>
-  <text x="220" y="710" font-size="16.5" font-weight="700" fill="#FFFFFF">写执行器（普通程序节点 · 无模型）</text>
-  <text x="220" y="736" font-size="13.5" fill="#D9DCE1">持最小写权限凭证；动作参数与审批摘要绑定、超时作废；执行回执回写审计</text>
+  <rect x="200" y="682" width="700" height="70" rx="10" fill="#FDF3E4" stroke="#D98A1F" stroke-width="1.5"/>
+  <text x="220" y="710" font-size="16.5" font-weight="700" fill="#1A2233">写执行器（普通程序节点 · 无模型）</text>
+  <text x="220" y="736" font-size="13.5" fill="#4A5468">持最小写权限凭证；动作参数与审批摘要绑定、超时作废；执行回执回写审计</text>
 
-  <polygon points="920,717 946,717 946,709 962,721 946,733 946,725 920,725" fill="#111111"/>
+  <polygon points="920,717 946,717 946,709 962,721 946,733 946,725 920,725" fill="#3B7DD8"/>
 
-  <rect id="ports" x="970" y="682" width="570" height="70" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="988" y="710" font-size="16.5" font-weight="700" fill="#111111">执行端口（按投放矩阵分级）</text>
-  <text x="988" y="736" font-size="13.5" fill="#444444">PA/PAGA 广播 · 乘客 App / 船载屏 · 短信 · 船员任务端</text>
+  <rect x="970" y="682" width="570" height="70" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="988" y="710" font-size="16.5" font-weight="700" fill="#1A2233">执行端口（按投放矩阵分级）</text>
+  <text x="988" y="736" font-size="13.5" fill="#4A5468">PA/PAGA 广播 · 乘客 App / 船载屏 · 短信 · 船员任务端</text>
 
   <!-- ===================== CROSS-CUTTING ===================== -->
-  <rect id="label-x" x="60" y="764" width="130" height="80" fill="#111111"/>
+  <rect x="60" y="764" width="130" height="80" rx="10" fill="#3B7DD8"/>
   <text x="125" y="798" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">横切保障</text>
-  <text x="125" y="821" text-anchor="middle" font-size="12" fill="#9AA0A8">Cross-cutting</text>
+  <text x="125" y="821" text-anchor="middle" font-size="12" fill="#DCE9F8">Cross-cutting</text>
 
-  <rect id="x1" x="200" y="764" width="326" height="80" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="218" y="792" font-size="16" font-weight="700" fill="#111111">可观测与审计</text>
-  <text x="218" y="816" font-size="13" fill="#555555">节点级 span、trace_id 贯穿、</text>
-  <text x="218" y="835" font-size="13" fill="#555555">append-only，审计包可导出</text>
+  <rect x="200" y="764" width="326" height="80" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="218" y="792" font-size="16" font-weight="700" fill="#1D4E7E">可观测与审计</text>
+  <text x="218" y="816" font-size="13" fill="#4A5468">节点级 span、trace_id 贯穿、</text>
+  <text x="218" y="835" font-size="13" fill="#4A5468">append-only，审计包可导出</text>
 
-  <rect id="x2" x="538" y="764" width="326" height="80" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="556" y="792" font-size="16" font-weight="700" fill="#111111">记忆三层</text>
-  <text x="556" y="816" font-size="13" fill="#555555">工作记忆（航次内）｜事故模式库</text>
-  <text x="556" y="835" font-size="13" fill="#555555">（人审入库）｜坏例库（仅评测）</text>
+  <rect x="538" y="764" width="326" height="80" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="556" y="792" font-size="16" font-weight="700" fill="#1D4E7E">记忆三层</text>
+  <text x="556" y="816" font-size="13" fill="#4A5468">工作记忆（航次内）｜事故模式库</text>
+  <text x="556" y="835" font-size="13" fill="#4A5468">（人审入库）｜坏例库（仅评测）</text>
 
-  <rect id="x3" x="876" y="764" width="326" height="80" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="894" y="792" font-size="16" font-weight="700" fill="#111111">运行时沙箱</text>
-  <text x="894" y="816" font-size="13" fill="#555555">独立运行时、资源硬配额，</text>
-  <text x="894" y="835" font-size="13" fill="#555555">越权操作零发生（详见第 3 页）</text>
+  <rect x="876" y="764" width="326" height="80" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="894" y="792" font-size="16" font-weight="700" fill="#1D4E7E">运行时沙箱</text>
+  <text x="894" y="816" font-size="13" fill="#4A5468">独立运行时、资源硬配额，</text>
+  <text x="894" y="835" font-size="13" fill="#4A5468">越权操作零发生（详见第 3 页）</text>
 
-  <rect id="x4" x="1214" y="764" width="326" height="80" fill="#FFFFFF" stroke="#111111" stroke-width="1.4"/>
-  <text x="1232" y="792" font-size="16" font-weight="700" fill="#111111">发布与回退</text>
-  <text x="1232" y="816" font-size="13" fill="#555555">影子模式 → 评测集 → 单船试点</text>
-  <text x="1232" y="835" font-size="13" fill="#555555">→ 全量；任意一级可回退</text>
+  <rect x="1214" y="764" width="326" height="80" rx="10" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="1.5"/>
+  <text x="1232" y="792" font-size="16" font-weight="700" fill="#1D4E7E">发布与回退</text>
+  <text x="1232" y="816" font-size="13" fill="#4A5468">影子模式 → 评测集 → 单船试点</text>
+  <text x="1232" y="835" font-size="13" fill="#4A5468">→ 全量；任意一级可回退</text>
 
-  <!-- footer principle -->
-  <text x="60" y="876" font-size="14.5" fill="#8A8F98">技术原则：模型节点是可替换的无状态推理调用；状态只在编排层，写操作只在审批后，每个动作留痕、可重放。</text>
+  <!-- footer -->
+  <text x="60" y="876" font-size="14" fill="#8B95A5">技术原则：模型节点是可替换的无状态推理调用；状态只在编排层，写操作只在审批后，每个动作留痕、可重放。</text>
+  <text x="40" y="894" font-size="12.5" fill="#8B95A5">ClarSyn / 邮轮港岸协同与航变响应</text>
+  <text x="1540" y="894" text-anchor="end" font-size="12.5" fill="#8B95A5" letter-spacing="3">02 / 03</text>
 </svg>

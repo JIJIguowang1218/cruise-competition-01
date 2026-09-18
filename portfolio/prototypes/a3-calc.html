@@ -6,13 +6,15 @@
 <title>A3 事件工作区 · 核算 · ClarSyn</title>
 <link rel="stylesheet" href="clarsyn-tokens.css">
 <style>
-/* 本页仅布局与排版；色值/字体/按钮/玻璃全部取自 clarsyn-tokens.css（design.md §12.6） */
+/* 本页仅布局与排版；色值/字体/按钮/状态标签/三态点全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化）；壳（顶栏/导航/底栏）与原型族完全一致。
+   内容密度高于一屏：主区与 G3 抽屉内部滚动（隐藏滚动条），固定板 16:9 不变。 */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg0);font-family:var(--sans);color:var(--tx);font-weight:400}
 body{display:flex;align-items:center;justify-content:center}
 #board{width:1920px;height:1080px;transform-origin:center center;background:var(--bg0);display:flex}
 
-/* —— 左侧主导航 —— */
+/* —— 左侧主导航（壳 1 外壳，与全族一致） —— */
 .side{width:72px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;
       align-items:center;padding:14px 0 16px;gap:6px}
 .side .mark{width:36px;height:36px;border:1px solid var(--line-2);border-radius:var(--r-s);
@@ -24,11 +26,12 @@ body{display:flex;align-items:center;justify-content:center}
 .nav a svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.5;fill:none;
            stroke-linecap:round;stroke-linejoin:round}
 .nav a span{font-size:10px;letter-spacing:.5px}
+.nav a:hover{color:var(--tx-2);background:var(--bg2)}
 .nav a.on{color:var(--tx);background:var(--bg3)}
 .side .gap{flex:1}
 
-/* —— 顶栏 —— */
-.right{flex:1;display:flex;flex-direction:column;min-width:0}
+/* —— 顶栏（与全族一致） —— */
+.right{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
 .topbar{height:76px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;
         padding:0 22px;gap:18px}
 .logo{font-family:var(--mono);font-weight:600;font-size:19px;letter-spacing:.5px}
@@ -41,7 +44,7 @@ body{display:flex;align-items:center;justify-content:center}
 .vcell .kv b{font-weight:500}
 .sp{flex:1}
 .t0{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);
-    border:1px solid rgba(70,192,138,.35);border-radius:var(--r-p);padding:9px 15px;flex:none}
+    border:1px solid rgba(81,184,115,.35);border-radius:var(--r-p);padding:9px 15px;flex:none}
 .clock{text-align:right;line-height:1.25;flex:none}
 .clock .t{font-family:var(--mono);font-size:24px;font-weight:500}
 .clock .l{font-size:10.5px;color:var(--tx-3)}
@@ -50,124 +53,311 @@ body{display:flex;align-items:center;justify-content:center}
 .role b{color:var(--tx);font-weight:500}
 .role .swap{color:var(--tx-3);border-left:1px solid var(--line);padding-left:11px}
 
-/* —— 事件头＋页签 —— */
+/* —— 事件头：三行（识别条 / 状态机 / 页签） —— */
 .ehead{flex:none;border-bottom:1px solid var(--line)}
-.ehead .r1{display:flex;align-items:center;gap:13px;padding:12px 20px 10px}
-.ehead .eid{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--tx)}
-.ehead .nm{font-size:15px;font-weight:600}
-.ehead .r2{display:flex;align-items:center;gap:10px;padding:0 20px 11px;flex-wrap:wrap}
-.tab{font-size:12.5px;color:var(--tx-3);border:1px solid var(--line);border-radius:var(--r-s);padding:5px 14px;text-decoration:none}
+.ehead .r1{display:flex;align-items:center;gap:11px;padding:11px 20px 9px}
+.ehead .nm{font-size:15px;font-weight:600;white-space:nowrap}
+.ehead .src{font-size:10.5px}
+.ehead .r2,.ehead .r3{display:flex;align-items:center;gap:9px;padding:0 20px 10px;flex-wrap:nowrap}
+.step{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--tx-3);white-space:nowrap}
+.step .n{width:16px;height:16px;border-radius:50%;border:1px solid var(--line-2);display:flex;
+         align-items:center;justify-content:center;font-family:var(--mono);font-size:9.5px;flex:none}
+.step.on{color:var(--tx);border:1px solid var(--line-2);border-radius:var(--r-s);padding:3px 9px;background:var(--bg3)}
+.step.on .n{background:var(--bg2);color:var(--tx);font-weight:600}
+.arr{font-family:var(--mono);font-size:10px;color:var(--tx-3)}
+.tab{font-size:12px;color:var(--tx-3);border:1px solid var(--line);border-radius:var(--r-s);
+     padding:5px 13px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.tab:hover{color:var(--tx-2);border-color:var(--line-2)}
 .tab.on{color:var(--bg0);background:var(--tx);border-color:var(--tx);font-weight:600}
-.ehead .arr{font-family:var(--mono);font-size:11px;color:var(--tx-3)}
+.tab .ev{border-color:transparent;padding:0;color:inherit;opacity:.75}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--warn);flex:none}
+.wlink{font-size:12px;color:var(--warn);text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.wlink:hover{text-decoration:underline}
+.wlink svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
-/* —— 内容区＋抽屉 —— */
+/* —— 工作区：主列（内部滚动）＋ G3 抽屉 —— */
 .wrap{flex:1;display:flex;min-height:0}
-.content{flex:1;display:flex;flex-direction:column;gap:12px;padding:12px 18px;min-height:0;min-width:0}
-.drawer{width:46px;flex:none;border-left:1px solid var(--line);display:flex;flex-direction:column;
-        align-items:center;padding:12px 0;gap:10px;background:var(--bg1)}
-.drawer svg{width:17px;height:17px;stroke:var(--tx-2);stroke-width:1.5;fill:none;stroke-linecap:round}
-.drawer .vtx{writing-mode:vertical-rl;font-size:11px;letter-spacing:2px;color:var(--tx-2)}
-.drawer .cnt{font-family:var(--mono);font-size:10.5px;color:var(--tx-3);
-             border:1px solid var(--line-2);border-radius:var(--r-s);padding:2px 5px}
-.drawer .gap{flex:1}
-.drawer .exp{width:26px;height:26px;border:1px solid var(--line-2);border-radius:var(--r-s);
-             display:flex;align-items:center;justify-content:center;font-family:var(--mono);
-             font-size:12px;color:var(--tx-2)}
+.content{flex:1;min-width:0;overflow-y:auto;padding:12px 18px;display:flex;flex-direction:column;
+         gap:12px;scrollbar-width:none}
+.content::-webkit-scrollbar{display:none}
+.content > .card{flex:none}
+.gdrawer{width:380px;flex:none;border-left:1px solid var(--line);padding:12px 16px;overflow-y:auto;
+         display:flex;flex-direction:column;gap:11px;scrollbar-width:none}
+.gdrawer::-webkit-scrollbar{display:none}
+.gdrawer.hidden{display:none}
+.gdrawer > *{flex:none}
 
-/* —— 卡片通用 —— */
+/* —— 卡片（家庭解剖） —— */
 .card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
       display:flex;flex-direction:column;min-height:0}
 .card-h{display:flex;align-items:center;gap:10px;padding:12px 16px 9px;border-bottom:1px solid var(--line)}
 .card-h h3{font-size:13.5px;font-weight:600}
-.card-h .en{font-family:var(--mono);font-size:9.5px;color:var(--tx-3);letter-spacing:1.2px;text-transform:uppercase}
-.card-h .right{margin-left:auto;font-size:11.5px;color:var(--tx-3);white-space:nowrap}
-.card-b{padding:10px 16px 12px}
+.card-h .sub{font-size:11.5px;color:var(--tx-3)}
+.card-h .right{margin-left:auto;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.card-b{padding:10px 16px 12px;display:flex;flex-direction:column;gap:9px}
 
-/* —— 窗口对照 —— */
-.winbar{display:flex;align-items:center;gap:10px;margin-bottom:7px}
-.winbar .bl{width:56px;font-size:11.5px;color:var(--tx-3);flex:none}
-.winbar .bar{height:22px;border-radius:var(--r-s);position:relative}
-.winbar .bar.old{width:100%;background:var(--bg3);border:1px solid var(--line-2)}
-.winbar .bar.new{width:55.6%;background:var(--accent-dim);border:1px solid rgba(76,141,255,.55)}
-.winbar .bar .t{position:absolute;right:8px;top:50%;transform:translateY(-50%);
-                font-family:var(--mono);font-size:10.5px;color:var(--tx-2)}
-.winbar .thr{position:absolute;top:-5px;bottom:-5px;width:1px;background:var(--warn)}
-.winbar .thr::after{content:"8.5h";position:absolute;top:-16px;left:-14px;font-family:var(--mono);
-                    font-size:9.5px;color:var(--warn)}
-.concl{display:flex;align-items:center;gap:10px;margin-top:9px}
-.concl .t{font-size:13px;font-weight:600;color:var(--err)}
-.concl .src{margin-left:auto}
-
-/* —— 通用行 —— */
-.kv{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;
-    border-bottom:1px dashed var(--line);font-size:12.5px}
-.kv:last-child{border-bottom:0}
-.kv .k{color:var(--tx-2)}
-.kv .v{font-family:var(--mono);font-size:12.5px;color:var(--tx);white-space:nowrap}
-.kv .v.dim2{color:var(--tx-2)}
-.atag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--warn);
-      border:1px dashed rgba(240,164,63,.45);border-radius:4px;padding:1px 6px;margin-left:7px;white-space:nowrap}
-.hatch{background-image:repeating-linear-gradient(45deg,rgba(240,164,63,.10) 0 6px,transparent 6px 12px);
-       border:1px dashed rgba(240,164,63,.45);border-radius:var(--r-s)}
+/* —— 通用小件 —— */
+.ev{font-family:var(--mono);font-size:10px;color:var(--tx-2);border:1px solid var(--line-2);
+    border-radius:4px;padding:1px 6px;white-space:nowrap}
 .src{font-family:var(--mono);font-size:10px;color:var(--tx-3);border:1px solid var(--line);
      border-radius:4px;padding:1px 6px;white-space:nowrap}
+.atag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--warn);
+      border:1px dashed rgba(240,164,63,.45);border-radius:4px;padding:1px 6px;white-space:nowrap}
+.btn-emph{font-size:12px;font-weight:600;color:var(--tx);border:1px solid var(--line-2);
+          border-radius:var(--r-p);padding:7px 15px;background:transparent;cursor:pointer;white-space:nowrap}
+.btn-emph:hover{background:var(--bg3)}
+.btn-ghost{font-size:12px;color:var(--tx-2);border:1px solid var(--line-2);border-radius:var(--r-p);
+           padding:7px 15px;background:transparent;cursor:pointer;white-space:nowrap;display:inline-flex;
+           align-items:center;justify-content:center;gap:6px}
+.btn-ghost:hover{color:var(--tx);background:var(--bg3)}
+.btn-ghost svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.5;fill:none;
+               stroke-linecap:round;stroke-linejoin:round}
 
-/* —— 容量表 —— */
-.cap .kv .fx{font-family:var(--mono);font-size:11px;color:var(--tx-3)}
-.capline{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
-.capline:last-child{border-bottom:0}
-.capline .nm{width:150px;flex:none;color:var(--tx-2)}
-.capline .pm{flex:1;color:var(--tx-3);font-size:11.5px}
-.capline .rs{font-family:var(--mono);font-size:12px;color:var(--tx);white-space:nowrap}
-.capline .rs.warn{color:var(--warn)}
-.capline .rs.err{color:var(--err)}
+/* —— 卡① 窗口推演 —— */
+.verdict{display:flex;align-items:center;gap:14px;border:1px solid rgba(229,72,77,.4);
+         border-radius:var(--r-s);padding:9px 14px}
+.verdict .t1{font-size:13.5px;font-weight:600;color:var(--err);white-space:nowrap}
+.verdict .t2{font-size:11.5px;color:var(--tx-2)}
+.gticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--tx-3)}
+.gbar{position:relative;height:26px;border-radius:var(--r-s)}
+.seg{position:absolute;top:0;bottom:0;border-radius:var(--r-s);display:flex;align-items:center;
+     justify-content:space-between;padding:0 10px;gap:10px;overflow:hidden;white-space:nowrap}
+.seg .lab{font-size:11.5px}
+.seg .note{font-family:var(--mono);font-size:10px;color:var(--tx-3)}
+.seg.old{left:8%;width:75%;background:var(--bg3);border:1px solid var(--line-2)}
+.seg.old .lab{color:var(--tx-2)}
+.seg.new{left:41.6%;width:41.6%;background:var(--accent-dim);border:1px solid rgba(76,141,255,.55)}
+.seg.new .lab{color:var(--tx)}
+.seg.def{left:8%;width:33.6%;border:1px dashed rgba(229,72,77,.45);justify-content:center;
+         color:var(--err);font-size:11px;font-weight:600}
+.gnote{display:flex;align-items:flex-start;gap:9px;font-size:11.5px;color:var(--tx-2);line-height:1.5}
+.gnote b{font-weight:500;color:var(--tx)}
+.gnote .dt{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--tx-2);white-space:nowrap}
 
-/* —— 双列网格 —— */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.grid2 > .card{min-height:0}
+/* —— 卡② 输入溯源 —— */
+.tiles4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{background:var(--bg0);border:1px solid var(--line);border-radius:var(--r-s);padding:10px 12px;
+      display:flex;flex-direction:column;gap:5px}
+.tile.hyp{background-image:repeating-linear-gradient(45deg,rgba(240,164,63,.10) 0 6px,transparent 6px 12px);
+          border:1px dashed rgba(240,164,63,.45)}
+.tile .t{font-size:12px;color:var(--tx-2);display:flex;align-items:center;gap:7px}
+.tile .t .cap{margin-left:auto;display:flex;align-items:center;gap:6px}
+.tile .t a{color:var(--tx-3);display:flex}
+.tile .t a:hover{color:var(--tx-2)}
+.tile .t a svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.5;fill:none;
+               stroke-linecap:round;stroke-linejoin:round}
+.tile .m{font-family:var(--mono);font-size:21px;font-weight:500;color:var(--tx);white-space:nowrap}
+.tile .m .u{font-size:11px;color:var(--tx-3);font-family:var(--sans);font-weight:400}
+.tile.hyp .m{color:var(--warn)}
+.tile .ft{font-family:var(--mono);font-size:10px;color:var(--tx-3);white-space:nowrap;overflow:hidden;
+          text-overflow:ellipsis;border-top:1px dashed var(--line);padding-top:6px;margin-top:auto}
+.tile.hyp .ft{color:var(--warn)}
 
-/* —— 批次表 —— */
-.btable{flex:1;display:flex;flex-direction:column;font-size:11px}
-.brow{display:flex;align-items:center;gap:8px;padding:3.5px 8px;border-bottom:1px dashed var(--line)}
-.brow.hd{color:var(--tx-3);font-size:10px;border-bottom:1px solid var(--line)}
-.brow:last-child{border-bottom:0}
-.brow.conf{background:rgba(240,164,63,.07)}
-.brow .bid{font-family:var(--mono);font-weight:500;color:var(--tx-2);width:34px;flex:none}
-.brow .seg{flex:1;color:var(--tx-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brow .num{font-family:var(--mono);color:var(--tx);width:44px;text-align:right;flex:none}
-.brow .pt{width:130px;flex:none;color:var(--tx-3);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brow .tm{font-family:var(--mono);color:var(--tx-2);width:120px;flex:none;text-align:right}
-.brow .confmark{font-family:var(--mono);font-size:10px;color:var(--warn);border:1px dashed rgba(240,164,63,.45);
-                border-radius:4px;padding:1px 5px;flex:none}
+/* —— 卡③ 瓶颈链 —— */
+.tiles3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tiles3 .tile .m.ok{color:var(--ok)}
+.tiles3 .tile .m.err{color:var(--err)}
+.tiles3 .tile .m.warn{color:var(--warn)}
+.tile .r2{display:flex;align-items:center;justify-content:space-between;gap:8px;
+          font-family:var(--mono);font-size:10px;color:var(--tx-3);
+          border-top:1px dashed var(--line);padding-top:6px;margin-top:auto;white-space:nowrap}
+.tile .r2 .hot{color:var(--err);font-weight:600}
 
-/* —— 岸游表 —— */
-.cnt-row{display:flex;gap:8px;margin-bottom:9px}
-.cnt-row .st{flex:1;text-align:center;padding:6px 0}
-.exc{flex:1;display:flex;flex-direction:column;font-size:11.5px;min-height:0;overflow:hidden}
-.exc .brow .seg{width:150px;flex:none}
-.exc .brow .km{font-family:var(--mono);color:var(--tx-3);width:56px;flex:none;text-align:right}
-.exc .brow .num{width:40px}
-.exc .brow .jd{width:78px;flex:none;text-align:right;font-family:var(--mono);font-size:11px}
-.exc .brow .jd.ok{color:var(--ok)} .exc .brow .jd.half{color:var(--warn)}
-.exc .brow .jd.cx{color:var(--err)} .exc .brow .jd.pend{color:var(--tx-2)}
+/* —— 表格通用 —— */
+.tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.tbl th{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--tx-3);text-align:left;
+        padding:5px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:5.5px 8px;border-bottom:1px dashed var(--line);color:var(--tx-2);white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr:hover td{background:var(--bg2)}
+.tbl .bid{font-family:var(--mono);font-weight:500;color:var(--tx)}
+.tbl .bid.warn{color:var(--warn)}
+.tbl .cd{font-family:var(--mono);font-size:11px;color:var(--tx-3)}
+.tbl .num{font-family:var(--mono);color:var(--tx)}
+.tbl .num.warn{color:var(--warn)}
+.tbl .judge{font-size:11.5px}
+.tbl .judge.ok{color:var(--ok)}
+.tbl .judge.warn{color:var(--warn)}
+.tbl .judge.err{color:var(--err);font-weight:500}
+.tbl .st{font-size:10.5px;padding:2px 7px}
+.cnts{display:flex;gap:8px}
+.cnts .st{flex:1;text-align:center;padding:6px 0}
 
-/* —— 底部条 —— */
-.footstrip{flex:none;display:flex;gap:12px}
-.footstrip .card{flex:1}
-.bline{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0;
-       border-bottom:1px dashed var(--line);font-size:12px}
-.bline:last-child{border-bottom:0}
-.bline .k{color:var(--tx-2)}
-.bline .v{font-family:var(--mono);font-size:12px;color:var(--tx)}
-.bound{font-size:10.5px;color:var(--tx-3);line-height:1.7}
-.bound b{color:var(--tx-2);font-weight:500}
+/* —— 卡⑥ 边界声明 —— */
+.bound{font-size:12px;color:var(--tx-2);line-height:1.7}
+.bound b{color:var(--tx);font-weight:500;font-family:var(--mono);font-size:11.5px}
 
-/* —— 底栏 —— */
+/* —— G3 抽屉 —— */
+.dw-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dw-h .t{font-size:13.5px;font-weight:600}
+.dw-sec{font-size:11px;color:var(--tx-3);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dw-sec .r{display:flex;align-items:center;gap:7px}
+.dw-card{background:var(--bg0);border:1px solid var(--line);border-radius:var(--r-s);
+         padding:9px 11px;display:flex;flex-direction:column;gap:7px}
+.dw-row{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg0);
+        border:1px solid var(--line);border-radius:var(--r-s);padding:7px 10px;font-size:12px}
+.dw-row .nm{color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dw-row .bd{font-family:var(--mono);font-size:10px;color:var(--tx-3);white-space:nowrap}
+.dw-row.dim{opacity:.6}
+.conf .r1{display:flex;align-items:center;justify-content:space-between}
+.conf .lab{font-size:12px;color:var(--tx-2)}
+.conf .vals{display:flex;align-items:baseline;gap:6px;font-family:var(--mono)}
+.conf .old{font-size:11px;color:var(--tx-3);text-decoration:line-through}
+.conf .new{font-size:15px;font-weight:600;color:var(--ok)}
+.conf .track{height:6px;border-radius:3px;background:var(--bg3);position:relative;overflow:hidden}
+.conf .fill{position:absolute;left:0;top:0;bottom:0;width:86%;background:var(--tx-2);border-radius:3px}
+.conf .fn{font-family:var(--mono);font-size:10px;color:var(--tx-3)}
+.fx .r{display:flex;justify-content:space-between;gap:8px;font-size:10.5px;color:var(--tx-3)}
+.fx .r .ok{color:var(--ok)} .fx .r .warn{color:var(--warn)}
+.fx .r .err{color:var(--err);font-weight:600}
+.fx code{font-family:var(--mono);font-size:11px;color:var(--tx-2);white-space:nowrap}
+.cl .r{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--tx)}
+.cl .r .hit{font-size:10px;color:var(--ok)}
+.cl .r .miss{font-size:10px;color:var(--err)}
+.cl .d{font-size:10.5px;color:var(--tx-3)}
+.hlist{max-height:216px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;scrollbar-width:none;
+       padding-right:2px}
+.hlist::-webkit-scrollbar{display:none}
+.hyp{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg0);
+     border-left:2px dashed rgba(240,164,63,.45);border-radius:0 var(--r-s) var(--r-s) 0;
+     padding:5px 9px;font-size:10.5px;color:var(--warn)}
+.hyp button{color:var(--accent);font-family:var(--mono);font-size:10px;background:none;border:0;cursor:pointer;flex:none}
+.hyp button:hover{text-decoration:underline}
+.flag{width:100%;color:var(--warn)}
+
+/* —— 底栏（与全族一致） —— */
 .footer{flex:none;height:38px;border-top:1px solid var(--line);display:flex;align-items:center;
-        padding:0 22px;gap:15px;font-size:11px;color:var(--tx-3);flex-wrap:nowrap}
+        padding:0 22px;gap:15px;font-size:11px;color:var(--tx-3);white-space:nowrap;overflow:hidden}
 .footer .si{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .legend{display:flex;gap:12px;margin-left:auto;white-space:nowrap}
 .legend span{display:flex;align-items:center;gap:5px}
+/* —— A 系列整体放大（2026-09-18）：顶栏 92 / 侧栏 88 / 底栏 48，字号全面上调 —— */
+.side{width:88px;padding:16px 0 18px}
+.side .mark{width:46px;height:46px;font-size:15px;margin-bottom:16px}
+.nav{gap:6px}
+.nav a{width:74px;padding:11px 0 10px;gap:4px}
+.nav a svg{width:24px;height:24px}
+.nav a span{font-size:12px}
+.topbar{height:92px;padding:0 24px;gap:20px}
+.logo{font-size:22px}
+.t-sub{font-size:14.5px;padding-left:20px}
+.vcard{height:58px}
+.vcell{padding:9px 18px;gap:4px}
+.vcell .kl{font-size:10.5px}
+.vcell .kv{font-size:15px}
+.search{height:46px;width:280px;font-size:14px}
+.t0{font-size:14.5px;padding:10px 17px}
+.clock .t{font-size:30px}
+.clock .l{font-size:12px}
+.role{font-size:14.5px;padding:10px 18px}
+.footer{height:48px;font-size:12px;padding:0 24px;gap:14px}
+.st{font-size:12.5px;padding:4px 9px}
+.ev,.src,.atag{font-size:11.5px}
+.ehead .nm{font-size:16.5px}
+.ehead .src{font-size:11.5px}
+.step{font-size:12.5px}
+.step .n{width:18px;height:18px;font-size:10.5px}
+.tab{font-size:13px;padding:6px 14px}
+.wlink{font-size:12.5px}
+.card-h h3{font-size:15px}
+.card-h .sub{font-size:13px}
+.verdict .t1{font-size:15px}
+.verdict .t2{font-size:13px}
+.gticks{font-size:12px}
+.seg .lab{font-size:13px}
+.seg .note{font-size:11.5px}
+.seg.def{font-size:12.5px}
+.gnote{font-size:13px}
+.tile .t{font-size:13px}
+.tile .m{font-size:23px}
+.tile .m .u{font-size:12px}
+.tile .sub{font-size:12.5px}
+.tile .ft{font-size:11.5px}
+.tile .r2{font-size:11.5px}
+.tbl{font-size:13px}
+.tbl th{font-size:11.5px}
+.tbl .bid{font-size:13px}
+.tbl .cd{font-size:12.5px}
+.tbl .st{font-size:12px;padding:2px 8px}
+.tbl .judge{font-size:13px}
+.bound{font-size:13.5px}
+.gdrawer{width:420px}
+.dw-h .t{font-size:15px}
+.dw-sec{font-size:12px}
+.dw-row{font-size:13px}
+.conf .lab{font-size:13px}
+.conf .new{font-size:16px}
+.conf .fn{font-size:11.5px}
+.fx .r{font-size:11.5px}
+.fx code{font-size:12px}
+.cl .r{font-size:13px}
+.cl .d{font-size:11.5px}
+.hyp{font-size:11.5px}
+.btn-ghost,.btn-emph{font-size:13px}
+/* —— A 系列第二轮放大（2026-09-18）：对齐 a3-document 高保真文档页字号体系，下限抬至 12.5px —— */
+.topbar{height:96px}
+.vcell .kv{font-size:16px}
+.vcell .kl{font-size:11px}
+.search{font-size:15px}
+.t0{font-size:15.5px}
+.role{font-size:15.5px}
+.clock .t{font-size:34px}
+.clock .l{font-size:13px}
+.nav a span{font-size:13px}
+.footer{height:52px;font-size:13px}
+.st{font-size:13.5px;padding:5px 10px}
+.ev,.src,.atag{font-size:12.5px}
+.ehead .nm{font-size:18px}
+.ehead .src{font-size:12.5px}
+.step{font-size:13.5px}
+.step .n{font-size:11px}
+.tab{font-size:14px}
+.wlink{font-size:13.5px}
+.card-h h3{font-size:16.5px}
+.card-h .sub{font-size:14px}
+.verdict .t1{font-size:16.5px}
+.verdict .t2{font-size:14.5px}
+.gticks{font-size:13px}
+.seg .lab{font-size:14.5px}
+.seg .note{font-size:12.5px}
+.seg.def{font-size:13.5px}
+.gnote{font-size:14.5px}
+.tile .t{font-size:14.5px}
+.tile .m{font-size:26px}
+.tile .m .u{font-size:13px}
+.tile .sub{font-size:13.5px}
+.tile .ft{font-size:12.5px}
+.tile .r2{font-size:12.5px}
+.tbl{font-size:14.5px}
+.tbl th{font-size:13px}
+.tbl .bid{font-size:14.5px}
+.tbl .cd{font-size:13.5px}
+.tbl .st{font-size:13px;padding:3px 9px}
+.tbl .judge{font-size:14.5px}
+.bound{font-size:15px}
+.dw-h .t{font-size:16.5px}
+.dw-sec{font-size:13px}
+.dw-row{font-size:14.5px}
+.conf .lab{font-size:14.5px}
+.conf .new{font-size:18px}
+.conf .fn{font-size:12.5px}
+.fx .r{font-size:12.5px}
+.fx code{font-size:13px}
+.cl .r{font-size:14.5px}
+.cl .d{font-size:12.5px}
+.hyp{font-size:12.5px}
+.btn-ghost,.btn-emph{font-size:14px}
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.card{border-color:transparent;box-shadow:var(--shadow-card)}
+.tile,.dw-card,.dw-row,.cl,.fx{background:var(--bg2);border-color:transparent}
+.hyp{background:var(--bg2)}
+.tile.hyp{background:var(--bg2);border:1px solid var(--line)}
+.tile.hyp .t{color:var(--tx-2)}
+.tile.hyp .m{color:var(--tx)}
+.tile.hyp .ft{color:var(--tx-3)}
+.tiles3 .tile:nth-child(1){box-shadow:inset 3px 0 0 var(--ok)}
+.tiles3 .tile:nth-child(2){box-shadow:inset 3px 0 0 var(--err)}
+.tiles3 .tile:nth-child(3){box-shadow:inset 3px 0 0 var(--warn)}
 </style>
 </head>
 <body>
@@ -177,19 +367,22 @@ body{display:flex;align-items:center;justify-content:center}
   <aside class="side">
     <div class="mark">CS</div>
     <nav class="nav">
+      <a class="on" href="p1-workspace.html" title="工作区">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="7" rx="1.5"/><rect x="2" y="13" width="9" height="7" rx="1.5"/><rect x="13" y="13" width="9" height="7" rx="1.5"/></svg>
+        <span>工作区</span></a>
       <a href="a1-xcard.html" title="值班态势台">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
         <span>态势台</span></a>
       <a href="a2-email.html" title="信号收件箱">
         <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
         <span>收件箱</span></a>
-      <a class="on" href="a3-observe.html" title="事件工作区">
+      <a href="a3-observe.html" title="预警观察">
         <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
-        <span>工作区</span></a>
+        <span>预警观察</span></a>
       <a href="a4-l3.html" title="审批中心">
         <svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
         <span>审批</span></a>
-      <a href="a5-wait.html" title="执行与触达">
+      <a href="a5-dispatch.html" title="执行与触达">
         <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
         <span>触达</span></a>
       <a href="a6-daily.html" title="事件轨迹时间轴">
@@ -217,148 +410,263 @@ body{display:flex;align-items:center;justify-content:center}
       <div class="role"><span><b>运营经理</b> · 林若岚</span><span class="swap">切换</span></div>
     </header>
 
-    <!-- 事件头＋页签 -->
+    <!-- 事件头：识别条 -->
     <div class="ehead">
       <div class="r1">
-        <span class="eid">E09-0001</span>
+        <span class="st err">L3 级应急</span>
+        <span class="src" style="font-size:11px;color:var(--tx)">E09-0001</span>
         <span class="nm">福冈港靠泊窗口压缩（07:00–16:00 → 11:00–16:00）</span>
-        <div class="sp"></div>
-        <span class="st">L3</span>
-        <span class="st">tr-260917-2106</span>
+        <span class="st"><span class="dot r" style="margin-right:6px"></span>船代邮件·人工确认</span>
+        <span class="src">+ 3项弱信号合流</span>
+        <div class="sp" style="flex:1"></div>
+        <span class="src">trace_id: tr-260917-2106</span>
+        <span class="src">源: X-260917-01</span>
+        <a class="wlink" href="#">预挂 130 件退改咨询
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
       </div>
+
+      <!-- 状态机步进条 -->
       <div class="r2">
-        <a class="tab on" href="a3-calc.html">核算</a>
-        <a class="tab" href="a3-plan.html">方案</a>
-        <a class="tab" href="a3-basis.html">依据</a>
-        <a class="tab" href="a3-monitor.html">监测</a>
-        <div class="sp"></div>
-        <span class="st">来源：船代邮件 ● ＋弱信号 3</span>
-        <span class="st">血缘：X-260917-01</span>
-        <span class="st">立案 21:06 · 何舟确认</span>
+        <span class="step"><span class="n">1</span>观察</span><span class="arr">→</span>
+        <span class="step on"><span class="n">2</span>【核算】当前执行</span><span class="arr">→</span>
+        <span class="step"><span class="n">3</span>方案</span><span class="arr">→</span>
+        <span class="step"><span class="n">4</span>签署</span><span class="arr">→</span>
+        <span class="step"><span class="n">5</span>挂起</span><span class="arr">→</span>
+        <span class="step"><span class="n">6</span>修订</span><span class="arr">→</span>
+        <span class="step"><span class="n">7</span>执行</span><span class="arr">→</span>
+        <span class="step"><span class="n">8</span>关闭</span>
+      </div>
+
+      <!-- 页签行 -->
+      <div class="r3">
+        <a class="tab on" href="a3-calc.html">① 核算 (确定性试算)<span class="ev">Deterministic</span></a>
+        <a class="tab" href="a3-plan.html">② 方案 (A/B/C 候选)<span class="tdot"></span></a>
+        <a class="tab" href="a3-basis.html">③ 依据 (法规与条款)</a>
+        <a class="tab" href="a3-monitor.html">④ 监测 (P2与双曲线)</a>
+        <div class="sp" style="flex:1"></div>
+        <button class="btn-ghost" id="toggle-drawer-btn"><span id="drawer-toggle-label">收起 G3 推理附件</span></button>
       </div>
     </div>
 
     <div class="wrap">
+      <!-- 主列 -->
       <div class="content">
 
-        <!-- 窗口对照 -->
+        <!-- ① 窗口推演 -->
         <section class="card">
-          <div class="card-h"><h3>窗口对照</h3><span class="en">Berth Window</span>
-            <span class="right">确定性计算</span></div>
+          <div class="card-h"><h3>福冈靠泊作业窗口压缩推演</h3>
+            <span class="right"><span class="sub">原航次计划 07:00–16:00 (9.0h) 压缩至 11:00–16:00 (5.0h) · 岸上可用时间净损耗 4.0h (-44.4%)</span></span></div>
           <div class="card-b">
-            <div class="winbar">
-              <span class="bl">基线</span>
-              <div class="bar old"><span class="t">07:00–16:00 · 9h</span>
-                <div class="thr" style="left:94.4%"></div></div>
+            <div class="verdict">
+              <span class="t1">【确定性计算结论】窗口内关键路径作业不可全部完成</span>
+              <span class="t2">边检吞吐与全部离船总需求产生 0.7h 物理不可逾越赤字</span>
             </div>
-            <div class="winbar">
-              <span class="bl">通知</span>
-              <div class="bar new"><span class="t">11:00–16:00 · 5h</span></div>
+            <div class="gticks">
+              <span>06:00</span><span>07:00 (计划抵泊)</span><span>09:00</span><span>11:00 (新抵泊窗口)</span>
+              <span>13:00</span><span>15:00 (开始登船)</span><span>16:00 (离泊截关)</span><span>18:00</span>
             </div>
-            <div class="concl">
-              <span class="t">窗口内关键路径作业不可全部完成</span>
-              <span class="st">确定性计算结果</span>
-              <span class="src">统计阈值 S14</span>
+            <div class="gbar"><div class="seg old"><span class="lab">原靠泊计划 (9h 00m): 07:00 - 16:00</span><span class="note">离船 + 岸游 + 登船充足</span></div></div>
+            <div class="gbar">
+              <div class="seg def">压缩扣除 (-4.0h)</div>
+              <div class="seg new"><span class="lab">新压缩窗口 (5h 00m): 11:00 - 16:00</span><span class="note" style="color:var(--tx-2)">有效岸上活动 &lt; 2.2h</span></div>
+            </div>
+            <div class="gnote">
+              <span><b>8.5h 有效缓冲带刻度：</b>有效缓冲主要在约 8h 以内；美国 3,238 个邮轮港日 AIS 观测，统计阈值非行业标准，Frontiers in Marine Science 2026</span>
+              <span class="dt">Δt = -240 min</span>
             </div>
           </div>
         </section>
 
-        <!-- 输入区＋容量表 -->
-        <div class="grid2">
-          <section class="card">
-            <div class="card-h"><h3>输入区</h3><span class="en">Inputs</span></div>
-            <div class="card-b">
-              <div class="kv"><span class="k">在船人数</span><span class="v">4,980 <span class="src">PMS ●</span></span></div>
-              <div class="kv"><span class="k">船代窗口（11:00–16:00）</span><span class="v">A2 确认 ●</span></div>
-              <div class="kv"><span class="k">船代 ETA</span><span class="v">09:40 区间 ◐</span></div>
-              <div class="kv" style="border:1px dashed rgba(240,164,63,.45);border-radius:var(--r-s);padding:7px 10px;margin-top:4px">
-                <span class="k" style="color:var(--warn)">移民工位产出率</span>
-                <span class="v" style="color:var(--warn)">200–260 人/h<span class="atag" style="margin-left:6px">假设 · C6</span></span></div>
-              <div class="kv"><span class="k">ETA 脚注</span><span class="v dim2">±约100min · 东地中海 2024</span></div>
-            </div>
-          </section>
-
-          <section class="card cap">
-            <div class="card-h"><h3>容量计算</h3><span class="en">Capacity</span>
-              <span class="right">逐行可展开算式</span></div>
-            <div class="card-b">
-              <div class="capline"><span class="nm">客廊桥</span><span class="pm">2 桥 × ≤2,000 pax/h</span><span class="rs">4,000/h · 非瓶颈</span><span class="src">S07</span></div>
-              <div class="capline"><span class="nm">移民检查</span><span class="pm" style="color:var(--warn)">8 工位 × 200–260 人/h</span><span class="rs warn">通过 1.9–2.4h</span><span class="atag">假设 · C6</span></div>
-              <div class="capline"><span class="nm">批次-集合点</span><span class="pm">B03/B04 同时在厅 11:30–12:10</span><span class="rs err">峰值 1,160 人</span></div>
-              <div class="capline"><span class="nm">岸游</span><span class="pm">90 团按车程判定</span><span class="rs">31/38/14/7</span><span class="src">S09</span></div>
-              <div class="capline"><span class="nm">夜间排班</span><span class="pm">MLC＋配员四约束</span><span class="rs err">无可行解</span></div>
-              <div class="kv" style="border:0;padding:8px 0 0"><span class="k">算式示例（移民检查）</span><span class="fx">3,900 ÷ (8×200~260) = 1.9~2.4h</span></div>
-            </div>
-          </section>
-        </div>
-
-        <!-- 批次表＋岸游表 -->
-        <div class="grid2" style="flex:1;min-height:0">
-          <section class="card">
-            <div class="card-h"><h3>批次编排 · R1 初版</h3><span class="en">Batches R1</span>
-              <span class="right">9 批 · 合计 3,900</span></div>
-            <div class="card-b btable">
-              <div class="brow hd"><span class="bid">批次</span><span class="seg">层段 / 舱号段</span><span class="num">人数</span><span class="pt">集合点</span><span class="tm">集合 · 通过窗</span><span style="width:76px;flex:none"></span></div>
-              <div class="brow"><span class="bid">B01</span><span class="seg">10 层（10xxx）</span><span class="num">450</span><span class="pt">中央大厅</span><span class="tm">11:10 · 11:20–11:45</span></div>
-              <div class="brow"><span class="bid">B02</span><span class="seg">9 层（92xx）</span><span class="num">445</span><span class="pt">星辰剧场</span><span class="tm">11:15 · 11:25–11:50</span></div>
-              <div class="brow conf"><span class="bid">B03</span><span class="seg">8 层（82xx–84xx）</span><span class="num">455</span><span class="pt">中央大厅</span><span class="tm">11:30 · 11:40–12:05</span><span class="confmark">重叠</span></div>
-              <div class="brow conf"><span class="bid">B04</span><span class="seg">7 层（72xx–74xx）</span><span class="num">440</span><span class="pt">中央大厅</span><span class="tm">11:40 · 11:50–12:15</span><span class="confmark">重叠</span></div>
-              <div class="brow"><span class="bid">B05</span><span class="seg">6 层（62xx–64xx）</span><span class="num">430</span><span class="pt">中央大厅</span><span class="tm">11:50 · 12:00–12:25</span></div>
-              <div class="brow"><span class="bid">B06</span><span class="seg">5 层（52xx–54xx）</span><span class="num">425</span><span class="pt">星辰剧场</span><span class="tm">12:05 · 12:15–12:40</span></div>
-              <div class="brow"><span class="bid">B07</span><span class="seg">4 层（42xx–44xx）</span><span class="num">420</span><span class="pt">中央大厅</span><span class="tm">12:10 · 12:20–12:45</span></div>
-              <div class="brow"><span class="bid">B08</span><span class="seg">3 层（32xx–34xx）</span><span class="num">410</span><span class="pt">中央大厅</span><span class="tm">12:15 · 12:25–12:50</span></div>
-              <div class="brow"><span class="bid">B09</span><span class="seg">1–2 层＋特殊协助 90</span><span class="num">425</span><span class="pt">船尾阳光甲板</span><span class="tm">12:20 · 12:30–12:55</span></div>
-            </div>
-          </section>
-
-          <section class="card">
-            <div class="card-h"><h3>岸游逐行</h3><span class="en">Shore Tours</span>
-              <span class="right">90 团 · 地接 ◐</span></div>
-            <div class="card-b" style="flex:1;display:flex;flex-direction:column;min-height:0">
-              <div class="cnt-row">
-                <span class="st ok">可行 31</span><span class="st warn">改半日 38</span>
-                <span class="st err">取消 14</span><span class="st">待地接 7</span>
+        <!-- ② 输入溯源与三态 -->
+        <section class="card">
+          <div class="card-h"><h3>数据输入项溯源与三态置信矩阵</h3>
+            <span class="right"><span class="sub">三态分类：● 实时 / ◐ 缓存 / ○ 离线</span></span></div>
+          <div class="card-b">
+            <div class="tiles4">
+              <div class="tile">
+                <div class="t"><span class="dot r"></span>在船旅客数 (PMS)</div>
+                <div class="m">4,980 <span class="u">人</span></div>
+                <div class="ft">实时连通: PMS-Core-V5.3</div>
               </div>
-              <div class="exc">
-                <div class="brow hd"><span class="seg">团号 · 产品</span><span class="km">车程</span><span class="num">人数</span><span style="flex:1"></span><span class="jd">判定</span></div>
-                <div class="brow"><span class="seg">EX-031 福冈塔与海滨公园线</span><span class="km">45</span><span class="num">38</span><span style="flex:1"></span><span class="jd ok">可行</span></div>
-                <div class="brow"><span class="seg">EX-044 博多运河城半日购物线</span><span class="km">55</span><span class="num">44</span><span style="flex:1"></span><span class="jd ok">可行</span></div>
-                <div class="brow"><span class="seg">EX-052 栉田神社·祇园步行线</span><span class="km">60</span><span class="num">30</span><span style="flex:1"></span><span class="jd ok">可行</span></div>
-                <div class="brow"><span class="seg">EX-018 海之中道水族馆亲子线</span><span class="km">70</span><span class="num">42</span><span style="flex:1"></span><span class="jd ok">可行</span></div>
-                <div class="brow"><span class="seg">EX-007 太宰府天满宫·表参道线</span><span class="km">80</span><span class="num">46</span><span style="flex:1"></span><span class="jd half">改半日</span></div>
-                <div class="brow"><span class="seg">EX-023 九州国立博物馆·鸟栖 Outlet</span><span class="km">90</span><span class="num">45</span><span style="flex:1"></span><span class="jd half">改半日</span></div>
-                <div class="brow"><span class="seg">EX-060 柳川泛舟半日线</span><span class="km">95</span><span class="num">36</span><span style="flex:1"></span><span class="jd pend">待地接</span></div>
-                <div class="brow"><span class="seg">EX-029 门司港·小仓城区线</span><span class="km">105</span><span class="num">40</span><span style="flex:1"></span><span class="jd half">改半日</span></div>
-                <div class="brow"><span class="seg">EX-012 能古岛全日海岛线</span><span class="km">110</span><span class="num">34</span><span style="flex:1"></span><span class="jd cx">取消</span></div>
-                <div class="brow"><span class="seg">EX-003 汤布院全日线</span><span class="km">115</span><span class="num">48</span><span style="flex:1"></span><span class="jd cx">取消</span></div>
+              <div class="tile">
+                <div class="t"><span class="dot r"></span>新靠泊窗口</div>
+                <div class="m">11:00–16:00</div>
+                <div class="ft">来源: A2 待核转人工回执确认</div>
+              </div>
+              <div class="tile">
+                <div class="t"><span class="dot y"></span>船代 ETA 预估</div>
+                <div class="m">09:40 <span class="u">区间</span></div>
+                <div class="ft" title="航路尺度到港预测公开最佳水平约 ±100 分钟量级（东地中海 2024 研究）">东地中海'24研究 ±100min</div>
+              </div>
+              <div class="tile hyp">
+                <div class="t" style="color:var(--warn)">边检通道产出率
+                  <span class="cap"><a href="#" title="进入 C3 参数标定台"><svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></a></span></div>
+                <div class="m">200–260 <span class="u">pax/h</span></div>
+                <div class="ft">来源：本地参数标定</div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
-        <!-- 特殊需求＋模型边界 -->
-        <div class="footstrip">
-          <section class="card">
-            <div class="card-b">
-              <div class="bline"><span class="k">特殊协助旅客</span><span class="v">90 人 · 仅计数 · B01 优先编排</span></div>
-              <div class="bline"><span class="k">判定规则</span><span class="v">车程 ≤75 可行 · 76–105 改半日 · ＞105 取消</span></div>
+        <!-- ③ 瓶颈链 -->
+        <section class="card">
+          <div class="card-h"><h3>客流通行容量与排队临界瓶颈链 (NOC 拓扑算术)</h3>
+            <span class="sub">全队列通过总耗时由串联最小通量环节（狭管效应）锁死</span>
+            <span class="right"><button class="btn-ghost">查看完整数学求解器推导式</button></span></div>
+          <div class="card-b">
+            <div class="tiles3">
+              <div class="tile">
+                <div class="t"><span>双客廊桥 (Gangway)</span><span class="st ok" style="margin-left:auto">非瓶颈 · 畅通</span></div>
+                <div class="m ok">4,000 <span class="u">pax/h</span></div>
+                <div class="sub">2 客廊桥 × ≤2,000 pax/h</div>
+                <div class="r2"><span>2004 ASCE 标准</span><span>饱和度: 49.8%</span></div>
+              </div>
+              <div class="tile">
+                <div class="t"><span>福冈口岸日方边检</span><span class="st err" style="margin-left:auto">核心红线瓶颈</span></div>
+                <div class="m err">1,600–2,080 <span class="u">pax/h</span></div>
+                <div class="sub" style="color:var(--err)">8 工位开放 × (200–260 pax/h)</div>
+                <div class="r2"><span>通过耗时: 2.39h (最劣) ~ 3.11h</span><span class="hot">溢出赤字 42min</span></div>
+              </div>
+              <div class="tile">
+                <div class="t"><span>码头泊位大巴接驳区</span><span class="st warn" style="margin-left:auto">次级次生瓶颈</span></div>
+                <div class="m warn">110 <span class="u">车位周转/h</span></div>
+                <div class="sub">瞬时最大停靠能力 42 辆</div>
+                <div class="r2"><span>吴淞口经验标定</span><span>蓄车队列易反冲</span></div>
+              </div>
             </div>
-          </section>
-          <section class="card" style="flex:1.4">
-            <div class="card-b">
-              <div class="bound"><b>模型边界：</b>批量规模采用客流容量解析模型与约束求解；疏散分析遵循 IMO MSC.1/Circ.1533，属安全认证域，本系统不运行、不引用其判据。</div>
+          </div>
+        </section>
+
+        <!-- ④ 批次编排表 -->
+        <section class="card">
+          <div class="card-h"><h3>初版批次离船编排表 (R1 方案 · 9个离船批次)</h3><span class="ev">Deck Partitioning</span>
+            <span class="right"><span class="st warn">B03/B04 存在大堂瞬时高密重叠警报 (1,160人)</span>
+              <button class="btn-emph">重新平滑峰值批次</button></span></div>
+          <div class="card-b">
+            <table class="tbl">
+              <thead><tr><th>批次</th><th>甲板层段</th><th>Vista实证舱号段</th><th style="text-align:right">人数</th><th>指定集合汇流点</th><th>通关窗口 (船钟)</th><th>状态/冲突判定</th></tr></thead>
+              <tbody>
+                <tr><td class="bid">B01</td><td>Deck 10 (套房/礼遇)</td><td class="cd">10001–10188</td><td class="num" style="text-align:right">340</td><td>星辰剧场 Deck 3</td><td class="cd" style="color:var(--tx-2)">11:00–11:20</td><td><span class="judge ok">正常流转</span></td></tr>
+                <tr><td class="bid">B02</td><td>Deck 9 (高区阳台)</td><td class="cd">9002–9340</td><td class="num" style="text-align:right">580</td><td>星辰剧场 Deck 3</td><td class="cd" style="color:var(--tx-2)">11:15–11:45</td><td><span class="judge ok">正常流转</span></td></tr>
+                <tr><td class="bid warn">B03</td><td>Deck 8 (阳台A段)</td><td class="cd">8100–8420</td><td class="num warn" style="text-align:right">590</td><td>中央大厅 Deck 3 Lobby</td><td class="cd" style="color:var(--warn)">11:30–12:00</td><td><span class="judge warn">密集流警报</span></td></tr>
+                <tr><td class="bid warn">B04</td><td>Deck 7 (阳台B段)</td><td class="cd">7200–7480</td><td class="num warn" style="text-align:right">570</td><td>中央大厅 Deck 3 Lobby</td><td class="cd" style="color:var(--warn)">11:40–12:10</td><td><span class="st warn">大厅峰值 1,160人 (超容)</span></td></tr>
+                <tr><td class="bid">B05</td><td>Deck 6 (海景房段)</td><td class="cd">6001–6320</td><td class="num" style="text-align:right">540</td><td>船尾阳光甲板 Deck 12</td><td class="cd" style="color:var(--tx-2)">12:05–12:35</td><td><span class="judge ok">正常流转</span></td></tr>
+                <tr><td class="bid">B06</td><td>Deck 5 (内舱中区)</td><td class="cd">5102–5410</td><td class="num" style="text-align:right">610</td><td>星辰剧场 Deck 4</td><td class="cd" style="color:var(--tx-2)">12:30–13:00</td><td><span class="judge ok">正常流转</span></td></tr>
+                <tr><td class="bid">B07</td><td>Deck 4 (内舱下段)</td><td class="cd">4002–4300</td><td class="num" style="text-align:right">590</td><td>船尾阳光甲板 Deck 12</td><td class="cd" style="color:var(--tx-2)">12:55–13:25</td><td><span class="judge ok">正常流转</span></td></tr>
+                <tr><td class="bid">B08</td><td>Deck 2-3 (家庭标准)</td><td class="cd">2100–3250</td><td class="num" style="text-align:right">630</td><td>星辰剧场 Deck 3</td><td class="cd" style="color:var(--tx-2)">13:15–13:50</td><td><span class="judge ok">正常流转</span></td></tr>
+                <tr><td class="bid">B09</td><td>Deck 1 (低层客舱/保障)</td><td class="cd">1010–1240</td><td class="num" style="text-align:right">520</td><td>中央大厅 Deck 3 Lobby</td><td class="cd" style="color:var(--tx-2)">13:40–14:15</td><td><span class="judge warn">接近返船关口</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ⑤ 岸游判定表 -->
+        <section class="card">
+          <div class="card-h"><h3>岸上游团线可行性逐项判定 (~90 团总揽)</h3>
+            <span class="sub">基于单程车程 60–120min 与压缩窗口交集解算</span>
+            <span class="right"><span class="sub">首屏展示关键 12 样例团</span><button class="btn-ghost">导出变更通知名单</button></span></div>
+          <div class="card-b">
+            <div class="cnts">
+              <span class="st ok">31 可行</span><span class="st warn">38 改半日</span>
+              <span class="st err">14 取消</span><span class="st">7 待地接确认</span>
             </div>
-          </section>
-        </div>
+            <table class="tbl">
+              <thead><tr><th>团号</th><th>行程名称</th><th>参团人数</th><th>单程车程估值</th><th>核心参访点</th><th>交集计算结果</th><th>运营处置决策</th></tr></thead>
+              <tbody>
+                <tr><td class="bid">EX-031</td><td>福冈塔与百道滨海滨半日快行</td><td class="num">45 人</td><td class="cd">35 min</td><td>百道海滨公园</td><td class="judge ok">净时间 2.1h &gt; 门槛 1.5h</td><td><span class="st ok">可行 (按原定出发)</span></td></tr>
+                <tr><td class="bid">EX-007</td><td>太宰府天满宫经典祈福专线</td><td class="num">128 人</td><td class="cd">65 min</td><td>天满宫本殿</td><td class="judge warn">原 7.5h 无法容纳</td><td><span class="st warn">改半日 (P-2旅客所在团)</span></td></tr>
+                <tr><td class="bid">EX-012</td><td>博多运河城购物与拉面风情</td><td class="num">92 人</td><td class="cd">40 min</td><td>Canal City Hakata</td><td class="judge ok">净时间 1.8h</td><td><span class="st ok">可行 (精简集合)</span></td></tr>
+                <tr><td class="bid">EX-060</td><td>门司港复古风貌与关门海峡全日游</td><td class="num">76 人</td><td class="cd" style="color:var(--err);font-weight:600">110 min</td><td>关门桥观景台</td><td class="judge err">往返车程 3.7h &gt; 窗口</td><td><span class="st">待地接确认 (超时标记)</span></td></tr>
+                <tr><td class="bid" style="color:var(--err)">EX-003</td><td>别府地狱温泉巡礼全日深度体验</td><td class="num">110 人</td><td class="cd" style="color:var(--err);font-weight:600">140 min</td><td>海地狱/血池地狱</td><td class="judge err">车程超过窗口总时限</td><td><span class="st err">全额取消 (触发赔退)</span></td></tr>
+                <tr><td class="bid">EX-019</td><td>栉田神社与博多老街历史漫步</td><td class="num">54 人</td><td class="cd">30 min</td><td>栉田神社</td><td class="judge ok">净时间 2.3h</td><td><span class="st ok">可行 (按原定出发)</span></td></tr>
+                <tr><td class="bid">EX-022</td><td>大濠公园美术馆与日式庭园</td><td class="num">38 人</td><td class="cd">45 min</td><td>大濠庭园</td><td class="judge warn">缩减自由活动 40m</td><td><span class="st warn">改半日 (行程紧缩)</span></td></tr>
+                <tr><td class="bid">EX-044</td><td>柳川泛舟与鳗鱼饭水乡之旅</td><td class="num">68 人</td><td class="cd" style="color:var(--err)">85 min</td><td>柳川松月码头</td><td class="judge err">泛舟排队延误风险极高</td><td><span class="st err">全额取消 (不可抗力)</span></td></tr>
+                <tr><td class="bid">EX-055</td><td>能古岛自然海岛花卉探访</td><td class="num">40 人</td><td class="cd" style="color:var(--warn)">70 min (含轮渡)</td><td>能古岛海岛公园</td><td class="judge warn">轮渡班次硬约束</td><td><span class="st">待地接确认 (班次核验)</span></td></tr>
+                <tr><td class="bid">EX-067</td><td>南藏院巨型卧佛与山门参道</td><td class="num">52 人</td><td class="cd">50 min</td><td>释迦涅槃像</td><td class="judge warn">净时间 1.2h</td><td><span class="st warn">改半日 (取消午餐段)</span></td></tr>
+                <tr><td class="bid">EX-081</td><td>佐贺有田烧手作工坊体验</td><td class="num">30 人</td><td class="cd" style="color:var(--err);font-weight:600">115 min</td><td>有田陶瓷之里</td><td class="judge err">跨县长途超出回港截关</td><td><span class="st err">全额取消 (安全红线)</span></td></tr>
+                <tr><td class="bid">EX-089</td><td>天神地下街与免税名品特惠专线</td><td class="num">160 人</td><td class="cd">30 min</td><td>Tenjin Underground</td><td class="judge ok">净时间 2.5h</td><td><span class="st ok">可行 (运力扩增)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </div>
 
-      <!-- 推理附件抽屉（收起态） -->
-      <aside class="drawer">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-        <span class="vtx">推理附件</span>
-        <span class="cnt">6</span>
-        <div class="gap"></div>
-        <span class="exp">⤢</span>
+      <!-- G3 抽屉 -->
+      <aside class="gdrawer" id="g3-drawer">
+        <div class="dw-h">
+          <span class="t">G3 推理附件与关联溯源</span>
+          <span class="src">AUDIT-ID: #9942</span>
+        </div>
+
+        <div class="dw-card conf">
+          <div class="r1"><span class="lab">多因子综合置信度</span>
+            <span class="vals"><span class="old">0.55</span><span style="font-size:10px;color:var(--tx-3)">→</span><span class="new">0.86</span></span></div>
+          <div class="track"><div class="fill"></div></div>
+          <span class="fn">经人工核验船代文电，排除 2 条虚假气象波动</span>
+        </div>
+
+        <div class="dw-sec"><span>接收信号与三态状态 (3 项)</span></div>
+        <div class="dw-row"><span class="nm" style="display:flex;align-items:center;gap:7px"><span class="dot r"></span>福冈港务代理电报 #FK-09</span><span class="bd">人工转实接</span></div>
+        <div class="dw-row"><span class="nm" style="display:flex;align-items:center;gap:7px"><span class="dot y"></span>AIS 航道涌浪实时流</span><span class="bd">缓存 8s延时</span></div>
+        <div class="dw-row"><span class="nm" style="display:flex;align-items:center;gap:7px"><span class="dot r"></span>PMS 全船旅客票务库</span><span class="bd">实时直通</span></div>
+
+        <div class="dw-sec"><span>可复算确定性公式 (5 项)</span><span class="src" style="color:var(--tx-2)">LaTeX 规约</span></div>
+        <div class="dw-card fx">
+          <div class="r"><span>F-01 理论离船能力</span><span class="ok">PASS</span></div>
+          <code>C_gangway = Σ(2 × 2000) = 4000 pax/h</code>
+        </div>
+        <div class="dw-card fx">
+          <div class="r"><span>F-02 口岸边检通过时长</span><span class="err">FAIL·DEFICIT</span></div>
+          <code>T_imm = 4980 / (8 × [200, 260]) = [2.39h, 3.11h]</code>
+        </div>
+        <div class="dw-card fx">
+          <div class="r"><span>F-03 岸游往返缓冲窗口</span><span class="warn">WARN</span></div>
+          <code>W_net = (16:00 - T_last_clear) - 2 × T_transit</code>
+        </div>
+        <div class="dw-card fx">
+          <div class="r"><span>F-04 汇流点人流密度</span><span class="warn">WARN</span></div>
+          <code>D_lobby = (B03 + B04) / Area_L3 = 2.45 pax/㎡</code>
+        </div>
+        <div class="dw-card fx">
+          <div class="r"><span>F-05 登船反冲截关</span><span class="ok">PASS</span></div>
+          <code>T_board = 16:00 - 60min = 15:00 强制回船</code>
+        </div>
+
+        <div class="dw-sec"><span>检索条款依据 (3 有效 / 1 空项)</span></div>
+        <div class="dw-card cl">
+          <div class="r"><span>海商法 §114 (不可抗力窗口变更)</span><span class="hit">命中</span></div>
+          <span class="d">免除承运人因港口行政调度导致的部分违约</span>
+        </div>
+        <div class="dw-card cl">
+          <div class="r"><span>客票通用合同条款 §7.2 (岸游改退)</span><span class="hit">命中</span></div>
+          <span class="d">半日游转换与不可抗力全额退费规定</span>
+        </div>
+        <div class="dw-card cl">
+          <div class="r"><span>中日联合搜救协定 (救助应急)</span><span class="hit">命中</span></div>
+          <span class="d">紧急引航与锚地避让权属条款</span>
+        </div>
+        <div class="dw-card cl dim">
+          <div class="r"><span style="color:var(--tx-3)">福冈市政港湾排他性泊位滞期赔偿细则</span><span class="miss">检索为空 (需外事函件)</span></div>
+          <span class="d">知识库中暂未收录该私法补充契约</span>
+        </div>
+
+        <div class="dw-sec"><span style="color:var(--warn)">9 项显式假设清单 (Hypothesis)</span>
+          <span class="r"><button class="btn-ghost" style="padding:4px 10px;font-size:11px">导出证据包
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button></span></div>
+        <div class="hlist">
+          <div class="hyp"><span>H-01: 福冈边检 8 工位全开且无系统宕机</span><button>校准</button></div>
+          <div class="hyp"><span>H-02: 旅客廊桥通过速度恒定 1.2 m/s</span><button>校准</button></div>
+          <div class="hyp"><span>H-03: 首批次集合准点率 ≥ 94%</span><button>校准</button></div>
+          <div class="hyp"><span>H-04: 地接大巴准点抵达码头停车场</span><button>校准</button></div>
+          <div class="hyp"><span>H-05: 码头安检设备通过率 300 人/台·小时</span><button>校准</button></div>
+          <div class="hyp"><span>H-06: 岸上交通拥堵系数设定为 1.15</span><button>校准</button></div>
+          <div class="hyp"><span>H-07: 行李免查验直通通关协议有效</span><button>校准</button></div>
+          <div class="hyp"><span>H-08: 船上特需旅客优先下船通道开启</span><button>校准</button></div>
+          <div class="hyp"><span>H-09: 16:00 离泊潮汐水深满足富裕水深要求</span><button>校准</button></div>
+        </div>
+
+        <button class="btn-ghost flag"><svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          标记坏例 · 提交模型不符 (G2.6 存证)</button>
       </aside>
     </div>
 
@@ -369,8 +677,8 @@ body{display:flex;align-items:center;justify-content:center}
       <span class="si"><span class="dot y"></span>预订 / POS 缓存 6min</span>
       <span class="si"><span class="dot r"></span>气象 实时</span>
       <span class="si"><span class="dot y"></span>港方通告 人工录入</span>
-      <span class="si"><span class="dot r"></span>区域计数 实时·仅计数</span>
-      <span class="si"><span class="dot g"></span>地接接口 离线·邮件/电话</span>
+      <span class="si"><span class="dot r"></span>区域计数 实时 · 仅计数无图像</span>
+      <span class="si"><span class="dot g"></span>地接接口 离线 · 邮件 / 电话</span>
       <div class="legend">
         <span><span class="dot r"></span>实时</span><span><span class="dot y"></span>缓存</span><span><span class="dot g"></span>离线</span>
       </div>
@@ -379,6 +687,27 @@ body{display:flex;align-items:center;justify-content:center}
 </div>
 
 <script>
+(function() {
+  const toggleBtn = document.getElementById('toggle-drawer-btn');
+  const drawerLabel = document.getElementById('drawer-toggle-label');
+  const drawer = document.getElementById('g3-drawer');
+
+  let isExpanded = true;
+
+  if (toggleBtn && drawer && drawerLabel) {
+    toggleBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      isExpanded = !isExpanded;
+      if (!isExpanded) {
+        drawer.classList.add('hidden');
+        drawerLabel.textContent = '展开 G3 推理附件';
+      } else {
+        drawer.classList.remove('hidden');
+        drawerLabel.textContent = '收起 G3 推理附件';
+      }
+    });
+  }
+})();
 function fit(){
   var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
   document.getElementById('board').style.transform='scale('+s+')';

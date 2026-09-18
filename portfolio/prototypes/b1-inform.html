@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 船长低侵入平板 · 21:42 静默首页与方案 B 知会流 · ClarSyn</title>
+<link rel="stylesheet" href="clarsyn-tokens.css">
+<style>
+/* 本页仅布局与排版；色值/字体/按钮全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化）。
+   B 系列为船长平板：按用户指定采用 1280×720 平板比例固定画板，壳与桌面工作台不同（无侧导航、无底栏）。
+   对应数据包快照【B1-2】b1-inform。 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg0);font-family:var(--sans);color:var(--tx);font-weight:400}
+body{display:flex;align-items:center;justify-content:center}
+#board{width:1280px;height:720px;transform-origin:center center;background:var(--bg0);display:flex;flex-direction:column}
+
+/* —— 顶栏：船长平板低侵入风格 —— */
+.topbar{height:64px;flex:none;background:var(--bg1);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{font-family:var(--mono);font-size:13px;font-weight:700;border:1px solid var(--line-2);padding:2px 8px;border-radius:4px}
+.logo{font-family:var(--mono);font-size:17px;font-weight:600;letter-spacing:.5px}
+.device-tag{font-size:11px;color:var(--tx-3);border-left:1px solid var(--line-2);padding-left:13px;white-space:nowrap}
+.vessel-info{display:flex;align-items:center;gap:9px;margin-left:18px}
+.vcell{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:var(--r-p);padding:5px 13px;font-size:11.5px;color:var(--tx-2);white-space:nowrap}
+.vcell b{color:var(--tx);font-weight:500}
+.t0-pill{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--ok);border:1px solid rgba(81,184,115,.35);padding:4px 12px;border-radius:var(--r-p);white-space:nowrap}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.clock{text-align:right}
+.clock .time{font-family:var(--mono);font-size:22px;font-weight:500;line-height:1}
+.clock .sub{font-size:10.5px;color:var(--tx-3);margin-top:3px}
+.captain-badge{border:1px solid var(--line-2);padding:6px 14px;border-radius:var(--r-p);font-size:12px;color:var(--tx-2);white-space:nowrap}
+.captain-badge b{color:var(--tx)}
+
+/* —— 主区 —— */
+.main-grid{flex:1;min-height:0;padding:16px 20px;display:grid;grid-template-columns:1fr 396px;gap:16px}
+.stream-col{display:flex;flex-direction:column;gap:12px;min-width:0;overflow-y:auto;scrollbar-width:none}
+.stream-col::-webkit-scrollbar{display:none}
+.stream-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.stream-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px}
+.stream-title .sub{font-size:11.5px;font-weight:400;color:var(--tx-3)}
+.stream-sub{font-size:11.5px;color:var(--tx-3);white-space:nowrap}
+
+/* —— 核心知会卡 —— */
+.inform-card{background:var(--bg1);border:1px solid var(--line-2);border-radius:var(--r);padding:16px 18px;
+             display:flex;flex-direction:column;gap:12px}
+.inform-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.inform-meta{display:flex;align-items:center;gap:9px;flex-wrap:nowrap}
+.inform-tag{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;color:var(--accent);
+            border:1px solid rgba(76,141,255,.4);white-space:nowrap}
+.inform-id{font-family:var(--mono);font-size:12.5px;font-weight:600}
+.inform-time{font-family:var(--mono);font-size:11.5px;color:var(--tx-3);white-space:nowrap}
+.inform-state{font-size:11.5px;color:var(--ok);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.inform-headline{font-size:15px;font-weight:600;line-height:1.45}
+.inform-summary{background:var(--bg2);border-radius:var(--r-s);padding:12px 14px;font-size:12.5px;
+                color:var(--tx-2);line-height:1.6}
+.inform-summary b{color:var(--tx);font-weight:500}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi-box{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r-s);padding:9px 12px}
+.kpi-k{font-size:10.5px;color:var(--tx-3);margin-bottom:4px;white-space:nowrap}
+.kpi-v{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--tx);white-space:nowrap}
+.inform-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;
+               border-top:1px dashed var(--line);padding-top:12px}
+.inform-signer{font-size:11.5px;color:var(--tx-3)}
+.inform-signer span{color:var(--tx-2)}
+.inform-acts{display:flex;align-items:center;gap:10px;flex:none}
+
+.btn-ghost{font-size:12.5px;color:var(--tx-2);background:transparent;border:1px solid var(--line-2);
+           border-radius:var(--r-p);padding:8px 17px;cursor:pointer;white-space:nowrap}
+.btn-pri{font-size:12.5px;font-weight:600;background:var(--tx);color:var(--bg0);border:1px solid var(--tx);
+         border-radius:var(--r-p);padding:8px 22px;cursor:pointer;white-space:nowrap}
+
+/* —— 已归档知会 —— */
+.history-title{font-size:12.5px;font-weight:600;color:var(--tx-3)}
+.history-item{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r-s);padding:10px 14px;
+              display:flex;align-items:center;justify-content:space-between;gap:10px}
+.history-txt{font-size:12px;color:var(--tx-2)}
+.history-txt b{color:var(--tx);font-weight:500;font-family:var(--mono);font-size:11.5px}
+.history-time{font-family:var(--mono);font-size:11px;color:var(--tx-3);white-space:nowrap}
+
+/* —— 右列：只读监控 —— */
+.side-col{display:flex;flex-direction:column;min-height:0}
+.monitor-card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+              display:flex;flex-direction:column;gap:11px;flex:1;min-height:0}
+.m-title{font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between}
+.m-title .en{font-size:10px;color:var(--tx-3);font-family:var(--mono);letter-spacing:1px}
+.stat-block{display:flex;flex-direction:column;gap:3px;padding:10px 12px;background:var(--bg2);
+            border:1px solid var(--line);border-radius:var(--r-s)}
+.stat-k{font-size:11px;color:var(--tx-3)}
+.stat-v{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--tx)}
+.stat-v span{font-size:12px;font-weight:400;color:var(--tx-3);font-family:var(--sans)}
+.stat-sub{font-size:10.5px;color:var(--tx-3)}
+.window-box{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r-s);padding:10px 12px;
+            display:flex;flex-direction:column;gap:5px}
+.win-title{font-size:11.5px;color:var(--tx-3);display:flex;justify-content:space-between}
+.win-title .lock{color:var(--ok)}
+.win-val{font-family:var(--mono);font-size:15px;font-weight:500;color:var(--accent)}
+.win-note{font-size:10.5px;color:var(--tx-3);line-height:1.45}
+.disclaimer-box{border:1px dashed var(--line-2);border-radius:var(--r-s);padding:10px 12px;
+                font-size:11px;color:var(--tx-3);line-height:1.55;margin-top:auto}
+.disclaimer-box b{color:var(--tx-2);font-weight:500}
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.monitor-card,.inform-card,.history-item{border-color:transparent;box-shadow:var(--shadow-card)}
+.kpi-box,.stat-block,.window-box{border-color:transparent}
+</style>
+</head>
+<body>
+<div id="board">
+
+  <!-- 顶栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark">CS</span>
+      <span class="logo">ClarSyn</span>
+      <span class="device-tag">船长低侵入工作台 · 16:9 TABLET</span>
+    </div>
+    <div class="vessel-info">
+      <div class="vcell">船舶 <b>星澜号 MS XING LAN</b></div>
+      <div class="vcell">航次 <b>HL-2609-05</b></div>
+      <div class="vcell">泊位 <b>福冈港 W-3</b></div>
+      <div class="t0-pill"><span class="dot r"></span>T0 全功能实时</div>
+    </div>
+    <div class="topbar-right">
+      <div class="clock">
+        <div class="time">21:42:05</div>
+        <div class="sub">本地船钟 · 09-17</div>
+      </div>
+      <div class="captain-badge"><span><b>船长</b> · 王立军</span></div>
+    </div>
+  </header>
+
+  <!-- 主工作区 -->
+  <main class="main-grid">
+
+    <!-- 左列：知会流 -->
+    <div class="stream-col">
+      <div class="stream-head">
+        <div class="stream-title">知会流</div>
+        <div class="stream-sub">待我知悉 1 条 · 审批角标 0</div>
+      </div>
+
+      <div class="inform-card">
+        <div class="inform-header">
+          <div class="inform-meta">
+            <span class="inform-tag">L3 方案签署 · 仅知会</span>
+            <span class="inform-id">E09-0001</span>
+            <span class="inform-time">21:40 签署完成</span>
+          </div>
+          <span class="inform-state"><span class="dot r"></span>审批链已闭环</span>
+        </div>
+
+        <div class="inform-headline">福冈港靠泊窗口压缩事件已由运营经理按【方案 B·分批顺延】完成 L3 电子签署并下发执行</div>
+
+        <div class="inform-summary"><b>执行摘要</b>：由于福冈港 W-3 前序船舶延迟离泊，明日靠泊窗口由 07:00–16:00 压缩为 <b>11:00–16:00 (5.0h)</b>。运营部选定方案 B：不增加日方外部口岸依赖，将批次间隔适度顺延至 8 批，保全 8 成以上旅客上岸。岸上游团队取消 22 团、改半日 48 团。全船最晚回船时间锁定 15:30，16:00 准点离泊。</div>
+
+        <div class="kpi-row">
+          <div class="kpi-box"><div class="kpi-k">可完成上岸比例</div><div class="kpi-v">80% – 88%</div></div>
+          <div class="kpi-box"><div class="kpi-k">预计上岸规模</div><div class="kpi-v">3,120 – 3,430 人</div></div>
+          <div class="kpi-box"><div class="kpi-k">岸游团队安排</div><div class="kpi-v">20成 / 48改 / 22取</div></div>
+          <div class="kpi-box"><div class="kpi-k">法定公约灯校验</div><div class="kpi-v" style="color:var(--ok);font-size:14px">MLC绿 / 配员绿</div></div>
+        </div>
+
+        <div class="inform-footer">
+          <div class="inform-signer">签署人：<span>林若岚 (HSK-0007 · 宾客运营经理 · STCW V/2 第 1/3 类)</span> · 抄送：合规/法务</div>
+          <div class="inform-acts">
+            <button class="btn-ghost">查看只读 A3 镜像</button>
+            <button class="btn-pri">已知悉 (Acknowledge)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="history-title">已归档知会记录</div>
+      <div class="history-item">
+        <div class="history-txt"><b>E04-2018</b> 码头摆渡车明日早峰运力预报 · 地接群消息 180 座缺口备案</div>
+        <div class="history-time">19:30 · 已知悉</div>
+      </div>
+      <div class="history-item">
+        <div class="history-txt"><b>X-260917-01</b> 弱信号组合 C0 四维评估简报 · 运营 64 / 经济 41 / 风险 58</div>
+        <div class="history-time">20:42 · 系统归档</div>
+      </div>
+    </div>
+
+    <!-- 右列：只读监控 -->
+    <div class="side-col">
+      <div class="monitor-card">
+        <div class="m-title"><span>全船只读态势监控</span><span class="en">READONLY</span></div>
+
+        <div class="stat-block">
+          <span class="stat-k">在船总人数 (PMS 实时 ●)</span>
+          <span class="stat-v">4,980<span> 人</span></span>
+          <span class="stat-sub">旅客 4,620 · 当班船员 360</span>
+        </div>
+
+        <div class="window-box">
+          <div class="win-title"><span>调整后靠泊作业窗口</span><span class="lock">已锁定</span></div>
+          <div class="win-val">11:00 – 16:00</div>
+          <div class="win-note">回船截止：15:30 (离泊前 30 分钟)<br>引航员登船预计：10:20 (当地船钟)</div>
+        </div>
+
+        <div class="stat-block">
+          <span class="stat-k">待我审批 / 阻塞性待办</span>
+          <span class="stat-v" style="color:var(--ok)">0<span> 件</span></span>
+          <span class="stat-sub">静默运行中，无打扰红点</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function fit(){
+  var s=Math.min(window.innerWidth/1280,window.innerHeight/720);
+  document.getElementById('board').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

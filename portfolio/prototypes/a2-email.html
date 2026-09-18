@@ -1,319 +1,419 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A2 信号收件箱 · 船代邮件 · ClarSyn</title>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>A2 信号收件箱 · 21:05 代理邮件确认 · ClarSyn</title>
 <link rel="stylesheet" href="clarsyn-tokens.css">
 <style>
-/* 本页仅布局与排版；色值/字体/按钮/玻璃全部取自 clarsyn-tokens.css（design.md §12.6） */
+/* 本页仅布局与排版；色值/字体/按钮/状态标签/三态点全部取自 clarsyn-tokens.css（design.md §12.7）。
+   正文采用外部产出草稿（数据与文字未改动，仅视觉规范化）；顶栏与左侧导航与原型族（a1-xcard/a3-observe）完全一致。 */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg0);font-family:var(--sans);color:var(--tx);font-weight:400}
 body{display:flex;align-items:center;justify-content:center}
 #board{width:1920px;height:1080px;transform-origin:center center;background:var(--bg0);display:flex}
 
-/* —— 左侧主导航（壳 1 外壳） —— */
-.side{width:72px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;
-      align-items:center;padding:14px 0 16px;gap:6px}
-.side .mark{width:36px;height:36px;border:1px solid var(--line-2);border-radius:var(--r-s);
-            display:flex;align-items:center;justify-content:center;font-family:var(--mono);
-            font-size:13px;font-weight:600;letter-spacing:.5px;margin-bottom:14px}
+/* —— 左侧主导航（壳 1 外壳，与全族一致） —— */
+.side{width:72px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:14px 0 16px;gap:6px}
+.side .mark{width:36px;height:36px;border:1px solid var(--line-2);border-radius:var(--r-s);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.5px;margin-bottom:14px}
 .nav{display:flex;flex-direction:column;gap:4px;width:100%;align-items:center}
-.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;width:60px;padding:9px 0 8px;
-       border-radius:var(--r-s);text-decoration:none;color:var(--tx-3)}
-.nav a svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.5;fill:none;
-           stroke-linecap:round;stroke-linejoin:round}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;width:60px;padding:9px 0 8px;border-radius:var(--r-s);text-decoration:none;color:var(--tx-3)}
+.nav a svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .nav a span{font-size:10px;letter-spacing:.5px}
+.nav a:hover{color:var(--tx-2);background:var(--bg2)}
 .nav a.on{color:var(--tx);background:var(--bg3)}
 .side .gap{flex:1}
 
-/* —— 顶栏 —— */
-.right{flex:1;display:flex;flex-direction:column;min-width:0}
-.topbar{height:76px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;
-        padding:0 22px;gap:18px}
-.logo{font-family:var(--mono);font-weight:600;font-size:19px;letter-spacing:.5px}
-.t-sub{font-size:13px;color:var(--tx-2);border-left:1px solid var(--line-2);padding-left:18px}
-.vcard{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-s);height:48px}
+/* —— 顶栏（与全族一致） —— */
+.right{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
+.topbar{height:76px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 22px;gap:18px}
+.logo{font-family:var(--mono);font-weight:600;font-size:19px;letter-spacing:.5px;color:var(--tx)}
+.t-sub{font-size:13px;color:var(--tx-2);border-left:1px solid var(--line-2);padding-left:18px;white-space:nowrap}
+.vcard{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-s);height:48px;flex:none}
 .vcell{padding:8px 16px;display:flex;flex-direction:column;justify-content:center;gap:3px;border-left:1px solid var(--line)}
 .vcell:first-child{border-left:0}
 .vcell .kl{font-size:9.5px;color:var(--tx-3);letter-spacing:1.2px}
 .vcell .kv{font-size:13.5px;color:var(--tx);white-space:nowrap}
 .vcell .kv b{font-weight:500}
 .sp{flex:1}
-.search{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--r-p);
-        padding:0 16px;height:40px;font-size:12.5px;color:var(--tx-3);width:250px;flex:none}
+.search{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--r-p);padding:0 16px;height:40px;font-size:12.5px;color:var(--tx-3);width:250px;flex:none}
 .search svg{width:14px;height:14px;stroke:var(--tx-3);stroke-width:1.5;fill:none;stroke-linecap:round}
-.t0{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);
-    border:1px solid rgba(70,192,138,.35);border-radius:var(--r-p);padding:9px 15px;flex:none}
+.t0{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);border:1px solid rgba(81,184,115,.35);border-radius:var(--r-p);padding:9px 15px;flex:none;white-space:nowrap}
 .clock{text-align:right;line-height:1.25;flex:none}
-.clock .t{font-family:var(--mono);font-size:24px;font-weight:500}
+.clock .t{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--tx);letter-spacing:.5px}
 .clock .l{font-size:10.5px;color:var(--tx-3)}
-.role{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--tx-2);
-      border:1px solid var(--line);border-radius:var(--r-p);padding:9px 16px;flex:none}
+.role{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--tx-2);border:1px solid var(--line);border-radius:var(--r-p);padding:9px 16px;flex:none;white-space:nowrap}
 .role b{color:var(--tx);font-weight:500}
-.role .swap{color:var(--tx-3);border-left:1px solid var(--line);padding-left:11px}
+.role .swap{color:var(--tx-3);border-left:1px solid var(--line);padding-left:11px;cursor:pointer}
+.role .swap:hover{color:var(--tx-2)}
 
-/* —— 三栏主区 —— */
-.main{flex:1;display:grid;grid-template-columns:376px 1fr 478px;min-height:0}
+/* —— 主工作区：三栏，栏间发丝线全高分隔 —— */
+.main{flex:1;display:grid;grid-template-columns:376px 1fr 440px;min-height:0}
 .col{display:flex;flex-direction:column;gap:14px;padding:14px 18px;min-height:0;min-width:0}
 .col+.col{border-left:1px solid var(--line)}
-.card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);
-      display:flex;flex-direction:column;min-height:0}
-.card.f1{flex:1}
-.card-h{display:flex;align-items:center;gap:11px;padding:15px 18px 11px;border-bottom:1px solid var(--line)}
-.card-h h3{font-size:15px;font-weight:600}
+.col > .card{flex:1;min-height:0}
+.col > .card > .card-b{flex:1}
+
+/* —— 卡片（解剖与全族一致） —— */
+.card{background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;min-height:0}
+.card-h{display:flex;align-items:center;gap:10px;padding:15px 18px 11px;border-bottom:1px solid var(--line);flex:none}
+.card-h h3{font-size:15px;font-weight:600;color:var(--tx)}
 .card-h .en{font-family:var(--mono);font-size:10px;color:var(--tx-3);letter-spacing:1.2px;text-transform:uppercase}
-.card-h .right{margin-left:auto;font-size:12px;color:var(--tx-3)}
-.card-b{padding:12px 18px 15px}
+.card-h .right-tag{margin-left:auto;font-size:12px;color:var(--tx-3)}
+.card-b{padding:12px 18px 15px;display:flex;flex-direction:column;gap:12px}
 
-/* —— 信息流 —— */
-.feed{flex:1}
-.feed .card-b{flex:1;display:flex;flex-direction:column;gap:9px}
-.fmsg{flex:1;border:1px solid var(--line);border-radius:var(--r-s);padding:12px 14px;
-      display:flex;flex-direction:column;justify-content:center}
-.fmsg.cur{border-color:var(--line-2);background:var(--bg2)}
-.fmsg .r1{display:flex;align-items:center;gap:9px;margin-bottom:6px}
-.fmsg .ch{font-size:11px;color:var(--tx-3)}
-.fmsg .tt{font-family:var(--mono);font-size:12px;color:var(--tx-2);margin-left:auto}
-.fmsg .nm{font-size:13.5px;color:var(--tx);line-height:1.4}
-.fmsg .stt{font-size:11.5px;color:var(--tx-3);margin-top:5px;display:flex;align-items:center;gap:6px}
+/* 左列：收件流 */
+.inbox-list{display:flex;flex-direction:column;gap:10px}
+.msg-item{border:1px solid var(--line);border-radius:var(--r-s);padding:12px 14px;cursor:pointer;transition:border-color var(--dur), background var(--dur);background:var(--bg0)}
+.msg-item:hover{border-color:var(--line-2);background:var(--bg2)}
+.msg-item.active{border-color:var(--line-2);background:var(--bg2)}
+.msg-item .hd{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.msg-item .from{font-size:12.5px;font-weight:500;color:var(--tx);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-item .tm{font-family:var(--mono);font-size:11.5px;color:var(--tx-3)}
+.msg-item .sub{font-size:12px;color:var(--tx-2);margin-bottom:9px;line-height:1.45;word-break:break-word}
+.msg-item .ft{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tx-3)}
 
-/* —— 电话补录 —— */
-.empty{border:1px dashed var(--line-2);border-radius:var(--r-s);padding:16px;text-align:center;
-       font-size:12px;color:var(--tx-3);line-height:1.6}
+/* 中列：原文展示 */
+.mail-meta{border-bottom:1px dashed var(--line);padding-bottom:12px;display:flex;flex-direction:column;gap:7px}
+.meta-row{display:flex;font-size:12.5px;line-height:1.5}
+.meta-k{width:64px;color:var(--tx-3);flex:none}
+.meta-v{color:var(--tx);font-family:var(--mono);word-break:break-all}
 
-/* —— 邮件原文 —— */
-.mail{flex:1}
-.mail .card-b{flex:1;display:flex;flex-direction:column}
-.mailhead{border:1px solid var(--line);border-radius:var(--r-s);padding:11px 14px;
-          font-family:var(--mono);font-size:11.5px;line-height:1.9;color:var(--tx-2)}
-.mailhead b{color:var(--tx-3);font-weight:500}
-.mailbody{flex:1;padding:16px 6px 0;font-size:13.5px;line-height:2.0;color:var(--tx);
-          display:flex;flex-direction:column;justify-content:space-evenly;gap:10px;overflow:hidden}
-.markhl{background:var(--accent-dim);border-bottom:1px solid rgba(76,141,255,.55);padding:1px 3px;border-radius:3px}
-.sup{font-family:var(--mono);font-size:9.5px;color:var(--accent);vertical-align:super;margin-left:2px}
-.mailfoot{border-top:1px dashed var(--line);margin-top:12px;padding-top:10px;
-          display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--tx-3)}
+.mail-body{flex:1;font-family:var(--mono);font-size:13px;line-height:1.8;letter-spacing:.2px;color:var(--tx-2);background:var(--bg0);border:1px solid var(--line);border-radius:var(--r-s);padding:18px;white-space:pre-wrap;user-select:text}
+.mail-body mark{background:var(--accent-dim);color:var(--tx);border-bottom:1px solid rgba(76,141,255,.55);padding:1px 4px;border-radius:3px}
 
-/* —— 槽位卡 —— */
-.slots .card-b{flex:1;display:flex;flex-direction:column;gap:9px}
-.slot{flex:1;display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--r-s);
-      padding:8px 11px}
-.slot .no{font-family:var(--mono);font-size:11px;color:var(--accent);flex:none}
-.slot .lb{flex:1;font-size:12.5px;color:var(--tx-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.slot .val{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--tx);
-           border:1px solid rgba(70,192,138,.45);border-radius:var(--r-s);padding:4px 9px;white-space:nowrap}
-.slot .val.mid{border-color:rgba(240,164,63,.5)}
-.slot .cf{font-family:var(--mono);font-size:10.5px;flex:none}
-.slot .cf.hi{color:var(--ok)}
-.slot .cf.mid{color:var(--warn)}
+.hist-note{padding:12px 14px;border:1px dashed var(--line-2);border-radius:var(--r-s);font-size:12px;color:var(--tx-2);line-height:1.65}
 
-/* —— 差异对照 —— */
-.diff .bars{display:flex;flex-direction:column;gap:8px;margin-top:2px}
-.diff .brow{display:flex;align-items:center;gap:10px}
-.diff .bl{width:64px;font-size:11px;color:var(--tx-3);flex:none}
-.diff .bar{height:16px;border-radius:var(--r-s);position:relative}
-.diff .bar.old{width:100%;background:var(--bg3);border:1px solid var(--line-2)}
-.diff .bar.new{width:56%;background:var(--accent-dim);border:1px solid rgba(76,141,255,.55)}
-.diff .bar .t{position:absolute;right:8px;top:50%;transform:translateY(-50%);
-              font-family:var(--mono);font-size:10.5px;color:var(--tx-2)}
-.diff .dtag{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--err);
-            border:1px solid rgba(232,91,91,.45);border-radius:var(--r-s);padding:3px 9px;white-space:nowrap}
+/* 右列：结构化抽取与比对 */
+.diff-bar{border:1px solid var(--line);border-radius:var(--r-s);padding:12px 14px;background:var(--bg0)}
+.diff-h{font-size:11.5px;color:var(--tx-3);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.diff-val{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:14px}
+.diff-old{color:var(--tx-3);text-decoration:line-through}
+.diff-new{color:var(--err);font-weight:600}
 
-/* —— 动作条 —— */
-.act .card-b{display:flex;flex-direction:column;gap:10px}
-.btn-ghost2{font-family:var(--sans);font-size:12.5px;color:var(--tx-2);border:1px solid var(--line-2);
-            border-radius:var(--r-s);padding:10px 0;cursor:pointer;text-decoration:none;display:inline-block}
-.act .row{display:flex;gap:10px}
-.act .link{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--tx-2)}
-.act .link b{font-family:var(--mono);font-weight:500;color:var(--accent)}
-.hist{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--tx-3);
-      border-top:1px dashed var(--line);padding-top:10px}
+.slots-grid{display:flex;flex-direction:column;gap:9px}
+.slot-card{border:1px solid var(--line);border-radius:var(--r-s);padding:10px 12px;background:var(--bg0)}
+.slot-card .s-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:8px}
+.slot-card .s-key{font-size:12px;color:var(--tx-3)}
+.slot-card .s-val{font-family:var(--mono);font-size:13px;color:var(--tx);font-weight:500}
+.slot-card .s-src{font-size:11px;color:var(--tx-3);margin-top:4px;line-height:1.4}
 
-/* —— 底栏 —— */
-.footer{flex:none;height:38px;border-top:1px solid var(--line);display:flex;align-items:center;
-        padding:0 22px;gap:17px;font-size:11.5px;color:var(--tx-3)}
+.merge-box{padding:12px 14px;border:1px dashed var(--line-2);background:var(--bg2);border-radius:var(--r-s);display:flex;gap:10px;align-items:flex-start}
+.merge-box .m-t{font-size:12.5px;color:var(--tx);font-weight:500;margin-bottom:3px}
+.merge-box .m-sub{font-size:11.5px;color:var(--tx-2);line-height:1.55}
+
+.actions{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+/* 紧凑按钮变体：仅此一行使用，保证三键在 440px 栏内不溢出且不换行 */
+.actions .btn-pri{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;padding:11px 14px;font-size:13px}
+.actions .btn-ghost{padding:11px 10px;font-size:12.5px}
+/* 带图标的整宽 ghost（电话补录入口）居中排布；全页 ghost 禁止文字换行 */
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
+
+/* 底栏（与全族一致） */
+.footer{flex:none;height:38px;border-top:1px solid var(--line);display:flex;align-items:center;padding:0 22px;gap:17px;font-size:11.5px;color:var(--tx-3)}
 .footer .si{display:flex;align-items:center;gap:7px;white-space:nowrap}
-.legend{display:flex;gap:13px;margin-left:auto}
+.legend{display:flex;gap:14px;margin-left:auto}
 .legend span{display:flex;align-items:center;gap:6px}
+/* —— A 系列整体放大（2026-09-18）：顶栏 92 / 侧栏 88 / 底栏 48，字号全面上调 —— */
+.side{width:88px;padding:16px 0 18px}
+.side .mark{width:46px;height:46px;font-size:15px;margin-bottom:16px}
+.nav{gap:6px}
+.nav a{width:74px;padding:11px 0 10px;gap:4px}
+.nav a svg{width:24px;height:24px}
+.nav a span{font-size:12px}
+.topbar{height:92px;padding:0 24px;gap:20px}
+.logo{font-size:22px}
+.t-sub{font-size:14.5px;padding-left:20px}
+.vcard{height:58px}
+.vcell{padding:9px 18px;gap:4px}
+.vcell .kl{font-size:10.5px}
+.vcell .kv{font-size:15px}
+.search{height:46px;width:280px;font-size:14px}
+.t0{font-size:14.5px;padding:10px 17px}
+.clock .t{font-size:30px}
+.clock .l{font-size:12px}
+.role{font-size:14.5px;padding:10px 18px}
+.footer{height:48px;font-size:12px;padding:0 24px;gap:14px}
+.st{font-size:12.5px;padding:4px 9px}
+.src{font-size:11.5px}
+.main{grid-template-columns:400px 1fr 470px}
+.card-h h3{font-size:16px}
+.card-h .en{font-size:11px}
+.card-h .right-tag{font-size:13px}
+.msg-item .from{font-size:14px}
+.msg-item .tm{font-size:12.5px}
+.msg-item .sub{font-size:13.5px}
+.msg-item .ft{font-size:12px}
+.meta-row{font-size:14px}
+.mail-body{font-size:14.5px}
+.hist-note{font-size:13.5px}
+.diff-h{font-size:12.5px}
+.diff-val{font-size:15.5px}
+.slot-card .s-key{font-size:13.5px}
+.slot-card .s-val{font-size:14px}
+.slot-card .s-src{font-size:12px}
+.merge-box .m-t{font-size:14px}
+.merge-box .m-sub{font-size:12.5px}
+/* —— A 系列第二轮放大（2026-09-18）：对齐 a3-document 高保真文档页字号体系，下限抬至 12.5px —— */
+.topbar{height:96px}
+.vcell .kv{font-size:16px}
+.vcell .kl{font-size:11px}
+.search{font-size:15px}
+.t0{font-size:15.5px}
+.role{font-size:15.5px}
+.clock .t{font-size:34px}
+.clock .l{font-size:13px}
+.nav a span{font-size:13px}
+.footer{height:52px;font-size:13px}
+.st{font-size:13.5px;padding:5px 10px}
+.src{font-size:12.5px}
+.card-h h3{font-size:17.5px}
+.card-h .en{font-size:12px}
+.card-h .right-tag{font-size:14px}
+.msg-item .from{font-size:15.5px}
+.msg-item .tm{font-size:13.5px}
+.msg-item .sub{font-size:15px}
+.msg-item .ft{font-size:13px}
+.meta-row{font-size:15.5px}
+.mail-body{font-size:16px}
+.hist-note{font-size:15px}
+.diff-h{font-size:13.5px}
+.diff-val{font-size:17px}
+.slot-card .s-key{font-size:15px}
+.slot-card .s-val{font-size:15.5px}
+.slot-card .s-src{font-size:13px}
+.merge-box .m-t{font-size:15.5px}
+.merge-box .m-sub{font-size:14px}
+/* —— v3 深色体系适配（p1-captain-hifi）：卡片去边框线，底色分层＋投影；状态/假设/选中描边保留 —— */
+.card{border-color:transparent;box-shadow:var(--shadow-card)}
+.msg-item,.slot-card,.diff-bar,.mail-body{background:var(--bg2);border-color:transparent}
+.msg-item.active{box-shadow:inset 3px 0 0 var(--accent)}
 </style>
 </head>
 <body>
 <div id="board">
-
-  <!-- 左侧主导航 -->
-  <aside class="side">
-    <div class="mark">CS</div>
-    <nav class="nav">
+<!-- 左侧主导航 -->
+<aside class="side">
+<div class="mark">CS</div>
+<nav class="nav">
+      <a href="p1-workspace.html" title="工作区">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="7" rx="1.5"/><rect x="2" y="13" width="9" height="7" rx="1.5"/><rect x="13" y="13" width="9" height="7" rx="1.5"/></svg>
+        <span>工作区</span></a>
       <a href="a1-xcard.html" title="值班态势台">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
         <span>态势台</span></a>
       <a class="on" href="a2-email.html" title="信号收件箱">
         <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
         <span>收件箱</span></a>
-      <a href="a3-observe.html" title="事件工作区">
+      <a href="a3-observe.html" title="预警观察">
         <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
-        <span>工作区</span></a>
-      <a href="a4-l3.html" title="审批中心">
-        <svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
-        <span>审批</span></a>
-      <a href="a5-wait.html" title="执行与触达">
-        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
-        <span>触达</span></a>
-      <a href="a6-daily.html" title="事件轨迹时间轴">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span>轨迹</span></a>
-    </nav>
-    <div class="gap"></div>
-  </aside>
-
-  <div class="right">
-
-    <!-- 顶栏 -->
-    <header class="topbar">
-      <span class="logo">ClarSyn</span>
-      <span class="t-sub">宾客运营工作台</span>
-      <div class="vcard">
-        <div class="vcell"><span class="kl">船舶</span><span class="kv"><b>星澜号</b> MS XING LAN</span></div>
-        <div class="vcell"><span class="kl">航次</span><span class="kv">HL-2609-05</span></div>
-        <div class="vcell"><span class="kl">挂靠港</span><span class="kv">福冈港 W-3</span></div>
-        <div class="vcell"><span class="kl">泊离</span><span class="kv">09-18 · 16:00</span></div>
-      </div>
-      <div class="sp"></div>
-      <div class="search">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+        <span>预警观察</span></a>
+<a href="a4-l3.html" title="审批中心">
+<svg viewBox="0 0 24 24"><rect height="4" rx="1" width="8" x="8" y="2"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="m9 14 2 2 4-4"></path></svg>
+<span>审批</span></a>
+<a href="a5-dispatch.html" title="执行与触达">
+<svg viewBox="0 0 24 24"><line x1="22" x2="11" y1="2" y2="13"></line><path d="M22 2 15 22l-4-9-9-4 20-7z"></path></svg>
+<span>触达</span></a>
+<a href="a6-daily.html" title="事件轨迹时间轴">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<span>轨迹</span></a>
+</nav>
+<div class="gap"></div>
+</aside>
+<div class="right">
+<!-- 顶栏 -->
+<header class="topbar">
+<span class="logo">ClarSyn</span>
+<span class="t-sub">宾客运营工作台</span>
+<div class="vcard">
+<div class="vcell"><span class="kl">船舶</span><span class="kv"><b>星澜号</b> MS XING LAN</span></div>
+<div class="vcell"><span class="kl">航次</span><span class="kv">HL-2609-05</span></div>
+<div class="vcell"><span class="kl">挂靠港</span><span class="kv">福冈港 W-3</span></div>
+<div class="vcell"><span class="kl">泊离</span><span class="kv">09-18 · 16:00</span></div>
+</div>
+<div class="sp"></div>
+<div class="search">
+<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="20" x2="16.5" y1="20" y2="16.5"></line></svg>
         检索事件 / 舱位 / 人员
       </div>
-      <div class="t0"><span class="dot r"></span>T0 全功能</div>
-      <div class="clock"><div class="t">21:05:41</div><div class="l">船钟 · 09-17</div></div>
-      <div class="role"><span><b>值班员</b> · 何舟</span><span class="swap">切换</span></div>
-    </header>
+<div class="t0"><span class="dot r"></span>T0 全功能</div>
+<div class="clock">
+<div class="t">21:05:41</div>
+<div class="l">船钟 · 09-17</div>
+</div>
+<div class="role">
+<span><b>值班员</b> · 何舟</span>
+<span class="swap">切换</span>
+</div>
+</header>
+<!-- 三栏主体 -->
+<main class="main">
+<!-- 左列：外部信道流 -->
+<div class="col">
+<section class="card">
+<div class="card-h">
+<h3>信源收件流</h3><span class="en">Inbound Feed</span>
+<span class="right-tag">3 条未处理</span>
+</div>
+<div class="card-b">
+<div class="inbox-list">
+<div class="msg-item active">
+<div class="hd">
+<span class="st err">高优先级</span>
+<span class="from">Hakata Vessel Agency</span>
+<span class="tm">21:05</span>
+</div>
+<div class="sub">M/B XING LAN – Berth Window Revision at Port of Fukuoka (18 Sep)</div>
+<div class="ft">
+<span class="dot y"></span><span>外部邮件 · 需人工确认</span>
+<span class="src" style="margin-left:auto">S01</span>
+</div>
+</div>
+<div class="msg-item">
+<div class="hd">
+<span class="st">业务知会</span>
+<span class="from">九州观光巴士 · 调度部</span>
+<span class="tm">19:30</span>
+</div>
+<div class="sub">明日码头早峰摆渡车运力预报与调配进展知会</div>
+<div class="ft">
+<span class="dot g"></span><span>离线登记 · 已归档</span>
+</div>
+</div>
+<div class="msg-item">
+<div class="hd">
+<span class="st">气象简报</span>
+<span class="from">日本气象厅 (JMA) Marine</span>
+<span class="tm">18:00</span>
+</div>
+<div class="sub">对马海峡至福冈沿岸夜间涌浪与风速监测快报</div>
+<div class="ft">
+<span class="dot r"></span><span>实时适配器接入</span>
+</div>
+</div>
+</div>
+<div style="margin-top:auto;border-top:1px dashed var(--line);padding-top:14px">
+<div style="font-size:12px;color:var(--tx-3);margin-bottom:8px">电话或口头补充登记</div>
+<a class="btn-ghost" href="a2-phone.html" style="width:100%;justify-content:center">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="14"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              发起最小电话记录登记
+            </a>
+</div>
+</div>
+</section>
+</div>
+<!-- 中列：邮件原文展示 -->
+<div class="col">
+<section class="card">
+<div class="card-h">
+<h3>代理原始信件</h3><span class="en">Raw Source · English</span>
+<span class="right-tag">未加工原文</span>
+</div>
+<div class="card-b">
+<div class="mail-meta">
+<div class="meta-row"><span class="meta-k">发件人：</span><span class="meta-v">M. Tanaka &lt;ops@hakata-vessel-agency.example&gt;</span></div>
+<div class="meta-row"><span class="meta-k">收件人：</span><span class="meta-v">duty@hualan-cruises.example</span></div>
+<div class="meta-row"><span class="meta-k">主 题：</span><span class="meta-v" style="font-weight:500;color:var(--tx)">M/B XING LAN – Berth Window Revision at Port of Fukuoka (18 Sep), ETB Updated</span></div>
+<div class="meta-row"><span class="meta-k">时 间：</span><span class="meta-v">17 Sep, 21:05 (ship time)</span></div>
+</div>
+<div class="mail-body">Dear HuaLan Cruises Vessel Agent Desk,
 
-    <main class="main">
+Please be advised that, due to the delayed departure of the preceding vessel at Berth W-3, the allocated berth window for M/B XING LAN at Hakata Port on 18 September is revised from <mark>07:00–16:00 to 11:00–16:00</mark>.
 
-      <!-- 左列：信息流＋电话补录 -->
-      <div class="col">
-        <section class="card feed">
-          <div class="card-h"><h3>外部信息流</h3><span class="en">Inbox</span>
-            <span class="right">本班 2 条</span></div>
-          <div class="card-b">
-            <div class="fmsg cur">
-              <div class="r1"><span class="ch">邮件</span><span class="tt">21:05</span></div>
-              <div class="nm">Hakata Vessel Agency（M. Tanaka）</div>
-              <div class="stt"><span class="dot y"></span>未处理 · 当前打开</div>
-            </div>
-            <div class="fmsg">
-              <div class="r1"><span class="ch">群消息</span><span class="tt">18:40</span></div>
-              <div class="nm">地接协作群 · 摆渡车运力</div>
-              <div class="stt"><span class="dot r"></span>已转弱信号 X-260917-01</div>
-            </div>
+<mark>Pilot boarding is expected at approximately 10:20 local time</mark>; the passenger gangways should be available from around 11:00, subject to immigration formalities on site. <mark>All passengers must be back on board by 15:30</mark>, and <mark>vessel departure remains fixed at 16:00 sharp</mark>.
+
+Kindly confirm receipt and <mark>submit the revised passenger and crew lists before 08:00</mark>.
+
+Best regards,
+M. Tanaka
+Hakata Vessel Agency Co.</div>
+<div class="hist-note">
+<span class="dot y" style="vertical-align:middle;margin-right:6px"></span>
+          <b>信源历史特征注记（统计样本 S11）</b>：该船代近 12 次通告中 2 次事后时刻偏差 &gt;30 分钟。
           </div>
-        </section>
-
-        <section class="card f1">
-          <div class="card-h"><h3>电话补录</h3><span class="en">Phone Log</span></div>
-          <div class="card-b">
-            <div class="empty">暂无电话登记<br>一句话记录 · 不要求字段齐全</div>
-          </div>
-        </section>
-      </div>
-
-      <!-- 中列：邮件原文 -->
-      <div class="col">
-        <section class="card mail">
-          <div class="card-h"><h3>邮件原文</h3><span class="en">Original</span>
-            <span class="right">未加工 · 照抄存档</span></div>
-          <div class="card-b">
-            <div class="mailhead">
-              <b>From:</b> M. Tanaka &lt;ops@hakata-vessel-agency.example&gt;<br>
-              <b>To:</b> duty@hualan-cruises.example<br>
-              <b>Subject:</b> M/B XING LAN – Berth Window Revision at Port of Fukuoka (18 Sep), ETB Updated<br>
-              <b>Date:</b> 17 Sep, 21:05 (ship time)
-            </div>
-            <div class="mailbody">
-              <div>Dear HuaLan Cruises Vessel Agent Desk,</div>
-              <div>Please be advised that, due to the delayed departure of the preceding
-              vessel at <span class="markhl">Berth W-3<span class="sup">③</span></span>, the allocated berth window for M/B XING LAN at
-              Hakata Port on <span class="markhl">18 September<span class="sup">②</span></span> is
-              <span class="markhl">revised from 07:00–16:00 to 11:00–16:00<span class="sup">①</span></span>.</div>
-              <div><span class="markhl">Pilot boarding is expected at approximately 10:20 local time<span class="sup">④</span></span>; the
-              passenger gangways should be available from around 11:00, subject to
-              immigration formalities on site. <span class="markhl">All passengers must be back on board
-              by 15:30<span class="sup">⑤</span></span>, and <span class="markhl">vessel departure remains fixed at 16:00 sharp<span class="sup">⑥</span></span>.</div>
-              <div>Kindly confirm receipt and <span class="markhl">submit the revised passenger and crew lists
-              before 08:00<span class="sup">⑦</span></span>.</div>
-              <div>Best regards,<br>M. Tanaka<br>Hakata Vessel Agency Co.</div>
-            </div>
-            <div class="mailfoot">
-              <span>①–⑦ ＝ 右侧槽位出处</span>
-              <span class="src">全文照抄存档</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- 差异对照 -->
-        <section class="card diff">
-          <div class="card-h"><h3>差异对照</h3><span class="en">Diff</span>
-            <span class="right">状态 ◐ 待确认</span></div>
-          <div class="card-b">
-            <div class="bars">
-              <div class="brow"><span class="bl">基线</span><div class="bar old"><span class="t">07:00–16:00 · 9h</span></div></div>
-              <div class="brow"><span class="bl">通知</span><div class="bar new"><span class="t">11:00–16:00 · 5h</span></div></div>
-            </div>
-            <div style="display:flex;justify-content:flex-end;margin-top:10px"><span class="dtag">−4h</span></div>
-          </div>
-        </section>
-      </div>
-
-      <!-- 右列：槽位＋差异＋动作 -->
-      <div class="col">
-        <section class="card slots f1">
-          <div class="card-h"><h3>槽位抽取</h3><span class="en">Slots</span>
-            <span class="right">待人工确认</span></div>
-          <div class="card-b">
-            <div class="slot"><span class="no">①</span><span class="lb">靠泊窗口</span><span class="val">11:00–16:00</span><span class="cf hi">高</span></div>
-            <div class="slot"><span class="no">②</span><span class="lb">日期</span><span class="val">09-18</span><span class="cf hi">高</span></div>
-            <div class="slot"><span class="no">③</span><span class="lb">泊位</span><span class="val mid">W-3</span><span class="cf mid">中</span></div>
-            <div class="slot"><span class="no">④</span><span class="lb">引航</span><span class="val mid">10:20</span><span class="cf mid">中</span></div>
-            <div class="slot"><span class="no">⑤</span><span class="lb">回船截止</span><span class="val">15:30</span><span class="cf hi">高</span></div>
-            <div class="slot"><span class="no">⑥</span><span class="lb">离泊</span><span class="val">16:00</span><span class="cf hi">高</span></div>
-            <div class="slot"><span class="no">⑦</span><span class="lb">名单提交时限</span><span class="val">08:00</span><span class="cf hi">高</span></div>
-          </div>
-        </section>
-
-        <section class="card act">
-          <div class="card-h"><h3>处置</h3><span class="en">Actions</span></div>
-          <div class="card-b">
-            <div class="link"><span class="dot y"></span>可合流 <b>X-260917-01</b></div>
-            <a class="btn-pri" href="a2-merged.html" style="text-align:center">槽位确认并关联事件</a>
-            <div class="row">
-              <a class="btn-ghost2" href="#" style="flex:1;text-align:center">修正</a>
-              <a class="btn-ghost2" href="#" style="flex:1;text-align:center">无关归档</a>
-            </div>
-            <div class="hist">
-              <span class="src">来源历史</span>
-              <span>近 12 次通知 · 2 次事后偏差＞30 分钟</span>
-              <span class="st warn" style="margin-left:auto">须人工证实</span>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <!-- 底栏 -->
-    <footer class="footer">
-      <span class="si"><span class="dot r"></span>PMS 实时</span>
-      <span class="si"><span class="dot r"></span>排班 实时</span>
-      <span class="si"><span class="dot y"></span>预订 / POS 缓存 6min</span>
-      <span class="si"><span class="dot r"></span>气象 实时</span>
-      <span class="si"><span class="dot y"></span>港方通告 人工录入</span>
-      <span class="si"><span class="dot r"></span>区域计数 实时 · 仅计数无图像</span>
-      <span class="si"><span class="dot g"></span>地接接口 离线 · 邮件 / 电话</span>
-      <div class="legend">
-        <span><span class="dot r"></span>实时</span><span><span class="dot y"></span>缓存</span><span><span class="dot g"></span>离线</span>
-      </div>
-    </footer>
-  </div>
+</div>
+</section>
+</div>
+<!-- 右列：槽位提取与比对确认 -->
+<div class="col">
+<section class="card">
+<div class="card-h">
+<h3>槽位抽取与校核</h3><span class="en">Slot Validation</span>
+<span class="right-tag">算法核验</span>
+</div>
+<div class="card-b">
+<!-- 差异比对条 -->
+<div class="diff-bar">
+<div class="diff-h"><span>靠泊作业窗口关键比对</span><span class="src">基线差 -4.0h</span></div>
+<div class="diff-val">
+<span class="diff-old">07:00 – 16:00 (9h)</span>
+<span style="color:var(--tx-3)">→</span>
+<span class="diff-new">11:00 – 16:00 (5h)</span>
+</div>
+</div>
+<!-- 槽位清单 -->
+<div class="slots-grid">
+<div class="slot-card">
+<div class="s-hd"><span class="s-key">靠泊作业时间窗 (Berth Window)</span><span class="st ok">信度 0.98 · 高</span></div>
+<div class="s-val">11:00 – 16:00（压缩 4 小时）</div>
+<div class="s-src">提取依据："revised from 07:00–16:00 to 11:00–16:00"</div>
+</div>
+<div class="slot-card">
+<div class="s-hd"><span class="s-key">靠泊日期与泊位 (Date &amp; Berth)</span><span class="st ok">信度 0.95 · 高</span></div>
+<div class="s-val">09-18 · 福冈港 Hakata W-3</div>
+<div class="s-src">提取依据："at Hakata Port on 18 September... Berth W-3"</div>
+</div>
+<div class="slot-card">
+<div class="s-hd"><span class="s-key">引航员登船时刻 (Pilot Boarding)</span><span class="st warn">信度 0.65 · 中</span></div>
+<div class="s-val">10:20 本地船钟</div>
+<div class="s-src">提取依据："Pilot boarding is expected at approximately 10:20"</div>
+</div>
+<div class="slot-card">
+<div class="s-hd"><span class="s-key">全员回船截止 (All-Aboard)</span><span class="st ok">信度 0.96 · 高</span></div>
+<div class="s-val">15:30（离泊前 30 分钟）</div>
+<div class="s-src">提取依据："All passengers must be back on board by 15:30"</div>
+</div>
+<div class="slot-card">
+<div class="s-hd"><span class="s-key">名单提交法定截止 (Manifest Deadline)</span><span class="st ok">信度 0.94 · 高</span></div>
+<div class="s-val">明日 08:00 前提交日方审查</div>
+<div class="s-src">提取依据："submit the revised passenger and crew lists before 08:00"</div>
+</div>
+</div>
+<!-- 弱信号合流引导提示 -->
+<div class="merge-box">
+<svg fill="none" height="18" stroke="var(--tx-2)" stroke-width="1.5" style="flex:none;margin-top:2px" viewBox="0 0 24 24" width="18"><path d="M16 3h5v5"></path><path d="M4 20 21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg>
+<div>
+<div class="m-t">可关联弱信号合流：X-260917-01</div>
+<div class="m-sub">20:40 提示的「接驳运力缺口 × 批次冲突 × ETA漂移」组合已获当前邮件客观证实，确认后将自动并入正式证据链（tr-260917-2106）。</div>
+</div>
+</div>
+<!-- 操作按钮 -->
+<div class="actions">
+<a class="btn-pri" href="a3-calc.html" style="flex:1">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="14"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              确认立案进入核算 (E09-0001)
+            </a>
+<button class="btn-ghost">人工校正</button>
+<button class="btn-ghost" style="color:var(--tx-3)">归档</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- 底栏 -->
+<footer class="footer">
+<span class="si"><span class="dot r"></span>PMS 实时</span>
+<span class="si"><span class="dot r"></span>排班 实时</span>
+<span class="si"><span class="dot y"></span>预订 / POS 缓存 6min</span>
+<span class="si"><span class="dot r"></span>气象 实时</span>
+<span class="si"><span class="dot y"></span>港方通告 人工录入</span>
+<span class="si"><span class="dot r"></span>区域计数 实时 · 仅计数无图像</span>
+<span class="si"><span class="dot g"></span>地接接口 离线 · 邮件 / 电话</span>
+<div class="legend">
+<span><span class="dot r"></span>实时</span><span><span class="dot y"></span>缓存</span><span><span class="dot g"></span>离线</span>
+</div>
+</footer>
+</div>
 </div>
 
 <script>
@@ -323,5 +423,4 @@ function fit(){
 }
 window.addEventListener('resize',fit);fit();
 </script>
-</body>
-</html>
+</body></html>

@@ -10,7 +10,45 @@
 
 ---
 
-## 🚨 当前主线（2026-09-18 更新）
+## 🚨 当前主线（2026-09-18 · 第二轮：原型族 12 页全面重构＋v3 深色体系＋4K 渲染图）
+
+用户裁决（当日第二轮）：以用户提供的 **A3 浅色高保真参考图**为风格基准，将原型族全部重做；**页面文本/数据逐字保留，仅视觉规范化**；并移除一切演示元话语（档位标注/MOCK/模拟/解释性语句），"严格模拟真实情况下有的内容"。另指定 p1-captain-hifi 冻结帧为正式"工作区"。
+
+### 本轮已完成（全部未 commit）
+
+**A 族七页（桌面 1920×1080，v3 深色体系，两轮字号放大，去标注，新导航）**
+- `a1-xcard.html` / `a2-email.html` / `a3-calc.html`：按外部 AI 成品稿**重写**（文本数据逐字保留，视觉全面规范化：去彩底/去辉光/去标注/左色条凸显/卡片去边框改投影）
+- `a3-observe.html`：旧版**补齐**同款放大与 v3 适配（此前遗漏页），导航名改"预警观察"
+- `a3-plan.html`、`a4-l3.html`、`a5-dispatch.html`：**新建**（同法）
+
+**B 族四页（平板/手机/机台，用户指定比例）**
+- `b1-inform.html`（1280×720）、`b2-decision.html`（1280×720）、`b3-task.html`（390×844）、`b4-lock.html`（机台嵌入视图）：**新建**
+
+**p1-workspace.html（工作区）**：p1-captain-hifi 冻结帧静态化（12:33 L4 执行段·端口·审计帧，数据写死、零脚本依赖），加 A 族侧栏与顶栏；**指定为导航"工作区"**；原 a3-observe 导航名改"预警观察"
+
+**全局改造**
+- `clarsyn-tokens.css` → **v3**：深色体系对齐 wireframes/p1-captain-hifi（bg 四层 #0b0e13/#10141b/#171c26/#1f2633；文字 #e6ebf2/#97a1b0/#767f8d；语义 绿#51b873/红#e5484d；卡片**去边框线**改底色分层＋--shadow-card 投影）
+- **去标注 sweep**：全部页面的【演示设定】【假设·C6】【案例区间】【参考值】【事实】档位 chip、(MOCK)/(REAL)、"推定中"、假设斜纹、解释性语句（治理约束/名单折叠保护/低侵入设计原则/模型边界卡/无 AI 臆测语/系统生成说明 tag/非模型推测等）全清；"模拟流"→"缓存"；三态图例归一"实时/缓存/离线"
+- **"血缘"→ 关联溯源/关联事件/升级链路**（a3-calc/a3-observe/p1 共 3 处）
+- **导航统一**：工作区置顶 → 态势台 → 收件箱 → 预警观察 → 审批 → 触达(a5-dispatch) → 轨迹；八页顺序 grep 验证一致；"触达"统一指向 a5-dispatch（a5-wait 未做）
+- **A 族两轮字号放大**（侧栏 88px/顶栏 96px/底栏 52px，正文下限 12.5px，对齐 a3-document 文档页字号体系）
+- **左色条凸显语言推广**（inset 3px 状态条：a1 挂起/a2 激活邮件/a3-calc 瓶颈三卡/a5 拦截/b2 命中判据）
+
+**渲染图（31 张 → portfolio/assets/renders/，含 README 索引）**
+- 12 张整页 2× 高清（A 族与 p1 为 3840×2160 4K；B1/B2/B4 2560×1440；B3 780×1688）＋19 张卡片裁切
+- README 含"截图 → 作品集页面"分配表（P3–P16 已分配，每图只属一页；P1/P2/P7/P18/P19/P20 为图示页不嵌图）
+- 修复：p1 4K 下内容上冲 540px（壳缺 html/body 100% 高度，已补）；a3-calc 推理字幕位移与面板挤压（imarq 静态复位＋infer min-height 240px）
+
+### 下一步
+
+1. 用户验收 12 页现状；**内容稿缺口**：a3-basis/a3-monitor、a5-wait、a6 系列等未做页需先出内容稿；
+2. renders/README 的"截图→作品集页"分配表经用户确认后，可作为作品集嵌图施工依据；
+3. `planning/tmp-report-page3-sandbox.svg` 未按新风格重绘（用户本轮只要求 page1/page2）；
+4. 全部改动未 commit，等用户指示。
+
+---
+
+## 🚨 上一主线（2026-09-18 上午 · 墨黑卡面定稿＋首批三页；当日第二轮已全面重构取代，本节仅作历史记录）
 
 用户裁决：**忽略首版 A1 样板屏，按新定稿视觉重做**。暗色方向、强调阶梯、面板语言、图标规范全部定稿（design.md v0.6 §12.6）；遗留项（双语/福冈/数据粒度/IA Q1–Q5）全部拍板关闭。
 
@@ -41,25 +79,35 @@
 
 ---
 
-## 📄 原型页面索引（2026-09-18 更新——新对话先读此表再动工）
+## 📄 原型页面索引（2026-09-18 第二轮更新——新对话先读此表再动工）
 
-> 全部在 `portfolio/prototypes/`；样式唯一控制点 `clarsyn-tokens.css`；数字/文案唯一来源 `portfolio/planning/design-snapshot-data.md`（v0.3）＋布局规则 `portfolio/planning/design.md`（v0.6 §12.6）。
+> 全部在 `portfolio/prototypes/`；样式唯一控制点 `clarsyn-tokens.css`（**v3**）；数字/文案唯一来源 `portfolio/planning/design-snapshot-data.md`（v0.3）＋布局规则 `portfolio/planning/design.md`（v0.7 §12.7）。渲染图在 `portfolio/assets/renders/`（31 张，分配表见其 README）。
 
 | 文件 | 对应快照 | 状态 |
 |---|---|---|
-| `clarsyn-tokens.css` | 全站令牌 | v2 定稿 |
-| `a1-xcard.html` | A1-2 值班态势台 20:40 | ✅ 用户定稿 |
-| `a3-observe.html` | A3-0 观察态 20:42 | ✅ 用户基本认可（小问题后续再说） |
-| `a3-calc.html` | A3-1 核算 21:06 | ⚠️ 初版完成，**用户标记仍需修改（修改点待用户指出）** |
-| `a2-email.html` | A2-1 邮件 21:05 | 初版完成，待验收 |
-| `_ref-gemini-a1.svg` | （外部参考件，不提交） | 仅对照用 |
-| `figma/a1-xcard.svg` | A1 的 Figma 可编辑 SVG 版 | 零编组·活文字·可拖 Figma |
-| a2-merged / a2-phone | A2-3 / A2-2 | 未做（下一批） |
-| a3-plan / a3-basis / a3-monitor | A3-2 / A3-3 / A3-4 | 未做（**长链路推理优先级最高**） |
-| a4-l3 / a4-captain-inform / a4-timeout / a4-revision | A4 四态 | 未做 |
-| a5-wait / a5-dispatch / a5-relay / a5-gamma | A5 四态 | 未做 |
+| `clarsyn-tokens.css` | 全站令牌 | **v3**（p1 深色体系对齐） |
+| `p1-workspace.html` | 工作区（船长指挥视图 12:33 冻结帧） | ✅ 静态定稿（导航"工作区"指向此页） |
+| `a1-xcard.html` | A1-2 值班态势台 20:40 | ✅ 第二轮重写＋去标注＋4K 渲染 |
+| `a2-email.html` | A2-1 邮件 21:05 | ✅ 第二轮重写＋去标注＋4K 渲染 |
+| `a3-observe.html` | A3-0 观察态 20:42（导航名"预警观察"） | ✅ 补齐放大＋v3＋去标注＋渲染 |
+| `a3-calc.html` | A3-1 核算 21:06 | ✅ 外部稿重写＋去标注＋4K 渲染 |
+| `a3-plan.html` | A3-2 方案 21:09 | ✅ 新建（外部稿＋导航更新） |
+| `a4-l3.html` | A4-1 审批 L3 21:38 | ✅ 新建（外部稿＋导航更新＋4K 渲染） |
+| `a5-dispatch.html` | A5-2 派包 02:15 | ✅ 新建（外部稿；导航"触达"统一指向此页） |
+| `b1-inform.html` | B1-2 船长知会 21:42 | ✅ 新建（1280×720） |
+| `b2-decision.html` | B2-1 L4 决策 02:10 | ✅ 新建（1280×720） |
+| `b3-task.html` | B3-1 任务包 11:00 | ✅ 新建（390×844） |
+| `b4-lock.html` | B4-1 广播锁 07:45 | ✅ 新建（机台视图） |
+| `renders/` 31 张 PNG＋README | 作品集截图素材 | ✅ 分配表见 renders/README |
+| a2-merged / a2-phone | A2-3 / A2-2 | 未做 |
+| a3-basis / a3-monitor | A3-3 / A3-4 | 未做 |
+| a4-captain-inform / a4-timeout / a4-revision | A4 其余三态 | 未做 |
+| a5-wait / a5-relay / a5-gamma | A5 其余三态 | 未做 |
 | a6-daily / a6-night / a6-lineage | A6 三态 | 未做 |
-| b1×2 / b2×2 / b3×3 / b4×2 | 壳 2/3/4 | 未做 |
+| b1-day | B1-1 | 未做 |
+| b2-postsign | B2-2 | 未做 |
+| b3-blocked / b3-relay | B3-2 / B3-3 | 未做 |
+| b4-done | B4-2 | 未做 |
 | p 系×5 / c 系×5 | 壳 5/6 | 未做 |
 | index.html | 演示入口矩阵 | 未做 |
 
@@ -148,7 +196,35 @@ V 幕技术选型——调研与选型文件 v0.8 已完成；三页汇报 SVG �
 
 ---
 
-## 🗂 本次会话改动记录（2026-09-18 · 暗色视觉定稿 + A1 重做）
+## 🗂 本次会话改动记录（2026-09-18 · 第二轮：原型族全面重构＋v3 深色体系＋渲染图）
+
+> 背景：用户提供 A3 浅色高保真参考图与多份外部 AI 产出稿，要求"文本数据逐字保留、视觉按规范重做、去演示元话语、严格模拟真实内容"；随后指定 p1-captain-hifi 冻结帧为正式"工作区"并要求全页 4K 渲染图。
+
+| # | 文件 | 本次改动要点 |
+|---|---|---|
+| 1 | `portfolio/prototypes/clarsyn-tokens.css`（→ **v3**） | 深色体系对齐 wireframes/p1-captain-hifi：bg 四层 #0b0e13/#10141b/#171c26/#1f2633、文字 #e6ebf2/#97a1b0/#767f8d、语义 绿#51b873/红#e5484d；卡片语言改"去边框线＋底色分层＋--shadow-card 投影" |
+| 2 | `portfolio/prototypes/a1-xcard.html`（**重写**） | 外部稿内容逐字保留；v3 视觉＋X 卡玻璃；两轮字号放大（侧栏 88/顶栏 96/底栏 52）；去标注 13 处（含 MOCK/REAL、斜纹、档位 chip）；挂起行左色条；导航更新 |
+| 3 | `portfolio/prototypes/a2-email.html`（**重写**） | 外部稿三栏收件箱；激活邮件蓝左条；去标注（信源注记截断至数据）；导航更新＋4K 渲染 |
+| 4 | `portfolio/prototypes/a3-calc.html`（**重写**） | 外部稿（推演/输入溯源/瓶颈链/批次表/岸游表/G3 抽屉）；去标注 11 处（含模型边界卡移除、模拟话术归一实时/缓存）；瓶颈三卡左色条；观察态状态机核算/方案可点 |
+| 5 | `portfolio/prototypes/a3-observe.html` | 旧版补齐：两轮放大＋v3＋去标注 2 处＋v3 卡片层；导航"预警观察"＋状态机核算/方案可点 |
+| 6 | `portfolio/prototypes/a3-plan.html`（**新建**） | 方案 A/B/C 比选＋合法性灯组＋派包拦截（外部稿；去"系统生成说明"tag 与"无 AI 臆测语"chip） |
+| 7 | `portfolio/prototypes/a4-l3.html`（**新建**） | L3 审批：队列知会流＋签署单（超时双路径/轮次史/五端口锁提示） |
+| 8 | `portfolio/prototypes/a5-dispatch.html`（**新建**） | 派包：任务包流＋渠道矩阵＋拦截明细＋外部方状态 |
+| 9 | `portfolio/prototypes/b1-inform.html`（**新建**） | B1 船长知会流（1280×720 平板） |
+| 10 | `portfolio/prototypes/b2-decision.html`（**新建**） | B2 L4 决策页（1280×720 平板；判据红左条/触发横幅描边式） |
+| 11 | `portfolio/prototypes/b3-task.html`（**新建**） | B3 船员任务包（390×844；三键回执描边式） |
+| 12 | `portfolio/prototypes/b4-lock.html`（**新建**） | B4 广播台待播确认（机台嵌入视图） |
+| 13 | `portfolio/prototypes/p1-workspace.html`（**新建**） | p1-captain-hifi 冻结帧（12:33 端口·审计）＋A 族壳；修复 4K 上冲（补 html/body 100% 高度）与推理字幕位移 |
+| 14 | `portfolio/assets/renders/`（**新建，31 PNG＋README**） | 12 整页 2× 高清（A 族/p1 3840×2160）＋19 卡片裁切；README 含"截图→作品集页面"分配表（P3–P16，每图一页） |
+| 15 | `portfolio/planning/design.md`（→ **v0.7**） | 上午轮：新增 §12.7 令牌与原型实现规范（本轮未再改） |
+| 16 | `planning/tmp-report-page1-tech-selection.svg` / `page2-agent-architecture.svg`（**重绘**） | 按用户参考图重绘为 A3 浅色风格（奶油底/蓝橙条/白卡/pill/琥珀高亮行/蓝章层级标签），文本零改动 |
+| 17 | `CONTINUATION.md`（本文件） | 当前主线刷新为第二轮；索引表更新至 12 实页；新增本改动表；上午主线降级 |
+
+**本轮遗留**：①数据包对齐项未决（a2 信度值、a3 批次人数 vs 数据包、ISM 上屏、三态话术"物理实接"等——均按用户指示保留现文案）；②a3-basis/a3-monitor/a5-wait/a6 系等未做页的链接为空 target；③tmp-report-page3-sandbox.svg 未重绘；④两页 SVG 重绘版与全部页面改动未 commit。
+
+---
+
+## 🗂 本次会话改动记录（2026-09-18 上午 · 暗色视觉定稿 + A1 重做）
 
 > 背景：用户要求忽略首版 A1 样板屏重做；先评估再施工。评估结论与 GitHub 调研见会话记录；用户参考图（小红书 B 端暗色 dashboard）与 iOS 26 风格评估后定稿"墨黑卡面"。
 
