@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>FX · Glow Card</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    /* 近黑画布：中心被卡片光晕微微照亮，四角压暗（vignette） */
+    background: radial-gradient(1100px 720px at 50% 46%, #0E1119 0%, #0A0C11 52%, #060709 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .stage { position: relative; }
+  /* 环境光晕：卡片照亮周围空气的一层雾状径向光 */
+  .haze {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 1400px; height: 900px;
+    background: radial-gradient(closest-side,
+      rgba(76, 141, 255, .14) 0%,
+      rgba(76, 141, 255, .05) 55%,
+      rgba(76, 141, 255, 0) 100%);
+    pointer-events: none;
+  }
+  .card {
+    position: relative;
+    width: 780px; height: 480px;
+    border-radius: 22px;
+    /* 卡面：极轻微的上亮下暗渐变做出体积感 */
+    background: linear-gradient(180deg, #171C26 0%, #10141B 100%);
+    /* rim light：受光边缘一道细蓝边 */
+    border: 1px solid rgba(126, 166, 255, .34);
+    /* 外发光四层：近层锐、中层实、远层散、最外层只剩氛围 */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .07),
+      0 0 22px rgba(76, 141, 255, .30),
+      0 0 70px rgba(76, 141, 255, .22),
+      0 0 180px rgba(76, 141, 255, .13),
+      0 0 320px rgba(76, 141, 255, .07);
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="haze"></div>
+    <div class="card"></div>
+  </div>
+</body>
+</html>

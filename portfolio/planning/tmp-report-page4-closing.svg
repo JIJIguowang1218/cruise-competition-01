@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="-apple-system,'PingFang SC','Microsoft YaHei','Source Han Sans SC',sans-serif">
+  <!-- ============ CLOSING PAGE : THANKS / 致谢（A3 浅色风格 · 与第 1 页同色板） ============ -->
+  <rect x="0" y="0" width="1600" height="900" fill="#F7F4EC"/>
+  <rect x="0" y="0" width="1180" height="8" fill="#3B7DD8"/>
+  <rect x="1180" y="0" width="200" height="8" fill="#D98A1F"/>
+
+  <!-- halo ring behind title -->
+  <circle cx="800" cy="400" r="330" fill="none" stroke="#EAF1FC" stroke-width="46" opacity="0.55"/>
+
+  <!-- THANKS duotone: orange offset copy behind ink copy -->
+  <text x="816" y="439" text-anchor="middle" font-size="170" font-weight="700" fill="#D98A1F" letter-spacing="14">THANKS</text>
+  <text x="807" y="430" text-anchor="middle" font-size="170" font-weight="700" fill="#22304A" letter-spacing="14">THANKS</text>
+
+  <!-- chinese request line with flank ticks -->
+  <line x1="516" y1="552" x2="576" y2="552" stroke="#C9D8E8" stroke-width="2"/>
+  <circle cx="592" cy="552" r="4" fill="#3B7DD8"/>
+  <text x="803" y="564" text-anchor="middle" font-size="32" font-weight="700" fill="#1D4E7E" letter-spacing="6">恳请各位专家老师指导</text>
+  <circle cx="1008" cy="552" r="4" fill="#3B7DD8"/>
+  <line x1="1024" y1="552" x2="1084" y2="552" stroke="#C9D8E8" stroke-width="2"/>
+
+  <!-- voyage route : dotted line with port dots, current marker and heading arrow -->
+  <path d="M 140 695 C 340 645, 480 745, 660 705 C 820 672, 960 672, 1120 690 C 1240 704, 1340 700, 1448 692" fill="none" stroke="#C9D8E8" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 12"/>
+  <circle cx="140" cy="695" r="7" fill="#3B7DD8"/>
+  <circle cx="660" cy="705" r="6" fill="#FFFFFF" stroke="#C9D8E8" stroke-width="2"/>
+  <circle cx="1120" cy="690" r="9" fill="#FFFFFF" stroke="#D98A1F" stroke-width="3"/>
+  <circle cx="1120" cy="690" r="3" fill="#D98A1F"/>
+  <polygon points="1452,680 1480,692 1452,704" fill="#C9D8E8"/>
+
+  <!-- footer -->
+  <text x="40" y="894" font-size="13" fill="#8B95A5">ClarSyn / 邮轮港岸协同与航变响应</text>
+  <text x="1540" y="894" text-anchor="end" font-size="13" fill="#8B95A5" letter-spacing="3">END</text>
+</svg>

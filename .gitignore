@@ -32,3 +32,6 @@ research/round3/t1.html
 
 # 外部参考件（仅本地对照，不提交）
 portfolio/prototypes/_ref-*.svg
+
+# PPTX 抽取媒体缓存（体积大 ~43MB，可再生，仅本地保留）
+portfolio/planning/tmp-pptx-media/
