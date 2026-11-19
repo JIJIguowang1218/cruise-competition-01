@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="460" height="460" viewBox="0 0 460 460" fill="none">
-  <!-- hier-rings-3 · 3 层同心圆（由外向内嵌套） -->
-  <circle cx="230" cy="230" r="220.0" fill="#2E3A46"/>
-  <circle cx="230" cy="230" r="153.3" fill="#6B7C8C"/>
-  <circle cx="230" cy="230" r="86.7" fill="#BCC7D1"/>
-  <text x="230.0" y="43.3" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">第 1 层</text>
-  <text x="230.0" y="110.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">第 2 层</text>
-  <text x="230.0" y="176.7" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">第 3 层</text>
-</svg>

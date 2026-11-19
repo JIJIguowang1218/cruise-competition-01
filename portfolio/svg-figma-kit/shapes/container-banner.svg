@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="70" viewBox="0 0 560 70" fill="none">
-  <!-- container-banner · 旗标条（页顶结论 / 章节标记） -->
-  <path d="M0,0 H538 L560,28.0 L538,56 H0 Z" fill="#2E3A46"/>
-  <path d="M0,56 l-0,0 h14 l-14,14 Z" fill="#6B7C8C"/>
-  <text x="24.0" y="28.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="start" dominant-baseline="central">章节 / 结论条</text>
-</svg>

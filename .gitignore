@@ -31,7 +31,10 @@ research/round3/bing_test.html
 research/round3/t1.html
 
 # 外部参考件（仅本地对照，不提交）
-portfolio/prototypes/_ref-*.svg
+prototypes/pages/_ref-*.svg
 
 # PPTX 抽取媒体缓存（体积大 ~43MB，可再生，仅本地保留）
-portfolio/planning/tmp-pptx-media/
+archive/scratch/tmp-pptx-media/
+
+# 本地 AI 环境导出（含工具链与源码包，不随项目提交）
+dsh-env-export/
